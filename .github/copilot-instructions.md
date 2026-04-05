@@ -1,10 +1,10 @@
-# Copilot Instructions — sb_template_flutter
+# Copilot Instructions — sfrigola
 
 ## App context
 
-This is a Flutter template app designed to provide a solid and opinionated starting structure for building new mobile applications. It comes with a pre-configured design system, routing setup, reusable widgets, helpers and project organisation so that developers can focus on building features rather than scaffolding. The template is meant to be cloned and initialised for a specific project, progressively replacing placeholder screens and components with real ones while keeping the underlying conventions and tooling intact.
+Sfrigola is the digital recipe book designed for everyday home cooking — the real kind. It offers quick and easy recipes for busy days, and more elaborate ones for when you want to challenge yourself and grow as a home chef apprentice.
 
-Use this context to give suggestions — UI, UX, architectural or otherwise — that are consistent with a general-purpose, well-structured Flutter starter template.
+Use this context to give suggestions — UI, UX, architectural or otherwise — that are consistent with a recipe-focused mobile app aimed at home cooks of all skill levels.
 
 ---
 

@@ -133,7 +133,23 @@ For each area, verify that the corresponding **instruction files** are up to dat
 
 ---
 
-## Step 4 — Final report
+## Step 4 — Update README.md documentation
+
+Update `README.md` to reflect the new project identity. **Do not delete or restructure the document** — the template structure and all technical sections remain valid. Only update the parts that carry the old project name or generic template description.
+
+Apply these changes:
+
+| Element | What to update |
+|---|---|
+| Main title | Replace with the new project name |
+| Subtitle / tagline below the title | Replace with a short tagline derived from the app context provided in Step 1 (1–2 sentences) |
+| Any paragraph in the **Overview** section that describes the generic template purpose | Replace with a description of the actual app — what it does, who it is for, and its main features |
+
+> Do **not** change: table of contents, technical sections (Getting Started, Project Structure, Design System, Routing, Layouts, Screens, Widgets, Helpers, AI Tooling, Deployment, Versioning, Dependencies), or any code examples. Only the project identity text changes.
+
+---
+
+## Step 5 — Final report
 
 At the end, provide a concise report in Italian with:
 

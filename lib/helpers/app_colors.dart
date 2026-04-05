@@ -23,8 +23,8 @@ class AppColors {
   }
 
   // Base colors (used for theming)
-  static const Color primary = Color(0xFF60C9F8);
-  static const Color secondary = Color(0xFF0A599C);
+  static const Color primary = Color(0xFFFF6B35);
+  static const Color secondary = Color(0xFFFFD166);
 
   // Constants for direct use (non-adaptive)
   static const Color error = Color(0xFFB00020);
@@ -33,18 +33,18 @@ class AppColors {
 
   // Dark: near black / Light: pure white
   Color get background =>
-      isDark ? const Color(0xFF0B1E30) : const Color(0xFFF5FAFE);
+      isDark ? const Color(0xFF272727) : const Color(0xFFFFFFFF);
 
   // Dark: elevated dark gray / Light: dirty white
   Color get surface =>
-      isDark ? const Color(0xFF163350) : const Color(0xFFDAECF8);
+      isDark ? const Color(0xFF323232) : const Color(0xFFFAF6F5);
 
   // Dark: white / Light: near black
-  Color get text => isDark ? const Color(0xFFE8F3FB) : const Color(0xFF0D2137);
+  Color get text => isDark ? const Color(0xFFFFFFFF) : const Color(0xFF1A1A1A);
 
   // Dark: medium gray / Light: medium gray
-  Color get muted => isDark ? const Color(0xFF4D7A9E) : const Color(0xFF6B8DA8);
+  Color get muted => isDark ? const Color(0xFF888888) : const Color(0xFF888888);
 
   Color get bottomBar =>
-      isDark ? const Color(0xFF0E2840) : const Color(0xFFEAF4FC);
+      isDark ? const Color(0xFF1E1E1E) : const Color(0xFFEDE5E2);
 }

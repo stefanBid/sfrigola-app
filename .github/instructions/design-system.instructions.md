@@ -14,10 +14,10 @@ Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. f
 
 | Token | Light | Dark | Usage |
 |---|---|---|---|
-| `background` | `#F5FAFE` | `#0B1E30` | Page background |
-| `surface` | `#DAECF8` | `#163350` | Cards, elevated containers |
-| `text` | `#0D2137` | `#E8F3FB` | Primary text |
-| `muted` | `#6B8DA8` | `#4D7A9E` | Secondary text, placeholders |
+| `background` | `#FFFFFF` | `#272727` | Page background |
+| `surface` | `#FAF6F5` | `#323232` | Cards, elevated containers |
+| `text` | `#1A1A1A` | `#FFFFFF` | Primary text |
+| `muted` | `#888888` | `#888888` | Secondary text, placeholders |
 | `bottomBar` | `#EDE5E2` | `#1E1E1E` | Bottom navigation bar |
 | `primary` | `#60C9F8` | — | Primary accent (static) |
 | `secondary` | `#0A599C` | — | Secondary accent (static) |

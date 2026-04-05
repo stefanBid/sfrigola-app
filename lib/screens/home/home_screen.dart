@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import '../../helpers/app_colors.dart';
-import '../../helpers/app_design.dart';
-import '../../helpers/app_router.dart';
-import '../../helpers/app_typography.dart';
+import 'package:sfrigola/helpers/app_logger.dart';
+import 'package:sfrigola/helpers/app_colors.dart';
+import 'package:sfrigola/helpers/app_design.dart';
+import 'package:sfrigola/helpers/app_router.dart';
+import 'package:sfrigola/helpers/app_typography.dart';
 
 // Project Layouts
-import '../../layouts/app_bars/classic_app_bar.dart';
-import '../../layouts/body/standard_page_layout.dart';
+import 'package:sfrigola/layouts/app_bars/classic_app_bar.dart';
+import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 
 // Project Widgets
-import '../../widgets/group-container/gc_list_view.dart';
-import '../../widgets/base_card.dart';
+import 'package:sfrigola/screens/home/widgets/general_search_box.dart';
+import 'package:sfrigola/widgets/base_card.dart';
+import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 
 class TestItmes {
   final String id;
@@ -106,12 +108,19 @@ class HomeScreen extends StatelessWidget {
       padding: AppDesign.paddingHorizontalLg.copyWith(
         left: isFirstItem ? AppDesign.paddingHorizontalLg.left : 0,
       ),
-      onTap: () => AppRouter.goDeep(
-        context,
-        AppRouter.details,
-        params: DetailParams(detailId: item.id),
-      ),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        AppRouter.goDeep(
+          context,
+          AppRouter.details,
+          params: DetailParams(detailId: item.id),
+        );
+      },
     );
+  }
+
+  static void _onSearchChanged(String value) {
+    AppLogger.debug('Search query: $value', tag: 'HomeScreen');
   }
 
   @override
@@ -125,6 +134,7 @@ class HomeScreen extends StatelessWidget {
       appBar: const ClassicAppBar(
         leading: Icon(PhosphorIconsBold.house),
         title: 'This is a modern Home Page',
+        bottomContent: GeneralSearchBox(onChanged: _onSearchChanged),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

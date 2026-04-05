@@ -71,31 +71,31 @@ lib/
 ## Global code conventions
 
 - All hardcoded strings and code comments must be in **English**
-- Imports must be grouped by origin, each group preceded by a comment, with a blank line between groups. Always use relative paths. Order:
+- Imports must be grouped by origin, each group preceded by a comment, with a blank line between groups. Always use absolute `package:sfrigola/` paths for project-internal files. Order:
   ```dart
   import 'package:flutter/material.dart';
   import 'package:phosphor_flutter/phosphor_flutter.dart';
   // ... other third-party packages
 
   // Project Helpers
-  import '../../helpers/app_colors.dart';
+  import 'package:sfrigola/helpers/app_colors.dart';
 
   // Project Layouts
-  import '../../layouts/body/standard_page_layout.dart';
+  import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 
   // Project Models
-  import '../../models/recipe.dart';
+  import 'package:sfrigola/models/recipe.dart';
 
   // Project Screens (if needed)
-  import '../recipe-detail/recipe_detail_screen.dart';
+  import 'package:sfrigola/screens/recipe-detail/recipe_detail_screen.dart';
 
   // Project Services
-  import '../../services/recipe_service.dart';
+  import 'package:sfrigola/services/recipe_service.dart';
 
   // Project Widgets
-  import '../../widgets/base_button.dart';
+  import 'package:sfrigola/widgets/base_button.dart';
   ```
-  Omit groups that are not needed. Never use absolute `package:` paths for project-internal files.
+  Omit groups that are not needed. Never use relative paths for project-internal files.
 - `const` wherever possible to optimise rebuilds. A constructor call **must** be `const` when: (1) the widget has a `const` constructor, and (2) all arguments are compile-time values (string/number literals, `static const` tokens, other `const` constructors). When the parent is already `const`, children drop the keyword — move `const` to the outermost eligible ancestor instead
 - `StatelessWidget` preferred where there is no local state
 - Never use hardcoded colours, font sizes, spacing or border radius — always use design system helpers

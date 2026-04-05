@@ -101,7 +101,7 @@ Accent colour resolved automatically: `primary` in light mode, `secondary` in da
 ```dart
 BaseIconButton(
   icon: PhosphorIconsRegular.plus,
-  type: BaseButtonType.filled, // filled | outlined
+  type: IconButtonType.filled, // filled | outlined  (enum: IconButtonType)
   onPressed: () { ... },
 )
 ```
@@ -134,11 +134,20 @@ SizedBox(
 
 ## GcGridView
 
+Grid layout widget. Pass widgets directly as a `children` list.
+
 ```dart
 GcGridView(
-  dimensions: const GridDimensions(crossAxisCount: 2),
-  itemCount: items.length,
-  itemBuilder: (context, index) => ...,
+  children: [
+    widget1,
+    widget2,
+  ],
+  dimensions: const GridDimensions(
+    crossAxisCount: 2,           // number of columns (default: 2)
+    childAspectRatio: 3 / 2,    // width/height ratio (default: 3/2)
+    crossAxisSpacing: AppDesign.gapItemMd, // horizontal gap
+    mainAxisSpacing: AppDesign.gapItemMd,  // vertical gap
+  ),
 )
 ```
 

@@ -1,18 +1,18 @@
 <div align="center">
   <div style="background: white; padding: 20px; border-radius: 12px; display: inline-block;">
-    <img src="https://stunning-confidence-0ce6b255c4.media.strapiapp.com/sb_template_flutter_logo_2c81964a6e.webp" alt="SB-Template Flutter Logo" width="200">
+    <a href="https://ibb.co/wH6MzNQ"><img src="https://i.ibb.co/22Kgk7M/logo.png" alt="logo" border="0" width="200"></a>
   </div>
 
-  # SB-Template Flutter
+  # Sfrigola
 
-  ![Version](https://img.shields.io/badge/version-2.0.0-blue)
+  ![Version](https://img.shields.io/badge/version-1.0.0-blue)
   [![Flutter](https://img.shields.io/badge/flutter-%3E%3D3.11.0-02569B?logo=flutter)](https://flutter.dev)
   ![Dart](https://img.shields.io/badge/dart-%5E3.11.3-0175C2?logo=dart)
   ![License](https://img.shields.io/badge/license-MIT-green)
 
-  **Stop wasting time on boilerplate. Start building features.**
+  **The digital recipe book for everyday home cooking.**
 
-  A Flutter starter template with an opinionated design system, type-safe routing, reusable UI components, and pre-configured AI tooling. Clone it, initialise it for your project, and start building features on day one.
+  Quick and easy recipes for busy days, and more elaborate ones for when you want to challenge yourself and grow as a home chef apprentice.
 
 </div>
 
@@ -38,11 +38,11 @@
 
 ## 1. Overview
 
-SB-Template Flutter is designed to provide a solid and opinionated starting structure for building new mobile applications. It ships with a pre-configured design system, type-safe routing, reusable UI components, helpers, and layouts so that developers can focus on building features rather than scaffolding.
+Sfrigola is a mobile app for home cooks of all skill levels. It offers quick and easy recipes for busy days and more elaborate ones for when you want to challenge yourself in the kitchen. Users can browse the recipe catalogue, discover new dishes, and grow their cooking skills one recipe at a time.
 
-The template is meant to be cloned and initialised for a specific project (via the `init-project` prompt), progressively replacing placeholder screens and components with real ones while keeping the underlying conventions and tooling intact.
+The app is built on a solid Flutter foundation with an opinionated design system, type-safe routing, reusable UI components, and pre-configured AI tooling — so development stays focused on features rather than scaffolding.
 
-**Target audience:** Flutter developers who want a clean, consistent foundation without bikeshedding on folder structure, naming conventions, or design tokens.
+**Target audience:** Home cooks looking for a warm, food-oriented digital cookbook — from beginners to aspiring home chefs.
 
 ---
 

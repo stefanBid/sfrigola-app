@@ -18,7 +18,7 @@ Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. f
 | `surface` | `#DAECF8` | `#163350` | Cards, elevated containers |
 | `text` | `#0D2137` | `#E8F3FB` | Primary text |
 | `muted` | `#6B8DA8` | `#4D7A9E` | Secondary text, placeholders |
-| `bottomBar` | `#EAF4FC` | `#0E2840` | Bottom navigation bar |
+| `bottomBar` | `#EDE5E2` | `#1E1E1E` | Bottom navigation bar |
 | `primary` | `#60C9F8` | — | Primary accent (static) |
 | `secondary` | `#0A599C` | — | Secondary accent (static) |
 | `error` | `#B00020` | — | Errors (static) |

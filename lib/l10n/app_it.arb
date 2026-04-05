@@ -1,0 +1,48 @@
+{
+  "@@locale": "it",
+
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "Title shown in the home screen app bar"
+  },
+
+  "homeSearchHint": "Cerca una ricetta...",
+  "@homeSearchHint": {
+    "description": "Placeholder text in the home search bar"
+  },
+
+  "homeSubtitle": "Cosa cuciniamo oggi?",
+  "@homeSubtitle": {
+    "description": "Subtitle shown below the app bar on the home screen"
+  },
+
+  "homeSectionRecent": "Aggiunte di recente",
+  "@homeSectionRecent": {
+    "description": "Title of the recently added recipes section"
+  },
+
+  "homeSectionRecentSubtitle": "Le ultime ricette aggiunte alla raccolta",
+  "@homeSectionRecentSubtitle": {
+    "description": "Subtitle of the recently added recipes section"
+  },
+
+  "homeSectionFavorites": "I tuoi preferiti",
+  "@homeSectionFavorites": {
+    "description": "Title of the user favourites section"
+  },
+
+  "homeSectionFavoritesSubtitle": "Le ricette che hai salvato",
+  "@homeSectionFavoritesSubtitle": {
+    "description": "Subtitle of the user favourites section"
+  },
+
+  "homeSectionPopular": "Ricette popolari",
+  "@homeSectionPopular": {
+    "description": "Title of the popular recipes section"
+  },
+
+  "homeSectionPopularSubtitle": "Le ricette più apprezzate dalla community",
+  "@homeSectionPopularSubtitle": {
+    "description": "Subtitle of the popular recipes section"
+  }
+}

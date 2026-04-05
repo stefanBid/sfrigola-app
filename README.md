@@ -105,55 +105,80 @@ flutter run
 
 ## 3. Project Structure
 
-This section shows the annotated directory tree of `lib/`. The project follows a feature-agnostic structure where each top-level folder has a single responsibility.
+This section shows the full annotated directory tree of the project. Each top-level folder has a single responsibility.
 
 ```
-lib/
-├── main.dart                        # App entry point
-├── router.dart                      # GoRouter configuration (appRouter instance)
-│
-├── helpers/                         # Design system tokens and utilities
-│   ├── app_colors.dart              # Adaptive colour palette
-│   ├── app_design.dart              # Spacing, border radius, padding tokens
-│   ├── app_router.dart              # Type-safe navigation layer (AppRouter)
-│   ├── app_theme.dart               # ThemeData configuration
-│   ├── app_typography.dart          # Text style scale
-│   ├── app_validation.dart          # Static form validators
-│   └── app_logger.dart              # Debug-only logger (stripped in release)
-│
-├── layouts/                         # Reusable page-level layout scaffolds
-│   ├── app_layout.dart              # Shell with bottom navigation bar
-│   ├── app_bars/
-│   │   ├── classic_app_bar.dart     # Gradient app bar with title and actions
-│   │   └── transparent_app_bar.dart # Transparent overlay app bar
-│   └── body/
-│       ├── standard_page_layout.dart # Column layout: app bar + scrollable body
-│       └── hero_page_layout.dart    # Full-bleed hero image + slide-up card body
-│
-├── models/                          # Data models
-│   └── json_serializable.dart       # Base JSON serialization helpers
-│
-├── screens/                         # Feature screens
-│   ├── home/                        # Home screen (bottom nav tab)
-│   ├── form/                        # Form screen (bottom nav tab)
-│   ├── profile/                     # Profile screen (bottom nav tab)
-│   └── details/                     # Detail screen (pushed with path parameter)
-│
-├── services/                        # Business logic and API services
-│
-└── widgets/                         # Reusable UI components
-    ├── base_badge.dart              # Status badge
-    ├── base_button.dart             # Primary action button
-    ├── base_card.dart               # Image + text card
-    ├── base_form_field.dart         # Form-integrated text field
-    ├── base_icon_button.dart        # Icon-only button
-    ├── base_image_container.dart    # Network / asset image with fade
-    ├── base_input.dart              # Standalone text input
-    ├── base_scaffold_messenger.dart # Themed SnackBar utility
-    ├── base_value_card.dart         # Metric display card (value + label)
-    └── group-container/
-        ├── gc_list_view.dart        # Null-safe ListView.builder wrapper
-        └── gc_grid_view.dart        # GridView.count wrapper with dimensions
+sfrigola-app/
+  pubspec.yaml            ← dependencies, version, flutter config (generate: true)
+  pubspec.lock            ← locked dependency versions (do not edit manually)
+  l10n.yaml               ← flutter gen-l10n configuration (ARB dir, template, output)
+  analysis_options.yaml   ← Dart linter rules
+  CHANGELOG.md            ← Keep a Changelog format, managed with cider
+  README.md               ← project documentation
+  .gitignore
+  assets/                 ← static assets (images, icons, fonts)
+  android/                ← Android platform project
+  ios/                    ← iOS platform project
+  .github/
+    copilot-instructions.md          ← global Copilot rules
+    instructions/                    ← scoped instruction files (loaded per file type)
+      design-system.instructions.md
+      helpers.instructions.md
+      routing.instructions.md
+      screens.instructions.md
+      widgets.instructions.md
+    prompts/                         ← reusable Agent-mode workflows
+      init-project.prompt.md
+      localize.prompt.md
+      update-docs.prompt.md
+      check-dependencies.prompt.md
+      check-lint.prompt.md
+      bump-version.prompt.md
+  lib/
+    main.dart             ← app entry point (MaterialApp.router + AppLocale + AppTheme)
+    router.dart           ← GoRouter instance (appRouter) with all route registrations
+    helpers/              ← design system tokens and utilities
+      app_colors.dart     ← adaptive colour palette
+      app_design.dart     ← spacing, border radius, padding tokens
+      app_locale.dart     ← localisation config and labels shorthand (AppLocale)
+      app_router.dart     ← type-safe navigation layer (AppRouter)
+      app_theme.dart      ← ThemeData configuration
+      app_typography.dart ← text style scale
+      app_validation.dart ← static form validators
+      app_logger.dart     ← debug-only logger (stripped in release)
+    l10n/                 ← localisation
+      app_it.arb          ← Italian strings (template / default)
+      app_en.arb          ← English strings
+      app_localizations.dart ← generated — do not edit manually
+    layouts/              ← reusable page-level layout scaffolds
+      app_layout.dart     ← shell with bottom navigation bar
+      app_bars/
+        classic_app_bar.dart     ← gradient app bar with title and actions
+        transparent_app_bar.dart ← transparent overlay app bar
+      body/
+        standard_page_layout.dart ← column layout: app bar + scrollable body
+        hero_page_layout.dart     ← full-bleed hero image + slide-up card body
+    models/               ← data models
+      json_serializable.dart ← base JSON serialization helpers
+    screens/              ← feature screens organised by folder
+      home/               ← home screen (bottom nav tab)
+      form/               ← form screen (bottom nav tab)
+      profile/            ← profile screen (bottom nav tab)
+      details/            ← detail screen (pushed with path parameter)
+    services/             ← business logic and API services
+    widgets/              ← reusable UI components
+      base_badge.dart              ← status badge
+      base_button.dart             ← primary action button
+      base_card.dart               ← image + text card
+      base_form_field.dart         ← form-integrated text field
+      base_icon_button.dart        ← icon-only button
+      base_image_container.dart    ← network / asset image with fade
+      base_input.dart              ← standalone text input
+      base_scaffold_messenger.dart ← themed SnackBar utility
+      base_value_card.dart         ← metric display card (value + label)
+      group-container/
+        gc_list_view.dart ← null-safe ListView.builder wrapper
+        gc_grid_view.dart ← GridView.count wrapper with dimensions
 ```
 
 ---
@@ -650,6 +675,7 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | Prompt file | Trigger phrases | Direct invocation | What it does |
 |---|---|---|---|
 | `init-project.prompt.md` | "Inizializziamo il progetto" · "Inizializza il progetto" · "Reset del progetto" | `#init-project.prompt.md` | Collects project name and context; renames the app across all config files; resets version to `1.0.0+1`; audits and updates instruction files |
+| `localize.prompt.md` | "Localizzami questa schermata" · "Localizza il progetto" · "Crea una nuova lingua" | `#localize.prompt.md` | Scans for hardcoded strings in a file or the full project; adds keys to all ARB files; replaces strings with `AppLocale.getLabels(context)`; supports adding new languages |
 | `update-docs.prompt.md` | "Aggiorna la documentazione" | `#update-docs.prompt.md` | Compares README with the actual codebase and rewrites it as a structured documentation book |
 | `check-dependencies.prompt.md` | "Verifichiamo aggiornamenti del progetto" | `#check-dependencies.prompt.md` | Runs `flutter pub outdated`, auto-updates safe (minor/patch) packages, lists major bumps for review |
 | `check-lint.prompt.md` | "Check del progetto", "il progetto è pulito?" | `#check-lint.prompt.md` | Runs `dart fix`, `dart format` and `flutter analyze`; auto-fixes warnings, reports errors for manual review |

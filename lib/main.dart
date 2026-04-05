@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'router.dart';
 
-// Project - Helpers
-import 'helpers/app_theme.dart';
+// Project Helpers
+import 'package:sfrigola/helpers/app_locale.dart';
+import 'package:sfrigola/helpers/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,8 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       routerConfig: appRouter,
+      localizationsDelegates: AppLocale.localizationsDelegates,
+      supportedLocales: AppLocale.supportedLocales,
     );
   }
 }

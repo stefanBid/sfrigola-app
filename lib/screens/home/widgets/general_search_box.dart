@@ -5,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/helpers/app_colors.dart';
+import 'package:sfrigola/helpers/app_locale.dart';
 
 // Project Widgets
 import 'package:sfrigola/widgets/base_input.dart';
@@ -53,7 +54,7 @@ class _GeneralSearchBoxState extends State<GeneralSearchBox> {
   Widget build(BuildContext context) {
     return BaseInput(
       controller: _searchController,
-      hint: 'Cerca un pasto...',
+      hint: AppLocale.getLabels(context).homeSearchHint,
       prefixIcon: Icon(
         PhosphorIconsRegular.magnifyingGlass,
         size: 20,

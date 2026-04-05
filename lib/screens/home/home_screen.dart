@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import 'package:sfrigola/helpers/app_logger.dart';
-import 'package:sfrigola/helpers/app_colors.dart';
 import 'package:sfrigola/helpers/app_design.dart';
+import 'package:sfrigola/helpers/app_locale.dart';
+import 'package:sfrigola/helpers/app_logger.dart';
 import 'package:sfrigola/helpers/app_router.dart';
 import 'package:sfrigola/helpers/app_typography.dart';
 
@@ -14,6 +14,7 @@ import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 
 // Project Widgets
 import 'package:sfrigola/screens/home/widgets/general_search_box.dart';
+import 'package:sfrigola/screens/home/widgets/meals_group_row.dart';
 import 'package:sfrigola/widgets/base_card.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 
@@ -29,51 +30,6 @@ class TestItmes {
     required this.description,
     required this.imageUrl,
   });
-}
-
-class SectionGroup extends StatelessWidget {
-  static const double _titleSectionHeight =
-      22 + AppDesign.gapSectionXs; // heading3 + gap
-
-  final String groupTitle;
-  final IconData? groupIcon;
-  final double groupHeight;
-  final Widget child;
-
-  const SectionGroup({
-    super.key,
-    required this.groupTitle,
-    required this.child,
-    this.groupIcon,
-    required this.groupHeight,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: groupHeight + _titleSectionHeight,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: AppDesign.paddingHorizontalLg,
-            child: Row(
-              children: [
-                if (groupIcon != null) ...[
-                  Icon(groupIcon, size: 24, color: AppColors.primary),
-                  const SizedBox(width: AppDesign.gapInlineXs),
-                ],
-                Text(groupTitle, style: AppTypography.of(context).heading3),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppDesign.gapSectionXs),
-          Expanded(child: child),
-        ],
-      ),
-    );
-  }
 }
 
 class HomeScreen extends StatelessWidget {
@@ -131,10 +87,10 @@ class HomeScreen extends StatelessWidget {
 
     return StandardPageLayout(
       hasPadding: false,
-      appBar: const ClassicAppBar(
-        leading: Icon(PhosphorIconsBold.house),
-        title: 'This is a modern Home Page',
-        bottomContent: GeneralSearchBox(onChanged: _onSearchChanged),
+      appBar: ClassicAppBar(
+        leading: const Icon(PhosphorIconsBold.house),
+        title: AppLocale.getLabels(context).homeTitle,
+        bottomContent: const GeneralSearchBox(onChanged: _onSearchChanged),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +98,7 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: AppDesign.paddingHorizontalLg,
             child: Text(
-              'You can customize this page as you like, it\'s just a template',
+              AppLocale.getLabels(context).homeSubtitle,
               style: AppTypography.of(context).body,
             ),
           ),
@@ -155,9 +111,10 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsetsGeometry.symmetric(
                     vertical: AppDesign.gapSectionLg,
                   ),
-                  child: SectionGroup(
-                    groupTitle: 'Section 1',
-                    groupIcon: PhosphorIconsBold.star,
+                  child: MealsGroupRow(
+                    title: AppLocale.getLabels(context).homeSectionRecent,
+                    subtitle: AppLocale.getLabels(context).homeSectionRecentSubtitle,
+                    icon: PhosphorIconsBold.star,
                     groupHeight: 220,
                     child: GcListView(
                       itemBuilder: (context, index) =>
@@ -172,9 +129,10 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsetsGeometry.symmetric(
                     vertical: AppDesign.gapSectionLg,
                   ),
-                  child: SectionGroup(
-                    groupTitle: 'Section 2',
-                    groupIcon: PhosphorIconsBold.heart,
+                  child: MealsGroupRow(
+                    title: AppLocale.getLabels(context).homeSectionFavorites,
+                    subtitle: AppLocale.getLabels(context).homeSectionFavoritesSubtitle,
+                    icon: PhosphorIconsBold.heart,
                     groupHeight: 220,
                     child: GcListView(
                       itemBuilder: (context, index) =>
@@ -188,9 +146,10 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsetsGeometry.symmetric(
                     vertical: AppDesign.gapSectionLg,
                   ),
-                  child: SectionGroup(
-                    groupTitle: 'Section 3',
-                    groupIcon: PhosphorIconsBold.fire,
+                  child: MealsGroupRow(
+                    title: AppLocale.getLabels(context).homeSectionPopular,
+                    subtitle: AppLocale.getLabels(context).homeSectionPopularSubtitle,
+                    icon: PhosphorIconsBold.fire,
                     groupHeight: 220,
                     child: GcListView(
                       itemBuilder: (context, index) =>

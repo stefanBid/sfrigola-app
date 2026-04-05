@@ -41,15 +41,42 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 ## Project structure
 
 ```
-lib/
-  main.dart
-  router.dart
-  helpers/        ← design system tokens and utilities
-  layouts/        ← reusable page layouts
-  models/         ← data models
-  screens/        ← screens organised by feature
-  services/       ← business logic and API
-  widgets/        ← reusable UI components
+sfrigola-app/
+  pubspec.yaml            ← dependencies, version, flutter config (generate: true)
+  pubspec.lock            ← locked dependency versions (do not edit manually)
+  l10n.yaml               ← flutter gen-l10n configuration (ARB dir, template, output)
+  analysis_options.yaml   ← Dart linter rules
+  CHANGELOG.md            ← Keep a Changelog format, managed with cider
+  README.md               ← project documentation
+  .gitignore
+  assets/                 ← static assets (images, icons, fonts)
+  android/                ← Android platform project
+  ios/                    ← iOS platform project
+  .github/
+    copilot-instructions.md          ← global Copilot rules (this file)
+    instructions/                    ← scoped instruction files (loaded per file type)
+      design-system.instructions.md
+      helpers.instructions.md
+      routing.instructions.md
+      screens.instructions.md
+      widgets.instructions.md
+    prompts/                         ← reusable Agent-mode workflows
+      init-project.prompt.md
+      localize.prompt.md
+      update-docs.prompt.md
+      check-dependencies.prompt.md
+      check-lint.prompt.md
+      bump-version.prompt.md
+  lib/
+    main.dart             ← app entry point (MaterialApp.router + AppLocale + AppTheme)
+    router.dart           ← GoRouter instance (appRouter) with all route registrations
+    helpers/              ← design system tokens and utilities
+    l10n/                 ← ARB translation files + generated localizations
+    layouts/              ← reusable page layouts
+    models/               ← data models
+    screens/              ← screens organised by feature
+    services/             ← business logic and API
+    widgets/              ← reusable UI components
 ```
 
 ---

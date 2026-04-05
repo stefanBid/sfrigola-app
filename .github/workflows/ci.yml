@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "main"
+      - "develop"
+      - "release/**"
+      - "release-please--branches--main--components--*"
+  pull_request:
+    branches:
+      - "main"
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Format & Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Pub get
+        run: flutter pub get
+
+      - name: Dart fix (check)
+        run: dart fix --dry-run
+
+      - name: Dart format (check)
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Flutter analyze
+        run: flutter analyze
+
+  build_android:
+    name: Build Android (debug)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Pub get
+        run: flutter pub get
+
+      - name: Build APK (debug)
+        id: build
+        continue-on-error: true
+        run: flutter build apk --debug
+
+      - name: Report build status
+        if: always()
+        run: |
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "✅ Android build succeeded"
+          else
+            echo "⚠️ Android build failed (non-blocking)"
+          fi
+
+  build_ios:
+    name: Build iOS (no codesign)
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Pub get
+        run: flutter pub get
+
+      - name: Build iOS (no codesign)
+        id: build
+        continue-on-error: true
+        run: flutter build ios --no-codesign
+
+      - name: Report build status
+        if: always()
+        run: |
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "✅ iOS build succeeded"
+          else
+            echo "⚠️ iOS build failed (non-blocking)"
+          fi

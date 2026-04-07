@@ -147,9 +147,9 @@ sfrigola-app/
       app_validation.dart ← static form validators
       app_logger.dart     ← debug-only logger (stripped in release)
     l10n/                 ← localisation
-      app_it.arb          ← Italian strings (template / default)
-      app_en.arb          ← English strings
-      app_localizations.dart ← generated — do not edit manually
+      app_it.arb          ← Italian strings (template / only locale)
+      app_localizations.dart     ← generated — do not edit manually
+      app_localizations_it.dart  ← generated — do not edit manually
     layouts/              ← reusable page-level layout scaffolds
       app_layout.dart     ← shell with bottom navigation bar
       app_bars/
@@ -158,8 +158,12 @@ sfrigola-app/
       body/
         standard_page_layout.dart ← column layout: app bar + scrollable body
         hero_page_layout.dart     ← full-bleed hero image + slide-up card body
+    data/                 ← static datasets and seed data
+      dummy_data.dart     ← availableCategories + availableMeals (34 recipes, 12 categories)
     models/               ← data models
-      json_serializable.dart ← base JSON serialization helpers
+      json_serializable.dart ← base interface: toJson()
+      category.dart       ← Category model + CategoryColor enum
+      meal.dart           ← Meal model + Complexity/Affordability enums
     screens/              ← feature screens organised by folder
       home/               ← home screen (bottom nav tab)
       form/               ← form screen (bottom nav tab)
@@ -174,6 +178,7 @@ sfrigola-app/
       base_icon_button.dart        ← icon-only button
       base_image_container.dart    ← network / asset image with fade
       base_input.dart              ← standalone text input
+      base_box.dart               ← tappable surface container with ripple
       base_scaffold_messenger.dart ← themed SnackBar utility
       base_value_card.dart         ← metric display card (value + label)
       group-container/
@@ -423,6 +428,45 @@ Screens live in `lib/screens/`, organised by feature folder. Each folder should 
 ## 8. Widgets
 
 All reusable widgets live in `lib/widgets/`. Widget names must describe **what the widget is**, not where it is used. All widgets use the design system tokens — never hardcoded values.
+
+### `BaseBox`
+
+Generic tappable container with surface background, border radius and ripple effect. Use it as a building block for clickable cards, rows, and any pressable surface that doesn't need an image.
+
+| Prop | Type | Description |
+|---|---|---|
+| `child` | `Widget` | Required. Content inside the box. |
+| `settings` | `BoxSettings` | Visual configuration. Defaults to `BoxSettings()`. |
+| `onTap` | `VoidCallback?` | Tap handler. `null` → not tappable. |
+
+**`BoxSettings` props:**
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `color` | `Color?` | `AppColors.of(context).surface` | Background colour. `null` uses the surface token. |
+| `borderRadius` | `BorderRadius` | `AppDesign.borderRadiusXs` | Corner radius. |
+| `padding` | `EdgeInsetsGeometry` | `AppDesign.paddingSm` | Inner padding. |
+| `margin` | `EdgeInsetsGeometry?` | `null` | Outer margin. |
+
+```dart
+// Default surface box
+BaseBox(
+  child: myWidget,
+  onTap: () { ... },
+)
+
+// Custom colour and radius
+BaseBox(
+  child: myWidget,
+  settings: BoxSettings(
+    color: AppColors.of(context).background,
+    borderRadius: AppDesign.borderRadiusMd,
+    padding: AppDesign.paddingMd,
+  ),
+)
+```
+
+---
 
 ### `BaseButton`
 

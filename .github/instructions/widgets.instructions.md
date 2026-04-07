@@ -14,6 +14,30 @@ applyTo: "**/widgets/**"
 
 ---
 
+## BaseBox
+
+Generic tappable container with surface background, border radius and ripple. Use it as a building block for clickable cards, rows, and any pressable surface that doesn't need an image.
+
+```dart
+BaseBox(
+  child: myWidget,
+  settings: const BoxSettings(
+    color: null,                          // null → AppColors.of(context).surface
+    borderRadius: AppDesign.borderRadiusXs, // default
+    padding: AppDesign.paddingSm,           // default
+    margin: null,                           // optional
+  ),
+  onTap: () { ... }, // null → not tappable
+)
+```
+
+**Defaults** (omit `settings` entirely to use them):
+- `color` → `AppColors.of(context).surface`
+- `borderRadius` → `AppDesign.borderRadiusXs`
+- `padding` → `AppDesign.paddingSm`
+
+---
+
 ## BaseCard
 
 Card with image, title and content. Default size 220×220. Uses `BaseImageContainer` internally.

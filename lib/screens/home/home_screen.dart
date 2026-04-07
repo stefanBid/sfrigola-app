@@ -23,6 +23,7 @@ import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 import 'package:sfrigola/screens/home/widgets/general_search_box.dart';
 import 'package:sfrigola/screens/home/widgets/meals_group_row.dart';
 import 'package:sfrigola/screens/home/widgets/viral_meal_card.dart';
+import 'package:sfrigola/screens/home/widgets/categories_group_row.dart';
 
 import 'package:sfrigola/widgets/base_card.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
@@ -103,6 +104,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final availableMealsData = availableMeals;
+    final availableCategoriesData = availableCategories;
     return StandardPageLayout(
       hasPadding: false,
       appBar: ClassicAppBar(
@@ -113,13 +115,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: AppDesign.paddingHorizontalLg,
-            child: Text(
-              AppLocale.getLabels(context).homeSubtitle,
-              style: AppTypography.of(context).body,
-            ),
-          ),
+          CategoriesGroupRow(categories: availableCategoriesData),
           const SizedBox(height: AppDesign.gapSectionLg),
           Expanded(
             child: ListView(

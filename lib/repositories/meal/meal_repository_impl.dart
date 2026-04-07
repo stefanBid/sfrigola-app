@@ -1,6 +1,9 @@
 // Project Data
 import 'package:sfrigola/data/dummy_data.dart';
 
+// Project Helpers
+import 'package:sfrigola/helpers/app_logger.dart';
+
 // Project Models
 import 'package:sfrigola/models/category.dart';
 import 'package:sfrigola/models/meal.dart';
@@ -30,15 +33,20 @@ class MealRepositoryImpl implements MealRepository {
   @override
   Future<List<Category>> getCategories() async {
     // TODO: replace with GET /categories
+    await Future.delayed(const Duration(seconds: 2));
     return availableCategories;
   }
 
   @override
   Future<List<Meal>> getTrending(MealFilter filter) async {
     // TODO: replace with GET /meals/trending
+    AppLogger.debug('getTrending → start (simulating delay)', tag: 'MealRepository');
+    await Future.delayed(const Duration(seconds: 2));
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
-    return _applyFilter(sorted, filter);
+    final result = _applyFilter(sorted, filter);
+    AppLogger.debug('getTrending → done (${result.length} items)', tag: 'MealRepository');
+    return result;
   }
 
   @override

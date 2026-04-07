@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Test Data
@@ -12,6 +13,9 @@ import 'package:sfrigola/helpers/app_logger.dart';
 // Project Layouts
 import 'package:sfrigola/layouts/app_bars/classic_app_bar.dart';
 import 'package:sfrigola/layouts/body/standard_page_layout.dart';
+
+// Project Providers
+import 'package:sfrigola/providers/meal_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/screens/home/widgets/general_search_box.dart';
@@ -38,7 +42,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CategoriesGroupRow(selectedCategoryId: 'c1'),
+          const CategoriesGroupRow(selectedCategoryId: 'c1'),
           const SizedBox(height: AppDesign.gapSectionLg),
           Expanded(
             child: ListView(
@@ -48,15 +52,21 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsetsGeometry.symmetric(
                     vertical: AppDesign.gapSectionLg,
                   ),
-                  child: MealsGroupRow(
-                    title: AppLocale.getLabels(context).homeSectionTrending,
-                    subtitle: AppLocale.getLabels(
-                      context,
-                    ).homeSectionTrendingSubtitle,
-                    icon: PhosphorIconsBold.trendUp,
-                    groupHeight: 280,
-                    isViral: true,
-                    meals: availableMealsData.take(5).toList(),
+                  child: Consumer(
+                    builder: (context, ref, _) {
+                      final async = ref.watch(trendingMealsProvider);
+                      return MealsGroupRow(
+                        title: AppLocale.getLabels(context).homeSectionTrending,
+                        subtitle: AppLocale.getLabels(
+                          context,
+                        ).homeSectionTrendingSubtitle,
+                        icon: PhosphorIconsBold.trendUp,
+                        groupHeight: 280,
+                        isViral: true,
+                        isLoading: async.isLoading,
+                        meals: async.value ?? [],
+                      );
+                    },
                   ),
                 ),
                 Padding(

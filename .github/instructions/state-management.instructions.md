@@ -243,7 +243,21 @@ return switch (meals) {
 };
 ```
 
-Never use `.when()` — prefer pattern matching with `switch` for exhaustiveness checking.
+In alternativa, quando il widget ha già un suo stato di loading gestito internamente (come `MealsGroupRow`), usa `.value` direttamente — in Riverpod 3.x restituisce già `T?` (null se loading o error):
+
+```dart
+Consumer(
+  builder: (context, ref, _) {
+    final async = ref.watch(trendingMealsProvider);
+    return MealsGroupRow(
+      isLoading: async.isLoading,
+      meals: async.value ?? [], // T? in Riverpod 3.x — null se loading/error
+    );
+  },
+),
+```
+
+> **Nota Riverpod 3.x**: `valueOrNull` è stato rimosso. Usa sempre `.value` che restituisce `T?`.
 
 ---
 

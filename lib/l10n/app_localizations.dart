@@ -112,6 +112,18 @@ abstract class AppLocalizations {
   /// **'Cosa cuciniamo oggi?'**
   String get homeSubtitle;
 
+  /// Title of the trending recipes section (viral cards)
+  ///
+  /// In it, this message translates to:
+  /// **'In tendenza'**
+  String get homeSectionTrending;
+
+  /// Subtitle of the trending recipes section
+  ///
+  /// In it, this message translates to:
+  /// **'Le ricette che stanno spopolando adesso'**
+  String get homeSectionTrendingSubtitle;
+
   /// Title of the recently added recipes section
   ///
   /// In it, this message translates to:

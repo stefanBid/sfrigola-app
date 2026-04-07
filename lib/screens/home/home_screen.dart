@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Project Test Data
+import 'package:sfrigola/data/dummy_data.dart';
+
+// Project Models
+import 'package:sfrigola/models/category.dart';
+import 'package:sfrigola/models/meal.dart';
+
 // Project Helpers
 import 'package:sfrigola/helpers/app_design.dart';
 import 'package:sfrigola/helpers/app_locale.dart';
@@ -15,6 +22,8 @@ import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 // Project Widgets
 import 'package:sfrigola/screens/home/widgets/general_search_box.dart';
 import 'package:sfrigola/screens/home/widgets/meals_group_row.dart';
+import 'package:sfrigola/screens/home/widgets/viral_meal_card.dart';
+
 import 'package:sfrigola/widgets/base_card.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 
@@ -35,41 +44,53 @@ class TestItmes {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  static List<TestItmes> _onGenerateDummyItems(int count, int idSeed) {
-    return List.generate(
-      count,
-      (index) => TestItmes(
-        id: '${index + idSeed}',
-        title: 'Item ${index + idSeed}',
-        description: 'Description for item ${index + idSeed}',
-        imageUrl: 'https://picsum.photos/id/${index + idSeed}/200/300',
+  static Widget? _buildViralMealsItems(
+    BuildContext context,
+    int index,
+    List<Meal> list,
+  ) {
+    if (index < 0 || index >= list.length) return null;
+
+    final meal = list[index];
+    return ViralMealCard(
+      key: ValueKey(meal.id),
+      padding: AppDesign.paddingHorizontalLg.copyWith(
+        left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
       ),
+      meal: meal,
+      onTap: (mealId) {
+        FocusScope.of(context).unfocus();
+        AppRouter.goDeep(
+          context,
+          AppRouter.details,
+          params: DetailParams(detailId: mealId),
+        );
+      },
     );
   }
 
-  static Widget? _buildDummyItem(
+  static Widget? _buildMealsItems(
     BuildContext context,
     int index,
-    List<TestItmes> dummyItems,
+    List<Meal> list,
   ) {
-    if (index >= dummyItems.length) return null;
-    final item = dummyItems[index];
-    final isFirstItem = index == 0;
+    if (index < 0 || index >= list.length) return null;
 
+    final meal = list[index];
     return BaseCard(
-      key: ValueKey(item.id),
-      title: item.title,
-      content: item.description,
-      imageUrl: item.imageUrl,
+      key: ValueKey(meal.id),
+      title: meal.title,
+      content: meal.subtitle,
+      imageUrl: meal.imageUrl,
       padding: AppDesign.paddingHorizontalLg.copyWith(
-        left: isFirstItem ? AppDesign.paddingHorizontalLg.left : 0,
+        left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
         AppRouter.goDeep(
           context,
           AppRouter.details,
-          params: DetailParams(detailId: item.id),
+          params: DetailParams(detailId: meal.id),
         );
       },
     );
@@ -81,10 +102,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dummyItems1 = _onGenerateDummyItems(20, 1);
-    final dummyItems2 = _onGenerateDummyItems(10, 21);
-    final dummyItems3 = _onGenerateDummyItems(25, 31);
-
+    final availableMealsData = availableMeals;
     return StandardPageLayout(
       hasPadding: false,
       appBar: ClassicAppBar(
@@ -112,15 +130,39 @@ class HomeScreen extends StatelessWidget {
                     vertical: AppDesign.gapSectionLg,
                   ),
                   child: MealsGroupRow(
+                    title: AppLocale.getLabels(context).homeSectionTrending,
+                    subtitle: AppLocale.getLabels(
+                      context,
+                    ).homeSectionTrendingSubtitle,
+                    icon: PhosphorIconsBold.trendUp,
+                    groupHeight: 280,
+                    child: GcListView(
+                      itemBuilder: (context, index) => _buildViralMealsItems(
+                        context,
+                        index,
+                        availableMealsData,
+                      ),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: availableMealsData.length,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsGeometry.symmetric(
+                    vertical: AppDesign.gapSectionLg,
+                  ),
+                  child: MealsGroupRow(
                     title: AppLocale.getLabels(context).homeSectionRecent,
-                    subtitle: AppLocale.getLabels(context).homeSectionRecentSubtitle,
+                    subtitle: AppLocale.getLabels(
+                      context,
+                    ).homeSectionRecentSubtitle,
                     icon: PhosphorIconsBold.star,
                     groupHeight: 220,
                     child: GcListView(
                       itemBuilder: (context, index) =>
-                          _buildDummyItem(context, index, dummyItems1),
+                          _buildMealsItems(context, index, availableMealsData),
                       scrollDirection: Axis.horizontal,
-                      itemCount: dummyItems1.length,
+                      itemCount: availableMealsData.length,
                     ),
                   ),
                 ),
@@ -131,14 +173,16 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: MealsGroupRow(
                     title: AppLocale.getLabels(context).homeSectionFavorites,
-                    subtitle: AppLocale.getLabels(context).homeSectionFavoritesSubtitle,
+                    subtitle: AppLocale.getLabels(
+                      context,
+                    ).homeSectionFavoritesSubtitle,
                     icon: PhosphorIconsBold.heart,
                     groupHeight: 220,
                     child: GcListView(
                       itemBuilder: (context, index) =>
-                          _buildDummyItem(context, index, dummyItems2),
+                          _buildMealsItems(context, index, availableMealsData),
                       scrollDirection: Axis.horizontal,
-                      itemCount: dummyItems2.length,
+                      itemCount: availableMealsData.length,
                     ),
                   ),
                 ),
@@ -148,14 +192,16 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: MealsGroupRow(
                     title: AppLocale.getLabels(context).homeSectionPopular,
-                    subtitle: AppLocale.getLabels(context).homeSectionPopularSubtitle,
+                    subtitle: AppLocale.getLabels(
+                      context,
+                    ).homeSectionPopularSubtitle,
                     icon: PhosphorIconsBold.fire,
                     groupHeight: 220,
                     child: GcListView(
                       itemBuilder: (context, index) =>
-                          _buildDummyItem(context, index, dummyItems3),
+                          _buildMealsItems(context, index, availableMealsData),
                       scrollDirection: Axis.horizontal,
-                      itemCount: dummyItems3.length,
+                      itemCount: availableMealsData.length,
                     ),
                   ),
                 ),

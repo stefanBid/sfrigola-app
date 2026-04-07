@@ -18,6 +18,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get homeSubtitle => 'Cosa cuciniamo oggi?';
 
   @override
+  String get homeSectionTrending => 'In tendenza';
+
+  @override
+  String get homeSectionTrendingSubtitle =>
+      'Le ricette che stanno spopolando adesso';
+
+  @override
   String get homeSectionRecent => 'Aggiunte di recente';
 
   @override

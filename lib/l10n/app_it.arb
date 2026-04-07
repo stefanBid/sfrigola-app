@@ -16,6 +16,16 @@
     "description": "Subtitle shown below the app bar on the home screen"
   },
 
+  "homeSectionTrending": "In tendenza",
+  "@homeSectionTrending": {
+    "description": "Title of the trending recipes section (viral cards)"
+  },
+
+  "homeSectionTrendingSubtitle": "Le ricette che stanno spopolando adesso",
+  "@homeSectionTrendingSubtitle": {
+    "description": "Subtitle of the trending recipes section"
+  },
+
   "homeSectionRecent": "Aggiunte di recente",
   "@homeSectionRecent": {
     "description": "Title of the recently added recipes section"

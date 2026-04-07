@@ -28,7 +28,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final availableMealsData = availableMeals;
-    final availableCategoriesData = availableCategories;
     return StandardPageLayout(
       hasPadding: false,
       appBar: ClassicAppBar(
@@ -39,10 +38,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CategoriesGroupRow(
-            selectedCategoryId: 'c1',
-            categories: availableCategoriesData,
-          ),
+          CategoriesGroupRow(selectedCategoryId: 'c1'),
           const SizedBox(height: AppDesign.gapSectionLg),
           Expanded(
             child: ListView(
@@ -103,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionPopularSubtitle,
                     icon: PhosphorIconsBold.fire,
                     groupHeight: 220,
-                    meals: availableMealsData.take(5).toList(),
+                    meals: availableMealsData,
                   ),
                 ),
               ],

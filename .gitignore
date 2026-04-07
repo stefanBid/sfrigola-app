@@ -27,6 +27,9 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+
+# Code generation — never commit generated files
+**/*.g.dart
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/

@@ -81,10 +81,11 @@ rm -rf .git && git init
 
 After cloning, run the `init-project` prompt in Copilot Agent mode (see [AI Tooling](#10-ai-tooling--prompts--instructions)) to rename the project, update all config files, and reset the version to `1.0.0+1`.
 
-Then install dependencies and run the app:
+Then install dependencies, generate the code and run the app:
 
 ```bash
 flutter pub get
+dart run build_runner build -d
 flutter run
 ```
 
@@ -98,6 +99,10 @@ flutter run
 | `flutter build ipa --release` | Build iOS IPA |
 | `flutter build appbundle --release` | Build Android App Bundle |
 | `flutter analyze` | Analyse code for issues |
+| `dart run build_runner build -d` | Run code generation once (required after cloning, and after adding/changing a `@riverpod` provider) |
+| `dart run build_runner watch -d` | Run code generation in watch mode during active development |
+
+> **Note on generated files**: `*.g.dart` files are **not committed**. Always run `build_runner build -d` after cloning or pulling changes that add/modify `@riverpod` providers, or the app will not compile.
 | `cider bump patch` | Bump patch version (1.0.0 → 1.0.1) |
 | `cider bump minor` | Bump minor version (1.0.0 → 1.1.0) |
 | `cider bump major` | Bump major version (1.0.0 → 2.0.0) |

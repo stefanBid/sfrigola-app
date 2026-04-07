@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project Helpers
 import 'package:sfrigola/helpers/app_colors.dart';
@@ -8,18 +9,19 @@ import 'package:sfrigola/helpers/app_typography.dart';
 // Project Models
 import 'package:sfrigola/models/category.dart';
 
+// Project Providers
+import 'package:sfrigola/providers/meal_provider.dart';
+
 // Project Widgets
 import 'package:sfrigola/widgets/base_box.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 
-class CategoriesGroupRow extends StatelessWidget {
-  final List<Category> categories;
+class CategoriesGroupRow extends ConsumerWidget {
   final String selectedCategoryId;
   final void Function(String)? onCategorySelected;
 
   const CategoriesGroupRow({
     super.key,
-    required this.categories,
     required this.selectedCategoryId,
     this.onCategorySelected,
   });
@@ -27,6 +29,7 @@ class CategoriesGroupRow extends StatelessWidget {
   Widget? _buildCategoryItem(
     BuildContext context,
     int index,
+    List<Category> categories,
     String selectedCategoryId,
   ) {
     if (index < 0 || index >= categories.length) return null;
@@ -70,15 +73,24 @@ class CategoriesGroupRow extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: GcListView(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) =>
-            _buildCategoryItem(context, index, selectedCategoryId),
-        itemCount: categories.length,
-      ),
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categoriesAsync = ref.watch(categoriesProvider);
+
+    return switch (categoriesAsync) {
+      AsyncData(:final value) => SizedBox(
+          height: 40,
+          child: GcListView(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) =>
+                _buildCategoryItem(context, index, value, selectedCategoryId),
+            itemCount: value.length,
+          ),
+        ),
+      AsyncError() => const SizedBox.shrink(),
+      AsyncLoading() => const SizedBox(
+          height: 40,
+          child: Center(child: LinearProgressIndicator()),
+        ),
+    };
   }
 }

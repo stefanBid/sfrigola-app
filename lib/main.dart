@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'router.dart';
 
 // Project Helpers
@@ -6,7 +7,7 @@ import 'package:sfrigola/helpers/app_locale.dart';
 import 'package:sfrigola/helpers/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

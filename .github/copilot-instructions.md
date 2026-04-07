@@ -35,6 +35,7 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules, BaseCard/BaseFormField/BaseButton/GcListView API |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
 | `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, mock rules, naming, DI pattern |
+| `state-management.instructions.md` | `**/providers/**,**/screens/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, `keepAlive`, family, naming, checklist |
 
 > **Keep instructions in sync**: every time a new widget, helper, or token is added — or an existing one is changed — update the corresponding instruction file immediately. These files are the source of truth for code generation context.
 

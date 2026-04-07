@@ -132,15 +132,8 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionTrendingSubtitle,
                     icon: PhosphorIconsBold.trendUp,
                     groupHeight: 280,
-                    child: GcListView(
-                      itemBuilder: (context, index) => _buildViralMealsItems(
-                        context,
-                        index,
-                        availableMealsData,
-                      ),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: availableMealsData.length,
-                    ),
+                    isViral: true,
+                    meals: availableMealsData,
                   ),
                 ),
                 Padding(
@@ -154,12 +147,7 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionRecentSubtitle,
                     icon: PhosphorIconsBold.star,
                     groupHeight: 220,
-                    child: GcListView(
-                      itemBuilder: (context, index) =>
-                          _buildMealsItems(context, index, availableMealsData),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: availableMealsData.length,
-                    ),
+                    meals: availableMealsData,
                   ),
                 ),
 
@@ -174,12 +162,7 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionFavoritesSubtitle,
                     icon: PhosphorIconsBold.heart,
                     groupHeight: 220,
-                    child: GcListView(
-                      itemBuilder: (context, index) =>
-                          _buildMealsItems(context, index, availableMealsData),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: availableMealsData.length,
-                    ),
+                    meals: availableMealsData,
                   ),
                 ),
                 Padding(
@@ -193,12 +176,7 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionPopularSubtitle,
                     icon: PhosphorIconsBold.fire,
                     groupHeight: 220,
-                    child: GcListView(
-                      itemBuilder: (context, index) =>
-                          _buildMealsItems(context, index, availableMealsData),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: availableMealsData.length,
-                    ),
+                    meals: availableMealsData,
                   ),
                 ),
               ],

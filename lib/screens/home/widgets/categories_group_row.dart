@@ -12,55 +12,26 @@ import 'package:sfrigola/models/category.dart';
 import 'package:sfrigola/widgets/base_box.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 
-class CategoriesGroupRow extends StatefulWidget {
+class CategoriesGroupRow extends StatelessWidget {
   final List<Category> categories;
+  final String selectedCategoryId;
   final void Function(String)? onCategorySelected;
 
   const CategoriesGroupRow({
     super.key,
     required this.categories,
+    required this.selectedCategoryId,
     this.onCategorySelected,
   });
-
-  @override
-  State<CategoriesGroupRow> createState() => _CategoriesGroupRowState();
-}
-
-class _CategoriesGroupRowState extends State<CategoriesGroupRow> {
-  late String selectedCategoryId;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedCategoryId = widget.categories.first.id;
-  }
-
-  @override
-  void didUpdateWidget(CategoriesGroupRow oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    final stillExists = widget.categories.any(
-      (cat) => cat.id == selectedCategoryId,
-    );
-    if (!stillExists && widget.categories.isNotEmpty) {
-      setState(() {
-        selectedCategoryId = widget.categories.first.id;
-      });
-    }
-  }
-
-  void _handleCategorySelected(String categoryId) {
-    setState(() => selectedCategoryId = categoryId);
-    widget.onCategorySelected?.call(categoryId);
-  }
 
   Widget? _buildCategoryItem(
     BuildContext context,
     int index,
     String selectedCategoryId,
   ) {
-    if (index < 0 || index >= widget.categories.length) return null;
+    if (index < 0 || index >= categories.length) return null;
 
-    final category = widget.categories[index];
+    final category = categories[index];
     final isSelected = category.id == selectedCategoryId;
     final accent = AppColors.of(context).isDark
         ? AppColors.secondary
@@ -69,7 +40,7 @@ class _CategoriesGroupRowState extends State<CategoriesGroupRow> {
     return Padding(
       padding: AppDesign.paddingHorizontalLg.copyWith(
         left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
-        right: index == widget.categories.length - 1
+        right: index == categories.length - 1
             ? AppDesign.paddingHorizontalLg.right
             : AppDesign.gapInlineSm,
       ),
@@ -77,7 +48,7 @@ class _CategoriesGroupRowState extends State<CategoriesGroupRow> {
         settings: BoxSettings(
           color: isSelected ? accent : AppColors.of(context).surface,
         ),
-        onTap: () => _handleCategorySelected(category.id),
+        onTap: () => onCategorySelected?.call(category.id),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -106,7 +77,7 @@ class _CategoriesGroupRowState extends State<CategoriesGroupRow> {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) =>
             _buildCategoryItem(context, index, selectedCategoryId),
-        itemCount: widget.categories.length,
+        itemCount: categories.length,
       ),
     );
   }

@@ -29,10 +29,12 @@
 7. [Screens](#7-screens)
 8. [Widgets](#8-widgets)
 9. [Helpers & Validators](#9-helpers--validators)
-10. [AI Tooling — Prompts & Instructions](#10-ai-tooling--prompts--instructions)
-11. [Deployment](#11-deployment)
-12. [Versioning & Git Tags](#12-versioning--git-tags)
-13. [Dependencies](#13-dependencies)
+10. [Repository & Data Layer](#10-repository--data-layer)
+11. [Scripts](#11-scripts)
+12. [AI Tooling — Prompts & Instructions](#12-ai-tooling--prompts--instructions)
+13. [Deployment](#13-deployment)
+14. [Versioning & Git Tags](#14-versioning--git-tags)
+15. [Dependencies](#15-dependencies)
 
 ---
 
@@ -159,17 +161,26 @@ sfrigola-app/
         standard_page_layout.dart ← column layout: app bar + scrollable body
         hero_page_layout.dart     ← full-bleed hero image + slide-up card body
     data/                 ← static datasets and seed data
-      dummy_data.dart     ← availableCategories + availableMeals (34 recipes, 12 categories)
+      dummy_data.dart     ← auto-generated — run scripts/generate_dummy_data.py to refresh
     models/               ← data models
-      json_serializable.dart ← base interface: toJson()
-      category.dart       ← Category model + CategoryColor enum
-      meal.dart           ← Meal model + Complexity/Affordability enums
+      json_serializable.dart   ← base interface: toJson()
+      category.dart            ← Category model + CategoryColor enum
+      meal.dart                ← Meal model + Complexity/Affordability enums
+      repository_filter.dart   ← RepositoryFilter base (skip/take pagination)
+    providers/            ← Riverpod providers (repository_providers.dart + feature providers)
+    repositories/         ← repository layer (single point of contact with any data source)
+      meal/
+        meal_repository_model.dart  ← MealFilter + MealNotFoundException
+        meal_repository.dart        ← abstract interface
+        meal_repository_impl.dart   ← concrete implementation (dummy data → Dio)
+      favorites/
+        favorites_repository.dart        ← abstract interface
+        favorites_repository_impl.dart   ← concrete implementation
     screens/              ← feature screens organised by folder
       home/               ← home screen (bottom nav tab)
       form/               ← form screen (bottom nav tab)
       profile/            ← profile screen (bottom nav tab)
       details/            ← detail screen (pushed with path parameter)
-    services/             ← business logic and API services
     widgets/              ← reusable UI components
       base_badge.dart              ← status badge
       base_button.dart             ← primary action button
@@ -702,7 +713,105 @@ The optional `tag` parameter (e.g. `tag: 'AuthService'`) prefixes the output for
 
 ---
 
-## 10. AI Tooling — Prompts & Instructions
+## 10. Repository & Data Layer
+
+The repository layer is the **single point of contact** between the app and any data source — remote API, local DB, or seed data. Screens and providers never access data directly.
+
+### Architecture
+
+```
+UI (Screens / Widgets)
+       ↓
+  Riverpod Providers   (lib/providers/)
+       ↓
+  Repository interface  (abstract interface class)
+       ↓
+  Repository impl       (*_repository_impl.dart)
+       ↓
+  Data source           (dummy_data.dart now → Dio + BE later)
+```
+
+### Domains
+
+| Domain | Interface | Responsibility |
+|---|---|---|
+| `MealRepository` | `lib/repositories/meal/meal_repository.dart` | Categories, trending, recent, popular, meal detail |
+| `FavoritesRepository` | `lib/repositories/favorites/favorites_repository.dart` | User favourites — add, remove, list, check |
+
+### Filtering & Pagination — `MealFilter`
+
+All list methods accept a `MealFilter` (never raw parameters). `MealFilter` extends the global `RepositoryFilter` base which carries `skip` and `take` for offset pagination.
+
+```dart
+// lib/models/repository_filter.dart
+abstract class RepositoryFilter {
+  const RepositoryFilter({this.skip = 0, this.take = 10});
+  final int skip;
+  final int take;
+}
+
+// lib/repositories/meal/meal_repository_model.dart
+class MealFilter extends RepositoryFilter {
+  const MealFilter({super.skip, super.take, this.categoryId, this.query = ''});
+  final String? categoryId;  // null = no category filter
+  final String query;        // '' = no text filter
+}
+```
+
+### Switching to the real backend
+
+The concrete implementations (`*_repository_impl.dart`) read from `dummy_data.dart` and are each marked with `// TODO: replace with <HTTP verb> <endpoint>`. When the backend is ready:
+
+1. Replace the method body with a Dio call.
+2. Authentication is sent automatically via a Dio interceptor — never pass tokens as parameters.
+3. The interface, class signature, and all consumers remain unchanged.
+
+### Error handling
+
+Repositories throw typed exceptions (e.g. `MealNotFoundException`). The provider layer catches them and exposes `AsyncError` via Riverpod's `AsyncNotifier`. The UI handles them in `.when(error: ...)`. Repositories never return `null` or raw error strings.
+
+### Dependency injection
+
+Always consume repositories through Riverpod providers. Never instantiate a repository directly in a widget or screen.
+
+```dart
+// lib/providers/repository_providers.dart
+@riverpod
+MealRepository mealRepository(Ref ref) => MealRepositoryImpl();
+
+@riverpod
+FavoritesRepository favoritesRepository(Ref ref) => FavoritesRepositoryImpl();
+```
+
+---
+
+## 11. Scripts
+
+Utility scripts live in `scripts/`. They automate data generation and other development tasks that would otherwise be manual.
+
+### `scripts/generate_dummy_data.py`
+
+Fetches meal data from [TheMealDB](https://www.themealdb.com) (free, no API key) and writes a valid `lib/data/dummy_data.dart` file. Every HTTP response is cached under `scripts/cache/` so subsequent runs are fast and offline-friendly.
+
+```bash
+# Prerequisites (once)
+pip install -r scripts/requirements.txt
+
+# Generate (uses cache — fast)
+python scripts/generate_dummy_data.py
+
+# Generate with more meals per category
+python scripts/generate_dummy_data.py --meals-per-category 10
+
+# Force fresh data from the server
+python scripts/generate_dummy_data.py --clear-cache
+```
+
+> `lib/data/dummy_data.dart` is **auto-generated** — do not edit it manually. Always regenerate via the script.
+
+---
+
+## 12. AI Tooling — Prompts & Instructions
 
 This repository ships with pre-configured [GitHub Copilot](https://github.com/features/copilot) context that makes the AI assistant aware of the project's conventions, design system and domain. All configuration lives under `.github/` and is versioned alongside the code.
 
@@ -750,10 +859,11 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules and widget API reference |
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
+| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, RepositoryFilter, DI pattern, error handling |
 
 ---
 
-## 11. Deployment
+## 13. Deployment
 
 ### iOS
 
@@ -798,7 +908,7 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 
 ---
 
-## 12. Versioning & Git Tags
+## 14. Versioning & Git Tags
 
 The project uses [**cider**](https://pub.dev/packages/cider) to manage the version in `pubspec.yaml` and maintains a `CHANGELOG.md` following the [Keep a Changelog](https://keepachangelog.com) convention. Every production release should be tagged in Git so that the history stays navigable and CI/CD pipelines can anchor artifacts to a precise commit.
 
@@ -859,7 +969,7 @@ The `bump-version` Copilot Agent prompt automates steps 1–4: it detects change
 
 ---
 
-## 13. Dependencies
+## 15. Dependencies
 
 | Package | Version | Purpose |
 |---|---|---|

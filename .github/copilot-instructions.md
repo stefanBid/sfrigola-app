@@ -20,7 +20,8 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 - **phosphor_flutter** for icons
 - **google_fonts** (Lato) for typography
 - **transparent_image** for network images with fade
-- **provider / riverpod** for state management (to be evaluated for future features)
+- **hooks_riverpod** + **flutter_hooks** + **riverpod_annotation** for state management
+- **Dio** for HTTP client (future — not yet installed)
 
 ---
 
@@ -33,6 +34,7 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 | `screens.instructions.md` | `**/screens/**` | Screen structure, layouts, app bars, code organisation rules |
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules, BaseCard/BaseFormField/BaseButton/GcListView API |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
+| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, mock rules, naming, DI pattern |
 
 > **Keep instructions in sync**: every time a new widget, helper, or token is added — or an existing one is changed — update the corresponding instruction file immediately. These files are the source of truth for code generation context.
 
@@ -57,6 +59,7 @@ sfrigola-app/
     instructions/                    ← scoped instruction files (loaded per file type)
       design-system.instructions.md
       helpers.instructions.md
+      repository.instructions.md
       routing.instructions.md
       screens.instructions.md
       widgets.instructions.md
@@ -74,8 +77,20 @@ sfrigola-app/
     l10n/                 ← ARB translation files + generated localizations
     layouts/              ← reusable page layouts
     models/               ← data models
+      category.dart
+      json_serializable.dart
+      meal.dart
+      repository_filter.dart   ← base RepositoryFilter (skip/take)
+    providers/            ← Riverpod providers (to be created)
+    repositories/         ← repository layer
+      meal/
+        meal_repository_model.dart
+        meal_repository.dart
+        meal_repository_impl.dart
+      favorites/
+        favorites_repository.dart
+        favorites_repository_impl.dart
     screens/              ← screens organised by feature
-    services/             ← business logic and API
     widgets/              ← reusable UI components
 ```
 
@@ -116,8 +131,10 @@ sfrigola-app/
   // Project Screens (if needed)
   import 'package:sfrigola/screens/recipe-detail/recipe_detail_screen.dart';
 
-  // Project Services
-  import 'package:sfrigola/services/recipe_service.dart';
+  // Project Repositories
+  import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
+  import 'package:sfrigola/repositories/meal/meal_repository.dart';
+  import 'package:sfrigola/repositories/favorites/favorites_repository.dart';
 
   // Project Widgets
   import 'package:sfrigola/widgets/base_button.dart';
@@ -155,5 +172,6 @@ If no file is open in the editor and the request is ambiguous (it is not clear w
 | Screen / page | `screens.instructions.md` |
 | Widget (reusable component) | `widgets.instructions.md` |
 | Helper / validator | `helpers.instructions.md` |
+| Repository / data layer | `repository.instructions.md` |
 
 Read the relevant file with `read_file` before answering. Skip the question if the request clearly mentions an area (e.g. "new screen", "add a route", "a validator").

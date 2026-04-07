@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                     icon: PhosphorIconsBold.trendUp,
                     groupHeight: 280,
                     isViral: true,
-                    meals: availableMealsData,
+                    meals: availableMealsData.take(5).toList(),
                   ),
                 ),
                 Padding(
@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionRecentSubtitle,
                     icon: PhosphorIconsBold.star,
                     groupHeight: 220,
-                    meals: availableMealsData,
+                    meals: availableMealsData.take(5).toList(),
                   ),
                 ),
 
@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionFavoritesSubtitle,
                     icon: PhosphorIconsBold.heart,
                     groupHeight: 220,
-                    meals: availableMealsData,
+                    meals: availableMealsData.take(5).toList(),
                   ),
                 ),
                 Padding(
@@ -103,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                     ).homeSectionPopularSubtitle,
                     icon: PhosphorIconsBold.fire,
                     groupHeight: 220,
-                    meals: availableMealsData,
+                    meals: availableMealsData.take(5).toList(),
                   ),
                 ),
               ],

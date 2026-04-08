@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+// Project l10n
+import 'package:sfrigola/l10n/app_localizations.dart';
 
 // Project Helpers
 import 'package:sfrigola/helpers/app_colors.dart';
@@ -72,25 +76,119 @@ class CategoriesGroupRow extends ConsumerWidget {
     );
   }
 
+  Widget _buildSkeleton() => const _CategorySkeletonRow();
+
+  Widget _buildError(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: Padding(
+        padding: AppDesign.paddingHorizontalLg,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              PhosphorIconsRegular.warningCircle,
+              size: 16,
+              color: AppColors.of(context).muted,
+            ),
+            const SizedBox(width: AppDesign.gapInlineXs),
+            Text(
+              AppLocalizations.of(context)!.homeCategoriesLoadError,
+              style: AppTypography.of(
+                context,
+              ).caption.copyWith(color: AppColors.of(context).muted),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categoriesAsync = ref.watch(categoriesProvider);
 
     return switch (categoriesAsync) {
       AsyncData(:final value) => SizedBox(
-          height: 40,
+        height: 40,
+        child: GcListView(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) =>
+              _buildCategoryItem(context, index, value, selectedCategoryId),
+          itemCount: value.length,
+        ),
+      ),
+      AsyncError() => _buildError(context),
+      AsyncLoading() => _buildSkeleton(),
+    };
+  }
+}
+
+// ─── Skeleton ────────────────────────────────────────────────────────────────
+
+class _CategorySkeletonRow extends StatefulWidget {
+  const _CategorySkeletonRow();
+
+  @override
+  State<_CategorySkeletonRow> createState() => _CategorySkeletonRowState();
+}
+
+class _CategorySkeletonRowState extends State<_CategorySkeletonRow>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _opacity;
+
+  static const _chipWidths = [88.0, 72.0, 104.0, 80.0, 96.0];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    )..repeat(reverse: true);
+    _opacity = Tween<double>(
+      begin: 0.35,
+      end: 0.75,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: AnimatedBuilder(
+        animation: _opacity,
+        builder: (context, _) => Opacity(
+          opacity: _opacity.value,
           child: GcListView(
             scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) =>
-                _buildCategoryItem(context, index, value, selectedCategoryId),
-            itemCount: value.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _chipWidths.length,
+            itemBuilder: (context, index) => Padding(
+              padding: EdgeInsets.only(
+                left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
+                right: index == _chipWidths.length - 1
+                    ? AppDesign.paddingHorizontalLg.right
+                    : AppDesign.gapInlineSm,
+              ),
+              child: Container(
+                width: _chipWidths[index],
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).muted,
+                  borderRadius: AppDesign.borderRadiusXs,
+                ),
+              ),
+            ),
           ),
         ),
-      AsyncError() => const SizedBox.shrink(),
-      AsyncLoading() => const SizedBox(
-          height: 40,
-          child: Center(child: LinearProgressIndicator()),
-        ),
-    };
+      ),
+    );
   }
 }

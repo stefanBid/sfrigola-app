@@ -43,4 +43,7 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get homeSectionPopularSubtitle =>
       'Le ricette più apprezzate dalla community';
+
+  @override
+  String get homeCategoriesLoadError => 'Impossibile caricare le categorie';
 }

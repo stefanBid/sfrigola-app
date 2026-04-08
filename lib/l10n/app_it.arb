@@ -54,5 +54,10 @@
   "homeSectionPopularSubtitle": "Le ricette più apprezzate dalla community",
   "@homeSectionPopularSubtitle": {
     "description": "Subtitle of the popular recipes section"
+  },
+
+  "homeCategoriesLoadError": "Impossibile caricare le categorie",
+  "@homeCategoriesLoadError": {
+    "description": "Error message shown in the categories row when categories fail to load"
   }
 }

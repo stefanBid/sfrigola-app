@@ -159,6 +159,12 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Le ricette più apprezzate dalla community'**
   String get homeSectionPopularSubtitle;
+
+  /// Error message shown in the categories row when categories fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare le categorie'**
+  String get homeCategoriesLoadError;
 }
 
 class _AppLocalizationsDelegate

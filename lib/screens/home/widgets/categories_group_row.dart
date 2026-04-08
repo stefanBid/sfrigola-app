@@ -163,27 +163,24 @@ class _CategorySkeletonRowState extends State<_CategorySkeletonRow>
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
-      child: AnimatedBuilder(
-        animation: _opacity,
-        builder: (context, _) => Opacity(
-          opacity: _opacity.value,
-          child: GcListView(
-            scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: _chipWidths.length,
-            itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(
-                left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
-                right: index == _chipWidths.length - 1
-                    ? AppDesign.paddingHorizontalLg.right
-                    : AppDesign.gapInlineSm,
-              ),
-              child: Container(
-                width: _chipWidths[index],
-                decoration: BoxDecoration(
-                  color: AppColors.of(context).muted,
-                  borderRadius: AppDesign.borderRadiusXs,
-                ),
+      child: FadeTransition(
+        opacity: _opacity,
+        child: GcListView(
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: _chipWidths.length,
+          itemBuilder: (context, index) => Padding(
+            padding: EdgeInsets.only(
+              left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
+              right: index == _chipWidths.length - 1
+                  ? AppDesign.paddingHorizontalLg.right
+                  : AppDesign.gapInlineSm,
+            ),
+            child: Container(
+              width: _chipWidths[index],
+              decoration: BoxDecoration(
+                color: AppColors.of(context).muted,
+                borderRadius: AppDesign.borderRadiusXs,
               ),
             ),
           ),

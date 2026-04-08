@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-// Project Test Data
-import 'package:sfrigola/data/dummy_data.dart';
-
 // Project Helpers
 import 'package:sfrigola/helpers/app_design.dart';
 import 'package:sfrigola/helpers/app_locale.dart';
-import 'package:sfrigola/helpers/app_logger.dart';
 
 // Project Layouts
 import 'package:sfrigola/layouts/app_bars/classic_app_bar.dart';
@@ -25,13 +21,10 @@ import 'package:sfrigola/screens/home/widgets/categories_group_row.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  static void _onSearchChanged(String value) {
-    AppLogger.debug('Search query: $value', tag: 'HomeScreen');
-  }
+  static void _onSearchChanged(String value) {}
 
   @override
   Widget build(BuildContext context) {
-    final availableMealsData = availableMeals;
     return StandardPageLayout(
       hasPadding: false,
       appBar: ClassicAppBar(
@@ -42,77 +35,80 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CategoriesGroupRow(selectedCategoryId: 'c1'),
+          const CategoriesGroupRow(selectedCategoryId: 'c3'),
           const SizedBox(height: AppDesign.gapSectionLg),
           Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Padding(
-                  padding: const EdgeInsetsGeometry.symmetric(
-                    vertical: AppDesign.gapSectionLg,
-                  ),
-                  child: Consumer(
-                    builder: (context, ref, _) {
-                      final async = ref.watch(trendingMealsProvider);
-                      return MealsGroupRow(
+            child: Consumer(
+              builder: (context, ref, _) {
+                final trending = ref.watch(trendingMealsProvider);
+                final recent = ref.watch(recentMealsProvider);
+                final popular = ref.watch(popularMealsProvider);
+
+                return ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsetsGeometry.symmetric(
+                        vertical: AppDesign.gapSectionLg,
+                      ),
+                      child: MealsGroupRow(
                         title: AppLocale.getLabels(context).homeSectionTrending,
                         subtitle: AppLocale.getLabels(
                           context,
                         ).homeSectionTrendingSubtitle,
                         icon: PhosphorIconsBold.trendUp,
-                        groupHeight: 280,
                         isViral: true,
-                        isLoading: async.isLoading,
-                        meals: async.value ?? [],
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsGeometry.symmetric(
-                    vertical: AppDesign.gapSectionLg,
-                  ),
-                  child: MealsGroupRow(
-                    title: AppLocale.getLabels(context).homeSectionRecent,
-                    subtitle: AppLocale.getLabels(
-                      context,
-                    ).homeSectionRecentSubtitle,
-                    icon: PhosphorIconsBold.star,
-                    groupHeight: 220,
-                    meals: availableMealsData.take(5).toList(),
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsetsGeometry.symmetric(
-                    vertical: AppDesign.gapSectionLg,
-                  ),
-                  child: MealsGroupRow(
-                    title: AppLocale.getLabels(context).homeSectionFavorites,
-                    subtitle: AppLocale.getLabels(
-                      context,
-                    ).homeSectionFavoritesSubtitle,
-                    icon: PhosphorIconsBold.heart,
-                    groupHeight: 220,
-                    meals: availableMealsData.take(5).toList(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsGeometry.symmetric(
-                    vertical: AppDesign.gapSectionLg,
-                  ),
-                  child: MealsGroupRow(
-                    title: AppLocale.getLabels(context).homeSectionPopular,
-                    subtitle: AppLocale.getLabels(
-                      context,
-                    ).homeSectionPopularSubtitle,
-                    icon: PhosphorIconsBold.fire,
-                    groupHeight: 220,
-                    meals: availableMealsData,
-                  ),
-                ),
-              ],
+                        isLoading: trending.isLoading,
+                        meals: trending.value ?? [],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsGeometry.symmetric(
+                        vertical: AppDesign.gapSectionLg,
+                      ),
+                      child: MealsGroupRow(
+                        title: AppLocale.getLabels(context).homeSectionRecent,
+                        subtitle: AppLocale.getLabels(
+                          context,
+                        ).homeSectionRecentSubtitle,
+                        icon: PhosphorIconsBold.star,
+                        isLoading: recent.isLoading,
+                        meals: recent.value ?? [],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsGeometry.symmetric(
+                        vertical: AppDesign.gapSectionLg,
+                      ),
+                      child: MealsGroupRow(
+                        title: AppLocale.getLabels(
+                          context,
+                        ).homeSectionFavorites,
+                        subtitle: AppLocale.getLabels(
+                          context,
+                        ).homeSectionFavoritesSubtitle,
+                        icon: PhosphorIconsBold.heart,
+                        isLoading: popular.isLoading,
+                        meals: popular.value ?? [],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsGeometry.symmetric(
+                        vertical: AppDesign.gapSectionLg,
+                      ),
+                      child: MealsGroupRow(
+                        title: AppLocale.getLabels(context).homeSectionPopular,
+                        subtitle: AppLocale.getLabels(
+                          context,
+                        ).homeSectionPopularSubtitle,
+                        icon: PhosphorIconsBold.fire,
+                        isLoading: popular.isLoading,
+                        meals: popular.value ?? [],
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ],

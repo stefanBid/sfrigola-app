@@ -19,7 +19,6 @@ class MealsGroupRow extends StatelessWidget {
   final String title;
   final String? subtitle;
   final IconData? icon;
-  final double groupHeight;
 
   final List<Meal> meals;
   final bool isViral;
@@ -30,7 +29,6 @@ class MealsGroupRow extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.icon,
-    required this.groupHeight,
     required this.meals,
     this.isViral = false,
     this.isLoading = false,
@@ -96,6 +94,8 @@ class MealsGroupRow extends StatelessWidget {
         22 +
         AppDesign.gapSectionXs +
         (subtitle != null ? AppDesign.gapInlineXs + 20.0 : 0.0);
+    final double groupHeight = isViral ? 280 : 220;
+
     return SizedBox(
       height: groupHeight + titleSectionHeight,
       child: Column(
@@ -128,14 +128,177 @@ class MealsGroupRow extends StatelessWidget {
           ),
           const SizedBox(height: AppDesign.gapSectionXs),
           Expanded(
-            child: GcListView(
-              itemBuilder: (context, index) =>
-                  _buildMealItems(context, index, meals, isViral),
-              scrollDirection: Axis.horizontal,
-              itemCount: meals.length,
-            ),
+            child: isLoading
+                ? _MealsSkeletonRow(isViral: isViral)
+                : GcListView(
+                    itemBuilder: (context, index) =>
+                        _buildMealItems(context, index, meals, isViral),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: meals.length,
+                  ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Skeleton ────────────────────────────────────────────────────────────────
+
+class _MealsSkeletonRow extends StatefulWidget {
+  final bool isViral;
+
+  const _MealsSkeletonRow({required this.isViral});
+
+  @override
+  State<_MealsSkeletonRow> createState() => _MealsSkeletonRowState();
+}
+
+class _MealsSkeletonRowState extends State<_MealsSkeletonRow>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    )..repeat(reverse: true);
+    _opacity = Tween<double>(
+      begin: 0.3,
+      end: 0.55,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget? _buildViralSkeleton(BuildContext context, int index) {
+    return Padding(
+      padding: AppDesign.paddingHorizontalLg.copyWith(
+        left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
+      ),
+      child: SizedBox(
+        width: 320,
+        height: 280,
+        child: Padding(
+          padding: AppDesign.paddingSm,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColors.of(context).muted,
+                    borderRadius: AppDesign.borderRadiusSm,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: AppDesign.paddingSm.copyWith(top: AppDesign.gapItemSm),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 180,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: AppColors.of(context).muted,
+                        borderRadius: AppDesign.borderRadiusXXs,
+                      ),
+                    ),
+                    const SizedBox(height: AppDesign.gapItemXs),
+                    Container(
+                      width: 120,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: AppColors.of(context).muted,
+                        borderRadius: AppDesign.borderRadiusXXs,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget? _buildNormalSkeleton(BuildContext context, int index) {
+    return Padding(
+      padding: AppDesign.paddingHorizontalLg.copyWith(
+        left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
+      ),
+      child: Container(
+        width: 220,
+        height: 220,
+        decoration: BoxDecoration(
+          color: AppColors.of(context).surface,
+          borderRadius: AppDesign.borderRadiusMd,
+        ),
+        padding: AppDesign.paddingSm,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).muted,
+                  borderRadius: AppDesign.borderRadiusSm,
+                ),
+              ),
+            ),
+            Padding(
+              padding: AppDesign.paddingSm.copyWith(top: AppDesign.gapItemSm),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 130,
+                    height: 14,
+                    decoration: BoxDecoration(
+                      color: AppColors.of(context).muted,
+                      borderRadius: AppDesign.borderRadiusXXs,
+                    ),
+                  ),
+                  const SizedBox(height: AppDesign.gapItemXs),
+                  Container(
+                    width: 90,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: AppColors.of(context).muted,
+                      borderRadius: AppDesign.borderRadiusXXs,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: GcListView(
+        scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 3,
+        itemBuilder: widget.isViral
+            ? _buildViralSkeleton
+            : _buildNormalSkeleton,
       ),
     );
   }

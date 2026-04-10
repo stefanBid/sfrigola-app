@@ -1,7 +1,7 @@
 {
   "@@locale": "it",
 
-  "homeTitle": "Home",
+  "homeTitle": "Che cosa cuciniamo oggi?",
   "@homeTitle": {
     "description": "Title shown in the home screen app bar"
   },

@@ -97,7 +97,7 @@ abstract class AppLocalizations {
   /// Title shown in the home screen app bar
   ///
   /// In it, this message translates to:
-  /// **'Home'**
+  /// **'Che cosa cuciniamo oggi?'**
   String get homeTitle;
 
   /// Placeholder text in the home search bar

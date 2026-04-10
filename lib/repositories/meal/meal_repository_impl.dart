@@ -10,7 +10,7 @@ import 'package:sfrigola/repositories/meal/meal_repository.dart';
 import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
 
 class MealRepositoryImpl implements MealRepository {
-  List<Meal> _applyFilter(List<Meal> meals, MealFilter filter) {
+  List<Meal> _applyFilter(List<Meal> meals, MealRepositoryFilter filter) {
     return meals
         .where((meal) {
           final matchesCategory =
@@ -35,7 +35,7 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
-  Future<List<Meal>> getTrending(MealFilter filter) async {
+  Future<List<Meal>> getTrending(MealRepositoryFilter filter) async {
     // TODO: replace with GET /meals/trending
     await Future.delayed(const Duration(seconds: 2));
     final sorted = [...availableMeals]
@@ -44,7 +44,7 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
-  Future<List<Meal>> getRecent(MealFilter filter) async {
+  Future<List<Meal>> getRecent(MealRepositoryFilter filter) async {
     // TODO: replace with GET /meals/recent
     await Future.delayed(const Duration(seconds: 2));
     final recent = availableMeals.reversed.toList();
@@ -52,7 +52,7 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
-  Future<List<Meal>> getPopular(MealFilter filter) async {
+  Future<List<Meal>> getPopular(MealRepositoryFilter filter) async {
     // TODO: replace with GET /meals/popular (dedicated endpoint on BE).
     // On the dummy dataset, popular = highest-rated affordable meals.
     await Future.delayed(const Duration(seconds: 2));

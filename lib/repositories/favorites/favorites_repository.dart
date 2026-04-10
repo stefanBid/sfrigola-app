@@ -7,7 +7,7 @@ import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
 abstract interface class FavoritesRepository {
   /// Returns the authenticated user's saved meals, filtered by [filter].
   /// In production: GET /favorites — auth token is passed via Dio interceptor.
-  Future<List<Meal>> getFavorites(MealFilter filter);
+  Future<List<Meal>> getFavorites(MealRepositoryFilter filter);
 
   /// Adds a meal to the user's favourites.
   /// In production: POST /favorites/{mealId}

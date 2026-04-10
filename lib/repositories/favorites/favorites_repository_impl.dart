@@ -12,7 +12,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   /// In-memory favorite IDs — replace with server-side user data.
   final List<String> _favoriteIds = ['m1', 'm5', 'm12', 'm20', 'm28'];
 
-  List<Meal> _applyFilter(List<Meal> meals, MealFilter filter) {
+  List<Meal> _applyFilter(List<Meal> meals, MealRepositoryFilter filter) {
     return meals
         .where((meal) {
           final matchesCategory =
@@ -30,7 +30,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
-  Future<List<Meal>> getFavorites(MealFilter filter) async {
+  Future<List<Meal>> getFavorites(MealRepositoryFilter filter) async {
     // TODO: replace with GET /favorites (auth via Dio interceptor)
     final favorites = availableMeals
         .where((meal) => _favoriteIds.contains(meal.id))

@@ -14,15 +14,12 @@ import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 import 'package:sfrigola/screens/home/providers/meals_provider.dart';
 
 // Project Widgets
-import 'package:sfrigola/screens/home/widgets/general_search_box.dart';
 import 'package:sfrigola/screens/home/widgets/fake_search_box.dart';
 import 'package:sfrigola/screens/home/widgets/meals_group_row.dart';
 import 'package:sfrigola/screens/home/widgets/categories_group_row.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  static void _onSearchChanged(String value) {}
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +28,10 @@ class HomeScreen extends StatelessWidget {
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsBold.house),
         title: AppLocale.getLabels(context).homeTitle,
-        bottomContent: Column(
-          children: [
-            FakeSearchBox(onTap: () {}),
-            const SizedBox(height: AppDesign.gapSectionLg),
-            const GeneralSearchBox(onChanged: _onSearchChanged),
-          ],
+        bottomContent: FakeSearchBox(
+          onTap: () {
+            print('Fake search box tapped');
+          },
         ),
       ),
       body: Column(

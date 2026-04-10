@@ -17,7 +17,7 @@ class FakeSearchBox extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: AppDesign.paddingSymmetricLg,
+        padding: AppDesign.paddingInput,
         decoration: BoxDecoration(
           color: AppColors.of(context).background,
           borderRadius: AppDesign.borderRadiusXs,
@@ -30,12 +30,10 @@ class FakeSearchBox extends StatelessWidget {
               size: 20,
               color: AppColors.of(context).muted,
             ),
-            const SizedBox(width: AppDesign.gapInlineSm),
+            const SizedBox(width: AppDesign.gapInlineMd),
             Text(
               AppLocale.getLabels(context).homeSearchHint,
-              style: AppTypography.of(
-                context,
-              ).body.copyWith(color: AppColors.of(context).muted),
+              style: AppTypography.of(context).body,
             ),
           ],
         ),

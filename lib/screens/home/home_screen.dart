@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const CategoriesGroupRow(selectedCategoryId: 'c3'),
-          const SizedBox(height: AppDesign.gapSectionLg),
+          const SizedBox(height: AppDesign.gapSectionMd),
           Expanded(
             child: Consumer(
               builder: (context, ref, _) {

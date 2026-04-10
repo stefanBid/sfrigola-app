@@ -118,6 +118,7 @@ Access: `AppDesign.{token}` (all static).
 | Context | Token |
 |---|---|
 | Standard page padding (left/right 20) | `paddingPage` |
+| Input / fake input content padding | `paddingInput` (h:16, v:10) |
 | Internal padding small card | `paddingSymmetricSm` (h:8, v:4) |
 | Internal padding card / section | `paddingSymmetricMd` (h:16, v:8) |
 | Internal padding wide element | `paddingSymmetricLg` (h:20, v:8) |

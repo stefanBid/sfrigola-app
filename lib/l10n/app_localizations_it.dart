@@ -25,24 +25,31 @@ class AppLocalizationsIt extends AppLocalizations {
       'Le ricette che stanno spopolando adesso';
 
   @override
-  String get homeSectionRecent => 'Aggiunte di recente';
+  String get homeSectionEasy => 'Pronti in un attimo';
 
   @override
-  String get homeSectionRecentSubtitle =>
-      'Le ultime ricette aggiunte alla raccolta';
+  String get homeSectionEasySubtitle => 'Ricette semplici per le sere di corsa';
 
   @override
-  String get homeSectionFavorites => 'I tuoi preferiti';
+  String get homeSectionChallenge => 'Mettiti alla prova';
 
   @override
-  String get homeSectionFavoritesSubtitle => 'Le ricette che hai salvato';
+  String get homeSectionChallengeSubtitle =>
+      'Per chi vuole crescere ai fornelli';
 
   @override
-  String get homeSectionPopular => 'Ricette popolari';
+  String get homeSectionBudget => 'Cucina low cost';
 
   @override
-  String get homeSectionPopularSubtitle =>
-      'Le ricette più apprezzate dalla community';
+  String get homeSectionBudgetSubtitle =>
+      'Buono, sano e senza svuotare il portafoglio';
+
+  @override
+  String get homeSectionPremium => 'Esperienze gourmet';
+
+  @override
+  String get homeSectionPremiumSubtitle =>
+      'Ricette da chef per le occasioni speciali';
 
   @override
   String get homeCategoriesLoadError => 'Impossibile caricare le categorie';

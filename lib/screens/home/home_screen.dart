@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     return StandardPageLayout(
       hasPadding: false,
       appBar: ClassicAppBar(
-        leading: const Icon(PhosphorIconsBold.house),
+        leading: const Icon(PhosphorIconsBold.chefHat),
         title: AppLocale.getLabels(context).homeTitle,
         bottomContent: FakeSearchBox(
           onTap: () {
@@ -54,8 +54,10 @@ class HomeScreen extends StatelessWidget {
             child: Consumer(
               builder: (context, ref, _) {
                 final trending = ref.watch(trendingMealsProvider);
-                final recent = ref.watch(recentMealsProvider);
-                final popular = ref.watch(popularMealsProvider);
+                final easy = ref.watch(easyMealsProvider);
+                final challenge = ref.watch(challengeMealsProvider);
+                final budget = ref.watch(budgetMealsProvider);
+                final premium = ref.watch(premiumMealsProvider);
 
                 return ListView(
                   padding: EdgeInsets.zero,
@@ -82,15 +84,15 @@ class HomeScreen extends StatelessWidget {
                         vertical: AppDesign.gapSectionLg,
                       ),
                       child: MealsGroupRow(
-                        title: AppLocale.getLabels(context).homeSectionRecent,
+                        title: AppLocale.getLabels(context).homeSectionEasy,
                         subtitle: AppLocale.getLabels(
                           context,
-                        ).homeSectionRecentSubtitle,
-                        icon: PhosphorIconsBold.star,
-                        isLoading: recent.isLoading,
-                        meals: recent.value ?? [],
+                        ).homeSectionEasySubtitle,
+                        icon: PhosphorIconsBold.lightning,
+                        isLoading: easy.isLoading,
+                        meals: easy.value ?? [],
                         onLoadMore: () =>
-                            ref.read(recentMealsProvider.notifier).loadMore(),
+                            ref.read(easyMealsProvider.notifier).loadMore(),
                       ),
                     ),
                     Padding(
@@ -100,15 +102,16 @@ class HomeScreen extends StatelessWidget {
                       child: MealsGroupRow(
                         title: AppLocale.getLabels(
                           context,
-                        ).homeSectionFavorites,
+                        ).homeSectionChallenge,
                         subtitle: AppLocale.getLabels(
                           context,
-                        ).homeSectionFavoritesSubtitle,
-                        icon: PhosphorIconsBold.heart,
-                        isLoading: popular.isLoading,
-                        meals: popular.value ?? [],
-                        onLoadMore: () =>
-                            ref.read(popularMealsProvider.notifier).loadMore(),
+                        ).homeSectionChallengeSubtitle,
+                        icon: PhosphorIconsBold.fire,
+                        isLoading: challenge.isLoading,
+                        meals: challenge.value ?? [],
+                        onLoadMore: () => ref
+                            .read(challengeMealsProvider.notifier)
+                            .loadMore(),
                       ),
                     ),
                     Padding(
@@ -116,15 +119,31 @@ class HomeScreen extends StatelessWidget {
                         vertical: AppDesign.gapSectionLg,
                       ),
                       child: MealsGroupRow(
-                        title: AppLocale.getLabels(context).homeSectionPopular,
+                        title: AppLocale.getLabels(context).homeSectionBudget,
                         subtitle: AppLocale.getLabels(
                           context,
-                        ).homeSectionPopularSubtitle,
-                        icon: PhosphorIconsBold.fire,
-                        isLoading: popular.isLoading,
-                        meals: popular.value ?? [],
+                        ).homeSectionBudgetSubtitle,
+                        icon: PhosphorIconsBold.piggyBank,
+                        isLoading: budget.isLoading,
+                        meals: budget.value ?? [],
                         onLoadMore: () =>
-                            ref.read(popularMealsProvider.notifier).loadMore(),
+                            ref.read(budgetMealsProvider.notifier).loadMore(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsGeometry.symmetric(
+                        vertical: AppDesign.gapSectionLg,
+                      ),
+                      child: MealsGroupRow(
+                        title: AppLocale.getLabels(context).homeSectionPremium,
+                        subtitle: AppLocale.getLabels(
+                          context,
+                        ).homeSectionPremiumSubtitle,
+                        icon: PhosphorIconsBold.star,
+                        isLoading: premium.isLoading,
+                        meals: premium.value ?? [],
+                        onLoadMore: () =>
+                            ref.read(premiumMealsProvider.notifier).loadMore(),
                       ),
                     ),
                   ],

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'layouts/app_layout.dart';
 
 // Screens
-import 'screens/details/details_screen.dart';
+import 'screens/meal-details/meal_details_screen.dart';
 import 'screens/form/form_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/profile/profile_screen.dart';
@@ -50,12 +50,12 @@ final GoRouter appRouter = GoRouter(
           AppLayout(withBottomNav: false, child: child),
       routes: [
         GoRoute(
-          path: '/details/:detailId',
+          path: '/meal/:mealId',
           pageBuilder: (context, state) {
-            final detailId = state.pathParameters['detailId']!;
+            final mealId = state.pathParameters['mealId']!;
             return CustomTransitionPage(
               key: state.pageKey,
-              child: DetailsScreen(detailId: detailId),
+              child: MealDetailsScreen(mealId: mealId),
               transitionsBuilder: _customTransitionBuilder,
               transitionDuration: const Duration(milliseconds: 150),
             );

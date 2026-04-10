@@ -1,0 +1,201 @@
+import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// Project Providers
+import 'package:sfrigola/screens/meal-details/providers/meal_by_id_provider.dart';
+
+// Project Helpers
+import 'package:sfrigola/helpers/app_colors.dart';
+import 'package:sfrigola/helpers/app_design.dart';
+import 'package:sfrigola/helpers/app_router.dart';
+import 'package:sfrigola/helpers/app_typography.dart';
+
+// Project Layouts
+import 'package:sfrigola/layouts/app_bars/transparent_app_bar.dart';
+import 'package:sfrigola/layouts/body/hero_page_layout.dart';
+
+// Project Widgets
+import 'package:sfrigola/widgets/base_badge.dart';
+import 'package:sfrigola/widgets/base_icon_button.dart';
+
+// Screen Widgets
+import 'package:sfrigola/screens/meal-details/widgets/meal_details_skeleton.dart';
+
+class MealDetailsScreen extends ConsumerWidget {
+  final String mealId;
+
+  const MealDetailsScreen({super.key, required this.mealId});
+
+  Widget _buildError(BuildContext context) {
+    return Stack(
+      children: [
+        // — Surface background for the top area
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: MediaQuery.of(context).size.height * 0.35,
+          child: ColoredBox(color: AppColors.of(context).surface),
+        ),
+
+        // — Content container
+        Positioned(
+          top: MediaQuery.of(context).size.height * 0.35 - 48,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+              borderRadius: AppDesign.borderRadiusTopLg,
+              color: AppColors.of(context).background,
+            ),
+            child: Center(
+              child: Padding(
+                padding: AppDesign.paddingPage,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      PhosphorIconsRegular.warningCircle,
+                      size: 48,
+                      color: AppColors.error,
+                    ),
+                    const SizedBox(height: AppDesign.gapItemSm),
+                    Text(
+                      'Failed to load meal details.',
+                      style: AppTypography.of(
+                        context,
+                      ).body.copyWith(color: AppColors.error),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // — Transparent app bar with back button
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: TransparentAppBar(
+            leading: BaseIconButton(
+              color: Colors.white,
+              type: IconButtonType.outlined,
+              icon: PhosphorIconsRegular.arrowBendUpLeft,
+              onPressed: () => AppRouter.goBack(context),
+              tooltip: 'Back',
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mealAsync = ref.watch(mealByIdProvider(mealId));
+
+    return switch (mealAsync) {
+      AsyncLoading() => const MealDetailsSkeleton(),
+      AsyncError() => _buildError(context),
+      AsyncData(:final value) => HeroPageLayout(
+        imageUrl: value.imageUrl,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // — Title & subtitle
+            Text(value.title, style: AppTypography.of(context).heading1),
+            const SizedBox(height: AppDesign.gapItemXs),
+            Text(
+              value.subtitle,
+              style: AppTypography.of(
+                context,
+              ).bodySecondary.copyWith(color: AppColors.of(context).muted),
+            ),
+            const SizedBox(height: AppDesign.gapSectionSm),
+
+            // — Stats badges
+            Wrap(
+              spacing: AppDesign.gapInlineSm,
+              runSpacing: AppDesign.gapInlineSm,
+              children: [
+                BaseBadge(
+                  label: '${value.duration} min',
+                  icon: PhosphorIconsRegular.clock,
+                  style: BadgeStyle(
+                    color: AppColors.primary.withAlpha(40),
+                    foregroundColor: AppColors.primary,
+                  ),
+                ),
+                BaseBadge(
+                  label: value.complexity.name,
+                  icon: PhosphorIconsRegular.chefHat,
+                  style: BadgeStyle(
+                    color: AppColors.secondary.withAlpha(40),
+                    foregroundColor: AppColors.secondary,
+                  ),
+                ),
+                BaseBadge(
+                  label: value.affordability.name,
+                  icon: PhosphorIconsRegular.wallet,
+                  style: BadgeStyle(
+                    color: AppColors.success.withAlpha(40),
+                    foregroundColor: AppColors.success,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppDesign.gapSectionMd),
+
+            // — Description
+            Text('Description', style: AppTypography.of(context).heading3),
+            const SizedBox(height: AppDesign.gapItemSm),
+            Text(value.description, style: AppTypography.of(context).body),
+            const SizedBox(height: AppDesign.gapSectionMd),
+
+            // — Ingredients
+            Text('Ingredients', style: AppTypography.of(context).heading3),
+            const SizedBox(height: AppDesign.gapItemSm),
+            for (final ingredient in value.ingredients) ...[
+              Text('• $ingredient', style: AppTypography.of(context).body),
+              const SizedBox(height: AppDesign.gapItemXs),
+            ],
+            const SizedBox(height: AppDesign.gapSectionMd),
+
+            // — Steps
+            Text('Steps', style: AppTypography.of(context).heading3),
+            const SizedBox(height: AppDesign.gapItemSm),
+            for (int i = 0; i < value.steps.length; i++) ...[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BaseBadge(
+                    label: '${i + 1}',
+                    style: BadgeStyle(
+                      color: AppColors.of(context).surface,
+                      foregroundColor: AppColors.of(context).muted,
+                    ),
+                  ),
+                  const SizedBox(width: AppDesign.gapInlineSm),
+                  Expanded(
+                    child: Text(
+                      value.steps[i],
+                      style: AppTypography.of(context).body,
+                    ),
+                  ),
+                ],
+              ),
+              if (i < value.steps.length - 1)
+                const SizedBox(height: AppDesign.gapItemSm),
+            ],
+          ],
+        ),
+      ),
+    };
+  }
+}

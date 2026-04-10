@@ -124,41 +124,53 @@ abstract class AppLocalizations {
   /// **'Le ricette che stanno spopolando adesso'**
   String get homeSectionTrendingSubtitle;
 
-  /// Title of the recently added recipes section
+  /// Title of the easy meals section
   ///
   /// In it, this message translates to:
-  /// **'Aggiunte di recente'**
-  String get homeSectionRecent;
+  /// **'Pronti in un attimo'**
+  String get homeSectionEasy;
 
-  /// Subtitle of the recently added recipes section
+  /// Subtitle of the easy meals section
   ///
   /// In it, this message translates to:
-  /// **'Le ultime ricette aggiunte alla raccolta'**
-  String get homeSectionRecentSubtitle;
+  /// **'Ricette semplici per le sere di corsa'**
+  String get homeSectionEasySubtitle;
 
-  /// Title of the user favourites section
+  /// Title of the challenge meals section
   ///
   /// In it, this message translates to:
-  /// **'I tuoi preferiti'**
-  String get homeSectionFavorites;
+  /// **'Mettiti alla prova'**
+  String get homeSectionChallenge;
 
-  /// Subtitle of the user favourites section
+  /// Subtitle of the challenge meals section
   ///
   /// In it, this message translates to:
-  /// **'Le ricette che hai salvato'**
-  String get homeSectionFavoritesSubtitle;
+  /// **'Per chi vuole crescere ai fornelli'**
+  String get homeSectionChallengeSubtitle;
 
-  /// Title of the popular recipes section
+  /// Title of the budget meals section
   ///
   /// In it, this message translates to:
-  /// **'Ricette popolari'**
-  String get homeSectionPopular;
+  /// **'Cucina low cost'**
+  String get homeSectionBudget;
 
-  /// Subtitle of the popular recipes section
+  /// Subtitle of the budget meals section
   ///
   /// In it, this message translates to:
-  /// **'Le ricette più apprezzate dalla community'**
-  String get homeSectionPopularSubtitle;
+  /// **'Buono, sano e senza svuotare il portafoglio'**
+  String get homeSectionBudgetSubtitle;
+
+  /// Title of the premium meals section
+  ///
+  /// In it, this message translates to:
+  /// **'Esperienze gourmet'**
+  String get homeSectionPremium;
+
+  /// Subtitle of the premium meals section
+  ///
+  /// In it, this message translates to:
+  /// **'Ricette da chef per le occasioni speciali'**
+  String get homeSectionPremiumSubtitle;
 
   /// Error message shown in the categories row when categories fail to load
   ///

@@ -150,6 +150,7 @@ Available classes: `PhosphorIconsRegular`, `PhosphorIconsBold`, `PhosphorIconsFi
 ## Widget delivery checklist
 
 - [ ] No hardcoded colours — all from `AppColors`
+- [ ] Never use `.withOpacity()` — use `.withAlpha((x * 255).round())` instead (`.withOpacity` is near-deprecated in Flutter)
 - [ ] No hardcoded `fontSize` — all from `AppTypography.of(context)`
 - [ ] No hardcoded spacing — all from `AppDesign` gap/padding tokens
 - [ ] No hardcoded `BorderRadius.circular(x)` — all from `AppDesign`

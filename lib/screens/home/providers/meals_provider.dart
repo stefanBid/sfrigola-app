@@ -16,7 +16,7 @@ class TrendingMeals extends _$TrendingMeals {
   static const _pageSize = 10;
 
   @override
-  Future<List<Meal>> build() async {
+  Future<List<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
     return ref
         .watch(mealRepositoryProvider)
@@ -34,15 +34,13 @@ class TrendingMeals extends _$TrendingMeals {
 }
 
 @riverpod
-class RecentMeals extends _$RecentMeals {
+class EasyMeals extends _$EasyMeals {
   static const _pageSize = 10;
 
   @override
-  Future<List<Meal>> build() async {
+  Future<List<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    return ref
-        .watch(mealRepositoryProvider)
-        .getRecent(categoryId, take: _pageSize);
+    return ref.watch(mealRepositoryProvider).getEasy(categoryId, take: _pageSize);
   }
 
   Future<void> loadMore() async {
@@ -50,21 +48,19 @@ class RecentMeals extends _$RecentMeals {
     final categoryId = ref.read(selectedCategoryIdProvider);
     final next = await ref
         .read(mealRepositoryProvider)
-        .getRecent(categoryId, skip: current.length, take: _pageSize);
+        .getEasy(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData([...current, ...next]);
   }
 }
 
 @riverpod
-class PopularMeals extends _$PopularMeals {
+class ChallengeMeals extends _$ChallengeMeals {
   static const _pageSize = 10;
 
   @override
-  Future<List<Meal>> build() async {
+  Future<List<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    return ref
-        .watch(mealRepositoryProvider)
-        .getPopular(categoryId, take: _pageSize);
+    return ref.watch(mealRepositoryProvider).getChallenge(categoryId, take: _pageSize);
   }
 
   Future<void> loadMore() async {
@@ -72,7 +68,47 @@ class PopularMeals extends _$PopularMeals {
     final categoryId = ref.read(selectedCategoryIdProvider);
     final next = await ref
         .read(mealRepositoryProvider)
-        .getPopular(categoryId, skip: current.length, take: _pageSize);
+        .getChallenge(categoryId, skip: current.length, take: _pageSize);
+    state = AsyncData([...current, ...next]);
+  }
+}
+
+@riverpod
+class BudgetMeals extends _$BudgetMeals {
+  static const _pageSize = 10;
+
+  @override
+  Future<List<MealPreview>> build() async {
+    final categoryId = ref.watch(selectedCategoryIdProvider);
+    return ref.watch(mealRepositoryProvider).getBudget(categoryId, take: _pageSize);
+  }
+
+  Future<void> loadMore() async {
+    final current = state.value ?? [];
+    final categoryId = ref.read(selectedCategoryIdProvider);
+    final next = await ref
+        .read(mealRepositoryProvider)
+        .getBudget(categoryId, skip: current.length, take: _pageSize);
+    state = AsyncData([...current, ...next]);
+  }
+}
+
+@riverpod
+class PremiumMeals extends _$PremiumMeals {
+  static const _pageSize = 10;
+
+  @override
+  Future<List<MealPreview>> build() async {
+    final categoryId = ref.watch(selectedCategoryIdProvider);
+    return ref.watch(mealRepositoryProvider).getPremium(categoryId, take: _pageSize);
+  }
+
+  Future<void> loadMore() async {
+    final current = state.value ?? [];
+    final categoryId = ref.read(selectedCategoryIdProvider);
+    final next = await ref
+        .read(mealRepositoryProvider)
+        .getPremium(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData([...current, ...next]);
   }
 }

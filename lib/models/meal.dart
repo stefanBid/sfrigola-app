@@ -5,6 +5,64 @@ enum Complexity { simple, challenging, hard }
 
 enum Affordability { affordable, pricey, luxurious }
 
+class MealPreview implements JsonSerializable {
+  const MealPreview({
+    required this.id,
+    required this.title,
+    required this.subtitle,
+    required this.imageUrl,
+    required this.duration,
+    required this.complexity,
+    required this.affordability,
+    required this.rate,
+  });
+
+  final String id;
+  final String title;
+  final String subtitle;
+  final String imageUrl;
+
+  /// Estimated total preparation + cooking time in minutes.
+  final int duration;
+
+  final Complexity complexity;
+  final Affordability affordability;
+  final double rate;
+
+  factory MealPreview.fromJson(Map<String, dynamic> json) {
+    return MealPreview(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      subtitle: json['subtitle'] as String,
+      imageUrl: json['imageUrl'] as String,
+      duration: json['duration'] as int,
+      complexity: Complexity.values.firstWhere(
+        (e) => e.name == json['complexity'],
+        orElse: () => Complexity.simple,
+      ),
+      affordability: Affordability.values.firstWhere(
+        (e) => e.name == json['affordability'],
+        orElse: () => Affordability.affordable,
+      ),
+      rate: (json['rate'] as num).toDouble(),
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'subtitle': subtitle,
+      'imageUrl': imageUrl,
+      'duration': duration,
+      'complexity': complexity.name,
+      'affordability': affordability.name,
+      'rate': rate,
+    };
+  }
+}
+
 class Meal implements JsonSerializable {
   const Meal({
     required this.id,

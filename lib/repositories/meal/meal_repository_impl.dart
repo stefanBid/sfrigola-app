@@ -10,17 +10,19 @@ import 'package:sfrigola/repositories/meal/meal_repository.dart';
 import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
 
 class MealRepositoryImpl implements MealRepository {
-  List<Meal> _applyCategory(
+  List<MealPreview> _toPreviewList(
     List<Meal> meals,
     String? categoryId,
     int skip,
     int take,
   ) {
-    if (categoryId == null) return meals;
-    return meals
-        .where((meal) => meal.categories.contains(categoryId))
+    final filtered = categoryId == null
+        ? meals
+        : meals.where((m) => m.categories.contains(categoryId)).toList();
+    return filtered
         .skip(skip)
         .take(take)
+        .map((m) => MealPreview.fromJson(m.toJson()))
         .toList();
   }
 
@@ -32,7 +34,7 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
-  Future<List<Meal>> getTrending(
+  Future<List<MealPreview>> getTrending(
     String? categoryId, {
     int skip = 0,
     int take = 10,
@@ -41,39 +43,63 @@ class MealRepositoryImpl implements MealRepository {
     await Future.delayed(const Duration(seconds: 2));
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
-    return _applyCategory(sorted, categoryId, skip, take);
+    return _toPreviewList(sorted, categoryId, skip, take);
   }
 
   @override
-  Future<List<Meal>> getRecent(
+  Future<List<MealPreview>> getEasy(
     String? categoryId, {
     int skip = 0,
     int take = 10,
   }) async {
-    // TODO: replace with GET /meals/recent
+    // TODO: replace with GET /meals?complexity=simple
     await Future.delayed(const Duration(seconds: 2));
-    final recent = availableMeals.reversed.toList();
-    return _applyCategory(recent, categoryId, skip, take);
+    final filtered = availableMeals
+        .where((m) => m.complexity == Complexity.simple)
+        .toList();
+    return _toPreviewList(filtered, categoryId, skip, take);
   }
 
   @override
-  Future<List<Meal>> getPopular(
+  Future<List<MealPreview>> getChallenge(
     String? categoryId, {
     int skip = 0,
     int take = 10,
   }) async {
-    // TODO: replace with GET /meals/popular (dedicated endpoint on BE).
-    // On the dummy dataset, popular = highest-rated affordable meals.
+    // TODO: replace with GET /meals?complexity=hard
     await Future.delayed(const Duration(seconds: 2));
-    final sorted = [...availableMeals]
-      ..sort((a, b) {
-        // Primary: affordability (affordable first), secondary: rate desc.
-        final aScore = a.affordability == Affordability.affordable ? 1 : 0;
-        final bScore = b.affordability == Affordability.affordable ? 1 : 0;
-        if (bScore != aScore) return bScore.compareTo(aScore);
-        return b.rate.compareTo(a.rate);
-      });
-    return _applyCategory(sorted, categoryId, skip, take);
+    final filtered = availableMeals
+        .where((m) => m.complexity == Complexity.hard)
+        .toList();
+    return _toPreviewList(filtered, categoryId, skip, take);
+  }
+
+  @override
+  Future<List<MealPreview>> getBudget(
+    String? categoryId, {
+    int skip = 0,
+    int take = 10,
+  }) async {
+    // TODO: replace with GET /meals?affordability=affordable
+    await Future.delayed(const Duration(seconds: 2));
+    final filtered = availableMeals
+        .where((m) => m.affordability == Affordability.affordable)
+        .toList();
+    return _toPreviewList(filtered, categoryId, skip, take);
+  }
+
+  @override
+  Future<List<MealPreview>> getPremium(
+    String? categoryId, {
+    int skip = 0,
+    int take = 10,
+  }) async {
+    // TODO: replace with GET /meals?affordability=luxurious
+    await Future.delayed(const Duration(seconds: 2));
+    final filtered = availableMeals
+        .where((m) => m.affordability == Affordability.luxurious)
+        .toList();
+    return _toPreviewList(filtered, categoryId, skip, take);
   }
 
   @override

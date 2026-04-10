@@ -12,7 +12,7 @@ import 'package:sfrigola/helpers/app_typography.dart';
 import 'package:sfrigola/widgets/base_image_container.dart';
 
 class ViralMealCard extends StatelessWidget {
-  final Meal meal;
+  final MealPreview meal;
   final double width;
   final double height;
   final EdgeInsetsGeometry padding;

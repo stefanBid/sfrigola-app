@@ -26,34 +26,44 @@
     "description": "Subtitle of the trending recipes section"
   },
 
-  "homeSectionRecent": "Aggiunte di recente",
-  "@homeSectionRecent": {
-    "description": "Title of the recently added recipes section"
+  "homeSectionEasy": "Pronti in un attimo",
+  "@homeSectionEasy": {
+    "description": "Title of the easy meals section"
   },
 
-  "homeSectionRecentSubtitle": "Le ultime ricette aggiunte alla raccolta",
-  "@homeSectionRecentSubtitle": {
-    "description": "Subtitle of the recently added recipes section"
+  "homeSectionEasySubtitle": "Ricette semplici per le sere di corsa",
+  "@homeSectionEasySubtitle": {
+    "description": "Subtitle of the easy meals section"
   },
 
-  "homeSectionFavorites": "I tuoi preferiti",
-  "@homeSectionFavorites": {
-    "description": "Title of the user favourites section"
+  "homeSectionChallenge": "Mettiti alla prova",
+  "@homeSectionChallenge": {
+    "description": "Title of the challenge meals section"
   },
 
-  "homeSectionFavoritesSubtitle": "Le ricette che hai salvato",
-  "@homeSectionFavoritesSubtitle": {
-    "description": "Subtitle of the user favourites section"
+  "homeSectionChallengeSubtitle": "Per chi vuole crescere ai fornelli",
+  "@homeSectionChallengeSubtitle": {
+    "description": "Subtitle of the challenge meals section"
   },
 
-  "homeSectionPopular": "Ricette popolari",
-  "@homeSectionPopular": {
-    "description": "Title of the popular recipes section"
+  "homeSectionBudget": "Cucina low cost",
+  "@homeSectionBudget": {
+    "description": "Title of the budget meals section"
   },
 
-  "homeSectionPopularSubtitle": "Le ricette più apprezzate dalla community",
-  "@homeSectionPopularSubtitle": {
-    "description": "Subtitle of the popular recipes section"
+  "homeSectionBudgetSubtitle": "Buono, sano e senza svuotare il portafoglio",
+  "@homeSectionBudgetSubtitle": {
+    "description": "Subtitle of the budget meals section"
+  },
+
+  "homeSectionPremium": "Esperienze gourmet",
+  "@homeSectionPremium": {
+    "description": "Title of the premium meals section"
+  },
+
+  "homeSectionPremiumSubtitle": "Ricette da chef per le occasioni speciali",
+  "@homeSectionPremiumSubtitle": {
+    "description": "Subtitle of the premium meals section"
   },
 
   "homeCategoriesLoadError": "Impossibile caricare le categorie",

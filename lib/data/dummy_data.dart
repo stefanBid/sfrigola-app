@@ -10,18 +10,17 @@ import 'package:sfrigola/models/meal.dart';
 // ---------------------------------------------------------------------------
 
 const availableCategories = [
-  Category(id: 'c1',  title: 'Italian',         icon: '🍕'),
-  Category(id: 'c2',  title: 'Quick & Easy',    icon: '⚡'),
-  Category(id: 'c3',  title: 'Street Food',     icon: '🍔'),
-  Category(id: 'c4',  title: 'German',          icon: '🥨'),
-  Category(id: 'c5',  title: 'Light & Healthy', icon: '🥗'),
-  Category(id: 'c6',  title: 'Exotic',          icon: '🌴'),
-  Category(id: 'c7',  title: 'Breakfast',       icon: '🥞'),
-  Category(id: 'c8',  title: 'Asian',           icon: '🍜'),
-  Category(id: 'c9',  title: 'French',          icon: '🥐'),
-  Category(id: 'c10', title: 'Summer',          icon: '☀️'),
-  Category(id: 'c11', title: 'Desserts',        icon: '🎂'),
-  Category(id: 'c12', title: 'Mediterranean',   icon: '🫒'),
+  Category(id: 'c1', title: 'Italian', icon: '🍕'),
+  Category(id: 'c2', title: 'Street Food', icon: '🍔'),
+  Category(id: 'c3', title: 'German', icon: '🥨'),
+  Category(id: 'c4', title: 'Light & Healthy', icon: '🥗'),
+  Category(id: 'c5', title: 'Exotic', icon: '🌴'),
+  Category(id: 'c6', title: 'Breakfast', icon: '🥞'),
+  Category(id: 'c7', title: 'Asian', icon: '🍜'),
+  Category(id: 'c8', title: 'French', icon: '🥐'),
+  Category(id: 'c9', title: 'Summer', icon: '☀️'),
+  Category(id: 'c10', title: 'Desserts', icon: '🎂'),
+  Category(id: 'c11', title: 'Mediterranean', icon: '🫒'),
 ];
 
 // ---------------------------------------------------------------------------
@@ -37,7 +36,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Italian — autentica e collaudata',
     description:
         'Un piatto di Italian dalla tradizione pasta: Chilli prawn linguine preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/usywpp1511189717.jpg',
     duration: 56,
@@ -87,7 +86,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Italian — autentica e collaudata',
     description:
         'Un piatto di Italian dalla tradizione pasta: Fettuccine Alfredo preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/0jv5gx1661040802.jpg',
     duration: 46,
@@ -127,7 +126,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Italian — autentica e collaudata',
     description:
         'Un piatto di Italian dalla tradizione pasta: Fettucine alfredo preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/uquqtu1511178042.jpg',
     duration: 30,
@@ -175,7 +174,7 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione pasta: Grilled Mac and Cheese '
-            'Sandwich preparato con ingredienti genuini e tecnica consolidata.',
+        'Sandwich preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/xutquv1505330523.jpg',
     duration: 82,
@@ -239,7 +238,7 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione pasta: Lasagna Sandwiches preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/xr0n4r1576788363.jpg',
     duration: 32,
@@ -281,7 +280,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Italian — autentica e collaudata',
     description:
         'Un piatto di Italian dalla tradizione pasta: Lasagne preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/wtsvxx1511296896.jpg',
     duration: 59,
@@ -339,21 +338,15 @@ const availableMeals = [
     subtitle: 'Ricetta di Indian — autentica e collaudata',
     description:
         'Un piatto di Indian dalla tradizione breakfast: Bread omelette preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/hqaejl1695738653.jpg',
     duration: 24,
     servings: 5,
     complexity: Complexity.simple,
     affordability: Affordability.affordable,
-    ingredients: [
-      '2 Bread',
-      '2 Egg',
-      '0.5 Salt',
-    ],
-    steps: [
-      'Make and enjoy',
-    ],
+    ingredients: ['2 Bread', '2 Egg', '0.5 Salt'],
+    steps: ['Make and enjoy'],
     isGlutenFree: false,
     isVegan: true,
     isVegetarian: true,
@@ -369,9 +362,8 @@ const availableMeals = [
     subtitle: 'Ricetta di Canadian — autentica e collaudata',
     description:
         'Un piatto di Canadian dalla tradizione breakfast: Breakfast Potatoes '
-            'preparato con ingredienti genuini e tecnica consolidata.',
-    imageUrl:
-        'https://www.themealdb.com/images/media/meals/1550441882.jpg',
+        'preparato con ingredienti genuini e tecnica consolidata.',
+    imageUrl: 'https://www.themealdb.com/images/media/meals/1550441882.jpg',
     duration: 85,
     servings: 2,
     complexity: Complexity.hard,
@@ -421,7 +413,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Dutch — autentica e collaudata',
     description:
         'Un piatto di Dutch dalla tradizione breakfast: Dutch poffertjes (mini '
-            'pancakes) preparato con ingredienti genuini e tecnica consolidata.',
+        'pancakes) preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/oaqz9f1766593912.jpg',
     duration: 66,
@@ -467,7 +459,7 @@ const availableMeals = [
     subtitle: 'Ricetta di British — autentica e collaudata',
     description:
         'Un piatto di British dalla tradizione breakfast: English Breakfast preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/utxryw1511721587.jpg',
     duration: 80,
@@ -536,9 +528,8 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione breakfast: Fruit and Cream Cheese '
-            'Breakfast Pastries preparato con ingredienti genuini e tecnica consolidata.',
-    imageUrl:
-        'https://www.themealdb.com/images/media/meals/1543774956.jpg',
+        'Breakfast Pastries preparato con ingredienti genuini e tecnica consolidata.',
+    imageUrl: 'https://www.themealdb.com/images/media/meals/1543774956.jpg',
     duration: 39,
     servings: 6,
     complexity: Complexity.challenging,
@@ -586,7 +577,7 @@ const availableMeals = [
     subtitle: 'Ricetta di British — autentica e collaudata',
     description:
         'Un piatto di British dalla tradizione breakfast: Full English Breakfast '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/sqrtwu1511721265.jpg',
     duration: 120,
@@ -656,7 +647,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Norwegian — autentica e collaudata',
     description:
         'Un piatto di Norwegian dalla tradizione dessert: Æbleskiver preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/wkhg581762773124.jpg',
     duration: 51,
@@ -705,7 +696,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Argentinian — autentica e collaudata',
     description:
         'Un piatto di Argentinian dalla tradizione dessert: Alfajores preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/a4kgf21763075288.jpg',
     duration: 42,
@@ -749,7 +740,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Australian — autentica e collaudata',
     description:
         'Un piatto di Australian dalla tradizione dessert: Anzac biscuits preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/q47rkb1762324620.jpg',
     duration: 20,
@@ -792,7 +783,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Malaysian — autentica e collaudata',
     description:
         'Un piatto di Malaysian dalla tradizione dessert: Apam balik preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg',
     duration: 29,
@@ -834,7 +825,7 @@ const availableMeals = [
     subtitle: 'Ricetta di British — autentica e collaudata',
     description:
         'Un piatto di British dalla tradizione dessert: Apple & Blackberry Crumble '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg',
     duration: 24,
@@ -883,7 +874,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Dutch — autentica e collaudata',
     description:
         'Un piatto di Dutch dalla tradizione dessert: Apple cake preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/c0gmo31766594751.jpg',
     duration: 117,
@@ -935,7 +926,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Spanish — autentica e collaudata',
     description:
         'Un piatto di Spanish dalla tradizione seafood: Arroz con gambas y calamar '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/jc6oub1763196663.jpg',
     duration: 31,
@@ -985,9 +976,8 @@ const availableMeals = [
     subtitle: 'Ricetta di British — autentica e collaudata',
     description:
         'Un piatto di British dalla tradizione seafood: Baked salmon with fennel & '
-            'tomatoes preparato con ingredienti genuini e tecnica consolidata.',
-    imageUrl:
-        'https://www.themealdb.com/images/media/meals/1548772327.jpg',
+        'tomatoes preparato con ingredienti genuini e tecnica consolidata.',
+    imageUrl: 'https://www.themealdb.com/images/media/meals/1548772327.jpg',
     duration: 104,
     servings: 6,
     complexity: Complexity.hard,
@@ -1028,7 +1018,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Vietnamese — autentica e collaudata',
     description:
         'Un piatto di Vietnamese dalla tradizione seafood: Bang bang prawn salad '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/4xcfai1763765676.jpg',
     duration: 19,
@@ -1070,7 +1060,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Australian — autentica e collaudata',
     description:
         'Un piatto di Australian dalla tradizione seafood: Barramundi with Moroccan '
-            'spices preparato con ingredienti genuini e tecnica consolidata.',
+        'spices preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/4o4wh11761848573.jpg',
     duration: 31,
@@ -1125,7 +1115,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Mexican — autentica e collaudata',
     description:
         'Un piatto di Mexican dalla tradizione seafood: Cajun spiced fish tacos '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/uvuyxu1503067369.jpg',
     duration: 21,
@@ -1175,7 +1165,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Spanish — autentica e collaudata',
     description:
         'Un piatto di Spanish dalla tradizione seafood: Clam, chorizo & white bean '
-            'stew preparato con ingredienti genuini e tecnica consolidata.',
+        'stew preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/92wbmf1763252334.jpg',
     duration: 29,
@@ -1222,8 +1212,8 @@ const availableMeals = [
     subtitle: 'Ricetta di Syrian — autentica e collaudata',
     description:
         'Un piatto di Syrian dalla tradizione vegan: Fasoliyyeh Bi Z-Zayt (Syrian '
-            'Green Beans with Olive Oil) preparato con ingredienti genuini e tecnica '
-            'consolidata.',
+        'Green Beans with Olive Oil) preparato con ingredienti genuini e tecnica '
+        'consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/21yc5s1760524759.jpg',
     duration: 149,
@@ -1265,17 +1255,14 @@ const availableMeals = [
     subtitle: 'Ricetta di Spanish — autentica e collaudata',
     description:
         'Un piatto di Spanish dalla tradizione vegan: Padron peppers preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/0ljvc51763248075.jpg',
     duration: 56,
     servings: 6,
     complexity: Complexity.challenging,
     affordability: Affordability.affordable,
-    ingredients: [
-      '1 tablespoon Olive Oil',
-      '500g Padron peppers',
-    ],
+    ingredients: ['1 tablespoon Olive Oil', '500g Padron peppers'],
     steps: [
       'step 1 Heat the olive oil in a large frying pan over a high heat, or if '
           'using an air-fryer, heat to 205C for 3 mins.',
@@ -1300,7 +1287,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Norwegian — autentica e collaudata',
     description:
         'Un piatto di Norwegian dalla tradizione vegan: Red onion pickle preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/ppodrp1762325183.jpg',
     duration: 31,
@@ -1343,9 +1330,8 @@ const availableMeals = [
     subtitle: 'Ricetta di Spanish — autentica e collaudata',
     description:
         'Un piatto di Spanish dalla tradizione vegan: Roast fennel and aubergine '
-            'paella preparato con ingredienti genuini e tecnica consolidata.',
-    imageUrl:
-        'https://www.themealdb.com/images/media/meals/1520081754.jpg',
+        'paella preparato con ingredienti genuini e tecnica consolidata.',
+    imageUrl: 'https://www.themealdb.com/images/media/meals/1520081754.jpg',
     duration: 17,
     servings: 2,
     complexity: Complexity.simple,
@@ -1397,7 +1383,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Vietnamese — autentica e collaudata',
     description:
         'Un piatto di Vietnamese dalla tradizione vegan: Vegan banh mi preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/sonirb1763782831.jpg',
     duration: 81,
@@ -1444,7 +1430,7 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione vegan: Vegan Chocolate Cake preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/qxutws1486978099.jpg',
     duration: 29,
@@ -1481,7 +1467,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Algerian — autentica e collaudata',
     description:
         'Un piatto di Algerian dalla tradizione beef: Algerian Kefta (Meatballs) '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/8rfd4q1764112993.jpg',
     duration: 35,
@@ -1528,7 +1514,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Venezulan — autentica e collaudata',
     description:
         'Un piatto di Venezulan dalla tradizione beef: Arepa Pabellón preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/13fg4j1764441982.jpg',
     duration: 26,
@@ -1571,7 +1557,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Venezulan — autentica e collaudata',
     description:
         'Un piatto di Venezulan dalla tradizione beef: Arepa pelua preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/jgl9qq1764437635.jpg',
     duration: 72,
@@ -1622,7 +1608,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Argentinian — autentica e collaudata',
     description:
         'Un piatto di Argentinian dalla tradizione beef: Asado preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/kgfh3q1763075438.jpg',
     duration: 33,
@@ -1667,7 +1653,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Australian — autentica e collaudata',
     description:
         'Un piatto di Australian dalla tradizione beef: Aussie Burgers preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/44bzep1761848278.jpg',
     duration: 22,
@@ -1713,7 +1699,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Chinese — autentica e collaudata',
     description:
         'Un piatto di Chinese dalla tradizione beef: Beef and Broccoli Stir-Fry '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/m0p0j81765568742.jpg',
     duration: 130,
@@ -1770,7 +1756,7 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione chicken: 15-minute chicken & halloumi '
-            'burgers preparato con ingredienti genuini e tecnica consolidata.',
+        'burgers preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg',
     duration: 56,
@@ -1831,7 +1817,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Malaysian — autentica e collaudata',
     description:
         'Un piatto di Malaysian dalla tradizione chicken: Ayam Percik preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/020z181619788503.jpg',
     duration: 107,
@@ -1888,7 +1874,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Jamaican — autentica e collaudata',
     description:
         'Un piatto di Jamaican dalla tradizione chicken: Brown Stew Chicken preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg',
     duration: 55,
@@ -1939,7 +1925,7 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione chicken: Chick-Fil-A Sandwich '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/sbx7n71587673021.jpg',
     duration: 149,
@@ -1987,7 +1973,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Spanish — autentica e collaudata',
     description:
         'Un piatto di Spanish dalla tradizione chicken: Chicken & chorizo rice pot '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/fk80jp1763280767.jpg',
     duration: 17,
@@ -2038,7 +2024,7 @@ const availableMeals = [
     subtitle: 'Ricetta di British — autentica e collaudata',
     description:
         'Un piatto di British dalla tradizione chicken: Chicken & mushroom Hotpot '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/uuuspp1511297945.jpg',
     duration: 64,
@@ -2095,7 +2081,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Turkish — autentica e collaudata',
     description:
         'Un piatto di Turkish dalla tradizione lamb: Adana kebab preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/04axct1763793018.jpg',
     duration: 27,
@@ -2147,7 +2133,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Turkish — autentica e collaudata',
     description:
         'Un piatto di Turkish dalla tradizione lamb: Chilli ginger lamb chops '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/8xuvhj1763794991.jpg',
     duration: 64,
@@ -2188,8 +2174,8 @@ const availableMeals = [
     subtitle: 'Ricetta di Algerian — autentica e collaudata',
     description:
         'Un piatto di Algerian dalla tradizione lamb: Chorba Hamra bel Frik (Algerian '
-            'Lamb, Tomato, and Freekeh Soup) preparato con ingredienti genuini e tecnica '
-            'consolidata.',
+        'Lamb, Tomato, and Freekeh Soup) preparato con ingredienti genuini e tecnica '
+        'consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/p9tebp1764118792.jpg',
     duration: 67,
@@ -2239,7 +2225,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Norwegian — autentica e collaudata',
     description:
         'Un piatto di Norwegian dalla tradizione lamb: Fårikål (Norwegian National '
-            'Dish) preparato con ingredienti genuini e tecnica consolidata.',
+        'Dish) preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/ttfxxn1762773067.jpg',
     duration: 35,
@@ -2283,7 +2269,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Turkish — autentica e collaudata',
     description:
         'Un piatto di Turkish dalla tradizione lamb: Hot cumin lamb wrap with crunchy '
-            'slaw & spicy mayo preparato con ingredienti genuini e tecnica consolidata.',
+        'slaw & spicy mayo preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/jyylmo1763790808.jpg',
     duration: 18,
@@ -2329,7 +2315,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Turkish — autentica e collaudata',
     description:
         'Un piatto di Turkish dalla tradizione lamb: Imam bayildi with BBQ lamb & '
-            'tzatziki preparato con ingredienti genuini e tecnica consolidata.',
+        'tzatziki preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/ampz9v1763787134.jpg',
     duration: 60,
@@ -2386,7 +2372,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Spanish — autentica e collaudata',
     description:
         'Un piatto di Spanish dalla tradizione starter: Ajo blanco preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/5jdtie1763289302.jpg',
     duration: 33,
@@ -2422,7 +2408,7 @@ const availableMeals = [
     subtitle: 'Ricetta di British — autentica e collaudata',
     description:
         'Un piatto di British dalla tradizione starter: Broccoli & Stilton soup '
-            'preparato con ingredienti genuini e tecnica consolidata.',
+        'preparato con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/tvvxpv1511191952.jpg',
     duration: 19,
@@ -2466,7 +2452,7 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione starter: Clam chowder preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/rvtvuw1511190488.jpg',
     duration: 21,
@@ -2523,7 +2509,7 @@ const availableMeals = [
     subtitle: 'Ricetta di American — autentica e collaudata',
     description:
         'Un piatto di American dalla tradizione starter: Cream Cheese Tart preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/wurrux1468416624.jpg',
     duration: 70,
@@ -2572,7 +2558,7 @@ const availableMeals = [
     subtitle: 'Ricetta di British — autentica e collaudata',
     description:
         'Un piatto di British dalla tradizione starter: Creamy Tomato Soup preparato '
-            'con ingredienti genuini e tecnica consolidata.',
+        'con ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/stpuws1511191310.jpg',
     duration: 30,
@@ -2620,7 +2606,7 @@ const availableMeals = [
     subtitle: 'Ricetta di Spanish — autentica e collaudata',
     description:
         'Un piatto di Spanish dalla tradizione starter: Quick gazpacho preparato con '
-            'ingredienti genuini e tecnica consolidata.',
+        'ingredienti genuini e tecnica consolidata.',
     imageUrl:
         'https://www.themealdb.com/images/media/meals/h5qmn31763304965.jpg',
     duration: 25,

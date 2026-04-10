@@ -20,7 +20,7 @@ class MealsGroupRow extends StatelessWidget {
   final String? subtitle;
   final IconData? icon;
 
-  final List<Meal> meals;
+  final List<MealPreview> meals;
   final bool isViral;
   final bool isLoading;
 
@@ -37,7 +37,11 @@ class MealsGroupRow extends StatelessWidget {
     this.onLoadMore,
   });
 
-  static Widget _buildViralCard(BuildContext context, Meal meal, int index) {
+  static Widget _buildViralCard(
+    BuildContext context,
+    MealPreview meal,
+    int index,
+  ) {
     return ViralMealCard(
       key: ValueKey(meal.id),
       padding: AppDesign.paddingHorizontalLg.copyWith(
@@ -48,14 +52,18 @@ class MealsGroupRow extends StatelessWidget {
         FocusScope.of(context).unfocus();
         AppRouter.goDeep(
           context,
-          AppRouter.details,
-          params: DetailParams(detailId: mealId),
+          AppRouter.mealDetails,
+          params: MealDetailsParams(mealId: mealId),
         );
       },
     );
   }
 
-  static Widget? _buildMealCard(BuildContext context, Meal meal, int index) {
+  static Widget? _buildMealCard(
+    BuildContext context,
+    MealPreview meal,
+    int index,
+  ) {
     // Placeholder for a non-viral meal card implementation
     return BaseCard(
       key: ValueKey(meal.id),
@@ -69,8 +77,8 @@ class MealsGroupRow extends StatelessWidget {
         FocusScope.of(context).unfocus();
         AppRouter.goDeep(
           context,
-          AppRouter.details,
-          params: DetailParams(detailId: meal.id),
+          AppRouter.mealDetails,
+          params: MealDetailsParams(mealId: meal.id),
         );
       },
     );
@@ -79,7 +87,7 @@ class MealsGroupRow extends StatelessWidget {
   static Widget? _buildMealItems(
     BuildContext context,
     int index,
-    List<Meal> list,
+    List<MealPreview> list,
     bool isViralGroup,
   ) {
     if (index < 0 || index >= list.length) return null;

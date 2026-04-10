@@ -24,6 +24,8 @@ class MealsGroupRow extends StatelessWidget {
   final bool isViral;
   final bool isLoading;
 
+  final VoidCallback? onLoadMore;
+
   const MealsGroupRow({
     super.key,
     required this.title,
@@ -32,6 +34,7 @@ class MealsGroupRow extends StatelessWidget {
     required this.meals,
     this.isViral = false,
     this.isLoading = false,
+    this.onLoadMore,
   });
 
   static Widget _buildViralCard(BuildContext context, Meal meal, int index) {

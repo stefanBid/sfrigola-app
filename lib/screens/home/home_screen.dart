@@ -12,6 +12,7 @@ import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 
 // Project Providers
 import 'package:sfrigola/screens/home/providers/meals_provider.dart';
+import 'package:sfrigola/screens/home/providers/selected_category_id_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/screens/home/widgets/fake_search_box.dart';
@@ -37,7 +38,17 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CategoriesGroupRow(selectedCategoryId: 'c3'),
+          Consumer(
+            builder: (context, ref, _) {
+              final selectedId = ref.watch(selectedCategoryIdProvider);
+
+              return CategoriesGroupRow(
+                selectedCategoryId: selectedId,
+                onCategorySelected: (id) =>
+                    ref.read(selectedCategoryIdProvider.notifier).select(id),
+              );
+            },
+          ),
           const SizedBox(height: AppDesign.gapSectionMd),
           Expanded(
             child: Consumer(
@@ -62,6 +73,8 @@ class HomeScreen extends StatelessWidget {
                         isViral: true,
                         isLoading: trending.isLoading,
                         meals: trending.value ?? [],
+                        onLoadMore: () =>
+                            ref.read(trendingMealsProvider.notifier).loadMore(),
                       ),
                     ),
                     Padding(
@@ -76,6 +89,8 @@ class HomeScreen extends StatelessWidget {
                         icon: PhosphorIconsBold.star,
                         isLoading: recent.isLoading,
                         meals: recent.value ?? [],
+                        onLoadMore: () =>
+                            ref.read(recentMealsProvider.notifier).loadMore(),
                       ),
                     ),
                     Padding(
@@ -92,6 +107,8 @@ class HomeScreen extends StatelessWidget {
                         icon: PhosphorIconsBold.heart,
                         isLoading: popular.isLoading,
                         meals: popular.value ?? [],
+                        onLoadMore: () =>
+                            ref.read(popularMealsProvider.notifier).loadMore(),
                       ),
                     ),
                     Padding(
@@ -106,6 +123,8 @@ class HomeScreen extends StatelessWidget {
                         icon: PhosphorIconsBold.fire,
                         isLoading: popular.isLoading,
                         meals: popular.value ?? [],
+                        onLoadMore: () =>
+                            ref.read(popularMealsProvider.notifier).loadMore(),
                       ),
                     ),
                   ],

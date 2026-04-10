@@ -10,9 +10,18 @@ import 'package:sfrigola/repositories/meal/meal_repository.dart';
 import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
 
 class MealRepositoryImpl implements MealRepository {
-  List<Meal> _applyCategory(List<Meal> meals, String? categoryId) {
+  List<Meal> _applyCategory(
+    List<Meal> meals,
+    String? categoryId,
+    int skip,
+    int take,
+  ) {
     if (categoryId == null) return meals;
-    return meals.where((meal) => meal.categories.contains(categoryId)).toList();
+    return meals
+        .where((meal) => meal.categories.contains(categoryId))
+        .skip(skip)
+        .take(take)
+        .toList();
   }
 
   @override
@@ -23,24 +32,36 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
-  Future<List<Meal>> getTrending(String? categoryId) async {
+  Future<List<Meal>> getTrending(
+    String? categoryId, {
+    int skip = 0,
+    int take = 10,
+  }) async {
     // TODO: replace with GET /meals/trending
     await Future.delayed(const Duration(seconds: 2));
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
-    return _applyCategory(sorted, categoryId);
+    return _applyCategory(sorted, categoryId, skip, take);
   }
 
   @override
-  Future<List<Meal>> getRecent(String? categoryId) async {
+  Future<List<Meal>> getRecent(
+    String? categoryId, {
+    int skip = 0,
+    int take = 10,
+  }) async {
     // TODO: replace with GET /meals/recent
     await Future.delayed(const Duration(seconds: 2));
     final recent = availableMeals.reversed.toList();
-    return _applyCategory(recent, categoryId);
+    return _applyCategory(recent, categoryId, skip, take);
   }
 
   @override
-  Future<List<Meal>> getPopular(String? categoryId) async {
+  Future<List<Meal>> getPopular(
+    String? categoryId, {
+    int skip = 0,
+    int take = 10,
+  }) async {
     // TODO: replace with GET /meals/popular (dedicated endpoint on BE).
     // On the dummy dataset, popular = highest-rated affordable meals.
     await Future.delayed(const Duration(seconds: 2));
@@ -52,7 +73,7 @@ class MealRepositoryImpl implements MealRepository {
         if (bScore != aScore) return bScore.compareTo(aScore);
         return b.rate.compareTo(a.rate);
       });
-    return _applyCategory(sorted, categoryId);
+    return _applyCategory(sorted, categoryId, skip, take);
   }
 
   @override

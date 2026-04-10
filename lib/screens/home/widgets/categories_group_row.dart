@@ -21,12 +21,12 @@ import 'package:sfrigola/widgets/base_box.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 
 class CategoriesGroupRow extends ConsumerWidget {
-  final String selectedCategoryId;
+  final String? selectedCategoryId;
   final void Function(String)? onCategorySelected;
 
   const CategoriesGroupRow({
     super.key,
-    required this.selectedCategoryId,
+    this.selectedCategoryId,
     this.onCategorySelected,
   });
 
@@ -34,7 +34,7 @@ class CategoriesGroupRow extends ConsumerWidget {
     BuildContext context,
     int index,
     List<Category> categories,
-    String selectedCategoryId,
+    String? selectedCategoryId,
   ) {
     if (index < 0 || index >= categories.length) return null;
 

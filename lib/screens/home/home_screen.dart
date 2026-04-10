@@ -11,10 +11,11 @@ import 'package:sfrigola/layouts/app_bars/classic_app_bar.dart';
 import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 
 // Project Providers
-import 'package:sfrigola/providers/meal_provider.dart';
+import 'package:sfrigola/screens/home/providers/meals_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/screens/home/widgets/general_search_box.dart';
+import 'package:sfrigola/screens/home/widgets/fake_search_box.dart';
 import 'package:sfrigola/screens/home/widgets/meals_group_row.dart';
 import 'package:sfrigola/screens/home/widgets/categories_group_row.dart';
 
@@ -30,7 +31,13 @@ class HomeScreen extends StatelessWidget {
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsBold.house),
         title: AppLocale.getLabels(context).homeTitle,
-        bottomContent: const GeneralSearchBox(onChanged: _onSearchChanged),
+        bottomContent: Column(
+          children: [
+            FakeSearchBox(onTap: () {}),
+            const SizedBox(height: AppDesign.gapSectionLg),
+            const GeneralSearchBox(onChanged: _onSearchChanged),
+          ],
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -10,13 +10,16 @@ abstract interface class MealRepository {
   Future<List<Category>> getCategories();
 
   /// Returns trending meals (high rate, currently popular).
-  Future<List<Meal>> getTrending(MealRepositoryFilter filter);
+  /// Pass [categoryId] to filter by category, null for no filter.
+  Future<List<Meal>> getTrending(String? categoryId);
 
   /// Returns recently added meals.
-  Future<List<Meal>> getRecent(MealRepositoryFilter filter);
+  /// Pass [categoryId] to filter by category, null for no filter.
+  Future<List<Meal>> getRecent(String? categoryId);
 
   /// Returns the most popular meals (community rating).
-  Future<List<Meal>> getPopular(MealRepositoryFilter filter);
+  /// Pass [categoryId] to filter by category, null for no filter.
+  Future<List<Meal>> getPopular(String? categoryId);
 
   /// Returns a single meal by ID. Throws [MealNotFoundException] if not found.
   Future<Meal> getMealById(String id);

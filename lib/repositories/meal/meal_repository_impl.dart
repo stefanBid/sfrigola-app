@@ -10,21 +10,9 @@ import 'package:sfrigola/repositories/meal/meal_repository.dart';
 import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
 
 class MealRepositoryImpl implements MealRepository {
-  List<Meal> _applyFilter(List<Meal> meals, MealRepositoryFilter filter) {
-    return meals
-        .where((meal) {
-          final matchesCategory =
-              filter.categoryId == null ||
-              meal.categories.contains(filter.categoryId);
-          final matchesQuery =
-              filter.query.isEmpty ||
-              meal.title.toLowerCase().contains(filter.query.toLowerCase()) ||
-              meal.subtitle.toLowerCase().contains(filter.query.toLowerCase());
-          return matchesCategory && matchesQuery;
-        })
-        .skip(filter.skip)
-        .take(filter.take)
-        .toList();
+  List<Meal> _applyCategory(List<Meal> meals, String? categoryId) {
+    if (categoryId == null) return meals;
+    return meals.where((meal) => meal.categories.contains(categoryId)).toList();
   }
 
   @override
@@ -35,24 +23,24 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
-  Future<List<Meal>> getTrending(MealRepositoryFilter filter) async {
+  Future<List<Meal>> getTrending(String? categoryId) async {
     // TODO: replace with GET /meals/trending
     await Future.delayed(const Duration(seconds: 2));
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
-    return _applyFilter(sorted, filter);
+    return _applyCategory(sorted, categoryId);
   }
 
   @override
-  Future<List<Meal>> getRecent(MealRepositoryFilter filter) async {
+  Future<List<Meal>> getRecent(String? categoryId) async {
     // TODO: replace with GET /meals/recent
     await Future.delayed(const Duration(seconds: 2));
     final recent = availableMeals.reversed.toList();
-    return _applyFilter(recent, filter);
+    return _applyCategory(recent, categoryId);
   }
 
   @override
-  Future<List<Meal>> getPopular(MealRepositoryFilter filter) async {
+  Future<List<Meal>> getPopular(String? categoryId) async {
     // TODO: replace with GET /meals/popular (dedicated endpoint on BE).
     // On the dummy dataset, popular = highest-rated affordable meals.
     await Future.delayed(const Duration(seconds: 2));
@@ -64,7 +52,7 @@ class MealRepositoryImpl implements MealRepository {
         if (bScore != aScore) return bScore.compareTo(aScore);
         return b.rate.compareTo(a.rate);
       });
-    return _applyFilter(sorted, filter);
+    return _applyCategory(sorted, categoryId);
   }
 
   @override

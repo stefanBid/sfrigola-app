@@ -8,8 +8,12 @@ import 'package:sfrigola/screens/meal-details/providers/meal_by_id_provider.dart
 // Project Helpers
 import 'package:sfrigola/helpers/app_colors.dart';
 import 'package:sfrigola/helpers/app_design.dart';
+import 'package:sfrigola/helpers/app_locale.dart';
 import 'package:sfrigola/helpers/app_router.dart';
 import 'package:sfrigola/helpers/app_typography.dart';
+
+// Project Models
+import 'package:sfrigola/models/meal.dart';
 
 // Project Layouts
 import 'package:sfrigola/layouts/app_bars/transparent_app_bar.dart';
@@ -88,14 +92,40 @@ class MealDetailsScreen extends ConsumerWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // — Title & subtitle
-            Text(value.title, style: AppTypography.of(context).heading1),
-            const SizedBox(height: AppDesign.gapItemXs),
-            Text(
-              value.subtitle,
-              style: AppTypography.of(
-                context,
-              ).bodySecondary.copyWith(color: AppColors.of(context).muted),
+            // — Title & subtitle & rating
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        value.title,
+                        style: AppTypography.of(context).heading1,
+                      ),
+                      const SizedBox(height: AppDesign.gapItemXs),
+                      Text(
+                        value.subtitle,
+                        style: AppTypography.of(context).bodySecondary.copyWith(
+                          color: AppColors.of(context).muted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: AppDesign.gapInlineSm),
+                BaseBadge(
+                  style: const BadgeStyle(
+                    color: AppColors.secondary,
+                    foregroundColor: Colors.black,
+                    borderRadius: AppDesign.borderRadiusSm,
+                  ),
+                  label: value.rate.toStringAsFixed(1),
+                  icon: PhosphorIconsRegular.star,
+                ),
+              ],
             ),
             const SizedBox(height: AppDesign.gapSectionSm),
 
@@ -108,38 +138,86 @@ class MealDetailsScreen extends ConsumerWidget {
                   label: '${value.duration} min',
                   icon: PhosphorIconsRegular.clock,
                   style: BadgeStyle(
-                    color: AppColors.primary.withAlpha(40),
-                    foregroundColor: AppColors.primary,
+                    color: const Color(0xFFB3E5FC),
+                    foregroundColor: const Color(0xFF0277BD),
                   ),
                 ),
                 BaseBadge(
-                  label: value.complexity.name,
+                  label: value.complexity.label(context),
                   icon: PhosphorIconsRegular.chefHat,
                   style: BadgeStyle(
-                    color: AppColors.secondary.withAlpha(40),
-                    foregroundColor: AppColors.secondary,
+                    color: value.complexity.badgeColors.color,
+                    foregroundColor: value.complexity.badgeColors.foreground,
                   ),
                 ),
                 BaseBadge(
-                  label: value.affordability.name,
+                  label: value.affordability.label(context),
                   icon: PhosphorIconsRegular.wallet,
                   style: BadgeStyle(
-                    color: AppColors.success.withAlpha(40),
-                    foregroundColor: AppColors.success,
+                    color: value.affordability.badgeColors.color,
+                    foregroundColor: value.affordability.badgeColors.foreground,
                   ),
                 ),
+                if (value.isGlutenFree)
+                  BaseBadge(
+                    label: AppLocale.getLabels(
+                      context,
+                    ).mealDetailsBadgeGlutenFree,
+                    icon: PhosphorIconsRegular.grains,
+                    style: const BadgeStyle(
+                      color: Color(0xFFFFF3CD),
+                      foregroundColor: Color(0xFF856404),
+                    ),
+                  ),
+                if (value.isLactoseFree)
+                  BaseBadge(
+                    label: AppLocale.getLabels(
+                      context,
+                    ).mealDetailsBadgeLactoseFree,
+                    icon: PhosphorIconsRegular.drop,
+                    style: const BadgeStyle(
+                      color: Color(0xFFD1ECF1),
+                      foregroundColor: Color(0xFF0C5460),
+                    ),
+                  ),
+                if (value.isVegan)
+                  BaseBadge(
+                    label: AppLocale.getLabels(context).mealDetailsBadgeVegan,
+                    icon: PhosphorIconsRegular.leaf,
+                    style: BadgeStyle(
+                      color: AppColors.success.withAlpha(45),
+                      foregroundColor: const Color(0xFF065F46),
+                    ),
+                  ),
+                if (value.isVegetarian)
+                  BaseBadge(
+                    label: AppLocale.getLabels(
+                      context,
+                    ).mealDetailsBadgeVegetarian,
+                    icon: PhosphorIconsRegular.plant,
+                    style: const BadgeStyle(
+                      color: Color(0xFFD4EDDA),
+                      foregroundColor: Color(0xFF155724),
+                    ),
+                  ),
               ],
             ),
             const SizedBox(height: AppDesign.gapSectionMd),
 
             // — Description
-            Text('Description', style: AppTypography.of(context).heading3),
+            Text(
+              AppLocale.getLabels(context).mealDetailsSectionDescription,
+              style: AppTypography.of(context).heading3,
+            ),
             const SizedBox(height: AppDesign.gapItemSm),
             Text(value.description, style: AppTypography.of(context).body),
             const SizedBox(height: AppDesign.gapSectionMd),
 
             // — Ingredients
-            Text('Ingredients', style: AppTypography.of(context).heading3),
+            Text(
+              AppLocale.getLabels(context).mealDetailsSectionIngredients,
+              style: AppTypography.of(context).heading3,
+            ),
             const SizedBox(height: AppDesign.gapItemSm),
             for (final ingredient in value.ingredients) ...[
               Text('• $ingredient', style: AppTypography.of(context).body),
@@ -148,7 +226,10 @@ class MealDetailsScreen extends ConsumerWidget {
             const SizedBox(height: AppDesign.gapSectionMd),
 
             // — Steps
-            Text('Steps', style: AppTypography.of(context).heading3),
+            Text(
+              AppLocale.getLabels(context).mealDetailsSectionSteps,
+              style: AppTypography.of(context).heading3,
+            ),
             const SizedBox(height: AppDesign.gapItemSm),
             for (int i = 0; i < value.steps.length; i++) ...[
               Row(

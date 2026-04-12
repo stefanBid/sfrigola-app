@@ -89,6 +89,9 @@ After all ARB edits, run:
 flutter gen-l10n
 ```
 
+> **IMPORTANT**: use `flutter gen-l10n` — NOT `dart run build_runner build -d`.
+> `build_runner` regenerates `*.g.dart` files (Riverpod/json_serializable) and does **not** touch localizations.
+
 Then run `flutter analyze --no-pub` and fix any issues before reporting.
 
 ---
@@ -144,6 +147,9 @@ static const supportedLocales = [
 ```bash
 flutter gen-l10n
 ```
+
+> **IMPORTANT**: use `flutter gen-l10n` — NOT `dart run build_runner build -d`.
+> `build_runner` regenerates `*.g.dart` files (Riverpod/json_serializable) and does **not** touch localizations.
 
 Then run `flutter analyze --no-pub` and fix any issues.
 

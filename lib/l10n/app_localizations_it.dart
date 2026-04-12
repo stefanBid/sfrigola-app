@@ -53,4 +53,43 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get homeCategoriesLoadError => 'Impossibile caricare le categorie';
+
+  @override
+  String get mealDetailsSectionDescription => 'Descrizione';
+
+  @override
+  String get mealDetailsSectionIngredients => 'Ingredienti';
+
+  @override
+  String get mealDetailsSectionSteps => 'Procedimento';
+
+  @override
+  String get mealDetailsBadgeGlutenFree => 'Senza glutine';
+
+  @override
+  String get mealDetailsBadgeLactoseFree => 'Senza lattosio';
+
+  @override
+  String get mealDetailsBadgeVegan => 'Vegano';
+
+  @override
+  String get mealDetailsBadgeVegetarian => 'Vegetariano';
+
+  @override
+  String get complexitySimple => 'Facile';
+
+  @override
+  String get complexityChallenging => 'Medio';
+
+  @override
+  String get complexityHard => 'Difficile';
+
+  @override
+  String get affordabilityAffordable => 'Economico';
+
+  @override
+  String get affordabilityPricey => 'Nella media';
+
+  @override
+  String get affordabilityLuxurious => 'Gourmet';
 }

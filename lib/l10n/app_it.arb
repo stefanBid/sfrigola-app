@@ -69,5 +69,70 @@
   "homeCategoriesLoadError": "Impossibile caricare le categorie",
   "@homeCategoriesLoadError": {
     "description": "Error message shown in the categories row when categories fail to load"
+  },
+
+  "mealDetailsSectionDescription": "Descrizione",
+  "@mealDetailsSectionDescription": {
+    "description": "Section title for the description in the meal details screen"
+  },
+
+  "mealDetailsSectionIngredients": "Ingredienti",
+  "@mealDetailsSectionIngredients": {
+    "description": "Section title for the ingredients list in the meal details screen"
+  },
+
+  "mealDetailsSectionSteps": "Procedimento",
+  "@mealDetailsSectionSteps": {
+    "description": "Section title for the steps list in the meal details screen"
+  },
+
+  "mealDetailsBadgeGlutenFree": "Senza glutine",
+  "@mealDetailsBadgeGlutenFree": {
+    "description": "Badge label shown when a meal is gluten-free"
+  },
+
+  "mealDetailsBadgeLactoseFree": "Senza lattosio",
+  "@mealDetailsBadgeLactoseFree": {
+    "description": "Badge label shown when a meal is lactose-free"
+  },
+
+  "mealDetailsBadgeVegan": "Vegano",
+  "@mealDetailsBadgeVegan": {
+    "description": "Badge label shown when a meal is vegan"
+  },
+
+  "mealDetailsBadgeVegetarian": "Vegetariano",
+  "@mealDetailsBadgeVegetarian": {
+    "description": "Badge label shown when a meal is vegetarian"
+  },
+
+  "complexitySimple": "Facile",
+  "@complexitySimple": {
+    "description": "Label for Complexity.simple enum value"
+  },
+
+  "complexityChallenging": "Medio",
+  "@complexityChallenging": {
+    "description": "Label for Complexity.challenging enum value"
+  },
+
+  "complexityHard": "Difficile",
+  "@complexityHard": {
+    "description": "Label for Complexity.hard enum value"
+  },
+
+  "affordabilityAffordable": "Economico",
+  "@affordabilityAffordable": {
+    "description": "Label for Affordability.affordable enum value"
+  },
+
+  "affordabilityPricey": "Nella media",
+  "@affordabilityPricey": {
+    "description": "Label for Affordability.pricey enum value"
+  },
+
+  "affordabilityLuxurious": "Gourmet",
+  "@affordabilityLuxurious": {
+    "description": "Label for Affordability.luxurious enum value"
   }
 }

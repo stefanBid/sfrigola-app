@@ -214,6 +214,21 @@ BaseBadge(
 - `outlined` → transparent background + border in `color` colour
 - `foregroundColor` → text and icon only (independent from border)
 
+**Badge colour palette — approved combinations** (use these for consistency):
+
+| Context | `color` | `foregroundColor` |
+|---|---|---|
+| Duration / time | `const Color(0xFFB3E5FC)` | `const Color(0xFF0277BD)` |
+| Complexity | `const Color(0xFFBBDEFB)` | `const Color(0xFF1565C0)` |
+| Affordability / budget | `AppColors.success.withAlpha(40)` | `const Color(0xFF065F46)` |
+| Rating / star | `AppColors.warning` | `Colors.black` |
+| Gluten free | `const Color(0xFFFFF3CD)` | `const Color(0xFF856404)` |
+| Lactose free | `const Color(0xFFD1ECF1)` | `const Color(0xFF0C5460)` |
+| Vegan | `AppColors.success.withAlpha(45)` | `const Color(0xFF065F46)` |
+| Vegetarian | `const Color(0xFFD4EDDA)` | `const Color(0xFF155724)` |
+
+> Use `.withAlpha()` — never `.withOpacity()` (near-deprecated in Flutter).
+
 ---
 
 ## BaseScaffoldMessenger

@@ -177,6 +177,84 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Impossibile caricare le categorie'**
   String get homeCategoriesLoadError;
+
+  /// Section title for the description in the meal details screen
+  ///
+  /// In it, this message translates to:
+  /// **'Descrizione'**
+  String get mealDetailsSectionDescription;
+
+  /// Section title for the ingredients list in the meal details screen
+  ///
+  /// In it, this message translates to:
+  /// **'Ingredienti'**
+  String get mealDetailsSectionIngredients;
+
+  /// Section title for the steps list in the meal details screen
+  ///
+  /// In it, this message translates to:
+  /// **'Procedimento'**
+  String get mealDetailsSectionSteps;
+
+  /// Badge label shown when a meal is gluten-free
+  ///
+  /// In it, this message translates to:
+  /// **'Senza glutine'**
+  String get mealDetailsBadgeGlutenFree;
+
+  /// Badge label shown when a meal is lactose-free
+  ///
+  /// In it, this message translates to:
+  /// **'Senza lattosio'**
+  String get mealDetailsBadgeLactoseFree;
+
+  /// Badge label shown when a meal is vegan
+  ///
+  /// In it, this message translates to:
+  /// **'Vegano'**
+  String get mealDetailsBadgeVegan;
+
+  /// Badge label shown when a meal is vegetarian
+  ///
+  /// In it, this message translates to:
+  /// **'Vegetariano'**
+  String get mealDetailsBadgeVegetarian;
+
+  /// Label for Complexity.simple enum value
+  ///
+  /// In it, this message translates to:
+  /// **'Facile'**
+  String get complexitySimple;
+
+  /// Label for Complexity.challenging enum value
+  ///
+  /// In it, this message translates to:
+  /// **'Medio'**
+  String get complexityChallenging;
+
+  /// Label for Complexity.hard enum value
+  ///
+  /// In it, this message translates to:
+  /// **'Difficile'**
+  String get complexityHard;
+
+  /// Label for Affordability.affordable enum value
+  ///
+  /// In it, this message translates to:
+  /// **'Economico'**
+  String get affordabilityAffordable;
+
+  /// Label for Affordability.pricey enum value
+  ///
+  /// In it, this message translates to:
+  /// **'Nella media'**
+  String get affordabilityPricey;
+
+  /// Label for Affordability.luxurious enum value
+  ///
+  /// In it, this message translates to:
+  /// **'Gourmet'**
+  String get affordabilityLuxurious;
 }
 
 class _AppLocalizationsDelegate

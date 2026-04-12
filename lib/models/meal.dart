@@ -1,5 +1,9 @@
 // Project Models
+import 'package:flutter/material.dart';
 import 'package:sfrigola/models/json_serializable.dart';
+
+// Project Helpers
+import 'package:sfrigola/helpers/app_locale.dart';
 
 enum Complexity { simple, challenging, hard }
 
@@ -157,4 +161,60 @@ class Meal implements JsonSerializable {
       'rate': rate,
     };
   }
+}
+
+// ---------------------------------------------------------------------------
+// Display extensions
+// ---------------------------------------------------------------------------
+
+extension ComplexityDisplay on Complexity {
+  String label(BuildContext context) => switch (this) {
+    Complexity.simple => AppLocale.getLabels(context).complexitySimple,
+    Complexity.challenging => AppLocale.getLabels(
+      context,
+    ).complexityChallenging,
+    Complexity.hard => AppLocale.getLabels(context).complexityHard,
+  };
+
+  ({Color color, Color foreground}) get badgeColors => switch (this) {
+    Complexity.simple => (
+      color: const Color(0xFFD4EDDA),
+      foreground: const Color(0xFF155724),
+    ),
+    Complexity.challenging => (
+      color: const Color(0xFFFFF3CD),
+      foreground: const Color(0xFF856404),
+    ),
+    Complexity.hard => (
+      color: const Color(0xFFFFDAD6),
+      foreground: const Color(0xFFB3261E),
+    ),
+  };
+}
+
+extension AffordabilityDisplay on Affordability {
+  String label(BuildContext context) => switch (this) {
+    Affordability.affordable => AppLocale.getLabels(
+      context,
+    ).affordabilityAffordable,
+    Affordability.pricey => AppLocale.getLabels(context).affordabilityPricey,
+    Affordability.luxurious => AppLocale.getLabels(
+      context,
+    ).affordabilityLuxurious,
+  };
+
+  ({Color color, Color foreground}) get badgeColors => switch (this) {
+    Affordability.affordable => (
+      color: const Color(0xFFD4EDDA),
+      foreground: const Color(0xFF155724),
+    ),
+    Affordability.pricey => (
+      color: const Color(0xFFFFF3CD),
+      foreground: const Color(0xFF856404),
+    ),
+    Affordability.luxurious => (
+      color: const Color(0xFFF3E5F5),
+      foreground: const Color(0xFF6A1B9A),
+    ),
+  };
 }

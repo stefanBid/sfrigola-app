@@ -79,73 +79,80 @@ class HomeScreen extends StatelessWidget {
                             ref.read(trendingMealsProvider.notifier).loadMore(),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsetsGeometry.symmetric(
-                        vertical: AppDesign.gapSectionLg,
+                    if (easy.isLoading || (easy.value?.isNotEmpty ?? false))
+                      Padding(
+                        padding: const EdgeInsetsGeometry.symmetric(
+                          vertical: AppDesign.gapSectionLg,
+                        ),
+                        child: MealsGroupRow(
+                          title: AppLocale.getLabels(context).homeSectionEasy,
+                          subtitle: AppLocale.getLabels(
+                            context,
+                          ).homeSectionEasySubtitle,
+                          icon: PhosphorIconsBold.lightning,
+                          isLoading: easy.isLoading,
+                          meals: easy.value ?? [],
+                          onLoadMore: () =>
+                              ref.read(easyMealsProvider.notifier).loadMore(),
+                        ),
                       ),
-                      child: MealsGroupRow(
-                        title: AppLocale.getLabels(context).homeSectionEasy,
-                        subtitle: AppLocale.getLabels(
-                          context,
-                        ).homeSectionEasySubtitle,
-                        icon: PhosphorIconsBold.lightning,
-                        isLoading: easy.isLoading,
-                        meals: easy.value ?? [],
-                        onLoadMore: () =>
-                            ref.read(easyMealsProvider.notifier).loadMore(),
+                    if (challenge.isLoading || (challenge.value?.isNotEmpty ?? false))
+                      Padding(
+                        padding: const EdgeInsetsGeometry.symmetric(
+                          vertical: AppDesign.gapSectionLg,
+                        ),
+                        child: MealsGroupRow(
+                          title: AppLocale.getLabels(
+                            context,
+                          ).homeSectionChallenge,
+                          subtitle: AppLocale.getLabels(
+                            context,
+                          ).homeSectionChallengeSubtitle,
+                          icon: PhosphorIconsBold.fire,
+                          isLoading: challenge.isLoading,
+                          meals: challenge.value ?? [],
+                          onLoadMore: () => ref
+                              .read(challengeMealsProvider.notifier)
+                              .loadMore(),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsGeometry.symmetric(
-                        vertical: AppDesign.gapSectionLg,
+                    if (budget.isLoading || (budget.value?.isNotEmpty ?? false))
+                      Padding(
+                        padding: const EdgeInsetsGeometry.symmetric(
+                          vertical: AppDesign.gapSectionLg,
+                        ),
+                        child: MealsGroupRow(
+                          title: AppLocale.getLabels(context).homeSectionBudget,
+                          subtitle: AppLocale.getLabels(
+                            context,
+                          ).homeSectionBudgetSubtitle,
+                          icon: PhosphorIconsBold.piggyBank,
+                          isLoading: budget.isLoading,
+                          meals: budget.value ?? [],
+                          onLoadMore: () =>
+                              ref.read(budgetMealsProvider.notifier).loadMore(),
+                        ),
                       ),
-                      child: MealsGroupRow(
-                        title: AppLocale.getLabels(
-                          context,
-                        ).homeSectionChallenge,
-                        subtitle: AppLocale.getLabels(
-                          context,
-                        ).homeSectionChallengeSubtitle,
-                        icon: PhosphorIconsBold.fire,
-                        isLoading: challenge.isLoading,
-                        meals: challenge.value ?? [],
-                        onLoadMore: () => ref
-                            .read(challengeMealsProvider.notifier)
-                            .loadMore(),
+                    if (premium.isLoading || (premium.value?.isNotEmpty ?? false))
+                      Padding(
+                        padding: const EdgeInsetsGeometry.symmetric(
+                          vertical: AppDesign.gapSectionLg,
+                        ),
+                        child: MealsGroupRow(
+                          title: AppLocale.getLabels(
+                            context,
+                          ).homeSectionPremium,
+                          subtitle: AppLocale.getLabels(
+                            context,
+                          ).homeSectionPremiumSubtitle,
+                          icon: PhosphorIconsBold.star,
+                          isLoading: premium.isLoading,
+                          meals: premium.value ?? [],
+                          onLoadMore: () => ref
+                              .read(premiumMealsProvider.notifier)
+                              .loadMore(),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsGeometry.symmetric(
-                        vertical: AppDesign.gapSectionLg,
-                      ),
-                      child: MealsGroupRow(
-                        title: AppLocale.getLabels(context).homeSectionBudget,
-                        subtitle: AppLocale.getLabels(
-                          context,
-                        ).homeSectionBudgetSubtitle,
-                        icon: PhosphorIconsBold.piggyBank,
-                        isLoading: budget.isLoading,
-                        meals: budget.value ?? [],
-                        onLoadMore: () =>
-                            ref.read(budgetMealsProvider.notifier).loadMore(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsGeometry.symmetric(
-                        vertical: AppDesign.gapSectionLg,
-                      ),
-                      child: MealsGroupRow(
-                        title: AppLocale.getLabels(context).homeSectionPremium,
-                        subtitle: AppLocale.getLabels(
-                          context,
-                        ).homeSectionPremiumSubtitle,
-                        icon: PhosphorIconsBold.star,
-                        isLoading: premium.isLoading,
-                        meals: premium.value ?? [],
-                        onLoadMore: () =>
-                            ref.read(premiumMealsProvider.notifier).loadMore(),
-                      ),
-                    ),
                   ],
                 );
               },

@@ -21,27 +21,29 @@ import 'package:sfrigola/widgets/base_icon_button.dart';
 
 // Screen Widgets
 import 'package:sfrigola/screens/meal-details/widgets/meal_details_skeleton.dart';
+import 'package:sfrigola/screens/meal-details/widgets/meal_details_error.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
   final String mealId;
 
   const MealDetailsScreen({super.key, required this.mealId});
 
-  Widget _buildError(BuildContext context) {
+  Widget _buildStateLayout(BuildContext context, Widget child) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Stack(
       children: [
-        // — Surface background for the top area
+        // — Top muted area
         Positioned(
           top: 0,
           left: 0,
           right: 0,
-          height: MediaQuery.of(context).size.height * 0.35,
-          child: ColoredBox(color: AppColors.of(context).surface),
+          height: screenHeight * 0.35,
+          child: ColoredBox(color: AppColors.of(context).muted),
         ),
 
-        // — Content container
+        // — Slide-up content container
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.35 - 48,
+          top: screenHeight * 0.35 - 48,
           left: 0,
           right: 0,
           bottom: 0,
@@ -51,29 +53,7 @@ class MealDetailsScreen extends ConsumerWidget {
               borderRadius: AppDesign.borderRadiusTopLg,
               color: AppColors.of(context).background,
             ),
-            child: Center(
-              child: Padding(
-                padding: AppDesign.paddingPage,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      PhosphorIconsRegular.warningCircle,
-                      size: 48,
-                      color: AppColors.error,
-                    ),
-                    const SizedBox(height: AppDesign.gapItemSm),
-                    Text(
-                      'Failed to load meal details.',
-                      style: AppTypography.of(
-                        context,
-                      ).body.copyWith(color: AppColors.error),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            child: child,
           ),
         ),
 
@@ -100,13 +80,9 @@ class MealDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mealAsync = ref.watch(mealByIdProvider(mealId));
 
-    if (mealAsync.hasError) {
-      return _buildError(context);
-    }
-
     return switch (mealAsync) {
-      AsyncLoading() => const MealDetailsSkeleton(),
-      AsyncError() => _buildError(context),
+      AsyncLoading() => _buildStateLayout(context, const MealDetailsSkeleton()),
+      AsyncError() => _buildStateLayout(context, const MealDetailsError()),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,
         body: Column(

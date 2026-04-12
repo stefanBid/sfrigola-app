@@ -100,6 +100,10 @@ class MealDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mealAsync = ref.watch(mealByIdProvider(mealId));
 
+    if (mealAsync.hasError) {
+      return _buildError(context);
+    }
+
     return switch (mealAsync) {
       AsyncLoading() => const MealDetailsSkeleton(),
       AsyncError() => _buildError(context),

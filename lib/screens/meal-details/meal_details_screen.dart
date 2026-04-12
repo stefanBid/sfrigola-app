@@ -220,7 +220,19 @@ class MealDetailsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppDesign.gapItemSm),
             for (final ingredient in value.ingredients) ...[
-              Text('• $ingredient', style: AppTypography.of(context).body),
+              Row(
+                children: [
+                  Text(
+                    '•',
+                    style: AppTypography.of(context).body.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: AppDesign.gapInlineSm),
+                  Text(ingredient, style: AppTypography.of(context).body),
+                ],
+              ),
               const SizedBox(height: AppDesign.gapItemXs),
             ],
             const SizedBox(height: AppDesign.gapSectionMd),

@@ -36,9 +36,12 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
   void initState() {
     super.initState();
     _pagingController = PagingController<int, MealPreview>(
-      getNextPageKey: (state) => (state.pages?.last.length ?? 0) < _pageSize
-          ? null
-          : state.nextIntPageKey,
+      getNextPageKey: (state) {
+        if (state.pages == null) return 0;
+        return state.pages!.last.length < _pageSize
+            ? null
+            : state.nextIntPageKey;
+      },
       fetchPage: _fetchPage,
     );
   }
@@ -50,7 +53,9 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
   }
 
   Future<List<MealPreview>> _fetchPage(int pageKey) {
-    return ref.read(trendingMealsProvider.notifier).fetchPage(pageKey);
+    return ref
+        .read(trendingMealsProvider.notifier)
+        .fetchPage(pageKey, pageSize: _pageSize);
   }
 
   @override
@@ -183,59 +188,59 @@ class _TrendingSkeletonRowState extends State<_TrendingSkeletonRow>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _opacity,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: 3,
-        itemBuilder: (context, index) => Padding(
-          padding: AppDesign.paddingHorizontalLg.copyWith(
-            left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
-          ),
-          child: SizedBox(
-            width: 320,
-            height: 280,
-            child: Padding(
-              padding: AppDesign.paddingSm,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: AppColors.of(context).muted,
-                        borderRadius: AppDesign.borderRadiusSm,
+      child: Row(
+        children: List.generate(
+          3,
+          (index) => Padding(
+            padding: AppDesign.paddingHorizontalLg.copyWith(
+              left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
+            ),
+            child: SizedBox(
+              width: 320,
+              height: 280,
+              child: Padding(
+                padding: AppDesign.paddingSm,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.of(context).muted,
+                          borderRadius: AppDesign.borderRadiusSm,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: AppDesign.paddingSm.copyWith(
-                      top: AppDesign.gapItemSm,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 180,
-                          height: 14,
-                          decoration: BoxDecoration(
-                            color: AppColors.of(context).muted,
-                            borderRadius: AppDesign.borderRadiusXXs,
+                    Padding(
+                      padding: AppDesign.paddingSm.copyWith(
+                        top: AppDesign.gapItemSm,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 180,
+                            height: 14,
+                            decoration: BoxDecoration(
+                              color: AppColors.of(context).muted,
+                              borderRadius: AppDesign.borderRadiusXXs,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: AppDesign.gapItemXs),
-                        Container(
-                          width: 120,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: AppColors.of(context).muted,
-                            borderRadius: AppDesign.borderRadiusXXs,
+                          const SizedBox(height: AppDesign.gapItemXs),
+                          Container(
+                            width: 120,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: AppColors.of(context).muted,
+                              borderRadius: AppDesign.borderRadiusXXs,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

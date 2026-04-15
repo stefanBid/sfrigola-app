@@ -6,6 +6,7 @@ class GcListView extends StatelessWidget {
   final Axis scrollDirection;
   final ScrollPhysics physics;
   final EdgeInsetsGeometry? padding;
+  final ScrollController? scrollController;
 
   const GcListView({
     super.key,
@@ -14,11 +15,13 @@ class GcListView extends StatelessWidget {
     this.scrollDirection = Axis.vertical,
     this.physics = const AlwaysScrollableScrollPhysics(),
     this.padding = EdgeInsets.zero,
+    this.scrollController,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      controller: scrollController,
       scrollDirection: scrollDirection,
       physics: physics,
       padding: padding,

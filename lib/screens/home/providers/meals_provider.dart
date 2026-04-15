@@ -23,11 +23,16 @@ class TrendingMeals extends _$TrendingMeals {
         .getTrending(categoryId, take: _pageSize);
   }
 
-  Future<List<MealPreview>> fetchPage(int pageKey, {int pageSize = _pageSize}) {
+  /// Appends the next page to state.
+  /// Returns true if there may be more pages, false when the list is exhausted.
+  Future<bool> loadMore() async {
+    final current = state.value ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
-    return ref
+    final next = await ref
         .read(mealRepositoryProvider)
-        .getTrending(categoryId, skip: pageKey, take: pageSize);
+        .getTrending(categoryId, skip: current.length, take: _pageSize);
+    state = AsyncData([...current, ...next]);
+    return next.length >= _pageSize;
   }
 }
 

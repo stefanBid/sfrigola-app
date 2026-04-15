@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
@@ -22,6 +22,9 @@ import 'package:sfrigola/screens/home/widgets/categories_group_row.dart';
 // State Views
 import 'package:sfrigola/screens/home/widgets/state-view/error_view.dart';
 import 'package:sfrigola/screens/home/widgets/state-view/no_data_view.dart';
+
+// Page Sections
+import 'package:sfrigola/screens/home/widgets/sections/trending_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -57,13 +60,12 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: Consumer(
               builder: (context, ref, _) {
-                final trending = ref.watch(trendingMealsProvider);
                 final easy = ref.watch(easyMealsProvider);
                 final challenge = ref.watch(challengeMealsProvider);
                 final budget = ref.watch(budgetMealsProvider);
                 final premium = ref.watch(premiumMealsProvider);
 
-                final providers = [trending, easy, challenge, budget, premium];
+                final providers = [easy, challenge, budget, premium];
 
                 final isAnyLoading = providers.any((s) => s.isLoading);
                 final hasErrors = providers.any((s) => s.hasError);
@@ -81,26 +83,8 @@ class HomeScreen extends StatelessWidget {
                   _ => ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      Padding(
-                        padding: const EdgeInsetsGeometry.symmetric(
-                          vertical: AppDesign.gapSectionLg,
-                        ),
-                        child: MealsGroupRow(
-                          title: AppLocale.getLabels(
-                            context,
-                          ).homeSectionTrending,
-                          subtitle: AppLocale.getLabels(
-                            context,
-                          ).homeSectionTrendingSubtitle,
-                          icon: PhosphorIconsBold.trendUp,
-                          isViral: true,
-                          isLoading: trending.isLoading,
-                          meals: trending.value ?? [],
-                          onLoadMore: () => ref
-                              .read(trendingMealsProvider.notifier)
-                              .loadMore(),
-                        ),
-                      ),
+                      const TrendingSection(),
+
                       if (easy.isLoading || (easy.value?.isNotEmpty ?? false))
                         Padding(
                           padding: const EdgeInsetsGeometry.symmetric(

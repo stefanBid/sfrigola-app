@@ -23,13 +23,11 @@ class TrendingMeals extends _$TrendingMeals {
         .getTrending(categoryId, take: _pageSize);
   }
 
-  Future<void> loadMore() async {
-    final current = state.value ?? [];
+  Future<List<MealPreview>> fetchPage(int pageKey, {int pageSize = _pageSize}) {
     final categoryId = ref.read(selectedCategoryIdProvider);
-    final next = await ref
+    return ref
         .read(mealRepositoryProvider)
-        .getTrending(categoryId, skip: current.length, take: _pageSize);
-    state = AsyncData([...current, ...next]);
+        .getTrending(categoryId, skip: pageKey, take: pageSize);
   }
 }
 
@@ -40,7 +38,9 @@ class EasyMeals extends _$EasyMeals {
   @override
   Future<List<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    return ref.watch(mealRepositoryProvider).getEasy(categoryId, take: _pageSize);
+    return ref
+        .watch(mealRepositoryProvider)
+        .getEasy(categoryId, take: _pageSize);
   }
 
   Future<void> loadMore() async {
@@ -60,7 +60,9 @@ class ChallengeMeals extends _$ChallengeMeals {
   @override
   Future<List<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    return ref.watch(mealRepositoryProvider).getChallenge(categoryId, take: _pageSize);
+    return ref
+        .watch(mealRepositoryProvider)
+        .getChallenge(categoryId, take: _pageSize);
   }
 
   Future<void> loadMore() async {
@@ -80,7 +82,9 @@ class BudgetMeals extends _$BudgetMeals {
   @override
   Future<List<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    return ref.watch(mealRepositoryProvider).getBudget(categoryId, take: _pageSize);
+    return ref
+        .watch(mealRepositoryProvider)
+        .getBudget(categoryId, take: _pageSize);
   }
 
   Future<void> loadMore() async {
@@ -100,7 +104,9 @@ class PremiumMeals extends _$PremiumMeals {
   @override
   Future<List<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    return ref.watch(mealRepositoryProvider).getPremium(categoryId, take: _pageSize);
+    return ref
+        .watch(mealRepositoryProvider)
+        .getPremium(categoryId, take: _pageSize);
   }
 
   Future<void> loadMore() async {

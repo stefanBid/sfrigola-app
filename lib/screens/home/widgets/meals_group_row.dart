@@ -10,7 +10,7 @@ import 'package:sfrigola/helpers/app_design.dart';
 import 'package:sfrigola/helpers/app_typography.dart';
 
 // Project Widgets
-import 'package:sfrigola/screens/home/widgets/viral_meal_card.dart';
+import 'package:sfrigola/screens/home/widgets/sections/viral_meal_card.dart';
 
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 import 'package:sfrigola/widgets/base_card.dart';

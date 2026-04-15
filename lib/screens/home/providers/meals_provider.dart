@@ -48,13 +48,14 @@ class EasyMeals extends _$EasyMeals {
         .getEasy(categoryId, take: _pageSize);
   }
 
-  Future<void> loadMore() async {
+  Future<bool> loadMore() async {
     final current = state.value ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
     final next = await ref
         .read(mealRepositoryProvider)
         .getEasy(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData([...current, ...next]);
+    return next.length >= _pageSize;
   }
 }
 
@@ -70,13 +71,14 @@ class ChallengeMeals extends _$ChallengeMeals {
         .getChallenge(categoryId, take: _pageSize);
   }
 
-  Future<void> loadMore() async {
+  Future<bool> loadMore() async {
     final current = state.value ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
     final next = await ref
         .read(mealRepositoryProvider)
         .getChallenge(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData([...current, ...next]);
+    return next.length >= _pageSize;
   }
 }
 
@@ -92,13 +94,14 @@ class BudgetMeals extends _$BudgetMeals {
         .getBudget(categoryId, take: _pageSize);
   }
 
-  Future<void> loadMore() async {
+  Future<bool> loadMore() async {
     final current = state.value ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
     final next = await ref
         .read(mealRepositoryProvider)
         .getBudget(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData([...current, ...next]);
+    return next.length >= _pageSize;
   }
 }
 
@@ -114,12 +117,13 @@ class PremiumMeals extends _$PremiumMeals {
         .getPremium(categoryId, take: _pageSize);
   }
 
-  Future<void> loadMore() async {
+  Future<bool> loadMore() async {
     final current = state.value ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
     final next = await ref
         .read(mealRepositoryProvider)
         .getPremium(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData([...current, ...next]);
+    return next.length >= _pageSize;
   }
 }

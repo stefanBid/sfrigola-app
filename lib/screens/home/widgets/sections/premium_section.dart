@@ -22,41 +22,61 @@ import 'package:sfrigola/widgets/base_button.dart';
 import 'package:sfrigola/widgets/base_card.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
 
-class PremiumSection extends ConsumerWidget {
+class PremiumSection extends ConsumerStatefulWidget {
   const PremiumSection({super.key});
 
-  // ─── Section shell ──────────────────────────────────────────────────────────
+  @override
+  ConsumerState<PremiumSection> createState() => _PremiumSectionState();
+}
 
-  static Widget _buildSection(
-    BuildContext context, {
-    required Widget header,
-    required Widget content,
-    double groupHeight = 220.0,
-  }) {
-    const double titleSectionHeight =
-        22 + AppDesign.gapSectionXs + AppDesign.gapInlineXs + 20.0;
+class _PremiumSectionState extends ConsumerState<PremiumSection> {
+  static const int _pageSize = 10;
+  static const double _scrollThreshold = 300.0;
 
-    return Padding(
-      padding: const EdgeInsetsGeometry.symmetric(
-        vertical: AppDesign.gapSectionLg,
-      ),
-      child: SizedBox(
-        height: groupHeight + titleSectionHeight,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(padding: AppDesign.paddingHorizontalLg, child: header),
-            const SizedBox(height: AppDesign.gapSectionXs),
-            Expanded(child: content),
-          ],
-        ),
-      ),
-    );
+  late final ScrollController _scrollController;
+  bool _isLoadingMore = false;
+  bool _hasMore = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_hasMore || _isLoadingMore) return;
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - _scrollThreshold) {
+      _loadMore();
+    }
+  }
+
+  Future<void> _loadMore() async {
+    if (_isLoadingMore || !_hasMore) return;
+    setState(() => _isLoadingMore = true);
+    try {
+      final hasMore = await ref.read(premiumMealsProvider.notifier).loadMore();
+      if (mounted) {
+        setState(() {
+          _isLoadingMore = false;
+          _hasMore = hasMore;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _isLoadingMore = false);
+    }
   }
 
   // ─── Header ─────────────────────────────────────────────────────────────────
 
-  static Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -83,17 +103,50 @@ class PremiumSection extends ConsumerWidget {
     );
   }
 
-  // ─── List ───────────────────────────────────────────────────────────────────
+  // ─── Section shell ────────────────────────────────────────────────────────────
 
-  static Widget _buildList(
-    BuildContext context,
-    WidgetRef ref,
-    List<MealPreview> items,
-  ) {
+  Widget _buildSection(
+    BuildContext context, {
+    required Widget header,
+    required Widget content,
+    double groupHeight = 220.0,
+  }) {
+    const double titleSectionHeight =
+        22 + AppDesign.gapSectionXs + AppDesign.gapInlineXs + 20.0;
+
+    return Padding(
+      padding: const EdgeInsetsGeometry.symmetric(
+        vertical: AppDesign.gapSectionLg,
+      ),
+      child: SizedBox(
+        height: groupHeight + titleSectionHeight,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(padding: AppDesign.paddingHorizontalLg, child: header),
+            const SizedBox(height: AppDesign.gapSectionXs),
+            Expanded(child: content),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ─── List ─────────────────────────────────────────────────────────────────────
+
+  Widget _buildList(BuildContext context, List<MealPreview> items) {
+    final itemCount = items.length + (_isLoadingMore ? 1 : 0);
     return GcListView(
+      scrollController: _scrollController,
       scrollDirection: Axis.horizontal,
-      itemCount: items.length,
+      itemCount: itemCount,
       itemBuilder: (context, index) {
+        if (_isLoadingMore && index == items.length) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppDesign.gapItemMd),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
         final meal = items[index];
         return BaseCard(
           key: ValueKey(meal.id),
@@ -116,11 +169,26 @@ class PremiumSection extends ConsumerWidget {
     );
   }
 
-  // ─── Build ──────────────────────────────────────────────────────────────────
+  // ─── Build ────────────────────────────────────────────────────────────────────
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final meals = ref.watch(premiumMealsProvider);
+
+    ref.listen<AsyncValue<List<MealPreview>>>(premiumMealsProvider, (
+      prev,
+      current,
+    ) {
+      if ((prev == null || prev.isLoading) && current.hasValue && mounted) {
+        setState(() {
+          _isLoadingMore = false;
+          _hasMore = (current.value?.length ?? 0) >= _pageSize;
+        });
+        if (_scrollController.hasClients) {
+          _scrollController.jumpTo(0);
+        }
+      }
+    });
 
     return meals.when(
       loading: () => _buildSection(
@@ -146,7 +214,7 @@ class PremiumSection extends ConsumerWidget {
         return _buildSection(
           context,
           header: _buildHeader(context),
-          content: _buildList(context, ref, items),
+          content: _buildList(context, items),
         );
       },
     );

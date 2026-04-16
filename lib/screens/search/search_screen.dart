@@ -5,6 +5,7 @@ import 'package:sfrigola/helpers/app_design.dart';
 import 'package:sfrigola/helpers/app_locale.dart';
 import 'package:sfrigola/helpers/app_typography.dart';
 import 'package:sfrigola/helpers/app_colors.dart';
+import 'package:sfrigola/helpers/app_router.dart';
 
 // Project Layouts
 import 'package:sfrigola/layouts/app_bars/classic_app_bar.dart';
@@ -22,7 +23,10 @@ class SearchScreen extends StatelessWidget {
       appBar: ClassicAppBar(
         leading: const Icon(Icons.search),
         title: AppLocale.getLabels(context).homeTitle,
-        bottomContent: const GeneralSearchBox(),
+        bottomContent: GeneralSearchBox(
+          onBlurEmpty: () => AppRouter.goBack(context),
+          onChanged: (_) => print('searching...'),
+        ),
       ),
       body: Center(
         child: Text(

@@ -13,6 +13,8 @@ class BaseInput extends StatelessWidget {
   final Widget? suffixIcon;
   final ValueChanged<String>? onChanged;
   final bool readOnly;
+  final bool autofocus;
+  final FocusNode? focusNode;
   final VoidCallback? onTap;
 
   const BaseInput({
@@ -24,6 +26,8 @@ class BaseInput extends StatelessWidget {
     this.suffixIcon,
     this.onChanged,
     this.readOnly = false,
+    this.autofocus = false,
+    this.focusNode,
     this.onTap,
   }) : assert(
          readOnly || controller != null,
@@ -38,9 +42,10 @@ class BaseInput extends StatelessWidget {
     );
     return TextField(
       controller: controller,
+      focusNode: focusNode,
       readOnly: readOnly,
-      canRequestFocus: !readOnly,
-      showCursor: !readOnly,
+      autofocus: autofocus,
+      showCursor: readOnly ? false : null,
       onTap: onTap,
       onChanged: readOnly ? null : onChanged,
       style: AppTypography.of(context).body,

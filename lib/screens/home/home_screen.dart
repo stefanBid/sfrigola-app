@@ -5,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/helpers/app_design.dart';
 import 'package:sfrigola/helpers/app_locale.dart';
+import 'package:sfrigola/helpers/app_router.dart';
 import 'package:sfrigola/helpers/app_typography.dart';
 import 'package:sfrigola/helpers/app_colors.dart';
 
@@ -37,7 +38,11 @@ class HomeScreen extends StatelessWidget {
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsBold.chefHat),
         title: AppLocale.getLabels(context).homeTitle,
-        bottomContent: FakeSearchBox(onTap: () {}),
+        bottomContent: FakeSearchBox(
+          onTap: () {
+            AppRouter.goDeep(context, AppRouter.search);
+          },
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

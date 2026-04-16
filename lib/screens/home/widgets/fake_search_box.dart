@@ -3,9 +3,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/helpers/app_colors.dart';
-import 'package:sfrigola/helpers/app_design.dart';
 import 'package:sfrigola/helpers/app_locale.dart';
-import 'package:sfrigola/helpers/app_typography.dart';
+
+// Project Widgets
+import 'package:sfrigola/widgets/base_input.dart';
 
 class FakeSearchBox extends StatelessWidget {
   final VoidCallback onTap;
@@ -14,29 +15,14 @@ class FakeSearchBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return BaseInput(
+      readOnly: true,
       onTap: onTap,
-      child: Container(
-        padding: AppDesign.paddingInput,
-        decoration: BoxDecoration(
-          color: AppColors.of(context).background,
-          borderRadius: AppDesign.borderRadiusXs,
-          border: Border.all(color: AppColors.of(context).surface, width: 1.5),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              PhosphorIconsRegular.magnifyingGlass,
-              size: 20,
-              color: AppColors.of(context).muted,
-            ),
-            const SizedBox(width: AppDesign.gapInlineMd),
-            Text(
-              AppLocale.getLabels(context).homeSearchHint,
-              style: AppTypography.of(context).body,
-            ),
-          ],
-        ),
+      hint: AppLocale.getLabels(context).homeSearchHint,
+      prefixIcon: Icon(
+        PhosphorIconsRegular.magnifyingGlass,
+        size: 20,
+        color: AppColors.of(context).muted,
       ),
     );
   }

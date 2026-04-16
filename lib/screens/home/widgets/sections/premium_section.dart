@@ -18,6 +18,7 @@ import 'package:sfrigola/screens/home/providers/meals_provider.dart';
 // Project Widgets
 import 'package:sfrigola/screens/home/widgets/skeletons/skeleton_card_row.dart';
 import 'package:sfrigola/screens/home/widgets/skeletons/skeleton_header.dart';
+import 'package:sfrigola/screens/home/widgets/skeletons/skeleton_card.dart';
 import 'package:sfrigola/widgets/base_button.dart';
 import 'package:sfrigola/widgets/base_card.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
@@ -142,10 +143,7 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
       itemCount: itemCount,
       itemBuilder: (context, index) {
         if (_isLoadingMore && index == items.length) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppDesign.gapItemMd),
-            child: Center(child: CircularProgressIndicator()),
-          );
+          return const SkeletonCard();
         }
         final meal = items[index];
         return BaseCard(

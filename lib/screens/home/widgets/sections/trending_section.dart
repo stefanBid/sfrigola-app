@@ -17,10 +17,11 @@ import 'package:sfrigola/screens/home/providers/meals_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/screens/home/widgets/skeletons/skeleton_header.dart';
+import 'package:sfrigola/screens/home/widgets/skeletons/skeleton_viral_card.dart';
 import 'package:sfrigola/screens/home/widgets/skeletons/skeleton_viral_row.dart';
 import 'package:sfrigola/widgets/base_button.dart';
 import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
-import 'package:sfrigola/screens/home/widgets/sections/viral_meal_card.dart';
+import 'package:sfrigola/screens/home/widgets/viral_meal_card.dart';
 
 class TrendingSection extends ConsumerStatefulWidget {
   const TrendingSection({super.key});
@@ -141,10 +142,7 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
       scrollController: _scrollController,
       itemBuilder: (context, index) {
         if (_isLoadingMore && index == items.length) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppDesign.gapItemMd),
-            child: Center(child: CircularProgressIndicator()),
-          );
+          return const SkeletonViralCard();
         }
         return _buildMealCard(context, items[index], index);
       },

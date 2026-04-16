@@ -4,19 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:sfrigola/helpers/app_colors.dart';
 import 'package:sfrigola/helpers/app_design.dart';
 
-// Project Widgets
-import 'package:sfrigola/widgets/group-container/gc_list_view.dart';
-
-/// Animated skeleton row for viral (wide) meal cards — horizontal scroll.
-class SkeletonViralRow extends StatefulWidget {
-  final int itemCount;
-  const SkeletonViralRow({super.key, this.itemCount = 3});
+/// Animated skeleton for a single standard (square) meal card — 220×220.
+/// Use as the last item of a horizontal infinite scroll list.
+class SkeletonCard extends StatefulWidget {
+  const SkeletonCard({super.key});
 
   @override
-  State<SkeletonViralRow> createState() => _SkeletonViralRowState();
+  State<SkeletonCard> createState() => _SkeletonCardState();
 }
 
-class _SkeletonViralRowState extends State<SkeletonViralRow>
+class _SkeletonCardState extends State<SkeletonCard>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _opacity;
@@ -40,15 +37,19 @@ class _SkeletonViralRowState extends State<SkeletonViralRow>
     super.dispose();
   }
 
-  Widget _buildCard(BuildContext context, int index) {
-    return Padding(
-      padding: AppDesign.paddingHorizontalLg.copyWith(
-        left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
-      ),
-      child: SizedBox(
-        width: 320,
-        height: 280,
-        child: Padding(
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: Padding(
+        padding: AppDesign.paddingHorizontalLg.copyWith(left: 0),
+        child: Container(
+          width: 220,
+          height: 220,
+          decoration: BoxDecoration(
+            color: AppColors.of(context).surface,
+            borderRadius: AppDesign.borderRadiusMd,
+          ),
           padding: AppDesign.paddingSm,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,7 @@ class _SkeletonViralRowState extends State<SkeletonViralRow>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 180,
+                      width: 130,
                       height: 14,
                       decoration: BoxDecoration(
                         color: AppColors.of(context).muted,
@@ -77,7 +78,7 @@ class _SkeletonViralRowState extends State<SkeletonViralRow>
                     ),
                     const SizedBox(height: AppDesign.gapItemXs),
                     Container(
-                      width: 120,
+                      width: 90,
                       height: 10,
                       decoration: BoxDecoration(
                         color: AppColors.of(context).muted,
@@ -90,19 +91,6 @@ class _SkeletonViralRowState extends State<SkeletonViralRow>
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _opacity,
-      child: GcListView(
-        scrollDirection: Axis.horizontal,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: widget.itemCount,
-        itemBuilder: _buildCard,
       ),
     );
   }

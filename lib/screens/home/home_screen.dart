@@ -37,11 +37,7 @@ class HomeScreen extends StatelessWidget {
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsBold.chefHat),
         title: AppLocale.getLabels(context).homeTitle,
-        bottomContent: FakeSearchBox(
-          onTap: () {
-            print('Fake search box tapped');
-          },
-        ),
+        bottomContent: FakeSearchBox(onTap: () {}),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

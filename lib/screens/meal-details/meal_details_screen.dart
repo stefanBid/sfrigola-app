@@ -137,9 +137,9 @@ class MealDetailsScreen extends ConsumerWidget {
                 BaseBadge(
                   label: '${value.duration} min',
                   icon: PhosphorIconsRegular.clock,
-                  style: BadgeStyle(
-                    color: const Color(0xFFB3E5FC),
-                    foregroundColor: const Color(0xFF0277BD),
+                  style: const BadgeStyle(
+                    color: Color(0xFFB3E5FC),
+                    foregroundColor: Color(0xFF0277BD),
                   ),
                 ),
                 BaseBadge(

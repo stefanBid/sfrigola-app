@@ -196,7 +196,7 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
         header: const SkeletonHeader(),
         content: const SkeletonCardRow(),
       ),
-      error: (_, __) => _buildSection(
+      error: (_, _) => _buildSection(
         context,
         groupHeight: 120.0,
         header: _buildHeader(context),

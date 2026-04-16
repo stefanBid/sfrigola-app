@@ -32,6 +32,9 @@ jobs:
       - name: Pub get
         run: flutter pub get
 
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
       - name: Dart fix (check)
         run: dart fix --dry-run
 
@@ -57,6 +60,9 @@ jobs:
 
       - name: Pub get
         run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Build APK (debug)
         id: build
@@ -88,6 +94,9 @@ jobs:
 
       - name: Pub get
         run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Build iOS (no codesign)
         id: build

@@ -20,7 +20,8 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 - **phosphor_flutter** for icons
 - **google_fonts** (Lato) for typography
 - **transparent_image** for network images with fade
-- **provider / riverpod** for state management (to be evaluated for future features)
+- **hooks_riverpod** + **flutter_hooks** + **riverpod_annotation** for state management
+- **Dio** for HTTP client (future — not yet installed)
 
 ---
 
@@ -33,6 +34,8 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 | `screens.instructions.md` | `**/screens/**` | Screen structure, layouts, app bars, code organisation rules |
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules, BaseCard/BaseFormField/BaseButton/GcListView API |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
+| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, mock rules, naming, DI pattern |
+| `state-management.instructions.md` | `**/providers/**,**/screens/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, `keepAlive`, family, naming, checklist |
 
 > **Keep instructions in sync**: every time a new widget, helper, or token is added — or an existing one is changed — update the corresponding instruction file immediately. These files are the source of truth for code generation context.
 
@@ -41,15 +44,55 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 ## Project structure
 
 ```
-lib/
-  main.dart
-  router.dart
-  helpers/        ← design system tokens and utilities
-  layouts/        ← reusable page layouts
-  models/         ← data models
-  screens/        ← screens organised by feature
-  services/       ← business logic and API
-  widgets/        ← reusable UI components
+sfrigola-app/
+  pubspec.yaml            ← dependencies, version, flutter config (generate: true)
+  pubspec.lock            ← locked dependency versions (do not edit manually)
+  l10n.yaml               ← flutter gen-l10n configuration (ARB dir, template, output)
+  analysis_options.yaml   ← Dart linter rules
+  CHANGELOG.md            ← Keep a Changelog format, managed with cider
+  README.md               ← project documentation
+  .gitignore
+  assets/                 ← static assets (images, icons, fonts)
+  android/                ← Android platform project
+  ios/                    ← iOS platform project
+  .github/
+    copilot-instructions.md          ← global Copilot rules (this file)
+    instructions/                    ← scoped instruction files (loaded per file type)
+      design-system.instructions.md
+      helpers.instructions.md
+      repository.instructions.md
+      routing.instructions.md
+      screens.instructions.md
+      widgets.instructions.md
+    prompts/                         ← reusable Agent-mode workflows
+      init-project.prompt.md
+      localize.prompt.md
+      update-docs.prompt.md
+      check-dependencies.prompt.md
+      check-lint.prompt.md
+      bump-version.prompt.md
+  lib/
+    main.dart             ← app entry point (MaterialApp.router + AppLocale + AppTheme)
+    router.dart           ← GoRouter instance (appRouter) with all route registrations
+    helpers/              ← design system tokens and utilities
+    l10n/                 ← ARB translation files + generated localizations
+    layouts/              ← reusable page layouts
+    models/               ← data models
+      category.dart
+      json_serializable.dart
+      meal.dart
+      repository_filter.dart   ← base RepositoryFilter (skip/take)
+    providers/            ← Riverpod providers (to be created)
+    repositories/         ← repository layer
+      meal/
+        meal_repository_model.dart
+        meal_repository.dart
+        meal_repository_impl.dart
+      favorites/
+        favorites_repository.dart
+        favorites_repository_impl.dart
+    screens/              ← screens organised by feature
+    widgets/              ← reusable UI components
 ```
 
 ---
@@ -71,31 +114,33 @@ lib/
 ## Global code conventions
 
 - All hardcoded strings and code comments must be in **English**
-- Imports must be grouped by origin, each group preceded by a comment, with a blank line between groups. Always use relative paths. Order:
+- Imports must be grouped by origin, each group preceded by a comment, with a blank line between groups. Always use absolute `package:sfrigola/` paths for project-internal files. Order:
   ```dart
   import 'package:flutter/material.dart';
   import 'package:phosphor_flutter/phosphor_flutter.dart';
   // ... other third-party packages
 
   // Project Helpers
-  import '../../helpers/app_colors.dart';
+  import 'package:sfrigola/helpers/app_colors.dart';
 
   // Project Layouts
-  import '../../layouts/body/standard_page_layout.dart';
+  import 'package:sfrigola/layouts/body/standard_page_layout.dart';
 
   // Project Models
-  import '../../models/recipe.dart';
+  import 'package:sfrigola/models/recipe.dart';
 
   // Project Screens (if needed)
-  import '../recipe-detail/recipe_detail_screen.dart';
+  import 'package:sfrigola/screens/recipe-detail/recipe_detail_screen.dart';
 
-  // Project Services
-  import '../../services/recipe_service.dart';
+  // Project Repositories
+  import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
+  import 'package:sfrigola/repositories/meal/meal_repository.dart';
+  import 'package:sfrigola/repositories/favorites/favorites_repository.dart';
 
   // Project Widgets
-  import '../../widgets/base_button.dart';
+  import 'package:sfrigola/widgets/base_button.dart';
   ```
-  Omit groups that are not needed. Never use absolute `package:` paths for project-internal files.
+  Omit groups that are not needed. Never use relative paths for project-internal files.
 - `const` wherever possible to optimise rebuilds. A constructor call **must** be `const` when: (1) the widget has a `const` constructor, and (2) all arguments are compile-time values (string/number literals, `static const` tokens, other `const` constructors). When the parent is already `const`, children drop the keyword — move `const` to the outermost eligible ancestor instead
 - `StatelessWidget` preferred where there is no local state
 - Never use hardcoded colours, font sizes, spacing or border radius — always use design system helpers
@@ -128,5 +173,6 @@ If no file is open in the editor and the request is ambiguous (it is not clear w
 | Screen / page | `screens.instructions.md` |
 | Widget (reusable component) | `widgets.instructions.md` |
 | Helper / validator | `helpers.instructions.md` |
+| Repository / data layer | `repository.instructions.md` |
 
 Read the relevant file with `read_file` before answering. Skip the question if the request clearly mentions an area (e.g. "new screen", "add a route", "a validator").

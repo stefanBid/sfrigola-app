@@ -29,10 +29,12 @@
 7. [Screens](#7-screens)
 8. [Widgets](#8-widgets)
 9. [Helpers & Validators](#9-helpers--validators)
-10. [AI Tooling — Prompts & Instructions](#10-ai-tooling--prompts--instructions)
-11. [Deployment](#11-deployment)
-12. [Versioning & Git Tags](#12-versioning--git-tags)
-13. [Dependencies](#13-dependencies)
+10. [Repository & Data Layer](#10-repository--data-layer)
+11. [Scripts](#11-scripts)
+12. [AI Tooling — Prompts & Instructions](#12-ai-tooling--prompts--instructions)
+13. [Deployment](#13-deployment)
+14. [Versioning & Git Tags](#14-versioning--git-tags)
+15. [Dependencies](#15-dependencies)
 
 ---
 
@@ -79,10 +81,11 @@ rm -rf .git && git init
 
 After cloning, run the `init-project` prompt in Copilot Agent mode (see [AI Tooling](#10-ai-tooling--prompts--instructions)) to rename the project, update all config files, and reset the version to `1.0.0+1`.
 
-Then install dependencies and run the app:
+Then install dependencies, generate the code and run the app:
 
 ```bash
 flutter pub get
+dart run build_runner build -d
 flutter run
 ```
 
@@ -96,6 +99,10 @@ flutter run
 | `flutter build ipa --release` | Build iOS IPA |
 | `flutter build appbundle --release` | Build Android App Bundle |
 | `flutter analyze` | Analyse code for issues |
+| `dart run build_runner build -d` | Run code generation once (required after cloning, and after adding/changing a `@riverpod` provider) |
+| `dart run build_runner watch -d` | Run code generation in watch mode during active development |
+
+> **Note on generated files**: `*.g.dart` files are **not committed**. Always run `build_runner build -d` after cloning or pulling changes that add/modify `@riverpod` providers, or the app will not compile.
 | `cider bump patch` | Bump patch version (1.0.0 → 1.0.1) |
 | `cider bump minor` | Bump minor version (1.0.0 → 1.1.0) |
 | `cider bump major` | Bump major version (1.0.0 → 2.0.0) |
@@ -105,55 +112,94 @@ flutter run
 
 ## 3. Project Structure
 
-This section shows the annotated directory tree of `lib/`. The project follows a feature-agnostic structure where each top-level folder has a single responsibility.
+This section shows the full annotated directory tree of the project. Each top-level folder has a single responsibility.
 
 ```
-lib/
-├── main.dart                        # App entry point
-├── router.dart                      # GoRouter configuration (appRouter instance)
-│
-├── helpers/                         # Design system tokens and utilities
-│   ├── app_colors.dart              # Adaptive colour palette
-│   ├── app_design.dart              # Spacing, border radius, padding tokens
-│   ├── app_router.dart              # Type-safe navigation layer (AppRouter)
-│   ├── app_theme.dart               # ThemeData configuration
-│   ├── app_typography.dart          # Text style scale
-│   ├── app_validation.dart          # Static form validators
-│   └── app_logger.dart              # Debug-only logger (stripped in release)
-│
-├── layouts/                         # Reusable page-level layout scaffolds
-│   ├── app_layout.dart              # Shell with bottom navigation bar
-│   ├── app_bars/
-│   │   ├── classic_app_bar.dart     # Gradient app bar with title and actions
-│   │   └── transparent_app_bar.dart # Transparent overlay app bar
-│   └── body/
-│       ├── standard_page_layout.dart # Column layout: app bar + scrollable body
-│       └── hero_page_layout.dart    # Full-bleed hero image + slide-up card body
-│
-├── models/                          # Data models
-│   └── json_serializable.dart       # Base JSON serialization helpers
-│
-├── screens/                         # Feature screens
-│   ├── home/                        # Home screen (bottom nav tab)
-│   ├── form/                        # Form screen (bottom nav tab)
-│   ├── profile/                     # Profile screen (bottom nav tab)
-│   └── details/                     # Detail screen (pushed with path parameter)
-│
-├── services/                        # Business logic and API services
-│
-└── widgets/                         # Reusable UI components
-    ├── base_badge.dart              # Status badge
-    ├── base_button.dart             # Primary action button
-    ├── base_card.dart               # Image + text card
-    ├── base_form_field.dart         # Form-integrated text field
-    ├── base_icon_button.dart        # Icon-only button
-    ├── base_image_container.dart    # Network / asset image with fade
-    ├── base_input.dart              # Standalone text input
-    ├── base_scaffold_messenger.dart # Themed SnackBar utility
-    ├── base_value_card.dart         # Metric display card (value + label)
-    └── group-container/
-        ├── gc_list_view.dart        # Null-safe ListView.builder wrapper
-        └── gc_grid_view.dart        # GridView.count wrapper with dimensions
+sfrigola-app/
+  pubspec.yaml            ← dependencies, version, flutter config (generate: true)
+  pubspec.lock            ← locked dependency versions (do not edit manually)
+  l10n.yaml               ← flutter gen-l10n configuration (ARB dir, template, output)
+  analysis_options.yaml   ← Dart linter rules
+  CHANGELOG.md            ← Keep a Changelog format, managed with cider
+  README.md               ← project documentation
+  .gitignore
+  assets/                 ← static assets (images, icons, fonts)
+  android/                ← Android platform project
+  ios/                    ← iOS platform project
+  .github/
+    copilot-instructions.md          ← global Copilot rules
+    instructions/                    ← scoped instruction files (loaded per file type)
+      design-system.instructions.md
+      helpers.instructions.md
+      routing.instructions.md
+      screens.instructions.md
+      widgets.instructions.md
+    prompts/                         ← reusable Agent-mode workflows
+      init-project.prompt.md
+      localize.prompt.md
+      update-docs.prompt.md
+      check-dependencies.prompt.md
+      check-lint.prompt.md
+      bump-version.prompt.md
+  lib/
+    main.dart             ← app entry point (MaterialApp.router + AppLocale + AppTheme)
+    router.dart           ← GoRouter instance (appRouter) with all route registrations
+    helpers/              ← design system tokens and utilities
+      app_colors.dart     ← adaptive colour palette
+      app_design.dart     ← spacing, border radius, padding tokens
+      app_locale.dart     ← localisation config and labels shorthand (AppLocale)
+      app_router.dart     ← type-safe navigation layer (AppRouter)
+      app_theme.dart      ← ThemeData configuration
+      app_typography.dart ← text style scale
+      app_validation.dart ← static form validators
+      app_logger.dart     ← debug-only logger (stripped in release)
+    l10n/                 ← localisation
+      app_it.arb          ← Italian strings (template / only locale)
+      app_localizations.dart     ← generated — do not edit manually
+      app_localizations_it.dart  ← generated — do not edit manually
+    layouts/              ← reusable page-level layout scaffolds
+      app_layout.dart     ← shell with bottom navigation bar
+      app_bars/
+        classic_app_bar.dart     ← gradient app bar with title and actions
+        transparent_app_bar.dart ← transparent overlay app bar
+      body/
+        standard_page_layout.dart ← column layout: app bar + scrollable body
+        hero_page_layout.dart     ← full-bleed hero image + slide-up card body
+    data/                 ← static datasets and seed data
+      dummy_data.dart     ← auto-generated — run scripts/generate_dummy_data.py to refresh
+    models/               ← data models
+      json_serializable.dart   ← base interface: toJson()
+      category.dart            ← Category model + CategoryColor enum
+      meal.dart                ← Meal model + Complexity/Affordability enums
+      repository_filter.dart   ← RepositoryFilter base (skip/take pagination)
+    providers/            ← Riverpod providers (repository_providers.dart + feature providers)
+    repositories/         ← repository layer (single point of contact with any data source)
+      meal/
+        meal_repository_model.dart  ← MealFilter + MealNotFoundException
+        meal_repository.dart        ← abstract interface
+        meal_repository_impl.dart   ← concrete implementation (dummy data → Dio)
+      favorites/
+        favorites_repository.dart        ← abstract interface
+        favorites_repository_impl.dart   ← concrete implementation
+    screens/              ← feature screens organised by folder
+      home/               ← home screen (bottom nav tab)
+      form/               ← form screen (bottom nav tab)
+      profile/            ← profile screen (bottom nav tab)
+      details/            ← detail screen (pushed with path parameter)
+    widgets/              ← reusable UI components
+      base_badge.dart              ← status badge
+      base_button.dart             ← primary action button
+      base_card.dart               ← image + text card
+      base_form_field.dart         ← form-integrated text field
+      base_icon_button.dart        ← icon-only button
+      base_image_container.dart    ← network / asset image with fade
+      base_input.dart              ← standalone text input
+      base_box.dart               ← tappable surface container with ripple
+      base_scaffold_messenger.dart ← themed SnackBar utility
+      base_value_card.dart         ← metric display card (value + label)
+      group-container/
+        gc_list_view.dart ← null-safe ListView.builder wrapper
+        gc_grid_view.dart ← GridView.count wrapper with dimensions
 ```
 
 ---
@@ -399,6 +445,45 @@ Screens live in `lib/screens/`, organised by feature folder. Each folder should 
 
 All reusable widgets live in `lib/widgets/`. Widget names must describe **what the widget is**, not where it is used. All widgets use the design system tokens — never hardcoded values.
 
+### `BaseBox`
+
+Generic tappable container with surface background, border radius and ripple effect. Use it as a building block for clickable cards, rows, and any pressable surface that doesn't need an image.
+
+| Prop | Type | Description |
+|---|---|---|
+| `child` | `Widget` | Required. Content inside the box. |
+| `settings` | `BoxSettings` | Visual configuration. Defaults to `BoxSettings()`. |
+| `onTap` | `VoidCallback?` | Tap handler. `null` → not tappable. |
+
+**`BoxSettings` props:**
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `color` | `Color?` | `AppColors.of(context).surface` | Background colour. `null` uses the surface token. |
+| `borderRadius` | `BorderRadius` | `AppDesign.borderRadiusXs` | Corner radius. |
+| `padding` | `EdgeInsetsGeometry` | `AppDesign.paddingSm` | Inner padding. |
+| `margin` | `EdgeInsetsGeometry?` | `null` | Outer margin. |
+
+```dart
+// Default surface box
+BaseBox(
+  child: myWidget,
+  onTap: () { ... },
+)
+
+// Custom colour and radius
+BaseBox(
+  child: myWidget,
+  settings: BoxSettings(
+    color: AppColors.of(context).background,
+    borderRadius: AppDesign.borderRadiusMd,
+    padding: AppDesign.paddingMd,
+  ),
+)
+```
+
+---
+
 ### `BaseButton`
 
 Full-featured action button with variants, loading state and optional icon.
@@ -633,7 +718,105 @@ The optional `tag` parameter (e.g. `tag: 'AuthService'`) prefixes the output for
 
 ---
 
-## 10. AI Tooling — Prompts & Instructions
+## 10. Repository & Data Layer
+
+The repository layer is the **single point of contact** between the app and any data source — remote API, local DB, or seed data. Screens and providers never access data directly.
+
+### Architecture
+
+```
+UI (Screens / Widgets)
+       ↓
+  Riverpod Providers   (lib/providers/)
+       ↓
+  Repository interface  (abstract interface class)
+       ↓
+  Repository impl       (*_repository_impl.dart)
+       ↓
+  Data source           (dummy_data.dart now → Dio + BE later)
+```
+
+### Domains
+
+| Domain | Interface | Responsibility |
+|---|---|---|
+| `MealRepository` | `lib/repositories/meal/meal_repository.dart` | Categories, trending, recent, popular, meal detail |
+| `FavoritesRepository` | `lib/repositories/favorites/favorites_repository.dart` | User favourites — add, remove, list, check |
+
+### Filtering & Pagination — `MealFilter`
+
+All list methods accept a `MealFilter` (never raw parameters). `MealFilter` extends the global `RepositoryFilter` base which carries `skip` and `take` for offset pagination.
+
+```dart
+// lib/models/repository_filter.dart
+abstract class RepositoryFilter {
+  const RepositoryFilter({this.skip = 0, this.take = 10});
+  final int skip;
+  final int take;
+}
+
+// lib/repositories/meal/meal_repository_model.dart
+class MealFilter extends RepositoryFilter {
+  const MealFilter({super.skip, super.take, this.categoryId, this.query = ''});
+  final String? categoryId;  // null = no category filter
+  final String query;        // '' = no text filter
+}
+```
+
+### Switching to the real backend
+
+The concrete implementations (`*_repository_impl.dart`) read from `dummy_data.dart` and are each marked with `// TODO: replace with <HTTP verb> <endpoint>`. When the backend is ready:
+
+1. Replace the method body with a Dio call.
+2. Authentication is sent automatically via a Dio interceptor — never pass tokens as parameters.
+3. The interface, class signature, and all consumers remain unchanged.
+
+### Error handling
+
+Repositories throw typed exceptions (e.g. `MealNotFoundException`). The provider layer catches them and exposes `AsyncError` via Riverpod's `AsyncNotifier`. The UI handles them in `.when(error: ...)`. Repositories never return `null` or raw error strings.
+
+### Dependency injection
+
+Always consume repositories through Riverpod providers. Never instantiate a repository directly in a widget or screen.
+
+```dart
+// lib/providers/repository_providers.dart
+@riverpod
+MealRepository mealRepository(Ref ref) => MealRepositoryImpl();
+
+@riverpod
+FavoritesRepository favoritesRepository(Ref ref) => FavoritesRepositoryImpl();
+```
+
+---
+
+## 11. Scripts
+
+Utility scripts live in `scripts/`. They automate data generation and other development tasks that would otherwise be manual.
+
+### `scripts/generate_dummy_data.py`
+
+Fetches meal data from [TheMealDB](https://www.themealdb.com) (free, no API key) and writes a valid `lib/data/dummy_data.dart` file. Every HTTP response is cached under `scripts/cache/` so subsequent runs are fast and offline-friendly.
+
+```bash
+# Prerequisites (once)
+pip install -r scripts/requirements.txt
+
+# Generate (uses cache — fast)
+python scripts/generate_dummy_data.py
+
+# Generate with more meals per category
+python scripts/generate_dummy_data.py --meals-per-category 10
+
+# Force fresh data from the server
+python scripts/generate_dummy_data.py --clear-cache
+```
+
+> `lib/data/dummy_data.dart` is **auto-generated** — do not edit it manually. Always regenerate via the script.
+
+---
+
+## 12. AI Tooling — Prompts & Instructions
 
 This repository ships with pre-configured [GitHub Copilot](https://github.com/features/copilot) context that makes the AI assistant aware of the project's conventions, design system and domain. All configuration lives under `.github/` and is versioned alongside the code.
 
@@ -650,6 +833,7 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | Prompt file | Trigger phrases | Direct invocation | What it does |
 |---|---|---|---|
 | `init-project.prompt.md` | "Inizializziamo il progetto" · "Inizializza il progetto" · "Reset del progetto" | `#init-project.prompt.md` | Collects project name and context; renames the app across all config files; resets version to `1.0.0+1`; audits and updates instruction files |
+| `localize.prompt.md` | "Localizzami questa schermata" · "Localizza il progetto" · "Crea una nuova lingua" | `#localize.prompt.md` | Scans for hardcoded strings in a file or the full project; adds keys to all ARB files; replaces strings with `AppLocale.getLabels(context)`; supports adding new languages |
 | `update-docs.prompt.md` | "Aggiorna la documentazione" | `#update-docs.prompt.md` | Compares README with the actual codebase and rewrites it as a structured documentation book |
 | `check-dependencies.prompt.md` | "Verifichiamo aggiornamenti del progetto" | `#check-dependencies.prompt.md` | Runs `flutter pub outdated`, auto-updates safe (minor/patch) packages, lists major bumps for review |
 | `check-lint.prompt.md` | "Check del progetto", "il progetto è pulito?" | `#check-lint.prompt.md` | Runs `dart fix`, `dart format` and `flutter analyze`; auto-fixes warnings, reports errors for manual review |
@@ -680,10 +864,11 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules and widget API reference |
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
+| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, RepositoryFilter, DI pattern, error handling |
 
 ---
 
-## 11. Deployment
+## 13. Deployment
 
 ### iOS
 
@@ -728,7 +913,7 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 
 ---
 
-## 12. Versioning & Git Tags
+## 14. Versioning & Git Tags
 
 The project uses [**cider**](https://pub.dev/packages/cider) to manage the version in `pubspec.yaml` and maintains a `CHANGELOG.md` following the [Keep a Changelog](https://keepachangelog.com) convention. Every production release should be tagged in Git so that the history stays navigable and CI/CD pipelines can anchor artifacts to a precise commit.
 
@@ -789,7 +974,7 @@ The `bump-version` Copilot Agent prompt automates steps 1–4: it detects change
 
 ---
 
-## 13. Dependencies
+## 15. Dependencies
 
 | Package | Version | Purpose |
 |---|---|---|

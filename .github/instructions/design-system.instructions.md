@@ -14,10 +14,10 @@ Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. f
 
 | Token | Light | Dark | Usage |
 |---|---|---|---|
-| `background` | `#F5FAFE` | `#0B1E30` | Page background |
-| `surface` | `#DAECF8` | `#163350` | Cards, elevated containers |
-| `text` | `#0D2137` | `#E8F3FB` | Primary text |
-| `muted` | `#6B8DA8` | `#4D7A9E` | Secondary text, placeholders |
+| `background` | `#FFFFFF` | `#272727` | Page background |
+| `surface` | `#FAF6F5` | `#323232` | Cards, elevated containers |
+| `text` | `#1A1A1A` | `#FFFFFF` | Primary text |
+| `muted` | `#888888` | `#888888` | Secondary text, placeholders |
 | `bottomBar` | `#EDE5E2` | `#1E1E1E` | Bottom navigation bar |
 | `primary` | `#60C9F8` | — | Primary accent (static) |
 | `secondary` | `#0A599C` | — | Secondary accent (static) |
@@ -118,6 +118,7 @@ Access: `AppDesign.{token}` (all static).
 | Context | Token |
 |---|---|
 | Standard page padding (left/right 20) | `paddingPage` |
+| Input / fake input content padding | `paddingInput` (h:16, v:10) |
 | Internal padding small card | `paddingSymmetricSm` (h:8, v:4) |
 | Internal padding card / section | `paddingSymmetricMd` (h:16, v:8) |
 | Internal padding wide element | `paddingSymmetricLg` (h:20, v:8) |
@@ -149,6 +150,7 @@ Available classes: `PhosphorIconsRegular`, `PhosphorIconsBold`, `PhosphorIconsFi
 ## Widget delivery checklist
 
 - [ ] No hardcoded colours — all from `AppColors`
+- [ ] Never use `.withOpacity()` — use `.withAlpha((x * 255).round())` instead (`.withOpacity` is near-deprecated in Flutter)
 - [ ] No hardcoded `fontSize` — all from `AppTypography.of(context)`
 - [ ] No hardcoded spacing — all from `AppDesign` gap/padding tokens
 - [ ] No hardcoded `BorderRadius.circular(x)` — all from `AppDesign`

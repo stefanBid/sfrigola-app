@@ -64,13 +64,13 @@ class AppTypedRoute<P extends GenericRouteParams> {
   const AppTypedRoute(this.path);
 }
 
-class DetailParams extends GenericRouteParams {
-  final String detailId;
+class MealDetailsParams extends GenericRouteParams {
+  final String mealId;
 
-  const DetailParams({required this.detailId});
+  const MealDetailsParams({required this.mealId});
 
   @override
-  Map<String, String> toPathParams() => {'detailId': detailId};
+  Map<String, String> toPathParams() => {'mealId': mealId};
 }
 
 class AppRouter {
@@ -79,7 +79,7 @@ class AppRouter {
   static const home = AppTypedRoute<NoParams>('/home');
   static const forms = AppTypedRoute<NoParams>('/form');
   static const profile = AppTypedRoute<NoParams>('/profile');
-  static const details = AppTypedRoute<DetailParams>('/details/:detailId');
+  static const mealDetails = AppTypedRoute<MealDetailsParams>('/meal/:mealId');
 
   static void goTo<P extends GenericRouteParams>(
     BuildContext context,

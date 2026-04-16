@@ -116,6 +116,11 @@ class AppDesign {
     bottom: 0,
   );
 
+  static const EdgeInsets paddingInput = EdgeInsets.symmetric(
+    horizontal: 12,
+    vertical: _spacingMd2,
+  );
+
   // ─── Gap scale ───────────────────────────────────────────────────────────────
   // Horizontal: between icon and label, between badges in a row, between inline elements
   static const double gapInlineXs = _spacingXs; // 4  — icon ↔ label

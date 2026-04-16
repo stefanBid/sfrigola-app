@@ -13,8 +13,36 @@ Fixed filenames — do not add new files without a real need:
 | `app_design.dart` | Spacing, border radius, padding |
 | `app_theme.dart` | MaterialApp theme configuration |
 | `app_router.dart` | Typed navigation layer |
+| `app_locale.dart` | Localisation config and labels shorthand |
 | `app_validation.dart` | Form field validators |
 | `app_logger.dart` | Debug-only logger (stripped in release) |
+
+---
+
+## AppLocale — `lib/helpers/app_locale.dart`
+
+Central localisation configuration. Use in `MaterialApp.router` and to access translated strings anywhere in the app.
+
+```dart
+// In main.dart / MaterialApp.router
+supportedLocales: AppLocale.supportedLocales,
+localizationsDelegates: AppLocale.localizationsDelegates,
+locale: const Locale('it'),
+```
+
+Access translated strings via the `getLabels` shorthand — **never** call `AppLocalizations.of(context)!` directly:
+
+```dart
+final l = AppLocale.getLabels(context);
+Text(l.homeTitle)
+Text(l.homeSearchHint)
+```
+
+ARB source files are in `lib/l10n/`:
+- `app_it.arb` — Italian (template / default)
+- `app_en.arb` — English
+
+When adding a new string: add it to **both** ARB files, then run `flutter gen-l10n`.
 
 ---
 

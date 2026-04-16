@@ -14,6 +14,30 @@ applyTo: "**/widgets/**"
 
 ---
 
+## BaseBox
+
+Generic tappable container with surface background, border radius and ripple. Use it as a building block for clickable cards, rows, and any pressable surface that doesn't need an image.
+
+```dart
+BaseBox(
+  child: myWidget,
+  settings: const BoxSettings(
+    color: null,                          // null → AppColors.of(context).surface
+    borderRadius: AppDesign.borderRadiusXs, // default
+    padding: AppDesign.paddingSm,           // default
+    margin: null,                           // optional
+  ),
+  onTap: () { ... }, // null → not tappable
+)
+```
+
+**Defaults** (omit `settings` entirely to use them):
+- `color` → `AppColors.of(context).surface`
+- `borderRadius` → `AppDesign.borderRadiusXs`
+- `padding` → `AppDesign.paddingSm`
+
+---
+
 ## BaseCard
 
 Card with image, title and content. Default size 220×220. Uses `BaseImageContainer` internally.
@@ -189,6 +213,21 @@ BaseBadge(
 - `filled` → coloured background + matching border
 - `outlined` → transparent background + border in `color` colour
 - `foregroundColor` → text and icon only (independent from border)
+
+**Badge colour palette — approved combinations** (use these for consistency):
+
+| Context | `color` | `foregroundColor` |
+|---|---|---|
+| Duration / time | `const Color(0xFFB3E5FC)` | `const Color(0xFF0277BD)` |
+| Complexity | `const Color(0xFFBBDEFB)` | `const Color(0xFF1565C0)` |
+| Affordability / budget | `AppColors.success.withAlpha(40)` | `const Color(0xFF065F46)` |
+| Rating / star | `AppColors.warning` | `Colors.black` |
+| Gluten free | `const Color(0xFFFFF3CD)` | `const Color(0xFF856404)` |
+| Lactose free | `const Color(0xFFD1ECF1)` | `const Color(0xFF0C5460)` |
+| Vegan | `AppColors.success.withAlpha(45)` | `const Color(0xFF065F46)` |
+| Vegetarian | `const Color(0xFFD4EDDA)` | `const Color(0xFF155724)` |
+
+> Use `.withAlpha()` — never `.withOpacity()` (near-deprecated in Flutter).
 
 ---
 

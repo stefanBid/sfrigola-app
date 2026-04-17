@@ -321,12 +321,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
-import 'package:sfrigola/models/meal.dart';
+import 'package:sfrigola/core/models/meal.dart';
 
 // Project Repositories
-import 'package:sfrigola/repositories/meal/meal_repository.dart';
-import 'package:sfrigola/repositories/meal/meal_repository_impl.dart';
-import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository_impl.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
 
 part 'meal_provider.g.dart';
 ```

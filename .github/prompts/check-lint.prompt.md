@@ -43,7 +43,7 @@ Apply the following fixes automatically whenever they are encountered. Use `read
 - Remove any `print(...)` call found anywhere in the project.
 - Replace any `debugPrint(...)` call that is **not** inside `AppLogger` with the equivalent `AppLogger.debug(...)` / `AppLogger.warn(...)` / `AppLogger.error(...)` call, choosing the level that best matches the context.
 - Never wrap replacements in a manual `if (kDebugMode)` check — `AppLogger` handles that internally.
-- Import `app_logger.dart` with a relative path at the top of the file if not already imported.
+- Import `app_logger.dart` with `import 'package:sfrigola/core/helpers/app_logger.dart';` at the top of the file if not already imported.
 
 ### Unused imports / variables
 - Remove any import or variable that the analyser flags as unused.

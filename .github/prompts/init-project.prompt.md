@@ -99,12 +99,17 @@ Analyse the entire `lib/` directory down to every sub-level:
 
 ```
 lib/
-  helpers/        → design system tokens, validators, utilities
-  layouts/        → reusable page layouts
-  models/         → data models
-  screens/        → feature screens
-  services/       → business logic and API
-  widgets/        → reusable UI components
+  core/
+    helpers/        → design system tokens, validators, utilities
+    layouts/        → reusable page layouts
+    models/         → data models
+    widgets/        → reusable UI components
+    repositories/   → repository layer (one subdirectory per domain)
+    providers/      → app-wide Riverpod providers
+    data/           → auto-generated dummy data
+    l10n/           → localisation ARB files + generated classes
+  features/
+    feature-*/      → one directory per product feature
 ```
 
 For each area, verify that the corresponding **instruction files** are up to date:

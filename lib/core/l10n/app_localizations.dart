@@ -184,6 +184,12 @@ abstract class AppLocalizations {
   /// **'Descrizione'**
   String get mealDetailsSectionDescription;
 
+  /// Error message shown in the meal details screen when the meal fails to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare i dettagli della ricetta.'**
+  String get mealDetailsLoadError;
+
   /// Section title for the ingredients list in the meal details screen
   ///
   /// In it, this message translates to:

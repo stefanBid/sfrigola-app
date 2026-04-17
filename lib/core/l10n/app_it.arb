@@ -76,6 +76,11 @@
     "description": "Section title for the description in the meal details screen"
   },
 
+  "mealDetailsLoadError": "Impossibile caricare i dettagli della ricetta.",
+  "@mealDetailsLoadError": {
+    "description": "Error message shown in the meal details screen when the meal fails to load"
+  },
+
   "mealDetailsSectionIngredients": "Ingredienti",
   "@mealDetailsSectionIngredients": {
     "description": "Section title for the ingredients list in the meal details screen"

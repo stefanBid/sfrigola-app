@@ -4,6 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
 class MealDetailsError extends StatelessWidget {
@@ -22,7 +23,7 @@ class MealDetailsError extends StatelessWidget {
           ),
           const SizedBox(height: AppDesign.gapItemSm),
           Text(
-            'Failed to load meal details.',
+            AppLocale.getLabels(context).mealDetailsLoadError,
             style: AppTypography.of(
               context,
             ).body.copyWith(color: AppColors.error),

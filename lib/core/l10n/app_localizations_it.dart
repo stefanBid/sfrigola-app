@@ -58,6 +58,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mealDetailsSectionDescription => 'Descrizione';
 
   @override
+  String get mealDetailsLoadError =>
+      'Impossibile caricare i dettagli della ricetta.';
+
+  @override
   String get mealDetailsSectionIngredients => 'Ingredienti';
 
   @override

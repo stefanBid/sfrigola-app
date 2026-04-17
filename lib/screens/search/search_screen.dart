@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 // Project Helpers
-import 'package:sfrigola/helpers/app_design.dart';
 import 'package:sfrigola/helpers/app_locale.dart';
-import 'package:sfrigola/helpers/app_typography.dart';
-import 'package:sfrigola/helpers/app_colors.dart';
+import 'package:sfrigola/helpers/app_logger.dart';
 import 'package:sfrigola/helpers/app_router.dart';
+import 'package:sfrigola/helpers/app_typography.dart';
 
 // Project Layouts
 import 'package:sfrigola/layouts/app_bars/classic_app_bar.dart';
@@ -25,7 +24,7 @@ class SearchScreen extends StatelessWidget {
         title: AppLocale.getLabels(context).homeTitle,
         bottomContent: GeneralSearchBox(
           onBlurEmpty: () => AppRouter.goBack(context),
-          onChanged: (_) => print('searching...'),
+          onChanged: (_) => AppLogger.debug('searching...'),
         ),
       ),
       body: Center(

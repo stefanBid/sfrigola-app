@@ -189,7 +189,7 @@ If no file is open in the editor and the request is ambiguous (it is not clear w
 |---|---|
 | Design system (colours, typography, spacing, icons) | `design-system.instructions.md` |
 | Navigation / new route | `routing.instructions.md` |
-| Screen / page | `screens.instructions.md` |
+| Screen / feature | `feature.instructions.md` |
 | Widget (reusable component) | `widgets.instructions.md` |
 | Helper / validator | `helpers.instructions.md` |
 | Repository / data layer | `repository.instructions.md` |

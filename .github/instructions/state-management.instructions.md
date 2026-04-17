@@ -335,7 +335,7 @@ part 'meal_provider.g.dart';
 
 ## Checklist before committing a provider
 
-- [ ] File is in `lib/providers/` and named `*_provider.dart`
+- [ ] File is in `lib/core/providers/` (or feature `providers/`) and named `*_provider.dart`
 - [ ] `part '*.g.dart';` line is present
 - [ ] Annotated with `@riverpod` or `@Riverpod(keepAlive: true)`
 - [ ] Notifier `build()` returns the initial state / initial Future

@@ -136,6 +136,16 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
+  Future<List<MealPreview>> getAllMeals({int skip = 0, int take = 10}) async {
+    // TODO: replace with GET /meals
+    AppLogger.debug('getAll( skip: $skip, take: $take)', tag: 'MealRepo');
+    await Future.delayed(const Duration(seconds: 2));
+    final result = _toPreviewList(availableMeals, null, skip, take);
+    AppLogger.debug('getAll → ${result.length} items', tag: 'MealRepo');
+    return result;
+  }
+
+  @override
   Future<Meal> getMealById(String id) async {
     // TODO: replace with GET /meals/{id}
     try {

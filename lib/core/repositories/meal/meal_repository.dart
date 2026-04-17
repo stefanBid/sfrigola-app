@@ -44,6 +44,9 @@ abstract interface class MealRepository {
     int take = 10,
   });
 
+  /// All meals, paginated
+  Future<List<MealPreview>> getAllMeals({int skip = 0, int take = 10});
+
   /// Returns a single meal by ID. Throws [MealNotFoundException] if not found.
   Future<Meal> getMealById(String id);
 }

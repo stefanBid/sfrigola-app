@@ -12,6 +12,7 @@ import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 
 // Project Widgets
 import 'package:sfrigola/features/feature-search/widgets/general_search_box.dart';
+import 'package:sfrigola/features/feature-search/widgets/meals_grid_container.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -27,12 +28,7 @@ class SearchScreen extends StatelessWidget {
           onChanged: (_) => AppLogger.debug('searching...'),
         ),
       ),
-      body: Center(
-        child: Text(
-          AppLocale.getLabels(context).homeTitle,
-          style: AppTypography.of(context).heading1,
-        ),
-      ),
+      body: const MealsGridContainer(),
     );
   }
 }

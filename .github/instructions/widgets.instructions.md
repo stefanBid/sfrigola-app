@@ -158,14 +158,13 @@ SizedBox(
 
 ## GcGridView
 
-Grid layout widget. Pass widgets directly as a `children` list.
+Grid layout widget con lazy builder pattern. Accetta uno `ScrollController` opzionale per la gestione esterna dello scroll (es. infinite scroll, `_onScroll` listener).
 
 ```dart
 GcGridView(
-  children: [
-    widget1,
-    widget2,
-  ],
+  itemCount: items.length,
+  itemBuilder: (context, index) => MyCard(item: items[index]),
+  scrollController: _scrollController, // optional
   dimensions: const GridDimensions(
     crossAxisCount: 2,           // number of columns (default: 2)
     childAspectRatio: 3 / 2,    // width/height ratio (default: 3/2)

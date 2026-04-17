@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../helpers/app_design.dart';
+// Project Helpers
+import 'package:sfrigola/core/helpers/app_design.dart';
 
 class GridDimensions {
   final int crossAxisCount;
@@ -17,23 +18,31 @@ class GridDimensions {
 }
 
 class GcGridView extends StatelessWidget {
-  final List<Widget> children;
+  final ScrollController? scrollController;
+  final int itemCount;
+  final Widget Function(BuildContext, int) itemBuilder;
   final GridDimensions dimensions;
 
   const GcGridView({
     super.key,
-    required this.children,
+    this.scrollController,
+    required this.itemCount,
+    required this.itemBuilder,
     this.dimensions = const GridDimensions(),
   });
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: dimensions.crossAxisCount,
-      childAspectRatio: dimensions.childAspectRatio,
-      crossAxisSpacing: dimensions.crossAxisSpacing,
-      mainAxisSpacing: dimensions.mainAxisSpacing,
-      children: children,
+    return GridView.builder(
+      controller: scrollController,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: dimensions.crossAxisCount,
+        childAspectRatio: dimensions.childAspectRatio,
+        crossAxisSpacing: dimensions.crossAxisSpacing,
+        mainAxisSpacing: dimensions.mainAxisSpacing,
+      ),
+      itemCount: itemCount,
+      itemBuilder: itemBuilder,
     );
   }
 }

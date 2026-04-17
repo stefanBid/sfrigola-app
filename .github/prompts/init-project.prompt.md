@@ -99,29 +99,34 @@ Analyse the entire `lib/` directory down to every sub-level:
 
 ```
 lib/
-  helpers/        → design system tokens, validators, utilities
-  layouts/        → reusable page layouts
-  models/         → data models
-  screens/        → feature screens
-  services/       → business logic and API
-  widgets/        → reusable UI components
+  core/
+    helpers/        → design system tokens, validators, utilities
+    layouts/        → reusable page layouts
+    models/         → data models
+    widgets/        → reusable UI components
+    repositories/   → repository layer (one subdirectory per domain)
+    providers/      → app-wide Riverpod providers
+    data/           → auto-generated dummy data
+    l10n/           → localisation ARB files + generated classes
+  features/
+    feature-*/      → one directory per product feature
 ```
 
 For each area, verify that the corresponding **instruction files** are up to date:
 
 | Directory | Instruction file |
 |---|---|
-| `lib/helpers/` | `.github/instructions/helpers.instructions.md` |
-| `lib/screens/` | `.github/instructions/screens.instructions.md` |
-| `lib/widgets/` | `.github/instructions/widgets.instructions.md` |
+| `lib/core/helpers/` | `.github/instructions/helpers.instructions.md` |
+| `lib/features/` | `.github/instructions/feature.instructions.md` |
+| `lib/core/widgets/` | `.github/instructions/widgets.instructions.md` |
 | `lib/router.dart` or routing | `.github/instructions/routing.instructions.md` |
 | any `.dart` file | `.github/instructions/design-system.instructions.md` |
 
 ### What to check for each instruction file
 
-- Are there **new widgets** in `lib/widgets/` not documented in the instruction?
-- Are there **new helpers** or tokens in `lib/helpers/` missing from the design-system?
-- Are there **new screens** with patterns not covered by `screens.instructions.md`?
+- Are there **new widgets** in `lib/core/widgets/` not documented in the instruction?
+- Are there **new helpers** or tokens in `lib/core/helpers/` missing from the design-system?
+- Are there **new features** with patterns not covered by `feature.instructions.md`?
 - Are there **obsolete entries** mentioned in the instructions but no longer present in the code?
 - Does the **project deviate** from the stack or conventions described in `copilot-instructions.md`?
 

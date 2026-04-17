@@ -1,5 +1,5 @@
 ---
-applyTo: "**/providers/**,**/screens/**,**/widgets/**"
+applyTo: "**/providers/**,**/features/**,**/widgets/**"
 ---
 
 # State Management — Riverpod conventions
@@ -21,11 +21,11 @@ Stack: `hooks_riverpod` + `flutter_hooks` + `riverpod_annotation` + `riverpod_ge
 
 ## File placement
 
-Providers live in `lib/providers/`. Organise by domain **only when the domain has 3+ provider files** — otherwise keep flat.
+Providers live in `lib/core/providers/`. Organise by domain **only when the domain has 3+ provider files** — otherwise keep flat.
 
 **Flat (≤ 2 files per domain):**
 ```
-lib/providers/
+lib/core/providers/
   repository_provider.dart   ← all repository singletons
   meal_provider.dart         ← meal data providers
   meal_filter_provider.dart  ← meal filter Notifier
@@ -34,7 +34,7 @@ lib/providers/
 
 **By domain (when a domain grows to 3+ files):**
 ```
-lib/providers/
+lib/core/providers/
   meal/
     meal_repository_provider.dart
     meal_provider.dart
@@ -46,6 +46,15 @@ lib/providers/
 
 > **Rule**: `repository_provider.dart` stays flat as long as there are ≤ 4 repositories. Split into domain subdirectories only when the flat list becomes hard to navigate.
 
+**Feature-scoped providers** (used only inside one feature) live inside the feature directory:
+```
+features/feature-home/
+  providers/
+    meals_provider.dart
+    categories_provider.dart
+    selected_category_id_provider.dart
+```
+
 Every provider file must end with `// ignore_for_file: avoid_public_notifier_properties` only when needed. Otherwise no file-level ignores.
 
 Always add `part 'file_name.g.dart';` after the imports — the code generator writes there.
@@ -54,8 +63,8 @@ Always add `part 'file_name.g.dart';` after the imports — the code generator w
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Repositories
-import 'package:sfrigola/repositories/meal/meal_repository.dart';
-import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
 
 part 'meal_provider.g.dart';
 ```
@@ -312,12 +321,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
-import 'package:sfrigola/models/meal.dart';
+import 'package:sfrigola/core/models/meal.dart';
 
 // Project Repositories
-import 'package:sfrigola/repositories/meal/meal_repository.dart';
-import 'package:sfrigola/repositories/meal/meal_repository_impl.dart';
-import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository_impl.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
 
 part 'meal_provider.g.dart';
 ```
@@ -326,7 +335,7 @@ part 'meal_provider.g.dart';
 
 ## Checklist before committing a provider
 
-- [ ] File is in `lib/providers/` and named `*_provider.dart`
+- [ ] File is in `lib/core/providers/` (or feature `providers/`) and named `*_provider.dart`
 - [ ] `part '*.g.dart';` line is present
 - [ ] Annotated with `@riverpod` or `@Riverpod(keepAlive: true)`
 - [ ] Notifier `build()` returns the initial state / initial Future

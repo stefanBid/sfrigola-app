@@ -19,7 +19,7 @@ Fixed filenames — do not add new files without a real need:
 
 ---
 
-## AppLocale — `lib/helpers/app_locale.dart`
+## AppLocale — `lib/core/helpers/app_locale.dart`
 
 Central localisation configuration. Use in `MaterialApp.router` and to access translated strings anywhere in the app.
 
@@ -38,7 +38,7 @@ Text(l.homeTitle)
 Text(l.homeSearchHint)
 ```
 
-ARB source files are in `lib/l10n/`:
+ARB source files are in `lib/core/l10n/`:
 - `app_it.arb` — Italian (template / default)
 - `app_en.arb` — English
 
@@ -46,7 +46,7 @@ When adding a new string: add it to **both** ARB files, then run `flutter gen-l1
 
 ---
 
-## AppValidation — `lib/helpers/app_validation.dart`
+## AppValidation — `lib/core/helpers/app_validation.dart`
 
 Static validators for `TextFormField` / `BaseFormField`. Returns `null` if valid, an error string if invalid.
 
@@ -93,12 +93,12 @@ validator: (v) =>
 
 ---
 
-## AppLogger — `lib/helpers/app_logger.dart`
+## AppLogger — `lib/core/helpers/app_logger.dart`
 
 Debug-only logger gated behind `kDebugMode`. All output is **automatically stripped in release and profile builds** — never use `print()` or bare `debugPrint()` directly.
 
 ```dart
-import '../helpers/app_logger.dart';
+import 'package:sfrigola/core/helpers/app_logger.dart';
 
 AppLogger.debug('User loaded', tag: 'HomeScreen');
 AppLogger.warn('Token is about to expire');

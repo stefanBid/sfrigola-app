@@ -35,7 +35,7 @@ If the user chose Option A:
 
 ### 2A-2. Discover available ARB files
 
-Read the `lib/l10n/` directory and list all `*.arb` files present (e.g. `app_it.arb`, `app_en.arb`).
+Read the `lib/core/l10n/` directory and list all `*.arb` files present (e.g. `app_it.arb`, `app_en.arb`).
 The template ARB is `app_it.arb` (defined in `l10n.yaml`).
 
 ### 2A-3. Scan for hardcoded strings
@@ -98,7 +98,7 @@ Then run `flutter analyze --no-pub` and fix any issues before reporting.
 
 ## Step 2B — Localise the entire project
 
-Apply the same process as **Step 2A** but across all `.dart` files under `lib/screens/`, `lib/widgets/`, and `lib/layouts/`.
+Apply the same process as **Step 2A** but across all `.dart` files under `lib/features/`, `lib/core/widgets/`, and `lib/core/layouts/`.
 
 Proceed file by file. For each file:
 1. Scan for hardcoded strings
@@ -119,11 +119,11 @@ Ask the user:
 
 ### 2C-2. Read the template ARB
 
-Read `lib/l10n/app_it.arb` (the template). Collect every key and its `@key` description block.
+Read `lib/core/l10n/app_it.arb` (the template). Collect every key and its `@key` description block.
 
 ### 2C-3. Create the new ARB file
 
-Create `lib/l10n/app_<locale>.arb` with:
+Create `lib/core/l10n/app_<locale>.arb` with:
 - `"@@locale": "<locale>"`
 - Every key from the template, translated to the target language
 - The same `@key` description blocks (descriptions stay in English)
@@ -132,7 +132,7 @@ If you are not confident about a translation, use the Italian value as a placeho
 
 ### 2C-4. Register the locale in `AppLocale`
 
-Add the new `Locale('<locale>')` to the `supportedLocales` list in `lib/helpers/app_locale.dart`:
+Add the new `Locale('<locale>')` to the `supportedLocales` list in `lib/core/helpers/app_locale.dart`:
 
 ```dart
 static const supportedLocales = [

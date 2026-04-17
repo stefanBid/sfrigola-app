@@ -62,11 +62,11 @@ Before generating any code, collect these three things with a **single** `vscode
 
 ### Step 1 — Create the screen
 
-Create `lib/screens/<route-name>/<route_name>_screen.dart`:
+Create `lib/features/feature-<route-name>/<route_name>_screen.dart`:
 
 ```dart
 import 'package:flutter/material.dart';
-import '../../layouts/body/standard_page_layout.dart';
+import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
   const RecipeDetailScreen({super.key});

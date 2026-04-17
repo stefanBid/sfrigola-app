@@ -31,11 +31,11 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 |---|---|---|
 | `design-system.instructions.md` | `**/*.dart` | AppColors, AppTypography, AppDesign tokens, PhosphorIcons API, widget checklist |
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow (3 steps) |
-| `screens.instructions.md` | `**/screens/**` | Screen structure, layouts, app bars, code organisation rules |
+| `feature.instructions.md` | `**/features/**` | Feature structure, screen/widget/provider placement, layouts, app bars, code organisation |
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules, BaseCard/BaseFormField/BaseButton/GcListView API |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
 | `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, mock rules, naming, DI pattern |
-| `state-management.instructions.md` | `**/providers/**,**/screens/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, `keepAlive`, family, naming, checklist |
+| `state-management.instructions.md` | `**/providers/**,**/features/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, `keepAlive`, family, naming, checklist |
 
 > **Keep instructions in sync**: every time a new widget, helper, or token is added — or an existing one is changed — update the corresponding instruction file immediately. These files are the source of truth for code generation context.
 
@@ -62,8 +62,9 @@ sfrigola-app/
       helpers.instructions.md
       repository.instructions.md
       routing.instructions.md
-      screens.instructions.md
+      feature.instructions.md
       widgets.instructions.md
+      state-management.instructions.md
     prompts/                         ← reusable Agent-mode workflows
       init-project.prompt.md
       localize.prompt.md
@@ -74,25 +75,43 @@ sfrigola-app/
   lib/
     main.dart             ← app entry point (MaterialApp.router + AppLocale + AppTheme)
     router.dart           ← GoRouter instance (appRouter) with all route registrations
-    helpers/              ← design system tokens and utilities
-    l10n/                 ← ARB translation files + generated localizations
-    layouts/              ← reusable page layouts
-    models/               ← data models
-      category.dart
-      json_serializable.dart
-      meal.dart
-      repository_filter.dart   ← base RepositoryFilter (skip/take)
-    providers/            ← Riverpod providers (to be created)
-    repositories/         ← repository layer
-      meal/
-        meal_repository_model.dart
-        meal_repository.dart
-        meal_repository_impl.dart
-      favorites/
-        favorites_repository.dart
-        favorites_repository_impl.dart
-    screens/              ← screens organised by feature
-    widgets/              ← reusable UI components
+    core/                 ← shared code used across features
+      data/               ← auto-generated dummy data (do not edit manually)
+      helpers/            ← design system tokens and utilities
+      l10n/               ← ARB translation files + generated localizations
+      layouts/            ← reusable page layouts
+      models/             ← data models
+        category.dart
+        json_serializable.dart
+        meal.dart
+        repository_filter.dart   ← base RepositoryFilter (skip/take)
+      providers/          ← app-wide Riverpod providers
+      repositories/       ← repository layer
+        meal/
+          meal_repository_model.dart
+          meal_repository.dart
+          meal_repository_impl.dart
+        favorites/
+          favorites_repository.dart
+          favorites_repository_impl.dart
+      widgets/            ← reusable UI components (base_* + group-container/)
+    features/             ← all product features
+      feature-home/         ← home feed feature
+        home_screen.dart
+        providers/
+        widgets/
+      feature-meal-detail/  ← meal detail feature
+        meal_details_screen.dart
+        providers/
+        widgets/
+      feature-search/       ← search feature
+        search_screen.dart
+        providers/
+        widgets/
+      feature-profile/      ← user profile feature
+        profile_screen.dart
+      feature-form/         ← form demo feature
+        form_screen.dart
 ```
 
 ---
@@ -121,24 +140,24 @@ sfrigola-app/
   // ... other third-party packages
 
   // Project Helpers
-  import 'package:sfrigola/helpers/app_colors.dart';
+  import 'package:sfrigola/core/helpers/app_colors.dart';
 
   // Project Layouts
-  import 'package:sfrigola/layouts/body/standard_page_layout.dart';
+  import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 
   // Project Models
-  import 'package:sfrigola/models/recipe.dart';
+  import 'package:sfrigola/core/models/recipe.dart';
 
-  // Project Screens (if needed)
-  import 'package:sfrigola/screens/recipe-detail/recipe_detail_screen.dart';
+  // Project Features (if importing screens from another feature)
+  import 'package:sfrigola/features/feature-recipe-detail/recipe_detail_screen.dart';
 
   // Project Repositories
-  import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
-  import 'package:sfrigola/repositories/meal/meal_repository.dart';
-  import 'package:sfrigola/repositories/favorites/favorites_repository.dart';
+  import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
+  import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
+  import 'package:sfrigola/core/repositories/favorites/favorites_repository.dart';
 
   // Project Widgets
-  import 'package:sfrigola/widgets/base_button.dart';
+  import 'package:sfrigola/core/widgets/base_button.dart';
   ```
   Omit groups that are not needed. Never use relative paths for project-internal files.
 - `const` wherever possible to optimise rebuilds. A constructor call **must** be `const` when: (1) the widget has a `const` constructor, and (2) all arguments are compile-time values (string/number literals, `static const` tokens, other `const` constructors). When the parent is already `const`, children drop the keyword — move `const` to the outermost eligible ancestor instead
@@ -170,7 +189,7 @@ If no file is open in the editor and the request is ambiguous (it is not clear w
 |---|---|
 | Design system (colours, typography, spacing, icons) | `design-system.instructions.md` |
 | Navigation / new route | `routing.instructions.md` |
-| Screen / page | `screens.instructions.md` |
+| Screen / feature | `feature.instructions.md` |
 | Widget (reusable component) | `widgets.instructions.md` |
 | Helper / validator | `helpers.instructions.md` |
 | Repository / data layer | `repository.instructions.md` |

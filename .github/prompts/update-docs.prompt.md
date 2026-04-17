@@ -20,7 +20,7 @@ Read all of the following in parallel before writing anything:
 - `pubspec.yaml` (project name, version, dependencies)
 - `.github/copilot-instructions.md` (app context, stack, conventions)
 - `lib/` directory structure (all sub-levels)
-- All files in `lib/helpers/`, `lib/widgets/`, `lib/layouts/`
+- All files in `lib/core/helpers/`, `lib/core/widgets/`, `lib/core/layouts/`
 - `lib/router.dart`
 - All instruction files under `.github/instructions/`
 
@@ -92,14 +92,14 @@ Rewrite `README.md` entirely, structured as a proper documentation book. Writing
 ## 6. Screens
 ### Conventions
 ### Available screens
-[One subsection per feature folder found in lib/screens/]
+[One subsection per feature folder found in lib/features/]
 
 ## 7. Widgets
 ### Placement rules
-[One subsection per widget found in lib/widgets/, with props table]
+[One subsection per widget found in lib/core/widgets/, with props table]
 
 ## 8. Helpers & Validators
-[One subsection per file found in lib/helpers/]
+[One subsection per file found in lib/core/helpers/]
 
 ## 9. AI Tooling — Prompts & Instructions
 

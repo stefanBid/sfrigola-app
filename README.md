@@ -112,7 +112,7 @@ flutter run
 
 ## 3. Project Structure
 
-This section shows the full annotated directory tree of the project. Each top-level folder has a single responsibility.
+This project follows a **feature-based architecture** — code is organized around product features, not technical layers. Each feature is self-contained with its own screen, providers, and widgets. Shared infrastructure lives in `core/`.
 
 ```
 sfrigola-app/
@@ -132,8 +132,9 @@ sfrigola-app/
       design-system.instructions.md
       helpers.instructions.md
       routing.instructions.md
-      screens.instructions.md
+      feature.instructions.md
       widgets.instructions.md
+      state-management.instructions.md
     prompts/                         ← reusable Agent-mode workflows
       init-project.prompt.md
       localize.prompt.md
@@ -144,69 +145,83 @@ sfrigola-app/
   lib/
     main.dart             ← app entry point (MaterialApp.router + AppLocale + AppTheme)
     router.dart           ← GoRouter instance (appRouter) with all route registrations
-    helpers/              ← design system tokens and utilities
-      app_colors.dart     ← adaptive colour palette
-      app_design.dart     ← spacing, border radius, padding tokens
-      app_locale.dart     ← localisation config and labels shorthand (AppLocale)
-      app_router.dart     ← type-safe navigation layer (AppRouter)
-      app_theme.dart      ← ThemeData configuration
-      app_typography.dart ← text style scale
-      app_validation.dart ← static form validators
-      app_logger.dart     ← debug-only logger (stripped in release)
-    l10n/                 ← localisation
-      app_it.arb          ← Italian strings (template / only locale)
-      app_localizations.dart     ← generated — do not edit manually
-      app_localizations_it.dart  ← generated — do not edit manually
-    layouts/              ← reusable page-level layout scaffolds
-      app_layout.dart     ← shell with bottom navigation bar
-      app_bars/
-        classic_app_bar.dart     ← gradient app bar with title and actions
-        transparent_app_bar.dart ← transparent overlay app bar
-      body/
-        standard_page_layout.dart ← column layout: app bar + scrollable body
-        hero_page_layout.dart     ← full-bleed hero image + slide-up card body
-    data/                 ← static datasets and seed data
-      dummy_data.dart     ← auto-generated — run scripts/generate_dummy_data.py to refresh
-    models/               ← data models
-      json_serializable.dart   ← base interface: toJson()
-      category.dart            ← Category model + CategoryColor enum
-      meal.dart                ← Meal model + Complexity/Affordability enums
-      repository_filter.dart   ← RepositoryFilter base (skip/take pagination)
-    providers/            ← Riverpod providers (repository_providers.dart + feature providers)
-    repositories/         ← repository layer (single point of contact with any data source)
-      meal/
-        meal_repository_model.dart  ← MealFilter + MealNotFoundException
-        meal_repository.dart        ← abstract interface
-        meal_repository_impl.dart   ← concrete implementation (dummy data → Dio)
-      favorites/
-        favorites_repository.dart        ← abstract interface
-        favorites_repository_impl.dart   ← concrete implementation
-    screens/              ← feature screens organised by folder
-      home/               ← home screen (bottom nav tab)
-      form/               ← form screen (bottom nav tab)
-      profile/            ← profile screen (bottom nav tab)
-      details/            ← detail screen (pushed with path parameter)
-    widgets/              ← reusable UI components
-      base_badge.dart              ← status badge
-      base_button.dart             ← primary action button
-      base_card.dart               ← image + text card
-      base_form_field.dart         ← form-integrated text field
-      base_icon_button.dart        ← icon-only button
-      base_image_container.dart    ← network / asset image with fade
-      base_input.dart              ← standalone text input
-      base_box.dart               ← tappable surface container with ripple
-      base_scaffold_messenger.dart ← themed SnackBar utility
-      base_value_card.dart         ← metric display card (value + label)
-      group-container/
-        gc_list_view.dart ← null-safe ListView.builder wrapper
-        gc_grid_view.dart ← GridView.count wrapper with dimensions
+    core/                 ← shared code used across all features
+      helpers/            ← design system tokens and utilities
+        app_colors.dart     ← adaptive colour palette
+        app_design.dart     ← spacing, border radius, padding tokens
+        app_locale.dart     ← localisation config and labels shorthand (AppLocale)
+        app_router.dart     ← type-safe navigation layer (AppRouter)
+        app_theme.dart      ← ThemeData configuration
+        app_typography.dart ← text style scale
+        app_validation.dart ← static form validators
+        app_logger.dart     ← debug-only logger (stripped in release)
+      l10n/               ← localisation
+        app_it.arb          ← Italian strings (template / only locale)
+        app_localizations.dart     ← generated — do not edit manually
+        app_localizations_it.dart  ← generated — do not edit manually
+      layouts/            ← reusable page-level layout scaffolds
+        app_layout.dart     ← shell with bottom navigation bar
+        app_bars/
+          classic_app_bar.dart     ← gradient app bar with title and actions
+          transparent_app_bar.dart ← transparent overlay app bar
+        body/
+          standard_page_layout.dart ← column layout: app bar + scrollable body
+          hero_page_layout.dart     ← full-bleed hero image + slide-up card body
+      data/               ← static datasets and seed data
+        dummy_data.dart     ← auto-generated — run scripts/generate_dummy_data.py to refresh
+      models/             ← data models
+        json_serializable.dart   ← base interface: toJson()
+        category.dart            ← Category model + CategoryColor enum
+        meal.dart                ← Meal model + Complexity/Affordability enums
+        repository_filter.dart   ← RepositoryFilter base (skip/take pagination)
+      providers/          ← app-wide Riverpod providers (repository singletons)
+        repository_provider.dart
+      repositories/       ← repository layer (single point of contact with any data source)
+        meal/
+          meal_repository_model.dart  ← MealFilter + MealNotFoundException
+          meal_repository.dart        ← abstract interface
+          meal_repository_impl.dart   ← concrete implementation (dummy data → Dio)
+        favorites/
+          favorites_repository.dart        ← abstract interface
+          favorites_repository_impl.dart   ← concrete implementation
+      widgets/            ← reusable UI components shared across features
+        base_badge.dart              ← status badge
+        base_button.dart             ← primary action button
+        base_card.dart               ← image + text card
+        base_form_field.dart         ← form-integrated text field
+        base_icon_button.dart        ← icon-only button
+        base_image_container.dart    ← network / asset image with fade
+        base_input.dart              ← standalone text input
+        base_box.dart               ← tappable surface container with ripple
+        base_scaffold_messenger.dart ← themed SnackBar utility
+        base_value_card.dart         ← metric display card (value + label)
+        group-container/
+          gc_list_view.dart ← null-safe ListView.builder wrapper
+          gc_grid_view.dart ← GridView.count wrapper with dimensions
+    features/             ← all product features (feature-based architecture)
+      feature-home/         ← home feed feature
+        home_screen.dart
+        providers/          ← feature-scoped providers
+        widgets/            ← feature-scoped widgets (sections, skeletons, etc.)
+      feature-meal-detail/  ← meal detail feature
+        meal_details_screen.dart
+        providers/
+        widgets/
+      feature-search/       ← search feature
+        search_screen.dart
+        providers/
+        widgets/
+      feature-profile/      ← user profile feature
+        profile_screen.dart
+      feature-form/         ← form demo feature
+        form_screen.dart
 ```
 
 ---
 
 ## 4. Design System
 
-The design system is entirely contained in `lib/helpers/` and provides a single source of truth for colours, typography, spacing and border radius. **Never use hardcoded values** — always reference these helpers.
+The design system is entirely contained in `lib/core/helpers/` and provides a single source of truth for colours, typography, spacing and border radius. **Never use hardcoded values** — always reference these helpers.
 
 ### Colours — `AppColors`
 
@@ -374,7 +389,7 @@ The default transition is a fade (`FadeTransition`) defined by `_customTransitio
 
 ## 6. Layouts
 
-Layouts are reusable page-level scaffolds in `lib/layouts/`. A screen should compose one layout rather than building its own `Scaffold` structure.
+Layouts are reusable page-level scaffolds in `lib/core/layouts/`. A screen should compose one layout rather than building its own `Scaffold` structure.
 
 ### `AppLayout`
 
@@ -421,29 +436,32 @@ An overlay app bar for use on top of hero images or full-bleed backgrounds. Full
 
 ## 7. Screens
 
-Screens live in `lib/screens/`, organised by feature folder. Each folder should contain the screen file and, optionally, feature-specific widgets.
+Screens live in their own `lib/feature-[name]/` directory, alongside their feature-scoped providers and widgets.
 
 ### Conventions
 
 - One screen per file. File name: `[feature]_screen.dart`, class name: `[Feature]Screen`.
 - Screens are `StatelessWidget` unless local state is strictly necessary.
-- All layout is delegated to a layout from `lib/layouts/` — screens do not build raw `Scaffold`s.
+- All layout is delegated to a layout from `lib/core/layouts/` — screens do not build raw `Scaffold`s.
 - Navigation is always performed via `AppRouter`.
 
 ### Available screens
 
-| Screen | Path | Description |
-|---|---|---|
-| `HomeScreen` | `/home` | Main landing tab |
-| `FormScreen` | `/form` | Form examples tab |
-| `ProfileScreen` | `/profile` | Profile tab |
-| `DetailsScreen` | `/details/:detailId` | Detail view pushed with a `detailId` parameter |
+| Screen | Feature dir | Route | Description |
+|---|---|---|---|
+| `HomeScreen` | `feature-home/` | `/home` | Main landing tab |
+| `SearchScreen` | `feature-search/` | `/search` | Search tab |
+| `FormScreen` | `feature-form/` | `/form` | Form examples tab |
+| `ProfileScreen` | `feature-profile/` | `/profile` | Profile tab |
+| `MealDetailsScreen` | `feature-meal-detail/` | `/meal/:mealId` | Detail view pushed with a `mealId` parameter |
 
 ---
 
 ## 8. Widgets
 
-All reusable widgets live in `lib/widgets/`. Widget names must describe **what the widget is**, not where it is used. All widgets use the design system tokens — never hardcoded values.
+All reusable widgets live in `lib/core/widgets/`. Widget names must describe **what the widget is**, not where it is used. All widgets use the design system tokens — never hardcoded values.
+
+Feature-specific widgets that are not reused across features live in `feature-[name]/widgets/` instead.
 
 ### `BaseBox`
 
@@ -654,7 +672,7 @@ A `GridView.count` wrapper with a `GridDimensions` configuration object.
 
 ## 9. Helpers & Validators
 
-All helpers live in `lib/helpers/` as flat files. The set of files in this folder is fixed — do not rename or reorganise them.
+All helpers live in `lib/core/helpers/` as flat files. The set of files in this folder is fixed — do not rename or reorganise them.
 
 ### `app_colors.dart`
 
@@ -740,22 +758,22 @@ UI (Screens / Widgets)
 
 | Domain | Interface | Responsibility |
 |---|---|---|
-| `MealRepository` | `lib/repositories/meal/meal_repository.dart` | Categories, trending, recent, popular, meal detail |
-| `FavoritesRepository` | `lib/repositories/favorites/favorites_repository.dart` | User favourites — add, remove, list, check |
+| `MealRepository` | `lib/core/repositories/meal/meal_repository.dart` | Categories, trending, recent, popular, meal detail |
+| `FavoritesRepository` | `lib/core/repositories/favorites/favorites_repository.dart` | User favourites — add, remove, list, check |
 
 ### Filtering & Pagination — `MealFilter`
 
 All list methods accept a `MealFilter` (never raw parameters). `MealFilter` extends the global `RepositoryFilter` base which carries `skip` and `take` for offset pagination.
 
 ```dart
-// lib/models/repository_filter.dart
+// lib/core/models/repository_filter.dart
 abstract class RepositoryFilter {
   const RepositoryFilter({this.skip = 0, this.take = 10});
   final int skip;
   final int take;
 }
 
-// lib/repositories/meal/meal_repository_model.dart
+// lib/core/repositories/meal/meal_repository_model.dart
 class MealFilter extends RepositoryFilter {
   const MealFilter({super.skip, super.take, this.categoryId, this.query = ''});
   final String? categoryId;  // null = no category filter
@@ -780,7 +798,7 @@ Repositories throw typed exceptions (e.g. `MealNotFoundException`). The provider
 Always consume repositories through Riverpod providers. Never instantiate a repository directly in a widget or screen.
 
 ```dart
-// lib/providers/repository_providers.dart
+// lib/core/providers/repository_providers.dart
 @riverpod
 MealRepository mealRepository(Ref ref) => MealRepositoryImpl();
 
@@ -796,7 +814,7 @@ Utility scripts live in `scripts/`. They automate data generation and other deve
 
 ### `scripts/generate_dummy_data.py`
 
-Fetches meal data from [TheMealDB](https://www.themealdb.com) (free, no API key) and writes a valid `lib/data/dummy_data.dart` file. Every HTTP response is cached under `scripts/cache/` so subsequent runs are fast and offline-friendly.
+Fetches meal data from [TheMealDB](https://www.themealdb.com) (free, no API key) and writes a valid `lib/core/data/dummy_data.dart` file. Every HTTP response is cached under `scripts/cache/` so subsequent runs are fast and offline-friendly.
 
 ```bash
 # Prerequisites (once)
@@ -860,11 +878,12 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | File | Applies to | Governs |
 |---|---|---|
 | `design-system.instructions.md` | `**/*.dart` | AppColors, AppTypography, AppDesign tokens, PhosphorIcons API, widget checklist |
-| `screens.instructions.md` | `**/screens/**` | Screen structure, layouts, app bars, code organisation rules |
+| `feature.instructions.md` | `**/features/**` | Feature structure, screen/widget/provider placement, layouts, app bars, code organisation |
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules and widget API reference |
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
 | `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, RepositoryFilter, DI pattern, error handling |
+| `state-management.instructions.md` | `**/providers/**,**/features/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, naming, checklist |
 
 ---
 

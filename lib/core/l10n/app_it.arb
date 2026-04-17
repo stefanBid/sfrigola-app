@@ -1,0 +1,143 @@
+{
+  "@@locale": "it",
+
+  "homeTitle": "Che cosa cuciniamo oggi?",
+  "@homeTitle": {
+    "description": "Title shown in the home screen app bar"
+  },
+
+  "homeSearchHint": "Cerca una ricetta...",
+  "@homeSearchHint": {
+    "description": "Placeholder text in the home search bar"
+  },
+
+  "homeSubtitle": "Cosa cuciniamo oggi?",
+  "@homeSubtitle": {
+    "description": "Subtitle shown below the app bar on the home screen"
+  },
+
+  "homeSectionTrending": "In tendenza",
+  "@homeSectionTrending": {
+    "description": "Title of the trending recipes section (viral cards)"
+  },
+
+  "homeSectionTrendingSubtitle": "Le ricette che stanno spopolando adesso",
+  "@homeSectionTrendingSubtitle": {
+    "description": "Subtitle of the trending recipes section"
+  },
+
+  "homeSectionEasy": "Pronti in un attimo",
+  "@homeSectionEasy": {
+    "description": "Title of the easy meals section"
+  },
+
+  "homeSectionEasySubtitle": "Ricette semplici per le sere di corsa",
+  "@homeSectionEasySubtitle": {
+    "description": "Subtitle of the easy meals section"
+  },
+
+  "homeSectionChallenge": "Mettiti alla prova",
+  "@homeSectionChallenge": {
+    "description": "Title of the challenge meals section"
+  },
+
+  "homeSectionChallengeSubtitle": "Per chi vuole crescere ai fornelli",
+  "@homeSectionChallengeSubtitle": {
+    "description": "Subtitle of the challenge meals section"
+  },
+
+  "homeSectionBudget": "Cucina low cost",
+  "@homeSectionBudget": {
+    "description": "Title of the budget meals section"
+  },
+
+  "homeSectionBudgetSubtitle": "Buono, sano e senza svuotare il portafoglio",
+  "@homeSectionBudgetSubtitle": {
+    "description": "Subtitle of the budget meals section"
+  },
+
+  "homeSectionPremium": "Esperienze gourmet",
+  "@homeSectionPremium": {
+    "description": "Title of the premium meals section"
+  },
+
+  "homeSectionPremiumSubtitle": "Ricette da chef per le occasioni speciali",
+  "@homeSectionPremiumSubtitle": {
+    "description": "Subtitle of the premium meals section"
+  },
+
+  "homeCategoriesLoadError": "Impossibile caricare le categorie",
+  "@homeCategoriesLoadError": {
+    "description": "Error message shown in the categories row when categories fail to load"
+  },
+
+  "mealDetailsSectionDescription": "Descrizione",
+  "@mealDetailsSectionDescription": {
+    "description": "Section title for the description in the meal details screen"
+  },
+
+  "mealDetailsLoadError": "Impossibile caricare i dettagli della ricetta.",
+  "@mealDetailsLoadError": {
+    "description": "Error message shown in the meal details screen when the meal fails to load"
+  },
+
+  "mealDetailsSectionIngredients": "Ingredienti",
+  "@mealDetailsSectionIngredients": {
+    "description": "Section title for the ingredients list in the meal details screen"
+  },
+
+  "mealDetailsSectionSteps": "Procedimento",
+  "@mealDetailsSectionSteps": {
+    "description": "Section title for the steps list in the meal details screen"
+  },
+
+  "mealDetailsBadgeGlutenFree": "Senza glutine",
+  "@mealDetailsBadgeGlutenFree": {
+    "description": "Badge label shown when a meal is gluten-free"
+  },
+
+  "mealDetailsBadgeLactoseFree": "Senza lattosio",
+  "@mealDetailsBadgeLactoseFree": {
+    "description": "Badge label shown when a meal is lactose-free"
+  },
+
+  "mealDetailsBadgeVegan": "Vegano",
+  "@mealDetailsBadgeVegan": {
+    "description": "Badge label shown when a meal is vegan"
+  },
+
+  "mealDetailsBadgeVegetarian": "Vegetariano",
+  "@mealDetailsBadgeVegetarian": {
+    "description": "Badge label shown when a meal is vegetarian"
+  },
+
+  "complexitySimple": "Facile",
+  "@complexitySimple": {
+    "description": "Label for Complexity.simple enum value"
+  },
+
+  "complexityChallenging": "Medio",
+  "@complexityChallenging": {
+    "description": "Label for Complexity.challenging enum value"
+  },
+
+  "complexityHard": "Difficile",
+  "@complexityHard": {
+    "description": "Label for Complexity.hard enum value"
+  },
+
+  "affordabilityAffordable": "Economico",
+  "@affordabilityAffordable": {
+    "description": "Label for Affordability.affordable enum value"
+  },
+
+  "affordabilityPricey": "Nella media",
+  "@affordabilityPricey": {
+    "description": "Label for Affordability.pricey enum value"
+  },
+
+  "affordabilityLuxurious": "Gourmet",
+  "@affordabilityLuxurious": {
+    "description": "Label for Affordability.luxurious enum value"
+  }
+}

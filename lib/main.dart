@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'router.dart';
 
 // Project Helpers
-import 'package:sfrigola/helpers/app_locale.dart';
-import 'package:sfrigola/helpers/app_theme.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
+import 'package:sfrigola/core/helpers/app_theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

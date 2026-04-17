@@ -8,7 +8,7 @@ Helpers are the single source of truth for the design system. **Every widget or 
 
 ---
 
-## AppColors — `lib/helpers/app_colors.dart`
+## AppColors — `lib/core/helpers/app_colors.dart`
 
 Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. for static constants.
 
@@ -46,7 +46,7 @@ final accent = AppColors.of(context).isDark ? AppColors.secondary : AppColors.pr
 
 ---
 
-## AppTypography — `lib/helpers/app_typography.dart`
+## AppTypography — `lib/core/helpers/app_typography.dart`
 
 Access: `AppTypography.of(context).{style}`. Font is **Lato** (Google Fonts).
 
@@ -78,7 +78,7 @@ Access: `AppTypography.of(context).{style}`. Font is **Lato** (Google Fonts).
 
 ---
 
-## AppDesign — `lib/helpers/app_design.dart`
+## AppDesign — `lib/core/helpers/app_design.dart`
 
 Access: `AppDesign.{token}` (all static).
 

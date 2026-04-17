@@ -48,7 +48,7 @@ lib/core/providers/
 
 **Feature-scoped providers** (used only inside one feature) live inside the feature directory:
 ```
-feature-home/
+features/feature-home/
   providers/
     meals_provider.dart
     categories_provider.dart

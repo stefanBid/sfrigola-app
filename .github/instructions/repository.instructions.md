@@ -34,14 +34,14 @@ lib/core/repositories/
 `MealFilter` lives in `lib/core/repositories/meal/meal_repository_model.dart` and extends it with meal-domain parameters. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
 
 ```dart
-// lib/models/repository_filter.dart
+// lib/core/models/repository_filter.dart
 abstract class RepositoryFilter {
   const RepositoryFilter({this.skip = 0, this.take = 10});
   final int skip;
   final int take;
 }
 
-// lib/repositories/meal/meal_repository_model.dart
+// lib/core/repositories/meal/meal_repository_model.dart
 class MealFilter extends RepositoryFilter {
   const MealFilter({super.skip, super.take, this.categoryId, this.query = ''});
 

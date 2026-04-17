@@ -139,6 +139,7 @@ class MealRepositoryImpl implements MealRepository {
   Future<Meal> getMealById(String id) async {
     // TODO: replace with GET /meals/{id}
     try {
+      await Future.delayed(const Duration(seconds: 2));
       return availableMeals.firstWhere((meal) => meal.id == id);
     } on StateError {
       throw MealNotFoundException(id);

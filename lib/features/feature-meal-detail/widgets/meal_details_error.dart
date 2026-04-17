@@ -12,11 +12,9 @@ class MealDetailsError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: AppDesign.paddingPage,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
             const Icon(
               PhosphorIconsRegular.warningCircle,
               size: 48,
@@ -31,7 +29,6 @@ class MealDetailsError extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ],
-        ),
       ),
     );
   }

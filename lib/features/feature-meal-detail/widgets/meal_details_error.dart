@@ -15,20 +15,20 @@ class MealDetailsError extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-            const Icon(
-              PhosphorIconsRegular.warningCircle,
-              size: 48,
-              color: AppColors.error,
-            ),
-            const SizedBox(height: AppDesign.gapItemSm),
-            Text(
-              'Failed to load meal details.',
-              style: AppTypography.of(
-                context,
-              ).body.copyWith(color: AppColors.error),
-              textAlign: TextAlign.center,
-            ),
-          ],
+          const Icon(
+            PhosphorIconsRegular.warningCircle,
+            size: 48,
+            color: AppColors.error,
+          ),
+          const SizedBox(height: AppDesign.gapItemSm),
+          Text(
+            'Failed to load meal details.',
+            style: AppTypography.of(
+              context,
+            ).body.copyWith(color: AppColors.error),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

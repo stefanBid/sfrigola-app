@@ -56,6 +56,14 @@ class AppLayout extends StatelessWidget {
     return index < 0 ? 0 : index;
   }
 
+  void _onTabSelected(BuildContext context, _TabItem tab) {
+    final location = GoRouterState.of(context).uri.path;
+    if (location == AppRouter.search.path && tab.route == AppRouter.home) {
+      return;
+    }
+    AppRouter.goTo(context, tab.route);
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentIndex = _currentIndex(context);
@@ -64,7 +72,7 @@ class AppLayout extends StatelessWidget {
       backgroundColor: AppColors.of(context).background,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        behavior: HitTestBehavior.translucent,
+        behavior: HitTestBehavior.deferToChild,
         child: child,
       ),
       bottomNavigationBar: withBottomNav
@@ -91,7 +99,7 @@ class AppLayout extends StatelessWidget {
                   final isActive = index == currentIndex;
                   return Expanded(
                     child: GestureDetector(
-                      onTap: () => AppRouter.goTo(context, tab.route),
+                      onTap: () => _onTabSelected(context, tab),
                       behavior: HitTestBehavior.opaque,
                       child: Align(
                         alignment: Alignment.center,

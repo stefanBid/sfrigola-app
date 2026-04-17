@@ -118,7 +118,7 @@ class AppDesign {
 
   static const EdgeInsets paddingInput = EdgeInsets.symmetric(
     horizontal: 12,
-    vertical: _spacingMd2,
+    vertical: 11,
   );
 
   // ─── Gap scale ───────────────────────────────────────────────────────────────

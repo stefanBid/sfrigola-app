@@ -9,19 +9,16 @@ import 'package:sfrigola/features/feature-meal-detail/providers/meal_by_id_provi
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
-import 'package:sfrigola/core/helpers/app_router.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Layouts
-import 'package:sfrigola/core/layouts/app_bars/transparent_app_bar.dart';
 import 'package:sfrigola/core/layouts/body/hero_page_layout.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_badge.dart';
-import 'package:sfrigola/core/widgets/base_icon_button.dart';
 
 // Screen Widgets
 import 'package:sfrigola/features/feature-meal-detail/widgets/meal_details_skeleton.dart';
@@ -32,61 +29,13 @@ class MealDetailsScreen extends ConsumerWidget {
 
   const MealDetailsScreen({super.key, required this.mealId});
 
-  Widget _buildStateLayout(BuildContext context, Widget child) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    return Stack(
-      children: [
-        // — Top muted area
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          height: screenHeight * 0.35,
-          child: ColoredBox(color: AppColors.of(context).muted),
-        ),
-
-        // — Slide-up content container
-        Positioned(
-          top: screenHeight * 0.35 - 48,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              borderRadius: AppDesign.borderRadiusTopLg,
-              color: AppColors.of(context).background,
-            ),
-            child: child,
-          ),
-        ),
-
-        // — Transparent app bar with back button
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: TransparentAppBar(
-            leading: BaseIconButton(
-              color: Colors.white,
-              type: IconButtonType.outlined,
-              icon: PhosphorIconsRegular.arrowBendUpLeft,
-              onPressed: () => AppRouter.goBack(context),
-              tooltip: 'Back',
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mealAsync = ref.watch(mealByIdProvider(mealId));
 
     return switch (mealAsync) {
-      AsyncLoading() => _buildStateLayout(context, const MealDetailsSkeleton()),
-      AsyncError() => _buildStateLayout(context, const MealDetailsError()),
+      AsyncLoading() => const HeroPageLayout(body: MealDetailsSkeleton()),
+      AsyncError() => const HeroPageLayout(body: MealDetailsError()),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,
         body: Column(

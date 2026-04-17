@@ -14,14 +14,16 @@ import '../../widgets/base_icon_button.dart';
 import '../app_bars/transparent_app_bar.dart';
 
 class HeroPageLayout extends StatelessWidget {
-  final String imageUrl;
+  /// When null, a muted placeholder is shown instead of the hero image
+  /// (used for loading and error states).
+  final String? imageUrl;
   final double imageHeight;
   final Widget body;
   final VoidCallback? onBack;
 
   const HeroPageLayout({
     super.key,
-    required this.imageUrl,
+    this.imageUrl,
     required this.body,
     this.imageHeight = 280,
     this.onBack,
@@ -38,11 +40,13 @@ class HeroPageLayout extends StatelessWidget {
           left: 0,
           right: 0,
           height: screenHeight * 0.35,
-          child: BaseImageContainer(
-            imageUrl: imageUrl,
-            filter: ImageFilter.darken,
-            borderRadius: BorderRadius.zero,
-          ),
+          child: imageUrl != null
+              ? BaseImageContainer(
+                  imageUrl: imageUrl!,
+                  filter: ImageFilter.darken,
+                  borderRadius: BorderRadius.zero,
+                )
+              : ColoredBox(color: AppColors.of(context).muted),
         ),
         Positioned(
           top: screenHeight * 0.35 - 48,

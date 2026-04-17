@@ -27,6 +27,8 @@ features/
 
 ## Available layouts
 
+> **Rule — layouts always live in `core/`**: page layouts are architectural patterns (they define the *shape* of a screen, not its content). They always belong in `lib/core/layouts/` regardless of how many features currently use them. The "≤ 2 features → feature folder" rule applies only to UI widgets, never to page layouts.
+
 ### `StandardPageLayout`
 
 Standard scrollable page with optional app bar. Import from `package:sfrigola/core/layouts/body/standard_page_layout.dart`.
@@ -42,6 +44,19 @@ StandardPageLayout(
 ### `AppLayout`
 
 Shell layout with bottom navigation bar. Used via `ShellRoute` — do not instantiate directly.
+
+### `HeroPageLayout`
+
+Detail page with a hero image occupying the top 35% of the screen and a slide-up content card below. Built-in back button via `TransparentAppBar`. Import from `package:sfrigola/core/layouts/body/hero_page_layout.dart`.
+
+```dart
+HeroPageLayout(
+  imageUrl: meal.imageUrl,
+  imageHeight: 280,       // optional, default 280
+  onBack: () { ... },     // optional — defaults to AppRouter.goBack
+  body: ...,
+)
+```
 
 ### App bars
 

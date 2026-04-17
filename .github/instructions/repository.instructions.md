@@ -8,10 +8,10 @@ The repository layer is the **single point of contact between the app and any da
 
 ---
 
-## File structure — `lib/repositories/`
+## File structure — `lib/core/repositories/`
 
 ```
-lib/repositories/
+lib/core/repositories/
   meal/
     meal_repository_model.dart    ← MealFilter + MealNotFoundException
     meal_repository.dart          ← abstract interface only
@@ -29,9 +29,9 @@ lib/repositories/
 
 ## `RepositoryFilter` + `MealFilter`
 
-`RepositoryFilter` lives in `lib/models/repository_filter.dart` — it is a **global model**, not repository-scoped, because the pagination contract is shared across all domains.
+`RepositoryFilter` lives in `lib/core/models/repository_filter.dart` — it is a **global model**, not repository-scoped, because the pagination contract is shared across all domains.
 
-`MealFilter` lives in `lib/repositories/meal/meal_repository_model.dart` and extends it with meal-domain parameters. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
+`MealFilter` lives in `lib/core/repositories/meal/meal_repository_model.dart` and extends it with meal-domain parameters. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
 
 ```dart
 // lib/models/repository_filter.dart
@@ -60,7 +60,7 @@ When a new domain filter is needed (e.g. `UserFilter`), create a new class that 
 
 ---
 
-## `MealRepository` — `lib/repositories/meal/meal_repository.dart`
+## `MealRepository` — `lib/core/repositories/meal/meal_repository.dart`
 
 Abstract interface only. No implementation in this file.
 
@@ -87,7 +87,7 @@ abstract interface class MealRepository {
 
 ---
 
-## `FavoritesRepository` — `lib/repositories/favorites/favorites_repository.dart`
+## `FavoritesRepository` — `lib/core/repositories/favorites/favorites_repository.dart`
 
 Abstract interface only. No implementation in this file.
 
@@ -116,8 +116,8 @@ abstract interface class FavoritesRepository {
 ## Implementation rules
 
 - The abstract interface and the concrete implementation live in **separate files** within the same domain directory (`meal_repository.dart` and `meal_repository_impl.dart`).
-- Method bodies currently use `lib/data/dummy_data.dart` as the data source — each method is marked with a `// TODO: replace with <HTTP verb> <endpoint>` comment.
-- `lib/data/dummy_data.dart` is **auto-generated** by `scripts/generate_dummy_data.py`. Never edit it manually.
+- Method bodies currently use `lib/core/data/dummy_data.dart` as the data source — each method is marked with a `// TODO: replace with <HTTP verb> <endpoint>` comment.
+- `lib/core/data/dummy_data.dart` is **auto-generated** by `scripts/generate_dummy_data.py`. Never edit it manually.
 - When the backend is ready: replace only the method body. The interface and class signature stay unchanged.
 - The concrete class is named `{Domain}RepositoryImpl` (e.g. `MealRepositoryImpl`) — never prefix with `Mock`.
 - No artificial delays (`Future.delayed`) in the implementation — async latency comes naturally from real I/O.
@@ -143,19 +143,19 @@ When importing a repository in a provider or screen, use the `// Project Reposit
 
 ```dart
 // Project Repositories
-import 'package:sfrigola/repositories/meal/meal_repository_model.dart';
-import 'package:sfrigola/repositories/meal/meal_repository.dart';
-import 'package:sfrigola/repositories/favorites/favorites_repository.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
+import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
+import 'package:sfrigola/core/repositories/favorites/favorites_repository.dart';
 ```
 
 ---
 
 ## Dependency injection
 
-Repositories are provided to the app via Riverpod providers defined in `lib/providers/`. **Never instantiate a repository directly in a widget or screen.**
+Repositories are provided to the app via Riverpod providers defined in `lib/core/providers/`. **Never instantiate a repository directly in a widget or screen.**
 
 ```dart
-// In lib/providers/repository_providers.dart
+// In lib/core/providers/repository_providers.dart
 @riverpod
 MealRepository mealRepository(Ref ref) => MealRepositoryImpl();
 

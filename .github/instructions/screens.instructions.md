@@ -1,25 +1,25 @@
 ---
-applyTo: "**/screens/**"
+applyTo: "**/feature-*/**"
 ---
 
 # Screens — Structure and conventions
 
 ## File placement
 
-Each screen lives in its own kebab-case directory under `lib/screens/`:
+Each screen lives in its own kebab-case feature directory under `lib/`:
 
 ```
-screens/
-  recipe-detail/
-    recipe_detail_screen.dart   ← main screen file
-    widgets/                    ← screen-specific widgets (if any)
-      ingredient_chip.dart
+feature-recipe-detail/
+  recipe_detail_screen.dart   ← main screen file
+  providers/                  ← feature-scoped providers (if any)
+  widgets/                    ← screen-specific widgets (if any)
+    ingredient_chip.dart
 ```
 
-- Directory: **kebab-case** (`recipe-detail/`)
+- Directory: **`feature-` + kebab-case** (`feature-recipe-detail/`)
 - File: **snake_case** (`recipe_detail_screen.dart`)
 - Class: **PascalCase** (`RecipeDetailScreen`)
-- Create `widgets/` sub-directory for any custom widget used only in this screen (even if just one)
+- Create `widgets/` and `providers/` sub-directories as needed
 
 ---
 
@@ -27,7 +27,7 @@ screens/
 
 ### `StandardPageLayout`
 
-Standard scrollable page with optional app bar. Import from `layouts/body/standard_page_layout.dart`.
+Standard scrollable page with optional app bar. Import from `core/layouts/body/standard_page_layout.dart`.
 
 ```dart
 StandardPageLayout(

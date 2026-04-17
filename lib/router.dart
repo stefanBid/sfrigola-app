@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-// Layouts
-import 'layouts/app_layout.dart';
+// Core Layouts
+import 'core/layouts/app_layout.dart';
 
-// Screens
-import 'screens/home/home_screen.dart';
-import 'screens/meal-details/meal_details_screen.dart';
-import 'screens/search/search_screen.dart';
-import 'screens/form/form_screen.dart';
-import 'screens/profile/profile_screen.dart';
+// Features
+import 'feature-home/home_screen.dart';
+import 'feature-meal-detail/meal_details_screen.dart';
+import 'feature-search/search_screen.dart';
+import 'feature-form/form_screen.dart';
+import 'feature-profile/profile_screen.dart';
 
 Widget _customTransitionBuilder(
   BuildContext context,

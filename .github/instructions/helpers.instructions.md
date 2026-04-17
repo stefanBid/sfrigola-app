@@ -38,7 +38,7 @@ Text(l.homeTitle)
 Text(l.homeSearchHint)
 ```
 
-ARB source files are in `lib/l10n/`:
+ARB source files are in `lib/core/l10n/`:
 - `app_it.arb` — Italian (template / default)
 - `app_en.arb` — English
 
@@ -98,7 +98,7 @@ validator: (v) =>
 Debug-only logger gated behind `kDebugMode`. All output is **automatically stripped in release and profile builds** — never use `print()` or bare `debugPrint()` directly.
 
 ```dart
-import '../helpers/app_logger.dart';
+import '../core/helpers/app_logger.dart';
 
 AppLogger.debug('User loaded', tag: 'HomeScreen');
 AppLogger.warn('Token is about to expire');

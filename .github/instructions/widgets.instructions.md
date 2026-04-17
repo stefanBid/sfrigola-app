@@ -8,9 +8,9 @@ applyTo: "**/widgets/**"
 
 | Case | Where | Naming |
 |---|---|---|
-| Used in **≤ 2** screens | `screens/<name>/widgets/` | `widget_name.dart` |
-| Used in **3+** screens | `lib/widgets/` (root) | `base_widget_name.dart` |
-| Group container / list | `lib/widgets/group-container/` | `gc_widget_name.dart` |
+| Used in **≤ 2** screens | `feature-<name>/widgets/` | `widget_name.dart` |
+| Used in **3+** screens | `lib/core/widgets/` (root) | `base_widget_name.dart` |
+| Group container / list | `lib/core/widgets/group-container/` | `gc_widget_name.dart` |
 
 ---
 

@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'core/layouts/app_layout.dart';
 
 // Features
-import 'feature-home/home_screen.dart';
-import 'feature-meal-detail/meal_details_screen.dart';
-import 'feature-search/search_screen.dart';
-import 'feature-form/form_screen.dart';
-import 'feature-profile/profile_screen.dart';
+import 'features/feature-home/home_screen.dart';
+import 'features/feature-meal-detail/meal_details_screen.dart';
+import 'features/feature-search/search_screen.dart';
+import 'features/feature-form/form_screen.dart';
+import 'features/feature-profile/profile_screen.dart';
 
 Widget _customTransitionBuilder(
   BuildContext context,

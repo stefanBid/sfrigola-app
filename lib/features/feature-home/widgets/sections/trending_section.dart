@@ -5,32 +5,32 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
-import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
-import 'package:sfrigola/feature-home/providers/meals_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
 // Project Widgets
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_card_row.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_header.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_card.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_viral_card.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_viral_row.dart';
 import 'package:sfrigola/core/widgets/base_button.dart';
-import 'package:sfrigola/core/widgets/base_card.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
+import 'package:sfrigola/features/feature-home/widgets/viral_meal_card.dart';
 
-class EasySection extends ConsumerStatefulWidget {
-  const EasySection({super.key});
+class TrendingSection extends ConsumerStatefulWidget {
+  const TrendingSection({super.key});
 
   @override
-  ConsumerState<EasySection> createState() => _EasySectionState();
+  ConsumerState<TrendingSection> createState() => _TrendingSectionState();
 }
 
-class _EasySectionState extends ConsumerState<EasySection> {
+class _TrendingSectionState extends ConsumerState<TrendingSection> {
   static const int _pageSize = 10;
   static const double _scrollThreshold = 300.0;
 
@@ -63,7 +63,7 @@ class _EasySectionState extends ConsumerState<EasySection> {
     if (_isLoadingMore || !_hasMore) return;
     setState(() => _isLoadingMore = true);
     try {
-      final hasMore = await ref.read(easyMealsProvider.notifier).loadMore();
+      final hasMore = await ref.read(trendingMealsProvider.notifier).loadMore();
       if (mounted) {
         setState(() {
           _isLoadingMore = false;
@@ -84,20 +84,20 @@ class _EasySectionState extends ConsumerState<EasySection> {
         Row(
           children: [
             const Icon(
-              PhosphorIconsBold.lightning,
+              PhosphorIconsBold.trendUp,
               size: 24,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),
             Text(
-              AppLocale.getLabels(context).homeSectionEasy,
+              AppLocale.getLabels(context).homeSectionTrending,
               style: AppTypography.of(context).heading3,
             ),
           ],
         ),
         const SizedBox(height: AppDesign.gapInlineXs),
         Text(
-          AppLocale.getLabels(context).homeSectionEasySubtitle,
+          AppLocale.getLabels(context).homeSectionTrendingSubtitle,
           style: AppTypography.of(context).bodySecondary,
         ),
       ],
@@ -110,8 +110,9 @@ class _EasySectionState extends ConsumerState<EasySection> {
     BuildContext context, {
     required Widget header,
     required Widget content,
-    double groupHeight = 220.0,
+    double groupHeight = 280.0,
   }) {
+    // heading3 (18px) ≈ 22, subtitle body (16px) ≈ 20
     const double titleSectionHeight =
         22 + AppDesign.gapSectionXs + AppDesign.gapInlineXs + 20.0;
 
@@ -139,29 +140,30 @@ class _EasySectionState extends ConsumerState<EasySection> {
     final itemCount = items.length + (_isLoadingMore ? 1 : 0);
     return GcListView(
       scrollController: _scrollController,
-      scrollDirection: Axis.horizontal,
-      itemCount: itemCount,
       itemBuilder: (context, index) {
         if (_isLoadingMore && index == items.length) {
-          return const SkeletonCard();
+          return const SkeletonViralCard();
         }
-        final meal = items[index];
-        return BaseCard(
-          key: ValueKey(meal.id),
-          title: meal.title,
-          content: meal.subtitle,
-          imageUrl: meal.imageUrl,
-          padding: AppDesign.paddingHorizontalLg.copyWith(
-            left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
-          ),
-          onTap: () {
-            FocusScope.of(context).unfocus();
-            AppRouter.goDeep(
-              context,
-              AppRouter.mealDetails,
-              params: MealDetailsParams(mealId: meal.id),
-            );
-          },
+        return _buildMealCard(context, items[index], index);
+      },
+      scrollDirection: Axis.horizontal,
+      itemCount: itemCount,
+    );
+  }
+
+  Widget _buildMealCard(BuildContext context, MealPreview meal, int index) {
+    return ViralMealCard(
+      key: ValueKey(meal.id),
+      padding: AppDesign.paddingHorizontalLg.copyWith(
+        left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
+      ),
+      meal: meal,
+      onTap: (mealId) {
+        FocusScope.of(context).unfocus();
+        AppRouter.goDeep(
+          context,
+          AppRouter.mealDetails,
+          params: MealDetailsParams(mealId: mealId),
         );
       },
     );
@@ -171,9 +173,11 @@ class _EasySectionState extends ConsumerState<EasySection> {
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(easyMealsProvider);
+    final meals = ref.watch(trendingMealsProvider);
 
-    ref.listen<AsyncValue<List<MealPreview>>>(easyMealsProvider, (
+    // Reset local pagination state when the provider reloads from scratch
+    // (first load or category change).
+    ref.listen<AsyncValue<List<MealPreview>>>(trendingMealsProvider, (
       prev,
       current,
     ) {
@@ -192,7 +196,7 @@ class _EasySectionState extends ConsumerState<EasySection> {
       loading: () => _buildSection(
         context,
         header: const SkeletonHeader(),
-        content: const SkeletonCardRow(),
+        content: const SkeletonViralRow(),
       ),
       error: (_, _) => _buildSection(
         context,
@@ -203,7 +207,7 @@ class _EasySectionState extends ConsumerState<EasySection> {
             label: 'Retry',
             icon: PhosphorIconsBold.arrowClockwise,
             type: BaseButtonType.outlined,
-            onPressed: () => ref.invalidate(easyMealsProvider),
+            onPressed: () => ref.invalidate(trendingMealsProvider),
           ),
         ),
       ),

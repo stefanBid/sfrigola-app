@@ -3,7 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
-import 'package:sfrigola/feature-meal-detail/providers/meal_by_id_provider.dart';
+import 'package:sfrigola/features/feature-meal-detail/providers/meal_by_id_provider.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -24,8 +24,8 @@ import 'package:sfrigola/core/widgets/base_badge.dart';
 import 'package:sfrigola/core/widgets/base_icon_button.dart';
 
 // Screen Widgets
-import 'package:sfrigola/feature-meal-detail/widgets/meal_details_skeleton.dart';
-import 'package:sfrigola/feature-meal-detail/widgets/meal_details_error.dart';
+import 'package:sfrigola/features/feature-meal-detail/widgets/meal_details_skeleton.dart';
+import 'package:sfrigola/features/feature-meal-detail/widgets/meal_details_error.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
   final String mealId;

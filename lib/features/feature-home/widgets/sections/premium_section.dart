@@ -5,32 +5,32 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
-import 'package:sfrigola/core/helpers/app_locale.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
-import 'package:sfrigola/feature-home/providers/meals_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
 // Project Widgets
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_header.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_viral_card.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_viral_row.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card_row.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card.dart';
 import 'package:sfrigola/core/widgets/base_button.dart';
+import 'package:sfrigola/core/widgets/base_card.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
-import 'package:sfrigola/feature-home/widgets/viral_meal_card.dart';
 
-class TrendingSection extends ConsumerStatefulWidget {
-  const TrendingSection({super.key});
+class PremiumSection extends ConsumerStatefulWidget {
+  const PremiumSection({super.key});
 
   @override
-  ConsumerState<TrendingSection> createState() => _TrendingSectionState();
+  ConsumerState<PremiumSection> createState() => _PremiumSectionState();
 }
 
-class _TrendingSectionState extends ConsumerState<TrendingSection> {
+class _PremiumSectionState extends ConsumerState<PremiumSection> {
   static const int _pageSize = 10;
   static const double _scrollThreshold = 300.0;
 
@@ -63,7 +63,7 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
     if (_isLoadingMore || !_hasMore) return;
     setState(() => _isLoadingMore = true);
     try {
-      final hasMore = await ref.read(trendingMealsProvider.notifier).loadMore();
+      final hasMore = await ref.read(premiumMealsProvider.notifier).loadMore();
       if (mounted) {
         setState(() {
           _isLoadingMore = false;
@@ -84,20 +84,20 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
         Row(
           children: [
             const Icon(
-              PhosphorIconsBold.trendUp,
+              PhosphorIconsBold.star,
               size: 24,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),
             Text(
-              AppLocale.getLabels(context).homeSectionTrending,
+              AppLocale.getLabels(context).homeSectionPremium,
               style: AppTypography.of(context).heading3,
             ),
           ],
         ),
         const SizedBox(height: AppDesign.gapInlineXs),
         Text(
-          AppLocale.getLabels(context).homeSectionTrendingSubtitle,
+          AppLocale.getLabels(context).homeSectionPremiumSubtitle,
           style: AppTypography.of(context).bodySecondary,
         ),
       ],
@@ -110,9 +110,8 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
     BuildContext context, {
     required Widget header,
     required Widget content,
-    double groupHeight = 280.0,
+    double groupHeight = 220.0,
   }) {
-    // heading3 (18px) ≈ 22, subtitle body (16px) ≈ 20
     const double titleSectionHeight =
         22 + AppDesign.gapSectionXs + AppDesign.gapInlineXs + 20.0;
 
@@ -140,30 +139,29 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
     final itemCount = items.length + (_isLoadingMore ? 1 : 0);
     return GcListView(
       scrollController: _scrollController,
-      itemBuilder: (context, index) {
-        if (_isLoadingMore && index == items.length) {
-          return const SkeletonViralCard();
-        }
-        return _buildMealCard(context, items[index], index);
-      },
       scrollDirection: Axis.horizontal,
       itemCount: itemCount,
-    );
-  }
-
-  Widget _buildMealCard(BuildContext context, MealPreview meal, int index) {
-    return ViralMealCard(
-      key: ValueKey(meal.id),
-      padding: AppDesign.paddingHorizontalLg.copyWith(
-        left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
-      ),
-      meal: meal,
-      onTap: (mealId) {
-        FocusScope.of(context).unfocus();
-        AppRouter.goDeep(
-          context,
-          AppRouter.mealDetails,
-          params: MealDetailsParams(mealId: mealId),
+      itemBuilder: (context, index) {
+        if (_isLoadingMore && index == items.length) {
+          return const SkeletonCard();
+        }
+        final meal = items[index];
+        return BaseCard(
+          key: ValueKey(meal.id),
+          title: meal.title,
+          content: meal.subtitle,
+          imageUrl: meal.imageUrl,
+          padding: AppDesign.paddingHorizontalLg.copyWith(
+            left: index == 0 ? AppDesign.paddingHorizontalLg.left : 0,
+          ),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            AppRouter.goDeep(
+              context,
+              AppRouter.mealDetails,
+              params: MealDetailsParams(mealId: meal.id),
+            );
+          },
         );
       },
     );
@@ -173,11 +171,9 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(trendingMealsProvider);
+    final meals = ref.watch(premiumMealsProvider);
 
-    // Reset local pagination state when the provider reloads from scratch
-    // (first load or category change).
-    ref.listen<AsyncValue<List<MealPreview>>>(trendingMealsProvider, (
+    ref.listen<AsyncValue<List<MealPreview>>>(premiumMealsProvider, (
       prev,
       current,
     ) {
@@ -196,7 +192,7 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
       loading: () => _buildSection(
         context,
         header: const SkeletonHeader(),
-        content: const SkeletonViralRow(),
+        content: const SkeletonCardRow(),
       ),
       error: (_, _) => _buildSection(
         context,
@@ -207,7 +203,7 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
             label: 'Retry',
             icon: PhosphorIconsBold.arrowClockwise,
             type: BaseButtonType.outlined,
-            onPressed: () => ref.invalidate(trendingMealsProvider),
+            onPressed: () => ref.invalidate(premiumMealsProvider),
           ),
         ),
       ),

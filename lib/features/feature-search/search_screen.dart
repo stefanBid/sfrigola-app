@@ -11,7 +11,7 @@ import 'package:sfrigola/core/layouts/app_bars/classic_app_bar.dart';
 import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 
 // Project Widgets
-import 'package:sfrigola/feature-search/widgets/general_search_box.dart';
+import 'package:sfrigola/features/feature-search/widgets/general_search_box.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

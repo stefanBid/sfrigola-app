@@ -14,7 +14,7 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/models/category.dart';
 
 // Project Providers
-import 'package:sfrigola/feature-home/providers/categories_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/categories_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_box.dart';

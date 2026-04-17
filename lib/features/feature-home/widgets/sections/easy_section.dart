@@ -13,24 +13,24 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
-import 'package:sfrigola/feature-home/providers/meals_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
 // Project Widgets
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_card_row.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_header.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_card.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card_row.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card.dart';
 import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_card.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
 
-class PremiumSection extends ConsumerStatefulWidget {
-  const PremiumSection({super.key});
+class EasySection extends ConsumerStatefulWidget {
+  const EasySection({super.key});
 
   @override
-  ConsumerState<PremiumSection> createState() => _PremiumSectionState();
+  ConsumerState<EasySection> createState() => _EasySectionState();
 }
 
-class _PremiumSectionState extends ConsumerState<PremiumSection> {
+class _EasySectionState extends ConsumerState<EasySection> {
   static const int _pageSize = 10;
   static const double _scrollThreshold = 300.0;
 
@@ -63,7 +63,7 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
     if (_isLoadingMore || !_hasMore) return;
     setState(() => _isLoadingMore = true);
     try {
-      final hasMore = await ref.read(premiumMealsProvider.notifier).loadMore();
+      final hasMore = await ref.read(easyMealsProvider.notifier).loadMore();
       if (mounted) {
         setState(() {
           _isLoadingMore = false;
@@ -84,20 +84,20 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
         Row(
           children: [
             const Icon(
-              PhosphorIconsBold.star,
+              PhosphorIconsBold.lightning,
               size: 24,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),
             Text(
-              AppLocale.getLabels(context).homeSectionPremium,
+              AppLocale.getLabels(context).homeSectionEasy,
               style: AppTypography.of(context).heading3,
             ),
           ],
         ),
         const SizedBox(height: AppDesign.gapInlineXs),
         Text(
-          AppLocale.getLabels(context).homeSectionPremiumSubtitle,
+          AppLocale.getLabels(context).homeSectionEasySubtitle,
           style: AppTypography.of(context).bodySecondary,
         ),
       ],
@@ -171,9 +171,9 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(premiumMealsProvider);
+    final meals = ref.watch(easyMealsProvider);
 
-    ref.listen<AsyncValue<List<MealPreview>>>(premiumMealsProvider, (
+    ref.listen<AsyncValue<List<MealPreview>>>(easyMealsProvider, (
       prev,
       current,
     ) {
@@ -203,7 +203,7 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
             label: 'Retry',
             icon: PhosphorIconsBold.arrowClockwise,
             type: BaseButtonType.outlined,
-            onPressed: () => ref.invalidate(premiumMealsProvider),
+            onPressed: () => ref.invalidate(easyMealsProvider),
           ),
         ),
       ),

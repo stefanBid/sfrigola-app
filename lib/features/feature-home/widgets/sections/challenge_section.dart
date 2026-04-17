@@ -13,24 +13,24 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
-import 'package:sfrigola/feature-home/providers/meals_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
 // Project Widgets
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_card_row.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_header.dart';
-import 'package:sfrigola/feature-home/widgets/skeletons/skeleton_card.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card_row.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header.dart';
+import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card.dart';
 import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_card.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
 
-class BudgetSection extends ConsumerStatefulWidget {
-  const BudgetSection({super.key});
+class ChallengeSection extends ConsumerStatefulWidget {
+  const ChallengeSection({super.key});
 
   @override
-  ConsumerState<BudgetSection> createState() => _BudgetSectionState();
+  ConsumerState<ChallengeSection> createState() => _ChallengeSectionState();
 }
 
-class _BudgetSectionState extends ConsumerState<BudgetSection> {
+class _ChallengeSectionState extends ConsumerState<ChallengeSection> {
   static const int _pageSize = 10;
   static const double _scrollThreshold = 300.0;
 
@@ -63,7 +63,9 @@ class _BudgetSectionState extends ConsumerState<BudgetSection> {
     if (_isLoadingMore || !_hasMore) return;
     setState(() => _isLoadingMore = true);
     try {
-      final hasMore = await ref.read(budgetMealsProvider.notifier).loadMore();
+      final hasMore = await ref
+          .read(challengeMealsProvider.notifier)
+          .loadMore();
       if (mounted) {
         setState(() {
           _isLoadingMore = false;
@@ -84,20 +86,20 @@ class _BudgetSectionState extends ConsumerState<BudgetSection> {
         Row(
           children: [
             const Icon(
-              PhosphorIconsBold.piggyBank,
+              PhosphorIconsBold.fire,
               size: 24,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),
             Text(
-              AppLocale.getLabels(context).homeSectionBudget,
+              AppLocale.getLabels(context).homeSectionChallenge,
               style: AppTypography.of(context).heading3,
             ),
           ],
         ),
         const SizedBox(height: AppDesign.gapInlineXs),
         Text(
-          AppLocale.getLabels(context).homeSectionBudgetSubtitle,
+          AppLocale.getLabels(context).homeSectionChallengeSubtitle,
           style: AppTypography.of(context).bodySecondary,
         ),
       ],
@@ -171,9 +173,9 @@ class _BudgetSectionState extends ConsumerState<BudgetSection> {
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(budgetMealsProvider);
+    final meals = ref.watch(challengeMealsProvider);
 
-    ref.listen<AsyncValue<List<MealPreview>>>(budgetMealsProvider, (
+    ref.listen<AsyncValue<List<MealPreview>>>(challengeMealsProvider, (
       prev,
       current,
     ) {
@@ -203,7 +205,7 @@ class _BudgetSectionState extends ConsumerState<BudgetSection> {
             label: 'Retry',
             icon: PhosphorIconsBold.arrowClockwise,
             type: BaseButtonType.outlined,
-            onPressed: () => ref.invalidate(budgetMealsProvider),
+            onPressed: () => ref.invalidate(challengeMealsProvider),
           ),
         ),
       ),

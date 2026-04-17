@@ -5,7 +5,7 @@ import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
-import 'package:sfrigola/feature-home/providers/selected_category_id_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/selected_category_id_provider.dart';
 
 part 'meals_provider.g.dart';
 

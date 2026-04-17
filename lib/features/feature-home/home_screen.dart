@@ -14,19 +14,19 @@ import 'package:sfrigola/core/layouts/app_bars/classic_app_bar.dart';
 import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 
 // Project Providers
-import 'package:sfrigola/feature-home/providers/meals_provider.dart';
-import 'package:sfrigola/feature-home/providers/selected_category_id_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
+import 'package:sfrigola/features/feature-home/providers/selected_category_id_provider.dart';
 
 // Project Widgets
-import 'package:sfrigola/feature-home/widgets/fake_search_box.dart';
-import 'package:sfrigola/feature-home/widgets/categories_group_row.dart';
+import 'package:sfrigola/features/feature-home/widgets/fake_search_box.dart';
+import 'package:sfrigola/features/feature-home/widgets/categories_group_row.dart';
 
 // Page Sections
-import 'package:sfrigola/feature-home/widgets/sections/budget_section.dart';
-import 'package:sfrigola/feature-home/widgets/sections/challenge_section.dart';
-import 'package:sfrigola/feature-home/widgets/sections/easy_section.dart';
-import 'package:sfrigola/feature-home/widgets/sections/premium_section.dart';
-import 'package:sfrigola/feature-home/widgets/sections/trending_section.dart';
+import 'package:sfrigola/features/feature-home/widgets/sections/budget_section.dart';
+import 'package:sfrigola/features/feature-home/widgets/sections/challenge_section.dart';
+import 'package:sfrigola/features/feature-home/widgets/sections/easy_section.dart';
+import 'package:sfrigola/features/feature-home/widgets/sections/premium_section.dart';
+import 'package:sfrigola/features/feature-home/widgets/sections/trending_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

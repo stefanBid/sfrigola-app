@@ -1,22 +1,24 @@
 ---
-applyTo: "**/feature-*/**"
+applyTo: "**/features/**"
 ---
 
-# Screens — Structure and conventions
+# Feature — Structure and conventions
 
 ## File placement
 
-Each screen lives in its own kebab-case feature directory under `lib/`:
+Each feature lives in its own kebab-case directory under `lib/features/`:
 
 ```
-feature-recipe-detail/
-  recipe_detail_screen.dart   ← main screen file
-  providers/                  ← feature-scoped providers (if any)
-  widgets/                    ← screen-specific widgets (if any)
-    ingredient_chip.dart
+features/
+  feature-recipe-detail/
+    recipe_detail_screen.dart   ← main screen file
+    providers/                  ← feature-scoped providers (if any)
+    widgets/                    ← feature-specific widgets (if any)
+      ingredient_chip.dart
 ```
 
-- Directory: **`feature-` + kebab-case** (`feature-recipe-detail/`)
+- Parent directory: `lib/features/` (all features live here)
+- Feature directory: **`feature-` + kebab-case** (`feature-recipe-detail/`)
 - File: **snake_case** (`recipe_detail_screen.dart`)
 - Class: **PascalCase** (`RecipeDetailScreen`)
 - Create `widgets/` and `providers/` sub-directories as needed
@@ -27,7 +29,7 @@ feature-recipe-detail/
 
 ### `StandardPageLayout`
 
-Standard scrollable page with optional app bar. Import from `core/layouts/body/standard_page_layout.dart`.
+Standard scrollable page with optional app bar. Import from `package:sfrigola/core/layouts/body/standard_page_layout.dart`.
 
 ```dart
 StandardPageLayout(
@@ -67,10 +69,10 @@ If a UI piece has its own state, many parameters, or is reused — create a sepa
 
 ```
 I have a piece of UI to isolate:
-├─ Used in 3+ screens?     → lib/widgets/base_widget_name.dart
-├─ Used in ≤ 2 screens?    → screens/<name>/widgets/widget_name.dart
-├─ Demo screen only?       → define in the same screen file (exception)
-└─ Small repetition?       → private _buildXxx() function
+├─ Used in 3+ features?   → lib/core/widgets/base_widget_name.dart
+├─ Used in ≤ 2 features?  → features/<name>/widgets/widget_name.dart
+├─ Demo screen only?      → define in the same screen file (exception)
+└─ Small repetition?      → private _buildXxx() function
 ```
 
 ### Exception — Template/demo screens

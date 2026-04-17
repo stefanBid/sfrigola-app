@@ -112,7 +112,7 @@ flutter run
 
 ## 3. Project Structure
 
-This section shows the full annotated directory tree of the project. Each top-level folder has a single responsibility.
+This project follows a **feature-based architecture** — code is organized around product features, not technical layers. Each feature is self-contained with its own screen, providers, and widgets. Shared infrastructure lives in `core/`.
 
 ```
 sfrigola-app/
@@ -132,8 +132,9 @@ sfrigola-app/
       design-system.instructions.md
       helpers.instructions.md
       routing.instructions.md
-      screens.instructions.md
+      feature.instructions.md
       widgets.instructions.md
+      state-management.instructions.md
     prompts/                         ← reusable Agent-mode workflows
       init-project.prompt.md
       localize.prompt.md
@@ -197,22 +198,23 @@ sfrigola-app/
         group-container/
           gc_list_view.dart ← null-safe ListView.builder wrapper
           gc_grid_view.dart ← GridView.count wrapper with dimensions
-    feature-home/         ← home feed feature
-      home_screen.dart
-      providers/          ← feature-scoped providers
-      widgets/            ← feature-scoped widgets (sections, skeletons, etc.)
-    feature-meal-detail/  ← meal detail feature
-      meal_details_screen.dart
-      providers/
-      widgets/
-    feature-search/       ← search feature
-      search_screen.dart
-      providers/
-      widgets/
-    feature-profile/      ← user profile feature
-      profile_screen.dart
-    feature-form/         ← form demo feature
-      form_screen.dart
+    features/             ← all product features (feature-based architecture)
+      feature-home/         ← home feed feature
+        home_screen.dart
+        providers/          ← feature-scoped providers
+        widgets/            ← feature-scoped widgets (sections, skeletons, etc.)
+      feature-meal-detail/  ← meal detail feature
+        meal_details_screen.dart
+        providers/
+        widgets/
+      feature-search/       ← search feature
+        search_screen.dart
+        providers/
+        widgets/
+      feature-profile/      ← user profile feature
+        profile_screen.dart
+      feature-form/         ← form demo feature
+        form_screen.dart
 ```
 
 ---
@@ -876,11 +878,12 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | File | Applies to | Governs |
 |---|---|---|
 | `design-system.instructions.md` | `**/*.dart` | AppColors, AppTypography, AppDesign tokens, PhosphorIcons API, widget checklist |
-| `screens.instructions.md` | `**/screens/**` | Screen structure, layouts, app bars, code organisation rules |
+| `feature.instructions.md` | `**/features/**` | Feature structure, screen/widget/provider placement, layouts, app bars, code organisation |
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules and widget API reference |
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
 | `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, RepositoryFilter, DI pattern, error handling |
+| `state-management.instructions.md` | `**/providers/**,**/features/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, naming, checklist |
 
 ---
 

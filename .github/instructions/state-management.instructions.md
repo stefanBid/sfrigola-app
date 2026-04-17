@@ -1,5 +1,5 @@
 ---
-applyTo: "**/providers/**,**/screens/**,**/widgets/**"
+applyTo: "**/providers/**,**/features/**,**/widgets/**"
 ---
 
 # State Management — Riverpod conventions

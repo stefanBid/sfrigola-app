@@ -87,6 +87,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
         ),
         crossAxisCount: isTablet ? 2 : 1,
         maxItemWidth: isTablet ? 400 : double.infinity,
+        mainAxisExtent: 300,
       ),
       itemBuilder: (context, index) {
         if (index < items.length) {

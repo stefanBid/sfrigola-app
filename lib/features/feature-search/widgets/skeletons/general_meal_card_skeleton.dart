@@ -40,7 +40,11 @@ class _GeneralMealCardSkeletonState extends State<GeneralMealCardSkeleton>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _opacity,
-      child: Padding(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.of(context).surface,
+          borderRadius: AppDesign.borderRadiusMd,
+        ),
         padding: AppDesign.paddingSm,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,17 +74,45 @@ class _GeneralMealCardSkeletonState extends State<GeneralMealCardSkeleton>
                   const SizedBox(height: AppDesign.gapItemXs),
                   Container(
                     height: 10,
-                    width: 80,
+                    width: 120,
                     decoration: BoxDecoration(
                       color: AppColors.of(context).muted,
                       borderRadius: AppDesign.borderRadiusXXs,
                     ),
+                  ),
+                  const SizedBox(height: AppDesign.gapItemXs),
+                  Wrap(
+                    spacing: AppDesign.gapInlineSm,
+                    runSpacing: AppDesign.gapInlineSm,
+                    children: [
+                      _BadgePlaceholder(width: 64),
+                      _BadgePlaceholder(width: 72),
+                      _BadgePlaceholder(width: 80),
+                    ],
                   ),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _BadgePlaceholder extends StatelessWidget {
+  final double width;
+
+  const _BadgePlaceholder({required this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: 24,
+      decoration: BoxDecoration(
+        color: AppColors.of(context).muted,
+        borderRadius: AppDesign.borderRadiusXXs,
       ),
     );
   }

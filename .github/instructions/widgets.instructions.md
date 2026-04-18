@@ -165,14 +165,22 @@ GcGridView(
   itemCount: items.length,
   itemBuilder: (context, index) => MyCard(item: items[index]),
   scrollController: _scrollController, // optional
-  dimensions: const GridDimensions(
-    crossAxisCount: 2,           // number of columns (default: 2)
-    childAspectRatio: 3 / 2,    // width/height ratio (default: 3/2)
-    crossAxisSpacing: AppDesign.gapItemMd, // horizontal gap
-    mainAxisSpacing: AppDesign.gapItemMd,  // vertical gap
+  dimensions: GridDimensions(
+    crossAxisCount: 2,                        // number of columns (default: 2)
+    childAspectRatio: 3 / 2,                 // width/height ratio — ignored when mainAxisExtent is set (default: 3/2)
+    crossAxisSpacing: AppDesign.gapItemMd,   // horizontal gap (default)
+    mainAxisSpacing: AppDesign.gapItemMd,    // vertical gap (default)
+    mainAxisExtent: 280,                     // fixed item height in px — use to prevent cards from squashing on wide screens
+    maxItemWidth: 300,                       // max width per cell; grid is centred and capped at maxItemWidth × columns + spacing
+    padding: EdgeInsets.zero,                // inner GridView padding (default: EdgeInsets.zero — avoids MediaQuery top-padding gap)
   ),
 )
 ```
+
+**Notes:**
+- `mainAxisExtent` overrides `childAspectRatio` — prefer it when a fixed height is needed (e.g. tablet grids)
+- `maxItemWidth` computes `maxGridWidth = maxItemWidth × crossAxisCount + crossAxisSpacing × (crossAxisCount - 1)`; the grid is wrapped in `Align(topCenter) + ConstrainedBox` when set
+- `padding` defaults to `EdgeInsets.zero` — Flutter's `GridView` would otherwise add `MediaQuery.padding.top` automatically as a top gap when the widget is not a primary scroll view
 
 ---
 
@@ -191,7 +199,7 @@ BaseValueCard(
 
 ## BaseBadge
 
-Inline label with semantic colour. Uses `borderRadiusXXs` and `small`/`caption` typography via `BadgeStyle`.
+Inline label with semantic colour. Uses `borderRadiusXXs` and `caption` typography via `BadgeStyle`. Label text is always rendered in **uppercase**.
 
 ```dart
 BaseBadge(
@@ -199,8 +207,7 @@ BaseBadge(
   icon: PhosphorIconsRegular.star, // optional
   style: BadgeStyle(
     color: AppColors.success,
-    foregroundColor: Colors.white,       // optional — text and icon colour
-    size: BadgeSize.normal,              // normal (caption) | small
+    foregroundColor: Colors.white,       // optional — text, icon and border colour
     variant: BadgeVariant.filled,        // filled | outlined
     borderRadius: AppDesign.borderRadiusXXs, // optional override
   ),
@@ -208,10 +215,10 @@ BaseBadge(
 ```
 
 **Colour logic:**
-- `color` controls both fill and border colour in both variants
-- `filled` → coloured background + matching border
-- `outlined` → transparent background + border in `color` colour
-- `foregroundColor` → text and icon only (independent from border)
+- `color` controls fill colour only
+- `foregroundColor` controls text, icon **and border** colour
+- `filled` → coloured background + border in `foregroundColor`
+- `outlined` → transparent background + border in `foregroundColor`
 
 **Badge colour palette — approved combinations** (use these for consistency):
 

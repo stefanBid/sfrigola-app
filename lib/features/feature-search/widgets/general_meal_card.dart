@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -9,6 +10,7 @@ import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Widgets
+import 'package:sfrigola/core/widgets/base_badge.dart';
 import 'package:sfrigola/core/widgets/base_image_container.dart';
 
 class GeneralMealCard extends StatelessWidget {
@@ -74,6 +76,39 @@ class GeneralMealCard extends StatelessWidget {
                           style: AppTypography.of(context).bodyMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: AppDesign.gapItemSm),
+                        Wrap(
+                          spacing: AppDesign.gapInlineSm,
+                          runSpacing: AppDesign.gapInlineMd,
+                          children: [
+                            BaseBadge(
+                              label: '${meal.duration} min',
+                              icon: PhosphorIconsRegular.clock,
+                              style: const BadgeStyle(
+                                color: Color(0xFFB3E5FC),
+                                foregroundColor: Color(0xFF0277BD),
+                              ),
+                            ),
+                            BaseBadge(
+                              label: meal.complexity.name,
+                              icon: PhosphorIconsRegular.chefHat,
+                              style: BadgeStyle(
+                                color: meal.complexity.badgeColors.color,
+                                foregroundColor:
+                                    meal.complexity.badgeColors.foreground,
+                              ),
+                            ),
+                            BaseBadge(
+                              label: meal.affordability.name,
+                              icon: PhosphorIconsRegular.wallet,
+                              style: BadgeStyle(
+                                color: meal.affordability.badgeColors.color,
+                                foregroundColor:
+                                    meal.affordability.badgeColors.foreground,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

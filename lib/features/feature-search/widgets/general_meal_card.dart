@@ -28,7 +28,7 @@ class GeneralMealCard extends StatelessWidget {
     return Padding(
       padding: padding,
       child: SizedBox(
-        width: double.infinity,
+        width: AppDesign.isPhone(context) ? double.infinity : 100,
         height: double.infinity,
         child: Material(
           color: Colors.transparent,
@@ -39,9 +39,9 @@ class GeneralMealCard extends StatelessWidget {
             borderRadius: AppDesign.borderRadiusMd,
             onTap: () => onTap(meal.id),
             child: Ink(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 borderRadius: AppDesign.borderRadiusMd,
-                color: Colors.transparent,
+                color: AppColors.of(context).surface,
               ),
               padding: AppDesign.paddingSm,
               child: Column(
@@ -71,7 +71,7 @@ class GeneralMealCard extends StatelessWidget {
                         const SizedBox(height: AppDesign.gapItemXs),
                         Text(
                           meal.subtitle,
-                          style: AppTypography.of(context).caption,
+                          style: AppTypography.of(context).bodyMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

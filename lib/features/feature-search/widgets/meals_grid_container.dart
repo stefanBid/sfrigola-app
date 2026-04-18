@@ -81,7 +81,13 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
     return GcGridView(
       itemCount: itemCount,
       scrollController: _scrollController,
-      dimensions: GridDimensions(crossAxisCount: isTablet ? 2 : 1),
+      dimensions: GridDimensions(
+        padding: const EdgeInsetsGeometry.symmetric(
+          vertical: AppDesign.gapSectionLg,
+        ),
+        crossAxisCount: isTablet ? 2 : 1,
+        maxItemWidth: isTablet ? 400 : double.infinity,
+      ),
       itemBuilder: (context, index) {
         if (index < items.length) {
           return _buildMealCard(context, items[index]);

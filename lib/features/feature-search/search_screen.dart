@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_logger.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Layouts
 import 'package:sfrigola/core/layouts/app_bars/classic_app_bar.dart';

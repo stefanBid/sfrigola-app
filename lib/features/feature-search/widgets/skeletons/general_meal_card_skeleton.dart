@@ -81,7 +81,7 @@ class _GeneralMealCardSkeletonState extends State<GeneralMealCardSkeleton>
                     ),
                   ),
                   const SizedBox(height: AppDesign.gapItemXs),
-                  Wrap(
+                  const Wrap(
                     spacing: AppDesign.gapInlineSm,
                     runSpacing: AppDesign.gapInlineSm,
                     children: [

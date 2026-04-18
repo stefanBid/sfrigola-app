@@ -19,6 +19,7 @@ import 'package:sfrigola/core/widgets/group-container/gc_grid_view.dart';
 // Screen Widgets
 import 'package:sfrigola/features/feature-search/widgets/general_meal_card.dart';
 import 'package:sfrigola/features/feature-search/widgets/skeletons/general_meal_card_skeleton.dart';
+import 'package:sfrigola/features/feature-search/widgets/skeletons/grid_cards_skeleton.dart';
 
 class MealsGridContainer extends ConsumerStatefulWidget {
   const MealsGridContainer({super.key});
@@ -117,7 +118,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
       children: [
         Expanded(
           child: switch (allMeals) {
-            AsyncLoading() => const Center(child: CircularProgressIndicator()),
+            AsyncLoading() => const GridCardsSkeleton(),
             AsyncError() => Center(
               child: Text(
                 'Failed to load meals.',

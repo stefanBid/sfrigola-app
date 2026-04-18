@@ -32,7 +32,7 @@ class MealRepositoryImpl implements MealRepository {
   @override
   Future<List<Category>> getCategories() async {
     // TODO: replace with GET /categories
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
     return availableCategories;
   }
 
@@ -47,7 +47,7 @@ class MealRepositoryImpl implements MealRepository {
       'getTrending(categoryId: $categoryId, skip: $skip, take: $take)',
       tag: 'MealRepo',
     );
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
     final result = _toPreviewList(sorted, categoryId, skip, take);
@@ -66,7 +66,7 @@ class MealRepositoryImpl implements MealRepository {
       'getEasy(categoryId: $categoryId, skip: $skip, take: $take)',
       tag: 'MealRepo',
     );
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
@@ -86,7 +86,7 @@ class MealRepositoryImpl implements MealRepository {
       'getChallenge(categoryId: $categoryId, skip: $skip, take: $take)',
       tag: 'MealRepo',
     );
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
@@ -106,7 +106,7 @@ class MealRepositoryImpl implements MealRepository {
       'getBudget(categoryId: $categoryId, skip: $skip, take: $take)',
       tag: 'MealRepo',
     );
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
@@ -126,7 +126,7 @@ class MealRepositoryImpl implements MealRepository {
       'getPremium(categoryId: $categoryId, skip: $skip, take: $take)',
       tag: 'MealRepo',
     );
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
@@ -139,7 +139,7 @@ class MealRepositoryImpl implements MealRepository {
   Future<List<MealPreview>> getAllMeals({int skip = 0, int take = 10}) async {
     // TODO: replace with GET /meals
     AppLogger.debug('getAll( skip: $skip, take: $take)', tag: 'MealRepo');
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
     final result = _toPreviewList(availableMeals, null, skip, take);
     AppLogger.debug('getAll → ${result.length} items', tag: 'MealRepo');
     return result;
@@ -149,7 +149,7 @@ class MealRepositoryImpl implements MealRepository {
   Future<Meal> getMealById(String id) async {
     // TODO: replace with GET /meals/{id}
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(milliseconds: 500));
       return availableMeals.firstWhere((meal) => meal.id == id);
     } on StateError {
       throw MealNotFoundException(id);

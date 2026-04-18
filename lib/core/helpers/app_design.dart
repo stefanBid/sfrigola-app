@@ -138,6 +138,15 @@ class AppDesign {
       _spacingMd2; // 10  — closely related sections
   static const double gapSectionSm = _spacingMd; // 16 — related sections
   static const double gapSectionMd = _spacingLg; // 20 — distinct sections
-  static const double gapSectionLg =
-      _spacingXl; // 24 — widely separated sections
+  static const double gapSectionLg = _spacingXl;
+
+  static bool isTablet(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return size.width >= 600; // Example threshold for tablet
+  }
+
+  static bool isPhone(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return size.width < 600; // Example threshold for phone
+  }
 }

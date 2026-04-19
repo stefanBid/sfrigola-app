@@ -93,6 +93,7 @@ sfrigola-app/
         category.dart
         json_serializable.dart
         meal.dart
+        general_exception.dart
 
       providers/          ← app-wide Riverpod providers
       repositories/       ← repository layer
@@ -103,6 +104,8 @@ sfrigola-app/
         favorites/
           favorites_repository.dart
           favorites_repository_impl.dart
+      utils/              ← shared utilities (non-design-system)
+        provider_retry.dart
       widgets/            ← reusable UI components (base_* + group-container/)
     features/             ← all product features
       feature-home/         ← home feed feature

@@ -352,7 +352,8 @@ part 'meal_provider.g.dart';
 Every async provider that calls a repository **must** declare `@Riverpod(retry: appRetry)`. Never write a custom per-provider retry function.
 
 ```dart
-import 'package:sfrigola/core/models/general_exception.dart';
+// Project Utils
+import 'package:sfrigola/core/utils/provider_retry.dart';
 
 @Riverpod(retry: appRetry)
 class MealById extends _$MealById {

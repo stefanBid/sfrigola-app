@@ -173,6 +173,7 @@ sfrigola-app/
         json_serializable.dart   ← base interface: toJson()
         category.dart            ← Category model + CategoryColor enum
         meal.dart                ← Meal model + Complexity/Affordability enums
+        general_exception.dart   ← AppException interface + AppErrorCode + GeneralException
 
       providers/          ← app-wide Riverpod providers (repository singletons)
         repository_provider.dart
@@ -184,6 +185,8 @@ sfrigola-app/
         favorites/
           favorites_repository.dart        ← abstract interface
           favorites_repository_impl.dart   ← concrete implementation
+      utils/              ← shared utilities (non-design-system)
+        provider_retry.dart  ← appRetry — shared Riverpod retry function
       widgets/            ← reusable UI components shared across features
         base_badge.dart              ← status badge
         base_button.dart             ← primary action button

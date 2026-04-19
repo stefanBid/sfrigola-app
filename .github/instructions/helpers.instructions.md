@@ -17,6 +17,12 @@ Fixed filenames — do not add new files without a real need:
 | `app_validation.dart` | Form field validators |
 | `app_logger.dart` | Debug-only logger (stripped in release) |
 
+`lib/core/utils/` contains shared utilities that don't belong to the design system:
+
+| File | Purpose |
+|---|---|
+| `provider_retry.dart` | `appRetry` — shared Riverpod retry function |
+
 ---
 
 ## AppLocale — `lib/core/helpers/app_locale.dart`
@@ -89,7 +95,16 @@ throw GeneralException.generic(cause: e);
 // + notFound, unauthorized, forbidden
 ```
 
-`GeneralException` stores an `AppErrorCode` internally and maps it to ARB strings via an internal switch. The `cause` field preserves the original error for logging.
+`GeneralException` stores an `AppErrorCode` internally and maps it to ARB strings via an internal switch. The `cause` field preserves the original error for logging. `isRetryable` returns `true` only for `network` and `serverError`.
+
+The shared retry function lives in `lib/core/utils/provider_retry.dart` — import it in every provider that calls a repository:
+
+```dart
+// Project Utils
+import 'package:sfrigola/core/utils/provider_retry.dart';
+
+@Riverpod(retry: appRetry)
+```
 
 ### Domain-specific exceptions
 

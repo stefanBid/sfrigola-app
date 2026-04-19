@@ -2,7 +2,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
-import 'package:sfrigola/core/models/general_exception.dart';
+
+// Project Utils
+import 'package:sfrigola/core/utils/provider_retry.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';

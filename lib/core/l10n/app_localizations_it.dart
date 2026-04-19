@@ -96,4 +96,27 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get affordabilityLuxurious => 'Gourmet';
+
+  @override
+  String get errorNetwork => 'Nessuna connessione. Controlla la tua rete.';
+
+  @override
+  String get errorNotFound => 'Il contenuto non è stato trovato.';
+
+  @override
+  String get errorUnauthorized => 'Sessione scaduta. Accedi di nuovo.';
+
+  @override
+  String get errorForbidden =>
+      'Non hai i permessi per eseguire questa operazione.';
+
+  @override
+  String get errorServerError =>
+      'Si è verificato un errore sul server. Riprova più tardi.';
+
+  @override
+  String get errorGeneric => 'Si è verificato un errore. Riprova.';
+
+  @override
+  String get mealNotFoundError => 'Ricetta non trovata.';
 }

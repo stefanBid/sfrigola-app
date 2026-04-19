@@ -31,11 +31,13 @@ class MealDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mealAsync = ref.watch(mealByIdProvider(mealId));
+    final mealAsync = ref.watch(mealByIdProvider('Zecca'));
 
     return switch (mealAsync) {
       AsyncLoading() => const HeroPageLayout(body: MealDetailsSkeleton()),
-      AsyncError() => const HeroPageLayout(body: MealDetailsError()),
+      AsyncError(:final error) => HeroPageLayout(
+        body: MealDetailsError(message: AppLocale.errorFor(context, error)),
+      ),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,
         body: Column(

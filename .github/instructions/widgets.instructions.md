@@ -245,9 +245,14 @@ Static utility for showing styled snack bars. Never use `ScaffoldMessenger.of(co
 BaseScaffoldMessenger.show(
   context,
   message: 'Saved successfully!',
-  type: SnackBarType.success, // success | error | warning | info (default)
+  type: SnackBarType.success,  // success | error | warning | info (default)
+  duration: const Duration(seconds: 3), // optional, default 3s
+  retryLabel: 'Retry',         // optional — label for the action button
+  onRetry: () { ... },         // optional — callback fired when the action button is tapped
 );
 ```
+
+When `onRetry` is provided, a `TextButton` with white bold text appears at the trailing end of the snack bar. Tapping it hides the snack bar and calls `onRetry`. Duration is **not** extended automatically — pass a custom `duration` if a longer window is needed.
 
 | `SnackBarType` | Colour | Icon |
 |---|---|---|

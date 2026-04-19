@@ -14,6 +14,7 @@ import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/features/feature-search/providers/all_meals_provider.dart';
 
 // Project Widgets
+import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_grid_view.dart';
 
 // Screen Widgets
@@ -29,6 +30,7 @@ class MealsGridContainer extends ConsumerStatefulWidget {
 }
 
 class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
+  static const int _pageSize = 20;
   static const double _scrollThreshold = 200.0;
 
   late final ScrollController _scrollController;
@@ -74,6 +76,28 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
     }
   }
 
+  Widget _buildError(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Unable to load meals.',
+            style: AppTypography.of(
+              context,
+            ).body.copyWith(color: AppColors.of(context).muted),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppDesign.gapItemSm),
+          TextButton(
+            onPressed: () => ref.invalidate(allMealsProvider),
+            child: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildGrid(BuildContext context, List<MealPreview> items) {
     final isTablet = AppDesign.isTablet(context);
     final skeletonCount = isTablet ? (items.length.isEven ? 2 : 3) : 1;
@@ -114,21 +138,32 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   @override
   Widget build(BuildContext context) {
     final allMeals = ref.watch(allMealsProvider);
+
+    ref.listen<AsyncValue<List<MealPreview>>>(allMealsProvider, (prev, next) {
+      if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
+        setState(() {
+          _isLoadingMore = false;
+          _hasMore = (next.value?.length ?? 0) >= _pageSize;
+        });
+      }
+      if (next is AsyncError && prev is! AsyncError && mounted) {
+        BaseScaffoldMessenger.show(
+          context,
+          message: 'Unable to load meals. Please try again.',
+          type: SnackBarType.error,
+          retryLabel: 'Retry',
+          onRetry: () => ref.invalidate(allMealsProvider),
+        );
+      }
+    });
+
     return Column(
       children: [
         Expanded(
           child: switch (allMeals) {
             AsyncLoading() => const GridCardsSkeleton(),
-            AsyncError() => Center(
-              child: Text(
-                'Failed to load meals.',
-                style: AppTypography.of(
-                  context,
-                ).body.copyWith(color: AppColors.error),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            AsyncData(:final value) when value.isEmpty => Center(
+            AsyncError() => _buildError(context),
+            AsyncData(value: []) => Center(
               child: Text(
                 'No meals found.',
                 style: AppTypography.of(

@@ -1,34 +1,35 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 
+// Project Providers
+import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
+
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_input.dart';
 
-class GeneralSearchBox extends StatefulWidget {
-  final void Function(String)? onChanged;
+class GeneralSearchBox extends ConsumerStatefulWidget {
   final VoidCallback? onBlurEmpty;
 
-  /// Delay after the user stops typing before [onChanged] is fired.
+  /// Delay after the user stops typing before the search key is updated.
   final Duration debounceDuration;
 
   const GeneralSearchBox({
     super.key,
-    this.onChanged,
     this.onBlurEmpty,
     this.debounceDuration = const Duration(milliseconds: 500),
   });
 
   @override
-  State<GeneralSearchBox> createState() => _GeneralSearchBoxState();
+  ConsumerState<GeneralSearchBox> createState() => _GeneralSearchBoxState();
 }
 
-class _GeneralSearchBoxState extends State<GeneralSearchBox> {
+class _GeneralSearchBoxState extends ConsumerState<GeneralSearchBox> {
   late final TextEditingController _searchController;
   late final FocusNode _focusNode;
   Timer? _debounceTimer;
@@ -62,7 +63,9 @@ class _GeneralSearchBoxState extends State<GeneralSearchBox> {
   void _handleSearchChanged(String value) {
     _debounceTimer?.cancel();
     _debounceTimer = Timer(widget.debounceDuration, () {
-      widget.onChanged?.call(value);
+      ref
+          .read(searchedKeyProvider.notifier)
+          .change(value.isEmpty ? null : value);
     });
   }
 

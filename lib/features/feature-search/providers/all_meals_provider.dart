@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/general_exception.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
@@ -9,7 +10,7 @@ import 'package:sfrigola/features/feature-search/providers/searched_key_provider
 
 part 'all_meals_provider.g.dart';
 
-@riverpod
+@Riverpod(retry: appRetry)
 class AllMeals extends _$AllMeals {
   static const _pageSize = 20;
 

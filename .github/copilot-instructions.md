@@ -38,6 +38,15 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 | `state-management.instructions.md` | `**/providers/**,**/features/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, `keepAlive`, family, naming, checklist |
 
 > **Keep instructions in sync**: every time a new widget, helper, or token is added — or an existing one is changed — update the corresponding instruction file immediately. These files are the source of truth for code generation context.
+>
+> This applies to **all scopes**:
+> - A **core/base widget** changes (new prop, new behaviour, removed prop) → update `widgets.instructions.md`
+> - A **feature widget** changes in a way that affects how it integrates with providers or other widgets → update `feature.instructions.md` and/or `state-management.instructions.md`
+> - A **provider** changes its shape or contract → update `state-management.instructions.md`
+> - A **repository method** changes signature → update `repository.instructions.md`
+> - A **helper or token** is added/changed → update `design-system.instructions.md` or `helpers.instructions.md`
+>
+> **Failing to update instructions means the codebase described in context diverges from the real project.** Future code generation will produce incorrect or inconsistent output. Always treat instruction updates as part of the same task, not as optional follow-up.
 
 ---
 
@@ -84,7 +93,7 @@ sfrigola-app/
         category.dart
         json_serializable.dart
         meal.dart
-        repository_filter.dart   ← base RepositoryFilter (skip/take)
+
       providers/          ← app-wide Riverpod providers
       repositories/       ← repository layer
         meal/

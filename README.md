@@ -173,7 +173,7 @@ sfrigola-app/
         json_serializable.dart   ← base interface: toJson()
         category.dart            ← Category model + CategoryColor enum
         meal.dart                ← Meal model + Complexity/Affordability enums
-        repository_filter.dart   ← RepositoryFilter base (skip/take pagination)
+
       providers/          ← app-wide Riverpod providers (repository singletons)
         repository_provider.dart
       repositories/       ← repository layer (single point of contact with any data source)
@@ -763,19 +763,14 @@ UI (Screens / Widgets)
 
 ### Filtering & Pagination — `MealFilter`
 
-All list methods accept a `MealFilter` (never raw parameters). `MealFilter` extends the global `RepositoryFilter` base which carries `skip` and `take` for offset pagination.
+All list methods accept a `MealFilter` (never raw parameters). `MealFilter` carries `skip` and `take` for offset pagination.
 
 ```dart
-// lib/core/models/repository_filter.dart
-abstract class RepositoryFilter {
-  const RepositoryFilter({this.skip = 0, this.take = 10});
+// lib/core/repositories/meal/meal_repository_model.dart
+class MealFilter {
+  const MealFilter({this.skip = 0, this.take = 10, this.categoryId, this.query = ''});
   final int skip;
   final int take;
-}
-
-// lib/core/repositories/meal/meal_repository_model.dart
-class MealFilter extends RepositoryFilter {
-  const MealFilter({super.skip, super.take, this.categoryId, this.query = ''});
   final String? categoryId;  // null = no category filter
   final String query;        // '' = no text filter
 }
@@ -882,7 +877,7 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules and widget API reference |
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
-| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, RepositoryFilter, DI pattern, error handling |
+| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, DI pattern, error handling |
 | `state-management.instructions.md` | `**/providers/**,**/features/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, naming, checklist |
 
 ---

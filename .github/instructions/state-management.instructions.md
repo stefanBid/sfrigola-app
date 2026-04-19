@@ -338,8 +338,37 @@ part 'meal_provider.g.dart';
 - [ ] File is in `lib/core/providers/` (or feature `providers/`) and named `*_provider.dart`
 - [ ] `part '*.g.dart';` line is present
 - [ ] Annotated with `@riverpod` or `@Riverpod(keepAlive: true)`
+- [ ] Async providers that call a repository use `@Riverpod(retry: appRetry)`
 - [ ] Notifier `build()` returns the initial state / initial Future
 - [ ] No `ref.watch` inside callbacks or Notifier methods (use `ref.read` there)
 - [ ] `AsyncValue` is handled with `switch` covering all three cases
 - [ ] Family parameters use only stable-`==` types
 - [ ] `keepAlive: true` only on repository/session providers
+
+---
+
+## Retry — `appRetry`
+
+Every async provider that calls a repository **must** declare `@Riverpod(retry: appRetry)`. Never write a custom per-provider retry function.
+
+```dart
+import 'package:sfrigola/core/models/general_exception.dart';
+
+@Riverpod(retry: appRetry)
+class MealById extends _$MealById {
+  @override
+  Future<Meal> build(String mealId) async {
+    return ref.watch(mealRepositoryProvider).getMealById(mealId);
+  }
+}
+```
+
+**Policy** (defined in `appRetry` — do not replicate inline):
+
+| Error | Retried? | Max attempts |
+|---|---|---|
+| `AppException` with `isRetryable == true` (network, serverError) | Yes | 3 total (2 retries) |
+| `AppException` with `isRetryable == false` (notFound, unauthorized, forbidden, generic) | No | — |
+| Unknown exception (not `AppException`) | No | — |
+
+After all retries are exhausted the provider enters `AsyncError` — handle it in the widget with `AsyncError(:final error)` and show `AppLocale.errorFor(context, error)`.

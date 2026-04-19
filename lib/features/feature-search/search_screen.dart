@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_locale.dart';
-import 'package:sfrigola/core/helpers/app_logger.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
 
 // Project Layouts
@@ -24,7 +23,6 @@ class SearchScreen extends StatelessWidget {
         title: AppLocale.getLabels(context).homeTitle,
         bottomContent: GeneralSearchBox(
           onBlurEmpty: () => AppRouter.goBack(context),
-          onChanged: (_) => AppLogger.debug('searching...'),
         ),
       ),
       body: const MealsGridContainer(),

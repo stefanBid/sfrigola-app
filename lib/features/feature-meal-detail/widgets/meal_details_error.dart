@@ -4,17 +4,21 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
-import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
 class MealDetailsError extends StatelessWidget {
-  const MealDetailsError({super.key});
+  final String message;
+  const MealDetailsError({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.sizeOf(context).height * 0.65,
+      ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(
             PhosphorIconsRegular.warningCircle,
@@ -23,7 +27,7 @@ class MealDetailsError extends StatelessWidget {
           ),
           const SizedBox(height: AppDesign.gapItemSm),
           Text(
-            AppLocale.getLabels(context).mealDetailsLoadError,
+            message,
             style: AppTypography.of(
               context,
             ).body.copyWith(color: AppColors.error),

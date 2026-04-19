@@ -139,5 +139,40 @@
   "affordabilityLuxurious": "Gourmet",
   "@affordabilityLuxurious": {
     "description": "Label for Affordability.luxurious enum value"
+  },
+
+  "errorNetwork": "Nessuna connessione. Controlla la tua rete.",
+  "@errorNetwork": {
+    "description": "Error shown when a network/connectivity failure occurs"
+  },
+
+  "errorNotFound": "Il contenuto non è stato trovato.",
+  "@errorNotFound": {
+    "description": "Error shown when a resource is not found (404)"
+  },
+
+  "errorUnauthorized": "Sessione scaduta. Accedi di nuovo.",
+  "@errorUnauthorized": {
+    "description": "Error shown when the user is not authenticated (401)"
+  },
+
+  "errorForbidden": "Non hai i permessi per eseguire questa operazione.",
+  "@errorForbidden": {
+    "description": "Error shown when the user is not authorized (403)"
+  },
+
+  "errorServerError": "Si è verificato un errore sul server. Riprova più tardi.",
+  "@errorServerError": {
+    "description": "Error shown for generic server errors (5xx)"
+  },
+
+  "errorGeneric": "Si è verificato un errore. Riprova.",
+  "@errorGeneric": {
+    "description": "Fallback error shown for unknown errors"
+  },
+
+  "mealNotFoundError": "Ricetta non trovata.",
+  "@mealNotFoundError": {
+    "description": "Error shown when a specific meal is not found"
   }
 }

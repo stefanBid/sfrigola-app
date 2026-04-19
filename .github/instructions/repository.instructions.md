@@ -27,23 +27,17 @@ lib/core/repositories/
 
 ---
 
-## `RepositoryFilter` + `MealFilter`
+## `MealFilter`
 
-`RepositoryFilter` lives in `lib/core/models/repository_filter.dart` — it is a **global model**, not repository-scoped, because the pagination contract is shared across all domains.
-
-`MealFilter` lives in `lib/core/repositories/meal/meal_repository_model.dart` and extends it with meal-domain parameters. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
+`MealFilter` lives in `lib/core/repositories/meal/meal_repository_model.dart`. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
 
 ```dart
-// lib/core/models/repository_filter.dart
-abstract class RepositoryFilter {
-  const RepositoryFilter({this.skip = 0, this.take = 10});
+// lib/core/repositories/meal/meal_repository_model.dart
+class MealFilter {
+  const MealFilter({this.skip = 0, this.take = 10, this.categoryId, this.query = ''});
+
   final int skip;
   final int take;
-}
-
-// lib/core/repositories/meal/meal_repository_model.dart
-class MealFilter extends RepositoryFilter {
-  const MealFilter({super.skip, super.take, this.categoryId, this.query = ''});
 
   /// null = no category filter applied.
   final String? categoryId;
@@ -56,7 +50,7 @@ class MealFilter extends RepositoryFilter {
 
 **Rule**: never add individual `categoryId` / `query` / `skip` / `take` arguments to repository methods. Always pass `MealFilter`.
 
-When a new domain filter is needed (e.g. `UserFilter`), create a new class that extends `RepositoryFilter` in its own `*_repository_model.dart` file.
+When a new domain filter is needed (e.g. `UserFilter`), create a standalone class in its own `*_repository_model.dart` file — no base class required.
 
 ---
 

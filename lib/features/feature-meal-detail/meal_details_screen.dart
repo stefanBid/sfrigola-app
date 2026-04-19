@@ -31,7 +31,7 @@ class MealDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mealAsync = ref.watch(mealByIdProvider('Zecca'));
+    final mealAsync = ref.watch(mealByIdProvider(mealId));
 
     return switch (mealAsync) {
       AsyncLoading() => const HeroPageLayout(body: MealDetailsSkeleton()),

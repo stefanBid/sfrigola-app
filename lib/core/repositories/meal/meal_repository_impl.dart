@@ -15,6 +15,7 @@ import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
 class MealRepositoryImpl implements MealRepository {
   List<MealPreview> _toPreviewList(
     List<Meal> meals,
+    String? searchKey,
     String? categoryId,
     int skip,
     int take,
@@ -22,7 +23,14 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = categoryId == null
         ? meals
         : meals.where((m) => m.categories.contains(categoryId)).toList();
-    return filtered
+    final searched = searchKey == null || searchKey.isEmpty
+        ? filtered
+        : filtered
+              .where(
+                (m) => m.title.toLowerCase().contains(searchKey.toLowerCase()),
+              )
+              .toList();
+    return searched
         .skip(skip)
         .take(take)
         .map((m) => MealPreview.fromJson(m.toJson()))
@@ -50,7 +58,7 @@ class MealRepositoryImpl implements MealRepository {
     await Future.delayed(const Duration(milliseconds: 500));
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
-    final result = _toPreviewList(sorted, categoryId, skip, take);
+    final result = _toPreviewList(sorted, null, categoryId, skip, take);
     AppLogger.debug('getTrending → ${result.length} items', tag: 'MealRepo');
     return result;
   }
@@ -70,7 +78,7 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
-    final result = _toPreviewList(filtered, categoryId, skip, take);
+    final result = _toPreviewList(filtered, null, categoryId, skip, take);
     AppLogger.debug('getEasy → ${result.length} items', tag: 'MealRepo');
     return result;
   }
@@ -90,7 +98,7 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
-    final result = _toPreviewList(filtered, categoryId, skip, take);
+    final result = _toPreviewList(filtered, null, categoryId, skip, take);
     AppLogger.debug('getChallenge → ${result.length} items', tag: 'MealRepo');
     return result;
   }
@@ -110,7 +118,7 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
-    final result = _toPreviewList(filtered, categoryId, skip, take);
+    final result = _toPreviewList(filtered, null, categoryId, skip, take);
     AppLogger.debug('getBudget → ${result.length} items', tag: 'MealRepo');
     return result;
   }
@@ -130,17 +138,24 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
-    final result = _toPreviewList(filtered, categoryId, skip, take);
+    final result = _toPreviewList(filtered, null, categoryId, skip, take);
     AppLogger.debug('getPremium → ${result.length} items', tag: 'MealRepo');
     return result;
   }
 
   @override
-  Future<List<MealPreview>> getAllMeals({int skip = 0, int take = 10}) async {
+  Future<List<MealPreview>> getAllMeals(
+    String? searchKey, {
+    int skip = 0,
+    int take = 10,
+  }) async {
     // TODO: replace with GET /meals
-    AppLogger.debug('getAll( skip: $skip, take: $take)', tag: 'MealRepo');
+    AppLogger.debug(
+      'getAll(searchKey: $searchKey, skip: $skip, take: $take)',
+      tag: 'MealRepo',
+    );
     await Future.delayed(const Duration(milliseconds: 500));
-    final result = _toPreviewList(availableMeals, null, skip, take);
+    final result = _toPreviewList(availableMeals, searchKey, null, skip, take);
     AppLogger.debug('getAll → ${result.length} items', tag: 'MealRepo');
     return result;
   }

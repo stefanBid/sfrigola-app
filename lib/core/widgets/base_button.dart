@@ -33,9 +33,14 @@ class BaseButton extends StatelessWidget {
     final accentColor = colors.isDark ? AppColors.secondary : AppColors.primary;
     final contentColor = AppTypography.of(context).body.color ?? colors.text;
 
+    final tapColor = switch (type) {
+      BaseButtonType.filled => colors.text.withAlpha(20),
+      BaseButtonType.outlined => accentColor.withAlpha(30),
+    };
+
     final fillColor = type == BaseButtonType.filled
         ? accentColor
-        : accentColor.withAlpha(20);
+        : accentColor.withAlpha(0);
 
     final resolvedContentColor = type == BaseButtonType.outlined
         ? accentColor
@@ -80,15 +85,15 @@ class BaseButton extends StatelessWidget {
         child: InkWell(
           onTap: isLoading ? null : onPressed,
           borderRadius: AppDesign.borderRadiusXs,
-          splashColor: colors.text.withAlpha(60),
-          highlightColor: colors.text.withAlpha(30),
+          splashColor: tapColor,
+          highlightColor: tapColor,
           child: Ink(
             decoration: BoxDecoration(
               color: fillColor,
               borderRadius: AppDesign.borderRadiusXs,
               border: Border.all(color: accentColor, width: 1.5),
             ),
-            padding: AppDesign.paddingSymmetricLg,
+            padding: AppDesign.paddingSymmetricMd,
             child: content,
           ),
         ),

@@ -303,6 +303,30 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Ricetta non trovata.'**
   String get mealNotFoundError;
+
+  /// Generic retry button label
+  ///
+  /// In it, this message translates to:
+  /// **'Riprova'**
+  String get retry;
+
+  /// Error message shown in the home screen when all meal sections fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare le ricette. Riprova.'**
+  String get homeErrorLoadMeals;
+
+  /// Warning snackbar shown when only some meal sections fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Alcune sezioni non sono state caricate.'**
+  String get homeErrorSomeSections;
+
+  /// Empty state message shown when a category has no meals
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna ricetta trovata per la categoria selezionata.'**
+  String get homeEmptyCategory;
 }
 
 class _AppLocalizationsDelegate

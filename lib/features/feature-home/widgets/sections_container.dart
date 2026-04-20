@@ -5,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Providers
@@ -39,20 +40,14 @@ class SectionsContainer extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              PhosphorIconsBold.wifiX,
-              size: 48,
-              color: AppColors.of(context).muted,
-            ),
-            const SizedBox(height: AppDesign.gapSectionSm),
             Text(
-              'Unable to load meals. Please try again.',
+              AppLocale.getLabels(context).homeErrorLoadMeals,
               style: AppTypography.of(context).body,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppDesign.gapSectionSm),
             BaseButton(
-              label: 'Retry',
+              label: AppLocale.getLabels(context).retry,
               icon: PhosphorIconsBold.arrowClockwise,
               type: BaseButtonType.outlined,
               onPressed: () => _retryAll(ref),
@@ -77,7 +72,7 @@ class SectionsContainer extends ConsumerWidget {
             ),
             const SizedBox(height: AppDesign.gapSectionSm),
             Text(
-              'No meals found for the selected category.',
+              AppLocale.getLabels(context).homeEmptyCategory,
               style: AppTypography.of(context).body,
               textAlign: TextAlign.center,
             ),
@@ -96,7 +91,9 @@ class SectionsContainer extends ConsumerWidget {
     final premium = ref.watch(premiumMealsProvider);
 
     void onAnyError(AsyncValue? prev, AsyncValue next) {
-      if (!next.hasError || (prev?.hasError ?? false)) return;
+      if (!next.hasError) return;
+      // Suppress only if prev was a pure error state (not retry-loading with a stale error)
+      if (prev != null && prev.hasError && !prev.isLoading) return;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final states = [
           ref.read(trendingMealsProvider),
@@ -108,7 +105,7 @@ class SectionsContainer extends ConsumerWidget {
         if (!states.every((s) => s.hasError)) {
           BaseScaffoldMessenger.show(
             context,
-            message: 'Some sections could not be loaded.',
+            message: AppLocale.getLabels(context).homeErrorSomeSections,
             type: SnackBarType.warning,
           );
         }

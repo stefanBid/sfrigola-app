@@ -119,4 +119,17 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get mealNotFoundError => 'Ricetta non trovata.';
+
+  @override
+  String get retry => 'Riprova';
+
+  @override
+  String get homeErrorLoadMeals => 'Impossibile caricare le ricette. Riprova.';
+
+  @override
+  String get homeErrorSomeSections => 'Alcune sezioni non sono state caricate.';
+
+  @override
+  String get homeEmptyCategory =>
+      'Nessuna ricetta trovata per la categoria selezionata.';
 }

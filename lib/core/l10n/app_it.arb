@@ -174,5 +174,25 @@
   "mealNotFoundError": "Ricetta non trovata.",
   "@mealNotFoundError": {
     "description": "Error shown when a specific meal is not found"
+  },
+
+  "retry": "Riprova",
+  "@retry": {
+    "description": "Generic retry button label"
+  },
+
+  "homeErrorLoadMeals": "Impossibile caricare le ricette. Riprova.",
+  "@homeErrorLoadMeals": {
+    "description": "Error message shown in the home screen when all meal sections fail to load"
+  },
+
+  "homeErrorSomeSections": "Alcune sezioni non sono state caricate.",
+  "@homeErrorSomeSections": {
+    "description": "Warning snackbar shown when only some meal sections fail to load"
+  },
+
+  "homeEmptyCategory": "Nessuna ricetta trovata per la categoria selezionata.",
+  "@homeEmptyCategory": {
+    "description": "Empty state message shown when a category has no meals"
   }
 }

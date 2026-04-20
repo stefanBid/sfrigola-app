@@ -187,21 +187,23 @@ class _EasySectionState extends ConsumerState<EasySection> {
       }
     });
 
-    return meals.when(
-      loading: () => _buildSection(
+    if (meals.isLoading) {
+      return _buildSection(
         context,
         header: const SkeletonHeader(),
         content: const SkeletonCardRow(),
+      );
+    }
+
+    return switch (meals) {
+      AsyncError() => const SizedBox.shrink(),
+      AsyncData(:final value) when value.isEmpty => const SizedBox.shrink(),
+      AsyncData(:final value) => _buildSection(
+        context,
+        header: _buildHeader(context),
+        content: _buildList(context, value),
       ),
-      error: (_, _) => const SizedBox.shrink(),
-      data: (items) {
-        if (items.isEmpty) return const SizedBox.shrink();
-        return _buildSection(
-          context,
-          header: _buildHeader(context),
-          content: _buildList(context, items),
-        );
-      },
-    );
+      _ => const SizedBox.shrink(),
+    };
   }
 }

@@ -12,7 +12,7 @@ import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
 
 class MealRepositoryImpl implements MealRepository {
   static void _checkSimulation(bool simulateError) {
-    if (simulateError) throw GeneralException.network();
+    if (simulateError) throw GeneralException.generic();
   }
 
   List<MealPreview> _toPreviewList(
@@ -55,7 +55,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals/trending
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(false);
+    _checkSimulation(true);
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
     return _toPreviewList(sorted, null, categoryId, skip, take);

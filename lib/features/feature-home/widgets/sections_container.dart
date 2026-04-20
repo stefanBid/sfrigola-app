@@ -123,7 +123,7 @@ class SectionsContainer extends ConsumerWidget {
 
     final allProviders = [trending, easy, challenge, budget, premium];
     final isAnyLoading = allProviders.any((s) => s.isLoading);
-    final allHaveError = allProviders.every((s) => s.hasError);
+    final allHaveError = !isAnyLoading && allProviders.every((s) => s.hasError);
     final allEmpty =
         !isAnyLoading && allProviders.every((s) => s.value?.isEmpty ?? false);
 

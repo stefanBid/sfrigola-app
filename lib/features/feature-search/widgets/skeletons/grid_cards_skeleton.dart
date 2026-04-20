@@ -21,6 +21,7 @@ class _GridCardsSkeletonState extends State<GridCardsSkeleton>
   @override
   void initState() {
     super.initState();
+    print('Initializing GridCardsSkeleton');
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 700),

@@ -12,6 +12,7 @@ import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
 import 'package:sfrigola/features/feature-search/providers/all_meals_provider.dart';
+import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
@@ -138,6 +139,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   @override
   Widget build(BuildContext context) {
     final allMeals = ref.watch(allMealsProvider);
+    final isSearching = ref.watch(searchedKeyProvider)?.isNotEmpty ?? false;
 
     ref.listen<AsyncValue<List<MealPreview>>>(allMealsProvider, (prev, next) {
       if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
@@ -149,6 +151,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
       if (next is AsyncError && prev is! AsyncError && mounted) {
         BaseScaffoldMessenger.show(
           context,
+          duration: const Duration(seconds: 5),
           message: 'Unable to load meals. Please try again.',
           type: SnackBarType.error,
           retryLabel: 'Retry',
@@ -160,19 +163,23 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
     return Column(
       children: [
         Expanded(
-          child: switch (allMeals) {
-            AsyncLoading() => const GridCardsSkeleton(),
-            AsyncError() => _buildError(context),
-            AsyncData(value: []) => Center(
-              child: Text(
-                'No meals found.',
-                style: AppTypography.of(
-                  context,
-                ).body.copyWith(color: AppColors.of(context).muted),
-              ),
-            ),
-            AsyncData(:final value) => _buildGrid(context, value),
-          },
+          child: allMeals.isLoading
+              ? const GridCardsSkeleton()
+              : switch (allMeals) {
+                  AsyncError() => _buildError(context),
+                  AsyncData(value: []) => Center(
+                    child: Text(
+                      isSearching
+                          ? 'No meals found for the given search.'
+                          : 'Start searching to see meals here.',
+                      style: AppTypography.of(
+                        context,
+                      ).heading3.copyWith(color: AppColors.of(context).muted),
+                    ),
+                  ),
+                  AsyncData(:final value) => _buildGrid(context, value),
+                  _ => const SizedBox.shrink(),
+                },
         ),
       ],
     );

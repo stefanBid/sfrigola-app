@@ -6,6 +6,7 @@ import 'package:sfrigola/core/helpers/app_logger.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/category.dart';
+import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Repositories
@@ -13,6 +14,10 @@ import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
 import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
 
 class MealRepositoryImpl implements MealRepository {
+  static void _checkSimulation(bool simulateError) {
+    if (simulateError) throw GeneralException.network();
+  }
+
   List<MealPreview> _toPreviewList(
     List<Meal> meals,
     String? searchKey,
@@ -41,6 +46,7 @@ class MealRepositoryImpl implements MealRepository {
   Future<List<Category>> getCategories() async {
     // TODO: replace with GET /categories
     await Future.delayed(const Duration(milliseconds: 500));
+    _checkSimulation(false);
     return availableCategories;
   }
 
@@ -56,6 +62,7 @@ class MealRepositoryImpl implements MealRepository {
       tag: 'MealRepo',
     );
     await Future.delayed(const Duration(milliseconds: 500));
+    _checkSimulation(false);
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
     final result = _toPreviewList(sorted, null, categoryId, skip, take);
@@ -75,6 +82,7 @@ class MealRepositoryImpl implements MealRepository {
       tag: 'MealRepo',
     );
     await Future.delayed(const Duration(milliseconds: 500));
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
@@ -95,6 +103,7 @@ class MealRepositoryImpl implements MealRepository {
       tag: 'MealRepo',
     );
     await Future.delayed(const Duration(milliseconds: 500));
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
@@ -115,6 +124,7 @@ class MealRepositoryImpl implements MealRepository {
       tag: 'MealRepo',
     );
     await Future.delayed(const Duration(milliseconds: 500));
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
@@ -135,6 +145,7 @@ class MealRepositoryImpl implements MealRepository {
       tag: 'MealRepo',
     );
     await Future.delayed(const Duration(milliseconds: 500));
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
@@ -155,6 +166,7 @@ class MealRepositoryImpl implements MealRepository {
       tag: 'MealRepo',
     );
     await Future.delayed(const Duration(milliseconds: 500));
+    _checkSimulation(true);
     final result = _toPreviewList(availableMeals, searchKey, null, skip, take);
     AppLogger.debug('getAll → ${result.length} items', tag: 'MealRepo');
     return result;
@@ -165,6 +177,7 @@ class MealRepositoryImpl implements MealRepository {
     // TODO: replace with GET /meals/{id}
     try {
       await Future.delayed(const Duration(milliseconds: 500));
+      _checkSimulation(false);
       return availableMeals.firstWhere((meal) => meal.id == id);
     } on StateError {
       throw MealNotFoundException(id);

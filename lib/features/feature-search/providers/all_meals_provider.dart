@@ -19,8 +19,9 @@ class AllMeals extends _$AllMeals {
   @override
   Future<List<MealPreview>> build() async {
     final searchKey = ref.watch(searchedKeyProvider);
+    if (searchKey?.isEmpty ?? true) return [];
     return ref
-        .watch(mealRepositoryProvider)
+        .read(mealRepositoryProvider)
         .getAllMeals(searchKey, take: _pageSize);
   }
 

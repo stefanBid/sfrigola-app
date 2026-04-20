@@ -4,6 +4,15 @@ applyTo: "**/providers/**,**/features/**,**/widgets/**"
 
 # State Management — Riverpod conventions
 
+> **IMPORTANT**: This project uses **Riverpod 3.x** (`flutter_riverpod: ^3.x`, `riverpod_annotation: ^4.x`). All patterns, APIs and examples in this file are Riverpod 3.x only. Do not suggest APIs, workarounds or patterns from Riverpod 1.x or 2.x — they are incompatible.
+>
+> Notable Riverpod 3.x differences to keep in mind:
+> - `valueOrNull` is **removed** — use `.value` (returns `T?`)
+> - `ProviderObserver` methods use `ProviderObserverContext` as first parameter
+> - `ProviderObserver` subclasses must be declared `base class`
+> - Global retry is set on `ProviderScope(retry: ...)` — no per-provider `@Riverpod(retry: ...)`
+> - `ProviderBase` is not exported — do not reference it directly
+
 Stack: `hooks_riverpod` + `flutter_hooks` + `riverpod_annotation` + `riverpod_generator`.
 
 ---
@@ -338,7 +347,7 @@ part 'meal_provider.g.dart';
 - [ ] File is in `lib/core/providers/` (or feature `providers/`) and named `*_provider.dart`
 - [ ] `part '*.g.dart';` line is present
 - [ ] Annotated with `@riverpod` or `@Riverpod(keepAlive: true)`
-- [ ] Async providers that call a repository use `@Riverpod(retry: appRetry)`
+- [ ] Async providers that call a repository use plain `@riverpod` (retry is global)
 - [ ] Notifier `build()` returns the initial state / initial Future
 - [ ] No `ref.watch` inside callbacks or Notifier methods (use `ref.read` there)
 - [ ] `AsyncValue` is handled with `switch` covering all three cases
@@ -349,13 +358,20 @@ part 'meal_provider.g.dart';
 
 ## Retry — `appRetry`
 
-Every async provider that calls a repository **must** declare `@Riverpod(retry: appRetry)`. Never write a custom per-provider retry function.
+The retry policy is configured **globally** in `ProviderScope` via `retry: appRetry`. Every provider inherits it automatically — **never** declare `@Riverpod(retry: appRetry)` on individual providers.
 
 ```dart
-// Project Utils
-import 'package:sfrigola/core/utils/provider_retry.dart';
+// main.dart — already configured, do not duplicate
+ProviderScope(
+  retry: appRetry,
+  child: const MyApp(),
+)
+```
 
-@Riverpod(retry: appRetry)
+All async providers that call a repository simply use `@riverpod`:
+
+```dart
+@riverpod
 class MealById extends _$MealById {
   @override
   Future<Meal> build(String mealId) async {

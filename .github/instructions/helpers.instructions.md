@@ -97,13 +97,14 @@ throw GeneralException.generic(cause: e);
 
 `GeneralException` stores an `AppErrorCode` internally and maps it to ARB strings via an internal switch. The `cause` field preserves the original error for logging. `isRetryable` returns `true` only for `network` and `serverError`.
 
-The shared retry function lives in `lib/core/utils/provider_retry.dart` — import it in every provider that calls a repository:
+The shared retry function lives in `lib/core/utils/provider_retry.dart`. It is registered globally in `ProviderScope` — do **not** import it in individual providers.
 
 ```dart
-// Project Utils
-import 'package:sfrigola/core/utils/provider_retry.dart';
-
-@Riverpod(retry: appRetry)
+// main.dart — global retry policy (already configured, do not change)
+ProviderScope(
+  retry: appRetry,
+  ...
+)
 ```
 
 ### Domain-specific exceptions

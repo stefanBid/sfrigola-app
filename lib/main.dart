@@ -6,8 +6,11 @@ import 'router.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_theme.dart';
 
+// Project Utils
+import 'package:sfrigola/core/utils/provider_retry.dart';
+
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(retry: appRetry, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

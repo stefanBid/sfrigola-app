@@ -78,24 +78,22 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   }
 
   Widget _buildError(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Unable to load meals.',
-            style: AppTypography.of(
-              context,
-            ).body.copyWith(color: AppColors.of(context).muted),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppDesign.gapItemSm),
-          TextButton(
-            onPressed: () => ref.invalidate(allMealsProvider),
-            child: const Text('Retry'),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Unable to load meals.',
+          style: AppTypography.of(
+            context,
+          ).body.copyWith(color: AppColors.of(context).muted),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: AppDesign.gapItemSm),
+        TextButton(
+          onPressed: () => ref.invalidate(allMealsProvider),
+          child: const Text('Retry'),
+        ),
+      ],
     );
   }
 
@@ -163,10 +161,10 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
     return Column(
       children: [
         Expanded(
-          child: allMeals.isLoading
+          child: allMeals.isLoading && isSearching
               ? const GridCardsSkeleton()
               : switch (allMeals) {
-                  AsyncError() => _buildError(context),
+                  AsyncError() => Center(child: _buildError(context)),
                   AsyncData(value: []) => Center(
                     child: Text(
                       isSearching
@@ -178,7 +176,14 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                     ),
                   ),
                   AsyncData(:final value) => _buildGrid(context, value),
-                  _ => const SizedBox.shrink(),
+                  _ => Center(
+                    child: Text(
+                      'Start searching to see meals here.',
+                      style: AppTypography.of(
+                        context,
+                      ).heading3.copyWith(color: AppColors.of(context).muted),
+                    ),
+                  ),
                 },
         ),
       ],

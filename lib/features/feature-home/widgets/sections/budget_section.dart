@@ -19,7 +19,6 @@ import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card_row.dart';
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header.dart';
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card.dart';
-import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_card.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
 
@@ -194,19 +193,7 @@ class _BudgetSectionState extends ConsumerState<BudgetSection> {
         header: const SkeletonHeader(),
         content: const SkeletonCardRow(),
       ),
-      error: (_, _) => _buildSection(
-        context,
-        groupHeight: 120.0,
-        header: _buildHeader(context),
-        content: Center(
-          child: BaseButton(
-            label: 'Retry',
-            icon: PhosphorIconsBold.arrowClockwise,
-            type: BaseButtonType.outlined,
-            onPressed: () => ref.invalidate(budgetMealsProvider),
-          ),
-        ),
-      ),
+      error: (_, _) => const SizedBox.shrink(),
       data: (items) {
         if (items.isEmpty) return const SizedBox.shrink();
         return _buildSection(

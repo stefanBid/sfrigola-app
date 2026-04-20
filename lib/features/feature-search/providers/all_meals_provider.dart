@@ -3,16 +3,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
 
-// Project Utils
-import 'package:sfrigola/core/utils/provider_retry.dart';
-
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
 import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
 part 'all_meals_provider.g.dart';
 
-@Riverpod(retry: appRetry)
+@riverpod
 class AllMeals extends _$AllMeals {
   static const _pageSize = 20;
 

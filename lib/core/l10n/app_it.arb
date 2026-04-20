@@ -194,5 +194,20 @@
   "homeEmptyCategory": "Nessuna ricetta trovata per la categoria selezionata.",
   "@homeEmptyCategory": {
     "description": "Empty state message shown when a category has no meals"
+  },
+
+  "searchErrorLoadMeals": "Impossibile caricare le ricette. Riprova.",
+  "@searchErrorLoadMeals": {
+    "description": "Error message shown in the search screen when meals fail to load"
+  },
+
+  "searchEmptyResults": "Nessun risultato per la ricerca effettuata.",
+  "@searchEmptyResults": {
+    "description": "Empty state shown in search when no meals match the query"
+  },
+
+  "searchEmptyHint": "Cerca una ricetta per vedere i risultati.",
+  "@searchEmptyHint": {
+    "description": "Placeholder shown in search before the user types anything"
   }
 }

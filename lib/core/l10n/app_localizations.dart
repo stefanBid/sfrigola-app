@@ -327,6 +327,24 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Nessuna ricetta trovata per la categoria selezionata.'**
   String get homeEmptyCategory;
+
+  /// Error message shown in the search screen when meals fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare le ricette. Riprova.'**
+  String get searchErrorLoadMeals;
+
+  /// Empty state shown in search when no meals match the query
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun risultato per la ricerca effettuata.'**
+  String get searchEmptyResults;
+
+  /// Placeholder shown in search before the user types anything
+  ///
+  /// In it, this message translates to:
+  /// **'Cerca una ricetta per vedere i risultati.'**
+  String get searchEmptyHint;
 }
 
 class _AppLocalizationsDelegate

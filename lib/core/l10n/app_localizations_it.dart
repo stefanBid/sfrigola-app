@@ -132,4 +132,15 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get homeEmptyCategory =>
       'Nessuna ricetta trovata per la categoria selezionata.';
+
+  @override
+  String get searchErrorLoadMeals =>
+      'Impossibile caricare le ricette. Riprova.';
+
+  @override
+  String get searchEmptyResults =>
+      'Nessun risultato per la ricerca effettuata.';
+
+  @override
+  String get searchEmptyHint => 'Cerca una ricetta per vedere i risultati.';
 }

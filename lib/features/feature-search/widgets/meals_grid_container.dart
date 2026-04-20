@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
@@ -15,6 +17,7 @@ import 'package:sfrigola/features/feature-search/providers/all_meals_provider.da
 import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
 // Project Widgets
+import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_grid_view.dart';
 
@@ -78,22 +81,31 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   }
 
   Widget _buildError(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'Unable to load meals.',
-          style: AppTypography.of(
-            context,
-          ).body.copyWith(color: AppColors.of(context).muted),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppDesign.gapItemSm),
-        TextButton(
-          onPressed: () => ref.invalidate(allMealsProvider),
-          child: const Text('Retry'),
-        ),
-      ],
+    return Padding(
+      padding: AppDesign.paddingPage,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            PhosphorIconsBold.wifiX,
+            size: 48,
+            color: AppColors.of(context).muted,
+          ),
+          const SizedBox(height: AppDesign.gapSectionSm),
+          Text(
+            AppLocale.getLabels(context).searchErrorLoadMeals,
+            style: AppTypography.of(context).body,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppDesign.gapSectionSm),
+          BaseButton(
+            label: AppLocale.getLabels(context).retry,
+            icon: PhosphorIconsBold.arrowClockwise,
+            type: BaseButtonType.outlined,
+            onPressed: () => ref.invalidate(allMealsProvider),
+          ),
+        ],
+      ),
     );
   }
 
@@ -150,9 +162,9 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
         BaseScaffoldMessenger.show(
           context,
           duration: const Duration(seconds: 5),
-          message: 'Unable to load meals. Please try again.',
+          message: AppLocale.getLabels(context).searchErrorLoadMeals,
           type: SnackBarType.error,
-          retryLabel: 'Retry',
+          retryLabel: AppLocale.getLabels(context).retry,
           onRetry: () => ref.invalidate(allMealsProvider),
         );
       }
@@ -168,8 +180,8 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                   AsyncData(value: []) => Center(
                     child: Text(
                       isSearching
-                          ? 'No meals found for the given search.'
-                          : 'Start searching to see meals here.',
+                          ? AppLocale.getLabels(context).searchEmptyResults
+                          : AppLocale.getLabels(context).searchEmptyHint,
                       style: AppTypography.of(
                         context,
                       ).heading3.copyWith(color: AppColors.of(context).muted),
@@ -178,7 +190,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                   AsyncData(:final value) => _buildGrid(context, value),
                   _ => Center(
                     child: Text(
-                      'Start searching to see meals here.',
+                      AppLocale.getLabels(context).searchEmptyHint,
                       style: AppTypography.of(
                         context,
                       ).heading3.copyWith(color: AppColors.of(context).muted),

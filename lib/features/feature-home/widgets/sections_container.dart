@@ -73,7 +73,9 @@ class SectionsContainer extends ConsumerWidget {
     final allHaveError = !isAnyLoading && allProviders.every((s) => s.hasError);
     final nothingToShow =
         !isAnyLoading &&
-        allProviders.every((s) => s.hasError || (s.value?.isEmpty ?? false));
+        allProviders.every(
+          (s) => s.hasError || (s.value?.meals.isEmpty ?? false),
+        );
 
     Future<void> onRefresh() async {
       _retryAll(ref);

@@ -11,6 +11,7 @@ import 'package:sfrigola/core/helpers/app_router.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
+import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 import 'package:sfrigola/features/feature-search/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
@@ -34,12 +35,10 @@ class MealsGridContainer extends ConsumerStatefulWidget {
 }
 
 class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
-  static const int _pageSize = 20;
   static const double _scrollThreshold = 200.0;
 
   late final ScrollController _scrollController;
   bool _isLoadingMore = false;
-  bool _hasMore = true;
 
   @override
   void initState() {
@@ -55,7 +54,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   }
 
   void _onScroll() {
-    if (!_hasMore || _isLoadingMore) return;
+    if (_isLoadingMore) return;
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - _scrollThreshold) {
       _loadMore();
@@ -63,17 +62,15 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   }
 
   Future<void> _loadMore() async {
-    if (_isLoadingMore || !_hasMore) return;
+    final hasMore = ref.read(allMealsProvider).value?.hasMore ?? false;
+    if (_isLoadingMore || !hasMore) return;
     setState(() => _isLoadingMore = true);
 
     try {
-      final hasMore = await ref.read(allMealsProvider.notifier).loadMore();
+      await ref.read(allMealsProvider.notifier).loadMore();
 
       if (mounted) {
-        setState(() {
-          _hasMore = hasMore;
-          _isLoadingMore = false;
-        });
+        setState(() => _isLoadingMore = false);
       }
     } catch (_) {
       if (mounted) setState(() => _isLoadingMore = false);
@@ -122,12 +119,9 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
     final allMeals = ref.watch(allMealsProvider);
     final isSearching = ref.watch(searchedKeyProvider)?.isNotEmpty ?? false;
 
-    ref.listen<AsyncValue<List<MealPreview>>>(allMealsProvider, (prev, next) {
+    ref.listen<AsyncValue<MealsProviderState>>(allMealsProvider, (prev, next) {
       if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
-        setState(() {
-          _isLoadingMore = false;
-          _hasMore = (next.value?.length ?? 0) >= _pageSize;
-        });
+        setState(() => _isLoadingMore = false);
       }
       if (next is AsyncError && prev is! AsyncError && mounted) {
         BaseScaffoldMessenger.show(
@@ -157,7 +151,8 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                         type: MessagePageType.muted,
                         onRetry: () => ref.invalidate(allMealsProvider),
                       ),
-                      AsyncData(value: []) when isSearching =>
+                      AsyncData(value: MealsProviderState(meals: []))
+                          when isSearching =>
                         SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
                           child: ConstrainedBox(
@@ -173,17 +168,23 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                             ),
                           ),
                         ),
-                      AsyncData(value: []) => ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: constraints.maxHeight,
+                      AsyncData(value: MealsProviderState(meals: [])) =>
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: MessagePageLayout(
+                            icon: PhosphorIconsRegular.bowlFood,
+                            message: AppLocale.getLabels(
+                              context,
+                            ).searchEmptyHint,
+                            type: MessagePageType.standard,
+                          ),
                         ),
-                        child: MessagePageLayout(
-                          icon: PhosphorIconsRegular.bowlFood,
-                          message: AppLocale.getLabels(context).searchEmptyHint,
-                          type: MessagePageType.standard,
-                        ),
+                      AsyncData(:final value) => _buildGrid(
+                        context,
+                        value.meals,
                       ),
-                      AsyncData(:final value) => _buildGrid(context, value),
                       _ => ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: constraints.maxHeight,

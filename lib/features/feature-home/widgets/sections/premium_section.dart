@@ -30,28 +30,41 @@ class PremiumSection extends ConsumerStatefulWidget {
 }
 
 class _PremiumSectionState extends ConsumerState<PremiumSection> {
-  static const int _pageSize = 10;
   static const double _scrollThreshold = 300.0;
 
   late final ScrollController _scrollController;
+  late final ProviderSubscription<AsyncValue<MealsProviderState>>
+  _mealsSubscription;
   bool _isLoadingMore = false;
-  bool _hasMore = true;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+    _mealsSubscription = ref.listenManual<AsyncValue<MealsProviderState>>(
+      premiumMealsProvider,
+      (prev, current) {
+        if ((prev == null || prev.isLoading) && current.hasValue && mounted) {
+          setState(() => _isLoadingMore = false);
+          if (_scrollController.hasClients) {
+            _scrollController.jumpTo(0);
+          }
+        }
+      },
+      fireImmediately: true,
+    );
   }
 
   @override
   void dispose() {
+    _mealsSubscription.close();
     _scrollController.dispose();
     super.dispose();
   }
 
   void _onScroll() {
-    if (!_hasMore || _isLoadingMore) return;
+    if (_isLoadingMore) return;
     final pos = _scrollController.position;
     if (!pos.hasContentDimensions) return;
     final maxExtent = pos.maxScrollExtent;
@@ -65,16 +78,12 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
   }
 
   Future<void> _loadMore() async {
-    if (_isLoadingMore || !_hasMore) return;
+    final hasMore = ref.read(premiumMealsProvider).value?.hasMore ?? false;
+    if (_isLoadingMore || !hasMore) return;
     setState(() => _isLoadingMore = true);
     try {
-      final hasMore = await ref.read(premiumMealsProvider.notifier).loadMore();
-      if (mounted) {
-        setState(() {
-          _isLoadingMore = false;
-          _hasMore = hasMore;
-        });
-      }
+      await ref.read(premiumMealsProvider.notifier).loadMore();
+      if (mounted) setState(() => _isLoadingMore = false);
     } catch (_) {
       if (mounted) setState(() => _isLoadingMore = false);
     }
@@ -178,21 +187,6 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
   Widget build(BuildContext context) {
     final meals = ref.watch(premiumMealsProvider);
 
-    ref.listen<AsyncValue<List<MealPreview>>>(premiumMealsProvider, (
-      prev,
-      current,
-    ) {
-      if ((prev == null || prev.isLoading) && current.hasValue && mounted) {
-        setState(() {
-          _isLoadingMore = false;
-          _hasMore = (current.value?.length ?? 0) >= _pageSize;
-        });
-        if (_scrollController.hasClients) {
-          _scrollController.jumpTo(0);
-        }
-      }
-    });
-
     if (meals.isLoading) {
       return _buildSection(
         context,
@@ -203,11 +197,12 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
 
     return switch (meals) {
       AsyncError() => const SizedBox.shrink(),
-      AsyncData(:final value) when value.isEmpty => const SizedBox.shrink(),
+      AsyncData(:final value) when value.meals.isEmpty =>
+        const SizedBox.shrink(),
       AsyncData(:final value) => _buildSection(
         context,
         header: _buildHeader(context),
-        content: _buildList(context, value),
+        content: _buildList(context, value.meals),
       ),
       _ => const SizedBox.shrink(),
     };

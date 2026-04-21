@@ -48,7 +48,7 @@ class MealRepositoryImpl implements MealRepository {
   }
 
   @override
-  Future<List<MealPreview>> getTrending(
+  Future<MealRepositoryResponse> getTrending(
     String? categoryId, {
     int skip = 0,
     int take = 10,
@@ -58,11 +58,12 @@ class MealRepositoryImpl implements MealRepository {
     _checkSimulation(false);
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
-    return _toPreviewList(sorted, null, categoryId, skip, take);
+    final meals = _toPreviewList(sorted, null, categoryId, skip, take);
+    return MealRepositoryResponse(meals: meals, total: sorted.length);
   }
 
   @override
-  Future<List<MealPreview>> getEasy(
+  Future<MealRepositoryResponse> getEasy(
     String? categoryId, {
     int skip = 0,
     int take = 10,
@@ -73,11 +74,12 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
-    return _toPreviewList(filtered, null, categoryId, skip, take);
+    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
+    return MealRepositoryResponse(meals: meals, total: filtered.length);
   }
 
   @override
-  Future<List<MealPreview>> getChallenge(
+  Future<MealRepositoryResponse> getChallenge(
     String? categoryId, {
     int skip = 0,
     int take = 10,
@@ -88,11 +90,12 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
-    return _toPreviewList(filtered, null, categoryId, skip, take);
+    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
+    return MealRepositoryResponse(meals: meals, total: filtered.length);
   }
 
   @override
-  Future<List<MealPreview>> getBudget(
+  Future<MealRepositoryResponse> getBudget(
     String? categoryId, {
     int skip = 0,
     int take = 10,
@@ -103,11 +106,12 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
-    return _toPreviewList(filtered, null, categoryId, skip, take);
+    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
+    return MealRepositoryResponse(meals: meals, total: filtered.length);
   }
 
   @override
-  Future<List<MealPreview>> getPremium(
+  Future<MealRepositoryResponse> getPremium(
     String? categoryId, {
     int skip = 0,
     int take = 10,
@@ -118,11 +122,12 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
-    return _toPreviewList(filtered, null, categoryId, skip, take);
+    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
+    return MealRepositoryResponse(meals: meals, total: filtered.length);
   }
 
   @override
-  Future<List<MealPreview>> getAllMeals(
+  Future<MealRepositoryResponse> getAllMeals(
     String? searchKey, {
     int skip = 0,
     int take = 10,
@@ -130,7 +135,8 @@ class MealRepositoryImpl implements MealRepository {
     // TODO: replace with GET /meals
     await Future.delayed(const Duration(milliseconds: 500));
     _checkSimulation(false);
-    return _toPreviewList(availableMeals, searchKey, null, skip, take);
+    final meals = _toPreviewList(availableMeals, searchKey, null, skip, take);
+    return MealRepositoryResponse(meals: meals, total: availableMeals.length);
   }
 
   @override

@@ -33,7 +33,8 @@ class BaseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
-    final accentColor = colors.isDark ? AppColors.secondary : AppColors.primary;
+    final accentColor = AppColors.primary;
+    final outlineColor = AppColors.secondary;
     final contentColor = AppTypography.of(context).body.color ?? colors.text;
     final borderRadius = pill
         ? AppDesign.borderRadiusSm
@@ -41,7 +42,7 @@ class BaseButton extends StatelessWidget {
 
     final tapColor = switch (type) {
       BaseButtonType.filled => colors.text.withAlpha(20),
-      BaseButtonType.outlined => accentColor.withAlpha(30),
+      BaseButtonType.outlined => outlineColor.withAlpha(30),
       BaseButtonType.ghost => accentColor.withAlpha(20),
     };
 
@@ -53,11 +54,13 @@ class BaseButton extends StatelessWidget {
 
     final resolvedContentColor = switch (type) {
       BaseButtonType.filled => contentColor,
-      BaseButtonType.outlined => accentColor,
+      BaseButtonType.outlined => outlineColor,
       BaseButtonType.ghost => accentColor,
     };
 
-    final border = type != BaseButtonType.ghost
+    final border = type == BaseButtonType.outlined
+        ? Border.all(color: outlineColor, width: 1.5)
+        : type == BaseButtonType.filled
         ? Border.all(color: accentColor, width: 1.5)
         : null;
 

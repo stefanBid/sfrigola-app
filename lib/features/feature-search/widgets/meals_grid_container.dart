@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -134,7 +132,6 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
       if (next is AsyncError && prev is! AsyncError && mounted) {
         BaseScaffoldMessenger.show(
           context,
-          duration: const Duration(seconds: 5),
           message: AppLocale.getLabels(context).searchErrorLoadMeals,
           type: SnackBarType.error,
           retryLabel: AppLocale.getLabels(context).retry,
@@ -153,11 +150,11 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                   ? const GridCardsSkeleton()
                   : switch (allMeals) {
                       AsyncError() => MessagePageLayout(
-                        icon: PhosphorIconsBold.wifiX,
+                        icon: PhosphorIconsBold.warningCircle,
                         message: AppLocale.getLabels(
                           context,
                         ).searchErrorLoadMeals,
-                        type: MessagePageType.error,
+                        type: MessagePageType.muted,
                         onRetry: () => ref.invalidate(allMealsProvider),
                       ),
                       AsyncData(value: []) when isSearching =>
@@ -167,32 +164,34 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                             constraints: BoxConstraints(
                               minHeight: constraints.maxHeight,
                             ),
-                            child: Center(
-                              child: Text(
-                                AppLocale.getLabels(context).searchEmptyResults,
-                                style: AppTypography.of(context).heading3
-                                    .copyWith(
-                                      color: AppColors.of(context).muted,
-                                    ),
-                              ),
+                            child: MessagePageLayout(
+                              icon: PhosphorIconsBold.cookingPot,
+                              message: AppLocale.getLabels(
+                                context,
+                              ).searchEmptyResults,
+                              type: MessagePageType.muted,
                             ),
                           ),
                         ),
-                      AsyncData(value: []) => Center(
-                        child: Text(
-                          AppLocale.getLabels(context).searchEmptyHint,
-                          style: AppTypography.of(context).heading3.copyWith(
-                            color: AppColors.of(context).muted,
-                          ),
+                      AsyncData(value: []) => ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                        ),
+                        child: MessagePageLayout(
+                          icon: PhosphorIconsRegular.bowlFood,
+                          message: AppLocale.getLabels(context).searchEmptyHint,
+                          type: MessagePageType.standard,
                         ),
                       ),
                       AsyncData(:final value) => _buildGrid(context, value),
-                      _ => Center(
-                        child: Text(
-                          AppLocale.getLabels(context).searchEmptyHint,
-                          style: AppTypography.of(context).heading3.copyWith(
-                            color: AppColors.of(context).muted,
-                          ),
+                      _ => ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                        ),
+                        child: MessagePageLayout(
+                          icon: PhosphorIconsRegular.bowlFood,
+                          message: AppLocale.getLabels(context).searchEmptyHint,
+                          type: MessagePageType.standard,
                         ),
                       ),
                     },

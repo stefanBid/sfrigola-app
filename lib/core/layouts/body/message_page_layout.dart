@@ -10,7 +10,7 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_button.dart';
 
-enum MessagePageType { error, standard, empty }
+enum MessagePageType { standard, muted }
 
 class MessagePageLayout extends StatelessWidget {
   final IconData? icon;
@@ -29,15 +29,11 @@ class MessagePageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconColor = switch (type) {
-      MessagePageType.error => AppColors.error,
-      MessagePageType.empty => AppColors.of(context).muted,
+      MessagePageType.muted => AppColors.of(context).muted,
       MessagePageType.standard => AppColors.of(context).text,
     };
     final textStyle = switch (type) {
-      MessagePageType.error => AppTypography.of(
-        context,
-      ).heading4.copyWith(color: AppColors.error),
-      MessagePageType.empty => AppTypography.of(
+      MessagePageType.muted => AppTypography.of(
         context,
       ).bodySecondary.copyWith(fontWeight: FontWeight.w600),
       MessagePageType.standard => AppTypography.of(context).heading4,

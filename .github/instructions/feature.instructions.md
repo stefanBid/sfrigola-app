@@ -58,6 +58,29 @@ HeroPageLayout(
 )
 ```
 
+### `MessagePageLayout`
+
+Centred message layout for error, empty and informational states. Import from `package:sfrigola/core/layouts/body/message_page_layout.dart`.
+
+```dart
+MessagePageLayout(
+  message: 'No results found',
+  icon: PhosphorIconsBold.cookingPot,   // optional — use AppDesign.iconSizeXxl internally
+  type: MessagePageType.muted,          // standard | muted
+  onRetry: () { ... },                  // optional — shows ghost+pill retry button
+)
+```
+
+**Types:**
+- `standard` — `heading4` text, full-weight icon. Use for invitations to act (e.g. search hint) and blocking states.
+- `muted` — `bodySecondary` w600 text, muted icon. Use for empty states, no results, and non-blocking errors.
+
+**Icon convention:**
+- Generic error → `PhosphorIconsBold.warningCircle`
+- No results from search → `PhosphorIconsBold.cookingPot`
+- Search invitation (no query active) → `PhosphorIconsRegular.bowlFood`
+- Empty category / feed → `PhosphorIconsBold.forkKnife`
+
 ### App bars
 
 - `ClassicAppBar(leading, title, actions, bottomContent)` — standard app bar with gradient

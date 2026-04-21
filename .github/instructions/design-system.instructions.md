@@ -27,7 +27,8 @@ Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. f
 
 Accent rule for buttons:
 ```dart
-final accent = AppColors.of(context).isDark ? AppColors.secondary : AppColors.primary;
+// primary is always primary — no dark mode swap
+final accent = AppColors.primary;
 ```
 
 ### Which colour and where
@@ -38,7 +39,7 @@ final accent = AppColors.of(context).isDark ? AppColors.secondary : AppColors.pr
 | Card, container, input background | `AppColors.of(context).surface` |
 | Primary text (titles, body) | `AppColors.of(context).text` |
 | Secondary text, placeholder, muted label | `AppColors.of(context).muted` |
-| Accent colour for button/active icon | `AppColors.primary` (light) / `AppColors.secondary` (dark) |
+| Accent colour for button/active icon | `AppColors.primary` — always, no dark mode swap |
 | Error message, invalid field border | `AppColors.error` |
 | Positive feedback / success | `AppColors.success` |
 | Warning feedback | `AppColors.warning` |

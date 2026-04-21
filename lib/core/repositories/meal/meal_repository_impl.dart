@@ -129,7 +129,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(false);
+    _checkSimulation(true);
     return _toPreviewList(availableMeals, searchKey, null, skip, take);
   }
 

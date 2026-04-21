@@ -43,7 +43,7 @@ class MealDetailsScreen extends ConsumerWidget {
           child: MessagePageLayout(
             icon: PhosphorIconsRegular.eggCrack,
             message: AppLocale.errorFor(context, error),
-            type: MessagePageType.error,
+            type: MessagePageType.muted,
           ),
         ),
       ),

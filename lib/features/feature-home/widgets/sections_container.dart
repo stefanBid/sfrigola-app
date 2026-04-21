@@ -95,8 +95,9 @@ class SectionsContainer extends ConsumerWidget {
           _ when allHaveError => ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: MessagePageLayout(
+              icon: PhosphorIconsBold.warningCircle,
               message: AppLocale.getLabels(context).homeErrorLoadMeals,
-              type: MessagePageType.error,
+              type: MessagePageType.muted,
               onRetry: () => _retryAll(ref),
             ),
           ),
@@ -107,7 +108,7 @@ class SectionsContainer extends ConsumerWidget {
               child: MessagePageLayout(
                 icon: PhosphorIconsBold.forkKnife,
                 message: AppLocale.getLabels(context).homeEmptyCategory,
-                type: MessagePageType.empty,
+                type: MessagePageType.muted,
               ),
             ),
           ),

@@ -11,8 +11,10 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 // Project Providers
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
+// Project Layouts
+import 'package:sfrigola/core/layouts/body/error_page_layout.dart';
+
 // Project Widgets
-import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 
 // Page Sections
@@ -31,31 +33,6 @@ class SectionsContainer extends ConsumerWidget {
     ref.invalidate(challengeMealsProvider);
     ref.invalidate(budgetMealsProvider);
     ref.invalidate(premiumMealsProvider);
-  }
-
-  Widget _buildAllErrorState(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Padding(
-        padding: AppDesign.paddingPage,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              AppLocale.getLabels(context).homeErrorLoadMeals,
-              style: AppTypography.of(context).body,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: AppDesign.gapSectionSm),
-            BaseButton(
-              label: AppLocale.getLabels(context).retry,
-              icon: PhosphorIconsBold.arrowClockwise,
-              type: BaseButtonType.outlined,
-              onPressed: () => _retryAll(ref),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _buildEmptyState(BuildContext context) {
@@ -125,7 +102,10 @@ class SectionsContainer extends ConsumerWidget {
         !isAnyLoading && allProviders.every((s) => s.value?.isEmpty ?? false);
 
     return switch (null) {
-      _ when allHaveError => _buildAllErrorState(context, ref),
+      _ when allHaveError => ErrorPageLayout(
+        errorMessage: AppLocale.getLabels(context).homeErrorLoadMeals,
+        onRetry: () => _retryAll(ref),
+      ),
       _ when allEmpty => _buildEmptyState(context),
       _ => ListView(
         padding: EdgeInsets.zero,

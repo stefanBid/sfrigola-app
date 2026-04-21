@@ -16,8 +16,10 @@ import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/features/feature-search/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
+// Project Layouts
+import 'package:sfrigola/core/layouts/body/error_page_layout.dart';
+
 // Project Widgets
-import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_grid_view.dart';
 
@@ -78,35 +80,6 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
     } catch (_) {
       if (mounted) setState(() => _isLoadingMore = false);
     }
-  }
-
-  Widget _buildError(BuildContext context) {
-    return Padding(
-      padding: AppDesign.paddingPage,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            PhosphorIconsBold.wifiX,
-            size: 48,
-            color: AppColors.of(context).muted,
-          ),
-          const SizedBox(height: AppDesign.gapSectionSm),
-          Text(
-            AppLocale.getLabels(context).searchErrorLoadMeals,
-            style: AppTypography.of(context).body,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppDesign.gapSectionSm),
-          BaseButton(
-            label: AppLocale.getLabels(context).retry,
-            icon: PhosphorIconsBold.arrowClockwise,
-            type: BaseButtonType.outlined,
-            onPressed: () => ref.invalidate(allMealsProvider),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildGrid(BuildContext context, List<MealPreview> items) {
@@ -176,7 +149,11 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
           child: allMeals.isLoading && isSearching
               ? const GridCardsSkeleton()
               : switch (allMeals) {
-                  AsyncError() => Center(child: _buildError(context)),
+                  AsyncError() => ErrorPageLayout(
+                    icon: PhosphorIconsBold.wifiX,
+                    errorMessage: AppLocale.getLabels(context).searchErrorLoadMeals,
+                    onRetry: () => ref.invalidate(allMealsProvider),
+                  ),
                   AsyncData(value: []) => Center(
                     child: Text(
                       isSearching

@@ -3,16 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import 'package:sfrigola/core/helpers/app_colors.dart';
-import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Providers
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
 // Project Layouts
-import 'package:sfrigola/core/layouts/body/error_page_layout.dart';
+import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
@@ -33,30 +30,6 @@ class SectionsContainer extends ConsumerWidget {
     ref.invalidate(challengeMealsProvider);
     ref.invalidate(budgetMealsProvider);
     ref.invalidate(premiumMealsProvider);
-  }
-
-  Widget _buildEmptyState(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: AppDesign.paddingPage,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              PhosphorIconsBold.forkKnife,
-              size: 48,
-              color: AppColors.of(context).muted,
-            ),
-            const SizedBox(height: AppDesign.gapSectionSm),
-            Text(
-              AppLocale.getLabels(context).homeEmptyCategory,
-              style: AppTypography.of(context).body,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
@@ -121,8 +94,9 @@ class SectionsContainer extends ConsumerWidget {
         child: switch (null) {
           _ when allHaveError => ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: ErrorPageLayout(
-              errorMessage: AppLocale.getLabels(context).homeErrorLoadMeals,
+            child: MessagePageLayout(
+              message: AppLocale.getLabels(context).homeErrorLoadMeals,
+              type: MessagePageType.error,
               onRetry: () => _retryAll(ref),
             ),
           ),
@@ -130,7 +104,11 @@ class SectionsContainer extends ConsumerWidget {
             physics: const AlwaysScrollableScrollPhysics(),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: _buildEmptyState(context),
+              child: MessagePageLayout(
+                icon: PhosphorIconsBold.forkKnife,
+                message: AppLocale.getLabels(context).homeEmptyCategory,
+                type: MessagePageType.empty,
+              ),
             ),
           ),
           _ => ListView(

@@ -15,7 +15,7 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Layouts
-import 'package:sfrigola/core/layouts/body/error_page_layout.dart';
+import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
 import 'package:sfrigola/core/layouts/body/hero_page_layout.dart';
 
 // Project Widgets
@@ -40,9 +40,10 @@ class MealDetailsScreen extends ConsumerWidget {
           constraints: BoxConstraints(
             minHeight: MediaQuery.sizeOf(context).height * 0.65,
           ),
-          child: ErrorPageLayout(
-            icon: PhosphorIconsRegular.warningCircle,
-            errorMessage: AppLocale.errorFor(context, error),
+          child: MessagePageLayout(
+            icon: PhosphorIconsRegular.eggCrack,
+            message: AppLocale.errorFor(context, error),
+            type: MessagePageType.error,
           ),
         ),
       ),

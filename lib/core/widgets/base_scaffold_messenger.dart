@@ -52,7 +52,7 @@ class BaseScaffoldMessenger {
           ),
           child: Row(
             children: [
-              Icon(iconData, color: Colors.white, size: 20),
+              Icon(iconData, color: Colors.white, size: AppDesign.iconSizeMd),
               const SizedBox(width: AppDesign.gapInlineSm),
               Expanded(
                 child: Text(

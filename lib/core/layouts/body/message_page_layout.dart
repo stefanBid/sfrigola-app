@@ -10,20 +10,38 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_button.dart';
 
-class ErrorPageLayout extends StatelessWidget {
+enum MessagePageType { error, standard, empty }
+
+class MessagePageLayout extends StatelessWidget {
   final IconData? icon;
-  final String errorMessage;
+  final String message;
+  final MessagePageType type;
   final VoidCallback? onRetry;
 
-  const ErrorPageLayout({
+  const MessagePageLayout({
     super.key,
-    required this.errorMessage,
+    required this.message,
     this.icon,
     this.onRetry,
+    this.type = MessagePageType.standard,
   });
 
   @override
   Widget build(BuildContext context) {
+    final iconColor = switch (type) {
+      MessagePageType.error => AppColors.error,
+      MessagePageType.empty => AppColors.of(context).muted,
+      MessagePageType.standard => AppColors.of(context).text,
+    };
+    final textStyle = switch (type) {
+      MessagePageType.error => AppTypography.of(
+        context,
+      ).heading4.copyWith(color: AppColors.error),
+      MessagePageType.empty => AppTypography.of(
+        context,
+      ).bodySecondary.copyWith(fontWeight: FontWeight.w600),
+      MessagePageType.standard => AppTypography.of(context).heading4,
+    };
     return Center(
       child: Padding(
         padding: AppDesign.paddingPage,
@@ -31,20 +49,17 @@ class ErrorPageLayout extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[
-              Icon(icon, size: 64, color: AppColors.of(context).muted),
+              Icon(icon, size: AppDesign.iconSizeXxl, color: iconColor),
               const SizedBox(height: AppDesign.gapSectionSm),
             ],
-            Text(
-              errorMessage,
-              style: AppTypography.of(context).body,
-              textAlign: TextAlign.center,
-            ),
+            Text(message, style: textStyle, textAlign: TextAlign.center),
             if (onRetry != null) ...[
               const SizedBox(height: AppDesign.gapSectionSm),
               BaseButton(
                 label: AppLocale.getLabels(context).retry,
                 icon: PhosphorIconsBold.arrowClockwise,
-                type: BaseButtonType.outlined,
+                type: BaseButtonType.ghost,
+                pill: true,
                 onPressed: onRetry,
               ),
             ],

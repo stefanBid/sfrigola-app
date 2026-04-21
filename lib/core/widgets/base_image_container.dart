@@ -61,7 +61,7 @@ class BaseImageContainer extends StatelessWidget {
             color: AppColors.of(context).muted,
             child: Icon(
               Icons.broken_image,
-              size: 40,
+              size: AppDesign.iconSizeXl,
               color: AppColors.of(context).text.withAlpha(120),
             ),
           ),
@@ -76,7 +76,7 @@ class BaseImageContainer extends StatelessWidget {
             color: AppColors.of(context).muted,
             child: Icon(
               Icons.broken_image,
-              size: 40,
+              size: AppDesign.iconSizeXl,
               color: AppColors.of(context).text.withAlpha(120),
             ),
           ),

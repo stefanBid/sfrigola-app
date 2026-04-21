@@ -140,6 +140,14 @@ class AppDesign {
   static const double gapSectionMd = _spacingLg; // 20 — distinct sections
   static const double gapSectionLg = _spacingXl;
 
+  // Icon size scale
+  static const double iconSizeSm = 16; // badges, chips, tiny inline icons
+  static const double iconSizeMd =
+      20; // standard UI icons (buttons, inputs, inline)
+  static const double iconSizeLg = 24; // emphasized icons (icon buttons, nav)
+  static const double iconSizeXl = 40; // large accent icons (image fallback)
+  static const double iconSizeXxl = 64; // empty state / message page
+
   static bool isTablet(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return size.width >= 600; // Example threshold for tablet

@@ -66,7 +66,11 @@ class BaseFormField extends StatelessWidget {
               context,
             ).body.copyWith(color: AppColors.of(context).muted),
             prefixIcon: prefixIcon != null
-                ? Icon(prefixIcon, color: AppColors.of(context).muted, size: 20)
+                ? Icon(
+                    prefixIcon,
+                    color: AppColors.of(context).muted,
+                    size: AppDesign.iconSizeMd,
+                  )
                 : null,
             suffixIcon: suffixIcon,
             filled: true,

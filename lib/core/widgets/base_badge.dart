@@ -52,7 +52,8 @@ class BaseBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) Icon(icon!, size: 16.0, color: fgColor),
+          if (icon != null)
+            Icon(icon!, size: AppDesign.iconSizeSm, color: fgColor),
           if (icon != null && label != null)
             const SizedBox(width: AppDesign.gapInlineXs),
 

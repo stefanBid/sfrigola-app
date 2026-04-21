@@ -109,12 +109,18 @@ BaseFormField(
 BaseButton(
   label: 'Submit',
   icon: PhosphorIconsRegular.arrowRight, // optional
-  type: BaseButtonType.filled,           // filled | outlined
+  type: BaseButtonType.filled,           // filled | outlined | ghost
   fullWidth: true,
+  pill: false,                           // true → borderRadiusSm (pill shape)
   isLoading: false,
   onPressed: () { ... },
 )
 ```
+
+- **`filled`** — accent background, dark text. Use for primary CTA and form submit.
+- **`outlined`** — transparent background, accent border + text. Use for secondary CTA.
+- **`ghost`** — no background, no border, accent text + ripple. Use for low-prominence actions (empty states, error pages, dialogs).
+- **`pill: true`** — applies `AppDesign.borderRadiusSm` instead of `borderRadiusXs`. Use with `ghost` in contextual layouts (e.g. `MessagePageLayout`).
 
 Accent colour resolved automatically: `primary` in light mode, `secondary` in dark mode.
 

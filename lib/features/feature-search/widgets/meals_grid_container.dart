@@ -17,7 +17,7 @@ import 'package:sfrigola/features/feature-search/providers/all_meals_provider.da
 import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
 // Project Layouts
-import 'package:sfrigola/core/layouts/body/error_page_layout.dart';
+import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
@@ -152,11 +152,12 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
               child: allMeals.isLoading && isSearching
                   ? const GridCardsSkeleton()
                   : switch (allMeals) {
-                      AsyncError() => ErrorPageLayout(
+                      AsyncError() => MessagePageLayout(
                         icon: PhosphorIconsBold.wifiX,
-                        errorMessage: AppLocale.getLabels(
+                        message: AppLocale.getLabels(
                           context,
                         ).searchErrorLoadMeals,
+                        type: MessagePageType.error,
                         onRetry: () => ref.invalidate(allMealsProvider),
                       ),
                       AsyncData(value: []) when isSearching =>

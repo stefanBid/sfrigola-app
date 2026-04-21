@@ -56,10 +56,9 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
     if (!pos.hasContentDimensions) return;
     final maxExtent = pos.maxScrollExtent;
     if (maxExtent <= 0) return;
-    final triggerAt =
-        maxExtent - _scrollThreshold < 0
-            ? maxExtent * 0.8
-            : maxExtent - _scrollThreshold;
+    final triggerAt = maxExtent - _scrollThreshold < 0
+        ? maxExtent * 0.8
+        : maxExtent - _scrollThreshold;
     if (pos.pixels >= triggerAt) {
       _loadMore();
     }

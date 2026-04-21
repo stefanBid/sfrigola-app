@@ -15,6 +15,7 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Layouts
+import 'package:sfrigola/core/layouts/body/error_page_layout.dart';
 import 'package:sfrigola/core/layouts/body/hero_page_layout.dart';
 
 // Project Widgets
@@ -22,7 +23,6 @@ import 'package:sfrigola/core/widgets/base_badge.dart';
 
 // Screen Widgets
 import 'package:sfrigola/features/feature-meal-detail/widgets/meal_details_skeleton.dart';
-import 'package:sfrigola/features/feature-meal-detail/widgets/meal_details_error.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
   final String mealId;
@@ -36,7 +36,15 @@ class MealDetailsScreen extends ConsumerWidget {
     return switch (mealAsync) {
       AsyncLoading() => const HeroPageLayout(body: MealDetailsSkeleton()),
       AsyncError(:final error) => HeroPageLayout(
-        body: MealDetailsError(message: AppLocale.errorFor(context, error)),
+        body: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.sizeOf(context).height * 0.65,
+          ),
+          child: ErrorPageLayout(
+            icon: PhosphorIconsRegular.warningCircle,
+            errorMessage: AppLocale.errorFor(context, error),
+          ),
+        ),
       ),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,

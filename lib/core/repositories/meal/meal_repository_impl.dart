@@ -55,7 +55,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals/trending
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(true);
+    _checkSimulation(false);
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
     return _toPreviewList(sorted, null, categoryId, skip, take);

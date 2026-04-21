@@ -143,39 +143,62 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
       }
     });
 
-    return Column(
-      children: [
-        Expanded(
-          child: allMeals.isLoading && isSearching
-              ? const GridCardsSkeleton()
-              : switch (allMeals) {
-                  AsyncError() => ErrorPageLayout(
-                    icon: PhosphorIconsBold.wifiX,
-                    errorMessage: AppLocale.getLabels(context).searchErrorLoadMeals,
-                    onRetry: () => ref.invalidate(allMealsProvider),
-                  ),
-                  AsyncData(value: []) => Center(
-                    child: Text(
-                      isSearching
-                          ? AppLocale.getLabels(context).searchEmptyResults
-                          : AppLocale.getLabels(context).searchEmptyHint,
-                      style: AppTypography.of(
-                        context,
-                      ).heading3.copyWith(color: AppColors.of(context).muted),
-                    ),
-                  ),
-                  AsyncData(:final value) => _buildGrid(context, value),
-                  _ => Center(
-                    child: Text(
-                      AppLocale.getLabels(context).searchEmptyHint,
-                      style: AppTypography.of(
-                        context,
-                      ).heading3.copyWith(color: AppColors.of(context).muted),
-                    ),
-                  ),
-                },
+    return LayoutBuilder(
+      builder: (context, constraints) => RefreshIndicator(
+        onRefresh: () => ref.refresh(allMealsProvider.future),
+        child: Column(
+          children: [
+            Expanded(
+              child: allMeals.isLoading && isSearching
+                  ? const GridCardsSkeleton()
+                  : switch (allMeals) {
+                      AsyncError() => ErrorPageLayout(
+                        icon: PhosphorIconsBold.wifiX,
+                        errorMessage: AppLocale.getLabels(
+                          context,
+                        ).searchErrorLoadMeals,
+                        onRetry: () => ref.invalidate(allMealsProvider),
+                      ),
+                      AsyncData(value: []) when isSearching =>
+                        SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: constraints.maxHeight,
+                            ),
+                            child: Center(
+                              child: Text(
+                                AppLocale.getLabels(context).searchEmptyResults,
+                                style: AppTypography.of(context).heading3
+                                    .copyWith(
+                                      color: AppColors.of(context).muted,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      AsyncData(value: []) => Center(
+                        child: Text(
+                          AppLocale.getLabels(context).searchEmptyHint,
+                          style: AppTypography.of(context).heading3.copyWith(
+                            color: AppColors.of(context).muted,
+                          ),
+                        ),
+                      ),
+                      AsyncData(:final value) => _buildGrid(context, value),
+                      _ => Center(
+                        child: Text(
+                          AppLocale.getLabels(context).searchEmptyHint,
+                          style: AppTypography.of(context).heading3.copyWith(
+                            color: AppColors.of(context).muted,
+                          ),
+                        ),
+                      ),
+                    },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

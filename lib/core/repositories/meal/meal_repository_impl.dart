@@ -69,7 +69,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals?complexity=simple
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(true);
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
@@ -84,7 +84,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals?complexity=hard
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(true);
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
@@ -129,7 +129,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(true);
+    _checkSimulation(false);
     return _toPreviewList(availableMeals, searchKey, null, skip, take);
   }
 

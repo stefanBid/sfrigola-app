@@ -98,25 +98,54 @@ class SectionsContainer extends ConsumerWidget {
     final allProviders = [trending, easy, challenge, budget, premium];
     final isAnyLoading = allProviders.any((s) => s.isLoading);
     final allHaveError = !isAnyLoading && allProviders.every((s) => s.hasError);
-    final allEmpty =
-        !isAnyLoading && allProviders.every((s) => s.value?.isEmpty ?? false);
+    final nothingToShow =
+        !isAnyLoading &&
+        allProviders.every((s) => s.hasError || (s.value?.isEmpty ?? false));
 
-    return switch (null) {
-      _ when allHaveError => ErrorPageLayout(
-        errorMessage: AppLocale.getLabels(context).homeErrorLoadMeals,
-        onRetry: () => _retryAll(ref),
+    Future<void> onRefresh() async {
+      _retryAll(ref);
+      try {
+        await Future.wait([
+          ref.read(trendingMealsProvider.future),
+          ref.read(easyMealsProvider.future),
+          ref.read(challengeMealsProvider.future),
+          ref.read(budgetMealsProvider.future),
+          ref.read(premiumMealsProvider.future),
+        ]);
+      } catch (_) {}
+    }
+
+    return LayoutBuilder(
+      builder: (context, constraints) => RefreshIndicator(
+        onRefresh: onRefresh,
+        child: switch (null) {
+          _ when allHaveError => ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: ErrorPageLayout(
+              errorMessage: AppLocale.getLabels(context).homeErrorLoadMeals,
+              onRetry: () => _retryAll(ref),
+            ),
+          ),
+          _ when nothingToShow => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: _buildEmptyState(context),
+            ),
+          ),
+          _ => ListView(
+            padding: EdgeInsets.zero,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: const [
+              TrendingSection(),
+              EasySection(),
+              ChallengeSection(),
+              BudgetSection(),
+              PremiumSection(),
+            ],
+          ),
+        },
       ),
-      _ when allEmpty => _buildEmptyState(context),
-      _ => ListView(
-        padding: EdgeInsets.zero,
-        children: const [
-          TrendingSection(),
-          EasySection(),
-          ChallengeSection(),
-          BudgetSection(),
-          PremiumSection(),
-        ],
-      ),
-    };
+    );
   }
 }

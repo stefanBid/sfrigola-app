@@ -106,7 +106,7 @@ class SectionsContainer extends ConsumerWidget {
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: MessagePageLayout(
-                icon: PhosphorIconsBold.forkKnife,
+                icon: PhosphorIconsBold.cookingPot,
                 message: AppLocale.getLabels(context).homeEmptyCategory,
                 type: MessagePageType.muted,
               ),

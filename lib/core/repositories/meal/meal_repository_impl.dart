@@ -99,7 +99,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals?affordability=affordable
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(true);
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
@@ -114,7 +114,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals?affordability=luxurious
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(true);
+    _checkSimulation(false);
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
@@ -129,7 +129,7 @@ class MealRepositoryImpl implements MealRepository {
   }) async {
     // TODO: replace with GET /meals
     await Future.delayed(const Duration(milliseconds: 500));
-    _checkSimulation(true);
+    _checkSimulation(false);
     return _toPreviewList(availableMeals, searchKey, null, skip, take);
   }
 
@@ -138,7 +138,6 @@ class MealRepositoryImpl implements MealRepository {
     // TODO: replace with GET /meals/{id}
     try {
       await Future.delayed(const Duration(milliseconds: 500));
-      throw MealNotFoundException(id);
       return availableMeals.firstWhere((meal) => meal.id == id);
     } on StateError {
       throw MealNotFoundException(id);

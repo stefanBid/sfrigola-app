@@ -1,8 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// Project Models
-import 'package:sfrigola/core/models/meal.dart';
-
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';

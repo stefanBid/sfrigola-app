@@ -47,10 +47,12 @@ class TrendingMeals extends _$TrendingMeals {
     final response = await ref
         .read(mealRepositoryProvider)
         .getTrending(categoryId, skip: current.length, take: _pageSize);
-    state = AsyncData(MealsProviderState(
-      meals: [...current, ...response.meals],
-      hasMore: response.hasMore(current.length, _pageSize),
-    ));
+    state = AsyncData(
+      MealsProviderState(
+        meals: [...current, ...response.meals],
+        hasMore: response.hasMore(current.length, _pageSize),
+      ),
+    );
   }
 }
 
@@ -76,10 +78,12 @@ class EasyMeals extends _$EasyMeals {
     final response = await ref
         .read(mealRepositoryProvider)
         .getEasy(categoryId, skip: current.length, take: _pageSize);
-    state = AsyncData(MealsProviderState(
-      meals: [...current, ...response.meals],
-      hasMore: response.hasMore(current.length, _pageSize),
-    ));
+    state = AsyncData(
+      MealsProviderState(
+        meals: [...current, ...response.meals],
+        hasMore: response.hasMore(current.length, _pageSize),
+      ),
+    );
   }
 }
 
@@ -105,10 +109,12 @@ class ChallengeMeals extends _$ChallengeMeals {
     final response = await ref
         .read(mealRepositoryProvider)
         .getChallenge(categoryId, skip: current.length, take: _pageSize);
-    state = AsyncData(MealsProviderState(
-      meals: [...current, ...response.meals],
-      hasMore: response.hasMore(current.length, _pageSize),
-    ));
+    state = AsyncData(
+      MealsProviderState(
+        meals: [...current, ...response.meals],
+        hasMore: response.hasMore(current.length, _pageSize),
+      ),
+    );
   }
 }
 
@@ -134,10 +140,12 @@ class BudgetMeals extends _$BudgetMeals {
     final response = await ref
         .read(mealRepositoryProvider)
         .getBudget(categoryId, skip: current.length, take: _pageSize);
-    state = AsyncData(MealsProviderState(
-      meals: [...current, ...response.meals],
-      hasMore: response.hasMore(current.length, _pageSize),
-    ));
+    state = AsyncData(
+      MealsProviderState(
+        meals: [...current, ...response.meals],
+        hasMore: response.hasMore(current.length, _pageSize),
+      ),
+    );
   }
 }
 
@@ -163,9 +171,11 @@ class PremiumMeals extends _$PremiumMeals {
     final response = await ref
         .read(mealRepositoryProvider)
         .getPremium(categoryId, skip: current.length, take: _pageSize);
-    state = AsyncData(MealsProviderState(
-      meals: [...current, ...response.meals],
-      hasMore: response.hasMore(current.length, _pageSize),
-    ));
+    state = AsyncData(
+      MealsProviderState(
+        meals: [...current, ...response.meals],
+        hasMore: response.hasMore(current.length, _pageSize),
+      ),
+    );
   }
 }

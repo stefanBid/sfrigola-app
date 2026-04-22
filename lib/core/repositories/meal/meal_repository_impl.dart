@@ -15,28 +15,29 @@ class MealRepositoryImpl implements MealRepository {
     if (simulateError) throw GeneralException.generic();
   }
 
-  List<MealPreview> _toPreviewList(
+  MealRepositoryResponse _toPreviewResult(
     List<Meal> meals,
     String? searchKey,
     String? categoryId,
     int skip,
     int take,
   ) {
-    final filtered = categoryId == null
+    final categoryFiltered = categoryId == null
         ? meals
         : meals.where((m) => m.categories.contains(categoryId)).toList();
-    final searched = searchKey == null || searchKey.isEmpty
-        ? filtered
-        : filtered
+    final fullyFiltered = searchKey == null || searchKey.isEmpty
+        ? categoryFiltered
+        : categoryFiltered
               .where(
                 (m) => m.title.toLowerCase().contains(searchKey.toLowerCase()),
               )
               .toList();
-    return searched
+    final paged = fullyFiltered
         .skip(skip)
         .take(take)
         .map((m) => MealPreview.fromJson(m.toJson()))
         .toList();
+    return MealRepositoryResponse(meals: paged, total: fullyFiltered.length);
   }
 
   @override
@@ -58,8 +59,7 @@ class MealRepositoryImpl implements MealRepository {
     _checkSimulation(false);
     final sorted = [...availableMeals]
       ..sort((a, b) => b.rate.compareTo(a.rate));
-    final meals = _toPreviewList(sorted, null, categoryId, skip, take);
-    return MealRepositoryResponse(meals: meals, total: sorted.length);
+    return _toPreviewResult(sorted, null, categoryId, skip, take);
   }
 
   @override
@@ -74,8 +74,7 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
-    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
-    return MealRepositoryResponse(meals: meals, total: filtered.length);
+    return _toPreviewResult(filtered, null, categoryId, skip, take);
   }
 
   @override
@@ -90,8 +89,7 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
-    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
-    return MealRepositoryResponse(meals: meals, total: filtered.length);
+    return _toPreviewResult(filtered, null, categoryId, skip, take);
   }
 
   @override
@@ -106,8 +104,7 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
-    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
-    return MealRepositoryResponse(meals: meals, total: filtered.length);
+    return _toPreviewResult(filtered, null, categoryId, skip, take);
   }
 
   @override
@@ -122,8 +119,7 @@ class MealRepositoryImpl implements MealRepository {
     final filtered = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
-    final meals = _toPreviewList(filtered, null, categoryId, skip, take);
-    return MealRepositoryResponse(meals: meals, total: filtered.length);
+    return _toPreviewResult(filtered, null, categoryId, skip, take);
   }
 
   @override
@@ -135,8 +131,7 @@ class MealRepositoryImpl implements MealRepository {
     // TODO: replace with GET /meals
     await Future.delayed(const Duration(milliseconds: 500));
     _checkSimulation(false);
-    final meals = _toPreviewList(availableMeals, searchKey, null, skip, take);
-    return MealRepositoryResponse(meals: meals, total: availableMeals.length);
+    return _toPreviewResult(availableMeals, searchKey, null, skip, take);
   }
 
   @override

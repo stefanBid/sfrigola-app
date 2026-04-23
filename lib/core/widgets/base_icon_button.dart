@@ -52,7 +52,7 @@ class BaseIconButton extends StatelessWidget {
           ),
           child: Icon(
             icon,
-            size: 24,
+            size: AppDesign.iconSizeLg,
             color: color ?? AppColors.of(context).text,
           ),
         ),

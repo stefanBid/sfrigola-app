@@ -14,12 +14,10 @@ import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
-
 // Project Widgets
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header.dart';
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_viral_card.dart';
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_viral_row.dart';
-import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
 import 'package:sfrigola/features/feature-home/widgets/viral_meal_card.dart';
 
@@ -31,45 +29,60 @@ class TrendingSection extends ConsumerStatefulWidget {
 }
 
 class _TrendingSectionState extends ConsumerState<TrendingSection> {
-  static const int _pageSize = 10;
   static const double _scrollThreshold = 300.0;
 
   late final ScrollController _scrollController;
+  late final ProviderSubscription<AsyncValue<MealsProviderState>>
+  _mealsSubscription;
   bool _isLoadingMore = false;
-  bool _hasMore = true;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+    _mealsSubscription = ref.listenManual<AsyncValue<MealsProviderState>>(
+      trendingMealsProvider,
+      (prev, current) {
+        if ((prev == null || prev.isLoading) && current.hasValue && mounted) {
+          setState(() => _isLoadingMore = false);
+          if (_scrollController.hasClients) {
+            _scrollController.jumpTo(0);
+          }
+        }
+      },
+      fireImmediately: true,
+    );
   }
 
   @override
   void dispose() {
+    _mealsSubscription.close();
     _scrollController.dispose();
     super.dispose();
   }
 
   void _onScroll() {
-    if (!_hasMore || _isLoadingMore) return;
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - _scrollThreshold) {
+    if (_isLoadingMore) return;
+    final pos = _scrollController.position;
+    if (!pos.hasContentDimensions) return;
+    final maxExtent = pos.maxScrollExtent;
+    if (maxExtent <= 0) return;
+    final triggerAt = maxExtent - _scrollThreshold < 0
+        ? maxExtent * 0.8
+        : maxExtent - _scrollThreshold;
+    if (pos.pixels >= triggerAt) {
       _loadMore();
     }
   }
 
   Future<void> _loadMore() async {
-    if (_isLoadingMore || !_hasMore) return;
+    final hasMore = ref.read(trendingMealsProvider).value?.hasMore ?? false;
+    if (_isLoadingMore || !hasMore) return;
     setState(() => _isLoadingMore = true);
     try {
-      final hasMore = await ref.read(trendingMealsProvider.notifier).loadMore();
-      if (mounted) {
-        setState(() {
-          _isLoadingMore = false;
-          _hasMore = hasMore;
-        });
-      }
+      await ref.read(trendingMealsProvider.notifier).loadMore();
+      if (mounted) setState(() => _isLoadingMore = false);
     } catch (_) {
       if (mounted) setState(() => _isLoadingMore = false);
     }
@@ -175,50 +188,24 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
   Widget build(BuildContext context) {
     final meals = ref.watch(trendingMealsProvider);
 
-    // Reset local pagination state when the provider reloads from scratch
-    // (first load or category change).
-    ref.listen<AsyncValue<List<MealPreview>>>(trendingMealsProvider, (
-      prev,
-      current,
-    ) {
-      if ((prev == null || prev.isLoading) && current.hasValue && mounted) {
-        setState(() {
-          _isLoadingMore = false;
-          _hasMore = (current.value?.length ?? 0) >= _pageSize;
-        });
-        if (_scrollController.hasClients) {
-          _scrollController.jumpTo(0);
-        }
-      }
-    });
-
-    return meals.when(
-      loading: () => _buildSection(
+    if (meals.isLoading) {
+      return _buildSection(
         context,
         header: const SkeletonHeader(),
         content: const SkeletonViralRow(),
-      ),
-      error: (_, _) => _buildSection(
+      );
+    }
+
+    return switch (meals) {
+      AsyncError() => const SizedBox.shrink(),
+      AsyncData(:final value) when value.meals.isEmpty =>
+        const SizedBox.shrink(),
+      AsyncData(:final value) => _buildSection(
         context,
-        groupHeight: 120.0,
         header: _buildHeader(context),
-        content: Center(
-          child: BaseButton(
-            label: 'Retry',
-            icon: PhosphorIconsBold.arrowClockwise,
-            type: BaseButtonType.outlined,
-            onPressed: () => ref.invalidate(trendingMealsProvider),
-          ),
-        ),
+        content: _buildList(context, value.meals),
       ),
-      data: (items) {
-        if (items.isEmpty) return const SizedBox.shrink();
-        return _buildSection(
-          context,
-          header: _buildHeader(context),
-          content: _buildList(context, items),
-        );
-      },
-    );
+      _ => const SizedBox.shrink(),
+    };
   }
 }

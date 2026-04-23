@@ -1,5 +1,5 @@
 ---
-applyTo: "**/helpers/**"
+applyTo: "**/helpers/**,**/models/**"
 ---
 
 # Helpers — Design system files
@@ -16,6 +16,12 @@ Fixed filenames — do not add new files without a real need:
 | `app_locale.dart` | Localisation config and labels shorthand |
 | `app_validation.dart` | Form field validators |
 | `app_logger.dart` | Debug-only logger (stripped in release) |
+
+`lib/core/utils/` contains shared utilities that don't belong to the design system:
+
+| File | Purpose |
+|---|---|
+| `provider_retry.dart` | `appRetry` — shared Riverpod retry function |
 
 ---
 
@@ -43,6 +49,82 @@ ARB source files are in `lib/core/l10n/`:
 - `app_en.arb` — English
 
 When adding a new string: add it to **both** ARB files, then run `flutter gen-l10n`.
+
+### Error localisation — `AppLocale.errorFor`
+
+Static method on `AppLocale` that resolves any thrown object into a user-facing string:
+
+```dart
+// In ref.listen, catch blocks, etc.
+AppLocale.errorFor(context, error)
+```
+
+- If `error` is an `AppException` → calls `error.localizedMessage(AppLocale.getLabels(context))` directly
+- Anything else → falls back to `l.errorGeneric`
+
+**Never use `errorForCode` — it no longer exists.** Each exception owns its message.
+
+---
+
+## Exception system — `lib/core/models/general_exception.dart`
+
+### `AppException` interface
+
+All domain exceptions **must** implement this interface:
+
+```dart
+abstract interface class AppException implements Exception {
+  String localizedMessage(AppLocalizations l);
+  bool get isRetryable;
+}
+```
+
+- Import `package:sfrigola/core/l10n/app_localizations.dart` in exception files.
+- `localizedMessage` must return the appropriate ARB string for that specific exception.
+- `isRetryable` must return `false` for all domain/logic exceptions (not found, unauthorized, etc.).
+- Do **not** use `AppErrorCode` in the interface contract — it is internal to `GeneralException`.
+
+### `GeneralException` — general-purpose exception
+
+Use when no specific domain exception exists:
+
+```dart
+throw GeneralException.network(cause: e);
+throw GeneralException.serverError(cause: e);
+throw GeneralException.generic(cause: e);
+// + notFound, unauthorized, forbidden
+```
+
+`GeneralException` stores an `AppErrorCode` internally and maps it to ARB strings via an internal switch. The `cause` field preserves the original error for logging. `isRetryable` returns `true` only for `network` and `serverError`.
+
+The shared retry function lives in `lib/core/utils/provider_retry.dart`. It is registered globally in `ProviderScope` — do **not** import it in individual providers.
+
+```dart
+// main.dart — global retry policy (already configured, do not change)
+ProviderScope(
+  retry: appRetry,
+  ...
+)
+```
+
+### Domain-specific exceptions
+
+Preferred over `GeneralException` when a specific, named failure exists:
+
+```dart
+class MealNotFoundException implements AppException {
+  const MealNotFoundException(this.id);
+  final String id;
+
+  @override
+  bool get isRetryable => false;
+
+  @override
+  String localizedMessage(AppLocalizations l) => l.mealNotFoundError;
+}
+```
+
+Add a dedicated ARB key (e.g. `mealNotFoundError`) with a specific, context-aware message instead of reusing a generic error string.
 
 ---
 

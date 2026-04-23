@@ -261,6 +261,90 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Gourmet'**
   String get affordabilityLuxurious;
+
+  /// Error shown when a network/connectivity failure occurs
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna connessione. Controlla la tua rete.'**
+  String get errorNetwork;
+
+  /// Error shown when a resource is not found (404)
+  ///
+  /// In it, this message translates to:
+  /// **'Il contenuto non è stato trovato.'**
+  String get errorNotFound;
+
+  /// Error shown when the user is not authenticated (401)
+  ///
+  /// In it, this message translates to:
+  /// **'Sessione scaduta. Accedi di nuovo.'**
+  String get errorUnauthorized;
+
+  /// Error shown when the user is not authorized (403)
+  ///
+  /// In it, this message translates to:
+  /// **'Non hai i permessi per eseguire questa operazione.'**
+  String get errorForbidden;
+
+  /// Error shown for generic server errors (5xx)
+  ///
+  /// In it, this message translates to:
+  /// **'Si è verificato un errore sul server. Riprova più tardi.'**
+  String get errorServerError;
+
+  /// Fallback error shown for unknown errors
+  ///
+  /// In it, this message translates to:
+  /// **'Si è verificato un errore. Riprova.'**
+  String get errorGeneric;
+
+  /// Error shown when a specific meal is not found
+  ///
+  /// In it, this message translates to:
+  /// **'Ricetta non trovata.'**
+  String get mealNotFoundError;
+
+  /// Generic retry button label
+  ///
+  /// In it, this message translates to:
+  /// **'Riprova'**
+  String get retry;
+
+  /// Error message shown in the home screen when all meal sections fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare le ricette. Riprova.'**
+  String get homeErrorLoadMeals;
+
+  /// Warning snackbar shown when only some meal sections fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Alcune sezioni non sono state caricate.'**
+  String get homeErrorSomeSections;
+
+  /// Empty state message shown when a category has no meals
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna ricetta trovata per la categoria selezionata.'**
+  String get homeEmptyCategory;
+
+  /// Error message shown in the search screen when meals fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare le ricette. Riprova.'**
+  String get searchErrorLoadMeals;
+
+  /// Empty state shown in search when no meals match the query
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun risultato per la ricerca effettuata.'**
+  String get searchEmptyResults;
+
+  /// Placeholder shown in search before the user types anything
+  ///
+  /// In it, this message translates to:
+  /// **'Cerca una ricetta per vedere i risultati.'**
+  String get searchEmptyHint;
 }
 
 class _AppLocalizationsDelegate

@@ -27,7 +27,8 @@ Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. f
 
 Accent rule for buttons:
 ```dart
-final accent = AppColors.of(context).isDark ? AppColors.secondary : AppColors.primary;
+// primary is always primary — no dark mode swap
+final accent = AppColors.primary;
 ```
 
 ### Which colour and where
@@ -38,7 +39,7 @@ final accent = AppColors.of(context).isDark ? AppColors.secondary : AppColors.pr
 | Card, container, input background | `AppColors.of(context).surface` |
 | Primary text (titles, body) | `AppColors.of(context).text` |
 | Secondary text, placeholder, muted label | `AppColors.of(context).muted` |
-| Accent colour for button/active icon | `AppColors.primary` (light) / `AppColors.secondary` (dark) |
+| Accent colour for button/active icon | `AppColors.primary` — always, no dark mode swap |
 | Error message, invalid field border | `AppColors.error` |
 | Positive feedback / success | `AppColors.success` |
 | Warning feedback | `AppColors.warning` |
@@ -125,6 +126,16 @@ Access: `AppDesign.{token}` (all static).
 | Horizontal padding only | `paddingHorizontalSm/Md/Lg` |
 | Uniform padding | `paddingXs`(4) `paddingSm`(8) `paddingMd`(16) `paddingLg`(20) `paddingXl`(24) |
 
+### Icon size — by context
+
+| Token | Value | When |
+|---|---|---|
+| `iconSizeSm` | 16 | Badges, chips, secondary caret icons |
+| `iconSizeMd` | 20 | Standard UI icons (buttons, inputs, inline) |
+| `iconSizeLg` | 24 | Emphasized icons (icon buttons, navigation) |
+| `iconSizeXl` | 40 | Large accent icons (image error fallback) |
+| `iconSizeXxl` | 64 | Empty state / message page illustrations |
+
 ---
 
 ## Icons — `phosphor_flutter`
@@ -153,6 +164,7 @@ Available classes: `PhosphorIconsRegular`, `PhosphorIconsBold`, `PhosphorIconsFi
 - [ ] Never use `.withOpacity()` — use `.withAlpha((x * 255).round())` instead (`.withOpacity` is near-deprecated in Flutter)
 - [ ] No hardcoded `fontSize` — all from `AppTypography.of(context)`
 - [ ] No hardcoded spacing — all from `AppDesign` gap/padding tokens
+- [ ] No hardcoded icon sizes — all from `AppDesign.iconSize*` tokens
 - [ ] No hardcoded `BorderRadius.circular(x)` — all from `AppDesign`
 - [ ] Network images use `BaseImageContainer`
 - [ ] Buttons use `BaseButton` / `BaseIconButton`

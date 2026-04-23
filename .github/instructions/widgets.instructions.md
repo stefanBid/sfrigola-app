@@ -109,14 +109,20 @@ BaseFormField(
 BaseButton(
   label: 'Submit',
   icon: PhosphorIconsRegular.arrowRight, // optional
-  type: BaseButtonType.filled,           // filled | outlined
+  type: BaseButtonType.filled,           // filled | outlined | ghost
   fullWidth: true,
+  pill: false,                           // true → borderRadiusSm (pill shape)
   isLoading: false,
   onPressed: () { ... },
 )
 ```
 
-Accent colour resolved automatically: `primary` in light mode, `secondary` in dark mode.
+- **`filled`** — `AppColors.primary` background, dark text. Use for primary CTA and form submit.
+- **`outlined`** — transparent background, `AppColors.secondary` border + text. Use for secondary CTA.
+- **`ghost`** — no background, no border, `AppColors.primary` text + ripple. Use for low-prominence actions (empty states, error pages, dialogs).
+- **`pill: true`** — applies `AppDesign.borderRadiusSm` instead of `borderRadiusXs`. Use with `ghost` in contextual layouts (e.g. `MessagePageLayout`).
+
+`AppColors.primary` is always primary — no dark mode swap.
 
 ---
 
@@ -158,22 +164,29 @@ SizedBox(
 
 ## GcGridView
 
-Grid layout widget. Pass widgets directly as a `children` list.
+Grid layout widget con lazy builder pattern. Accetta uno `ScrollController` opzionale per la gestione esterna dello scroll (es. infinite scroll, `_onScroll` listener).
 
 ```dart
 GcGridView(
-  children: [
-    widget1,
-    widget2,
-  ],
-  dimensions: const GridDimensions(
-    crossAxisCount: 2,           // number of columns (default: 2)
-    childAspectRatio: 3 / 2,    // width/height ratio (default: 3/2)
-    crossAxisSpacing: AppDesign.gapItemMd, // horizontal gap
-    mainAxisSpacing: AppDesign.gapItemMd,  // vertical gap
+  itemCount: items.length,
+  itemBuilder: (context, index) => MyCard(item: items[index]),
+  scrollController: _scrollController, // optional
+  dimensions: GridDimensions(
+    crossAxisCount: 2,                        // number of columns (default: 2)
+    childAspectRatio: 3 / 2,                 // width/height ratio — ignored when mainAxisExtent is set (default: 3/2)
+    crossAxisSpacing: AppDesign.gapItemMd,   // horizontal gap (default)
+    mainAxisSpacing: AppDesign.gapItemMd,    // vertical gap (default)
+    mainAxisExtent: 280,                     // fixed item height in px — use to prevent cards from squashing on wide screens
+    maxItemWidth: 300,                       // max width per cell; grid is centred and capped at maxItemWidth × columns + spacing
+    padding: EdgeInsets.zero,                // inner GridView padding (default: EdgeInsets.zero — avoids MediaQuery top-padding gap)
   ),
 )
 ```
+
+**Notes:**
+- `mainAxisExtent` overrides `childAspectRatio` — prefer it when a fixed height is needed (e.g. tablet grids)
+- `maxItemWidth` computes `maxGridWidth = maxItemWidth × crossAxisCount + crossAxisSpacing × (crossAxisCount - 1)`; the grid is wrapped in `Align(topCenter) + ConstrainedBox` when set
+- `padding` defaults to `EdgeInsets.zero` — Flutter's `GridView` would otherwise add `MediaQuery.padding.top` automatically as a top gap when the widget is not a primary scroll view
 
 ---
 
@@ -192,7 +205,7 @@ BaseValueCard(
 
 ## BaseBadge
 
-Inline label with semantic colour. Uses `borderRadiusXXs` and `small`/`caption` typography via `BadgeStyle`.
+Inline label with semantic colour. Uses `borderRadiusXXs` and `caption` typography via `BadgeStyle`. Label text is always rendered in **uppercase**.
 
 ```dart
 BaseBadge(
@@ -200,8 +213,7 @@ BaseBadge(
   icon: PhosphorIconsRegular.star, // optional
   style: BadgeStyle(
     color: AppColors.success,
-    foregroundColor: Colors.white,       // optional — text and icon colour
-    size: BadgeSize.normal,              // normal (caption) | small
+    foregroundColor: Colors.white,       // optional — text, icon and border colour
     variant: BadgeVariant.filled,        // filled | outlined
     borderRadius: AppDesign.borderRadiusXXs, // optional override
   ),
@@ -209,10 +221,10 @@ BaseBadge(
 ```
 
 **Colour logic:**
-- `color` controls both fill and border colour in both variants
-- `filled` → coloured background + matching border
-- `outlined` → transparent background + border in `color` colour
-- `foregroundColor` → text and icon only (independent from border)
+- `color` controls fill colour only
+- `foregroundColor` controls text, icon **and border** colour
+- `filled` → coloured background + border in `foregroundColor`
+- `outlined` → transparent background + border in `foregroundColor`
 
 **Badge colour palette — approved combinations** (use these for consistency):
 
@@ -239,9 +251,14 @@ Static utility for showing styled snack bars. Never use `ScaffoldMessenger.of(co
 BaseScaffoldMessenger.show(
   context,
   message: 'Saved successfully!',
-  type: SnackBarType.success, // success | error | warning | info (default)
+  type: SnackBarType.success,  // success | error | warning | info (default)
+  duration: const Duration(seconds: 3), // optional, default 3s
+  retryLabel: 'Retry',         // optional — label for the action button
+  onRetry: () { ... },         // optional — callback fired when the action button is tapped
 );
 ```
+
+When `onRetry` is provided, a `TextButton` with white bold text appears at the trailing end of the snack bar. Tapping it hides the snack bar and calls `onRetry`. Duration is **not** extended automatically — pass a custom `duration` if a longer window is needed.
 
 | `SnackBarType` | Colour | Icon |
 |---|---|---|

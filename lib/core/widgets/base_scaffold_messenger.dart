@@ -16,6 +16,8 @@ class BaseScaffoldMessenger {
     required String message,
     SnackBarType type = SnackBarType.info,
     Duration duration = const Duration(seconds: 3),
+    String? retryLabel,
+    VoidCallback? onRetry,
   }) {
     final colors = AppColors.of(context);
 
@@ -35,37 +37,57 @@ class BaseScaffoldMessenger {
       ),
     };
 
-    ScaffoldMessenger.of(context)
-      ..clearSnackBars()
-      ..showSnackBar(
-        SnackBar(
-          duration: duration,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          padding: EdgeInsets.zero,
-          content: Container(
-            padding: AppDesign.paddingSymmetricMd,
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: AppDesign.borderRadiusTopXs,
-            ),
-            child: Row(
-              children: [
-                Icon(iconData, color: Colors.white, size: 20),
+    final messenger = ScaffoldMessenger.of(context)..clearSnackBars();
+    messenger.showSnackBar(
+      SnackBar(
+        duration: duration,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        padding: EdgeInsets.zero,
+        content: Container(
+          padding: AppDesign.paddingSymmetricMd,
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: AppDesign.borderRadiusTopXs,
+          ),
+          child: Row(
+            children: [
+              Icon(iconData, color: Colors.white, size: AppDesign.iconSizeMd),
+              const SizedBox(width: AppDesign.gapInlineSm),
+              Expanded(
+                child: Text(
+                  message,
+                  style: AppTypography.of(context).bodyMedium.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              if (onRetry != null) ...[
                 const SizedBox(width: AppDesign.gapInlineSm),
-                Expanded(
+                TextButton(
+                  onPressed: () {
+                    messenger.hideCurrentSnackBar();
+                    onRetry();
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                   child: Text(
-                    message,
+                    retryLabel ?? 'Retry',
                     style: AppTypography.of(context).bodyMedium.copyWith(
                       color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ],
-            ),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 }

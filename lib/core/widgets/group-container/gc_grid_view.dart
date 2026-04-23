@@ -1,39 +1,72 @@
 import 'package:flutter/material.dart';
 
-import '../../helpers/app_design.dart';
+// Project Helpers
+import 'package:sfrigola/core/helpers/app_design.dart';
 
 class GridDimensions {
   final int crossAxisCount;
   final double childAspectRatio;
   final double crossAxisSpacing;
   final double mainAxisSpacing;
+  final double? mainAxisExtent;
+  final double? maxItemWidth;
+  final EdgeInsetsGeometry padding;
 
   const GridDimensions({
     this.crossAxisCount = 2,
     this.childAspectRatio = 3 / 2,
     this.crossAxisSpacing = AppDesign.gapItemMd,
     this.mainAxisSpacing = AppDesign.gapItemMd,
+    this.mainAxisExtent,
+    this.maxItemWidth,
+    this.padding = EdgeInsets.zero,
   });
+
+  double? get maxGridWidth => maxItemWidth == null
+      ? null
+      : maxItemWidth! * crossAxisCount +
+            crossAxisSpacing * (crossAxisCount - 1);
 }
 
 class GcGridView extends StatelessWidget {
-  final List<Widget> children;
+  final ScrollController? scrollController;
+  final int itemCount;
+  final Widget Function(BuildContext, int) itemBuilder;
   final GridDimensions dimensions;
 
   const GcGridView({
     super.key,
-    required this.children,
+    this.scrollController,
+    required this.itemCount,
+    required this.itemBuilder,
     this.dimensions = const GridDimensions(),
   });
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: dimensions.crossAxisCount,
-      childAspectRatio: dimensions.childAspectRatio,
-      crossAxisSpacing: dimensions.crossAxisSpacing,
-      mainAxisSpacing: dimensions.mainAxisSpacing,
-      children: children,
+    final maxGridWidth = dimensions.maxGridWidth;
+    final grid = GridView.builder(
+      controller: scrollController,
+      padding: dimensions.padding,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: dimensions.crossAxisCount,
+        childAspectRatio: dimensions.childAspectRatio,
+        crossAxisSpacing: dimensions.crossAxisSpacing,
+        mainAxisSpacing: dimensions.mainAxisSpacing,
+        mainAxisExtent: dimensions.mainAxisExtent,
+      ),
+      itemCount: itemCount,
+      itemBuilder: itemBuilder,
+    );
+
+    if (maxGridWidth == null) return grid;
+
+    return Align(
+      alignment: Alignment.topCenter,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxGridWidth),
+        child: grid,
+      ),
     );
   }
 }

@@ -40,9 +40,6 @@ class CategoriesGroupRow extends ConsumerWidget {
 
     final category = categories[index];
     final isSelected = category.id == selectedCategoryId;
-    final accent = AppColors.of(context).isDark
-        ? AppColors.secondary
-        : AppColors.primary;
 
     return Padding(
       padding: AppDesign.paddingHorizontalLg.copyWith(
@@ -53,7 +50,9 @@ class CategoriesGroupRow extends ConsumerWidget {
       ),
       child: BaseBox(
         settings: BoxSettings(
-          color: isSelected ? accent : AppColors.of(context).surface,
+          color: isSelected
+              ? AppColors.primary.withAlpha(150)
+              : AppColors.of(context).surface,
         ),
         onTap: () => onCategorySelected?.call(category.id),
         child: Row(

@@ -5,7 +5,7 @@ import '../helpers/app_colors.dart';
 import '../helpers/app_design.dart';
 import '../helpers/app_typography.dart';
 
-enum BaseButtonType { filled, outlined }
+enum BaseButtonType { filled, outlined, ghost }
 
 class BaseButton extends StatelessWidget {
   final String? label;
@@ -16,6 +16,8 @@ class BaseButton extends StatelessWidget {
   final bool fullWidth;
   final bool isLoading;
 
+  final bool pill;
+
   const BaseButton({
     super.key,
     this.label,
@@ -25,21 +27,42 @@ class BaseButton extends StatelessWidget {
     this.type = BaseButtonType.filled,
     this.fullWidth = false,
     this.isLoading = false,
+    this.pill = false,
   }) : assert(label != null || icon != null);
 
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
-    final accentColor = colors.isDark ? AppColors.secondary : AppColors.primary;
+    final accentColor = AppColors.primary;
+    final outlineColor = AppColors.secondary;
     final contentColor = AppTypography.of(context).body.color ?? colors.text;
+    final borderRadius = pill
+        ? AppDesign.borderRadiusSm
+        : AppDesign.borderRadiusXs;
 
-    final fillColor = type == BaseButtonType.filled
-        ? accentColor
-        : accentColor.withAlpha(20);
+    final tapColor = switch (type) {
+      BaseButtonType.filled => colors.text.withAlpha(20),
+      BaseButtonType.outlined => outlineColor.withAlpha(30),
+      BaseButtonType.ghost => accentColor.withAlpha(20),
+    };
 
-    final resolvedContentColor = type == BaseButtonType.outlined
-        ? accentColor
-        : contentColor;
+    final fillColor = switch (type) {
+      BaseButtonType.filled => accentColor,
+      BaseButtonType.outlined => Colors.transparent,
+      BaseButtonType.ghost => Colors.transparent,
+    };
+
+    final resolvedContentColor = switch (type) {
+      BaseButtonType.filled => contentColor,
+      BaseButtonType.outlined => outlineColor,
+      BaseButtonType.ghost => accentColor,
+    };
+
+    final border = type == BaseButtonType.outlined
+        ? Border.all(color: outlineColor, width: 1.5)
+        : type == BaseButtonType.filled
+        ? Border.all(color: accentColor, width: 1.5)
+        : null;
 
     Widget content = isLoading
         ? SizedBox(
@@ -54,7 +77,11 @@ class BaseButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null)
-                Icon(icon, size: 20, color: resolvedContentColor),
+                Icon(
+                  icon,
+                  size: AppDesign.iconSizeMd,
+                  color: resolvedContentColor,
+                ),
               if (icon != null && label != null)
                 const SizedBox(width: AppDesign.gapInlineSm),
               if (label != null)
@@ -76,19 +103,19 @@ class BaseButton extends StatelessWidget {
       opacity: onPressed == null && !isLoading ? 0.5 : 1.0,
       child: Material(
         color: Colors.transparent,
-        borderRadius: AppDesign.borderRadiusXs,
+        borderRadius: borderRadius,
         child: InkWell(
           onTap: isLoading ? null : onPressed,
-          borderRadius: AppDesign.borderRadiusXs,
-          splashColor: colors.text.withAlpha(60),
-          highlightColor: colors.text.withAlpha(30),
+          borderRadius: borderRadius,
+          splashColor: tapColor,
+          highlightColor: tapColor,
           child: Ink(
             decoration: BoxDecoration(
               color: fillColor,
-              borderRadius: AppDesign.borderRadiusXs,
-              border: Border.all(color: accentColor, width: 1.5),
+              borderRadius: borderRadius,
+              border: border,
             ),
-            padding: AppDesign.paddingSymmetricLg,
+            padding: AppDesign.paddingSymmetricMd,
             child: content,
           ),
         ),

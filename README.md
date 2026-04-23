@@ -173,7 +173,8 @@ sfrigola-app/
         json_serializable.dart   ← base interface: toJson()
         category.dart            ← Category model + CategoryColor enum
         meal.dart                ← Meal model + Complexity/Affordability enums
-        repository_filter.dart   ← RepositoryFilter base (skip/take pagination)
+        general_exception.dart   ← AppException interface + AppErrorCode + GeneralException
+
       providers/          ← app-wide Riverpod providers (repository singletons)
         repository_provider.dart
       repositories/       ← repository layer (single point of contact with any data source)
@@ -184,6 +185,8 @@ sfrigola-app/
         favorites/
           favorites_repository.dart        ← abstract interface
           favorites_repository_impl.dart   ← concrete implementation
+      utils/              ← shared utilities (non-design-system)
+        provider_retry.dart  ← appRetry — shared Riverpod retry function
       widgets/            ← reusable UI components shared across features
         base_badge.dart              ← status badge
         base_button.dart             ← primary action button
@@ -241,8 +244,8 @@ Static constants (non-adaptive, use directly):
 
 | Token | Value | Usage |
 |---|---|---|
-| `AppColors.primary` | `#60C9F8` | Brand colour, active states |
-| `AppColors.secondary` | `#0A599C` | Dark brand, dark-mode accents |
+| `AppColors.primary` | `#60C9F8` | Brand colour, active states — always primary, no dark mode swap |
+| `AppColors.secondary` | `#0A599C` | Dark brand, explicit secondary use only |
 | `AppColors.error` | `#B00020` | Validation errors |
 | `AppColors.success` | `#10B981` | Success states |
 | `AppColors.warning` | `#F59E0B` | Warning states |
@@ -283,6 +286,16 @@ All tokens are `static const` — use them directly without instantiation.
 | `AppDesign.borderRadiusLg` | 48px | Full pill, bottom sheets |
 
 Top-only and bottom-only variants follow the same suffix pattern (e.g. `borderRadiusTopSm`, `borderRadiusBottomMd`).
+
+**Icon sizes:**
+
+| Token | Value | Usage |
+|---|---|---|
+| `AppDesign.iconSizeSm` | 16px | Badges, chips, secondary caret icons |
+| `AppDesign.iconSizeMd` | 20px | Standard UI icons (buttons, inputs, inline) |
+| `AppDesign.iconSizeLg` | 24px | Emphasized icons (icon buttons, navigation) |
+| `AppDesign.iconSizeXl` | 40px | Large accent icons (image error fallback) |
+| `AppDesign.iconSizeXxl` | 64px | Empty state / message page illustrations |
 
 **Padding presets:**
 
@@ -428,6 +441,21 @@ A gradient app bar (primary → background) with title, optional leading widget,
 | `actions` | `List<Widget>?` | Widgets shown after the title. |
 | `bottomContent` | `Widget?` | Content below the title row. |
 
+### `MessagePageLayout`
+
+Centred message layout for error, empty and informational states.
+
+| Prop | Type | Description |
+|---|---|---|
+| `message` | `String` | Required. Text displayed below the icon. |
+| `icon` | `IconData?` | Optional. Rendered at `AppDesign.iconSizeXxl`. |
+| `type` | `MessagePageType` | `standard` (default) or `muted`. |
+| `onRetry` | `VoidCallback?` | Optional. Shows a ghost+pill retry button when set. |
+
+**Types:** `standard` uses `heading4` text with full-weight icon colour — for invitations and blocking states. `muted` uses `bodySecondary` w600 with muted icon — for empty states and non-blocking errors.
+
+**Icon convention:** `warningCircle` Bold for generic errors • `cookingPot` Bold for no search results • `bowlFood` Regular for search invitation • `forkKnife` Bold for empty feed.
+
 ### `TransparentAppBar`
 
 An overlay app bar for use on top of hero images or full-bleed backgrounds. Fully transparent background.
@@ -504,21 +532,28 @@ BaseBox(
 
 ### `BaseButton`
 
-Full-featured action button with variants, loading state and optional icon.
+Full-featured action button with variants, loading state, optional icon and pill shape.
 
 | Prop | Type | Description |
 |---|---|---|
 | `label` | `String?` | Button label text. |
 | `icon` | `IconData?` | Optional icon (at least one of `label`/`icon` is required). |
 | `onPressed` | `VoidCallback?` | Tap handler. `null` renders the button as disabled. |
-| `type` | `BaseButtonType` | `filled` (default) or `outlined`. |
+| `type` | `BaseButtonType` | `filled` (default), `outlined`, or `ghost`. |
+| `pill` | `bool` | `true` applies `borderRadiusSm` for a pill shape. Defaults to `false`. |
 | `fullWidth` | `bool` | Expand to fill available width. Defaults to `false`. |
 | `isLoading` | `bool` | Show loading spinner instead of content. Defaults to `false`. |
 | `tooltip` | `String?` | Accessibility tooltip. |
 
+**Types:**
+- `filled` — `AppColors.primary` background. Use for primary CTA and form submit.
+- `outlined` — `AppColors.secondary` border + text, transparent background. Use for secondary CTA.
+- `ghost` — no background, no border, `AppColors.primary` text + ripple. Use for low-prominence actions (empty states, dialogs).
+
 ```dart
 BaseButton(label: 'Submit', onPressed: _submit, isLoading: _isLoading)
 BaseButton(icon: PhosphorIconsBold.plus, type: BaseButtonType.outlined, onPressed: _add)
+BaseButton(label: 'Retry', icon: PhosphorIconsBold.arrowClockwise, type: BaseButtonType.ghost, pill: true, onPressed: _retry)
 ```
 
 ### `BaseIconButton`
@@ -763,19 +798,14 @@ UI (Screens / Widgets)
 
 ### Filtering & Pagination — `MealFilter`
 
-All list methods accept a `MealFilter` (never raw parameters). `MealFilter` extends the global `RepositoryFilter` base which carries `skip` and `take` for offset pagination.
+All list methods accept a `MealFilter` (never raw parameters). `MealFilter` carries `skip` and `take` for offset pagination.
 
 ```dart
-// lib/core/models/repository_filter.dart
-abstract class RepositoryFilter {
-  const RepositoryFilter({this.skip = 0, this.take = 10});
+// lib/core/repositories/meal/meal_repository_model.dart
+class MealFilter {
+  const MealFilter({this.skip = 0, this.take = 10, this.categoryId, this.query = ''});
   final int skip;
   final int take;
-}
-
-// lib/core/repositories/meal/meal_repository_model.dart
-class MealFilter extends RepositoryFilter {
-  const MealFilter({super.skip, super.take, this.categoryId, this.query = ''});
   final String? categoryId;  // null = no category filter
   final String query;        // '' = no text filter
 }
@@ -882,7 +912,7 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules and widget API reference |
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow |
 | `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
-| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, RepositoryFilter, DI pattern, error handling |
+| `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, DI pattern, error handling |
 | `state-management.instructions.md` | `**/providers/**,**/features/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, naming, checklist |
 
 ---

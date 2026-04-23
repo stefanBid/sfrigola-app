@@ -10,36 +10,43 @@ abstract interface class MealRepository {
   Future<List<Category>> getCategories();
 
   /// Trending meals — highest rated, currently viral.
-  Future<List<MealPreview>> getTrending(
+  Future<MealRepositoryResponse> getTrending(
     String? categoryId, {
     int skip = 0,
     int take = 10,
   });
 
   /// Easy meals — complexity == simple.
-  Future<List<MealPreview>> getEasy(
+  Future<MealRepositoryResponse> getEasy(
     String? categoryId, {
     int skip = 0,
     int take = 10,
   });
 
   /// Challenge meals — complexity == hard.
-  Future<List<MealPreview>> getChallenge(
+  Future<MealRepositoryResponse> getChallenge(
     String? categoryId, {
     int skip = 0,
     int take = 10,
   });
 
   /// Budget meals — affordability == affordable.
-  Future<List<MealPreview>> getBudget(
+  Future<MealRepositoryResponse> getBudget(
     String? categoryId, {
     int skip = 0,
     int take = 10,
   });
 
   /// Premium meals — affordability == luxurious.
-  Future<List<MealPreview>> getPremium(
+  Future<MealRepositoryResponse> getPremium(
     String? categoryId, {
+    int skip = 0,
+    int take = 10,
+  });
+
+  /// All meals, paginated
+  Future<MealRepositoryResponse> getAllMeals(
+    String? searchKey, {
     int skip = 0,
     int take = 10,
   });

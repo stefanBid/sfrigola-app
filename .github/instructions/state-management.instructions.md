@@ -4,6 +4,15 @@ applyTo: "**/providers/**,**/features/**,**/widgets/**"
 
 # State Management — Riverpod conventions
 
+> **IMPORTANT**: This project uses **Riverpod 3.x** (`flutter_riverpod: ^3.x`, `riverpod_annotation: ^4.x`). All patterns, APIs and examples in this file are Riverpod 3.x only. Do not suggest APIs, workarounds or patterns from Riverpod 1.x or 2.x — they are incompatible.
+>
+> Notable Riverpod 3.x differences to keep in mind:
+> - `valueOrNull` is **removed** — use `.value` (returns `T?`)
+> - `ProviderObserver` methods use `ProviderObserverContext` as first parameter
+> - `ProviderObserver` subclasses must be declared `base class`
+> - Global retry is set on `ProviderScope(retry: ...)` — no per-provider `@Riverpod(retry: ...)`
+> - `ProviderBase` is not exported — do not reference it directly
+
 Stack: `hooks_riverpod` + `flutter_hooks` + `riverpod_annotation` + `riverpod_generator`.
 
 ---
@@ -338,8 +347,45 @@ part 'meal_provider.g.dart';
 - [ ] File is in `lib/core/providers/` (or feature `providers/`) and named `*_provider.dart`
 - [ ] `part '*.g.dart';` line is present
 - [ ] Annotated with `@riverpod` or `@Riverpod(keepAlive: true)`
+- [ ] Async providers that call a repository use plain `@riverpod` (retry is global)
 - [ ] Notifier `build()` returns the initial state / initial Future
 - [ ] No `ref.watch` inside callbacks or Notifier methods (use `ref.read` there)
 - [ ] `AsyncValue` is handled with `switch` covering all three cases
 - [ ] Family parameters use only stable-`==` types
 - [ ] `keepAlive: true` only on repository/session providers
+
+---
+
+## Retry — `appRetry`
+
+The retry policy is configured **globally** in `ProviderScope` via `retry: appRetry`. Every provider inherits it automatically — **never** declare `@Riverpod(retry: appRetry)` on individual providers.
+
+```dart
+// main.dart — already configured, do not duplicate
+ProviderScope(
+  retry: appRetry,
+  child: const MyApp(),
+)
+```
+
+All async providers that call a repository simply use `@riverpod`:
+
+```dart
+@riverpod
+class MealById extends _$MealById {
+  @override
+  Future<Meal> build(String mealId) async {
+    return ref.watch(mealRepositoryProvider).getMealById(mealId);
+  }
+}
+```
+
+**Policy** (defined in `appRetry` — do not replicate inline):
+
+| Error | Retried? | Max attempts |
+|---|---|---|
+| `AppException` with `isRetryable == true` (network, serverError) | Yes | 3 total (2 retries) |
+| `AppException` with `isRetryable == false` (notFound, unauthorized, forbidden, generic) | No | — |
+| Unknown exception (not `AppException`) | No | — |
+
+After all retries are exhausted the provider enters `AsyncError` — handle it in the widget with `AsyncError(:final error)` and show `AppLocale.errorFor(context, error)`.

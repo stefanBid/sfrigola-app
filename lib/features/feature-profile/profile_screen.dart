@@ -169,12 +169,16 @@ class _SettingsRow extends StatelessWidget {
         padding: AppDesign.paddingSymmetricMd,
         child: Row(
           children: [
-            Icon(icon, size: 20, color: AppColors.of(context).muted),
+            Icon(
+              icon,
+              size: AppDesign.iconSizeMd,
+              color: AppColors.of(context).muted,
+            ),
             const SizedBox(width: AppDesign.gapInlineSm),
             Expanded(child: Text(label, style: AppTypography.of(context).body)),
             Icon(
               PhosphorIconsRegular.caretRight,
-              size: 16,
+              size: AppDesign.iconSizeSm,
               color: AppColors.of(context).muted,
             ),
           ],

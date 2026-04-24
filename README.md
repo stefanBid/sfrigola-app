@@ -174,6 +174,10 @@ sfrigola-app/
         category.dart            ← Category model + CategoryColor enum
         meal.dart                ← Meal model + Complexity/Affordability enums
         general_exception.dart   ← AppException interface + AppErrorCode + GeneralException
+        be-models/               ← typed BE response wrappers (mirrors real backend contract)
+          be_error.dart            ← BeError — error shape embedded in any response
+          get_response.dart        ← GetDataResponse<T> + GetListDataResponse<T>
+          mutation_response.dart   ← MutationResponse — for POST / PUT / PATCH / DELETE
 
       providers/          ← app-wide Riverpod providers (repository singletons)
         repository_provider.dart
@@ -187,6 +191,7 @@ sfrigola-app/
           favorites_repository_impl.dart   ← concrete implementation
       utils/              ← shared utilities (non-design-system)
         provider_retry.dart  ← appRetry — shared Riverpod retry function
+        be_simulators.dart   ← static mock-BE layer — owns all data simulation logic (dummy_data.dart → Dio)
       widgets/            ← reusable UI components shared across features
         base_badge.dart              ← status badge
         base_button.dart             ← primary action button
@@ -212,6 +217,10 @@ sfrigola-app/
         widgets/
       feature-search/       ← search feature
         search_screen.dart
+        providers/
+        widgets/
+      feature-favourites/   ← user favourites feature
+        favourite_screen.dart
         providers/
         widgets/
       feature-profile/      ← user profile feature
@@ -780,11 +789,13 @@ The repository layer is the **single point of contact** between the app and any 
 ```
 UI (Screens / Widgets)
        ↓
-  Riverpod Providers   (lib/providers/)
+  Riverpod Providers   (lib/core/providers/)
        ↓
   Repository interface  (abstract interface class)
        ↓
   Repository impl       (*_repository_impl.dart)
+       ↓
+  BeSimulators          (lib/core/utils/be_simulators.dart)
        ↓
   Data source           (dummy_data.dart now → Dio + BE later)
 ```
@@ -793,8 +804,39 @@ UI (Screens / Widgets)
 
 | Domain | Interface | Responsibility |
 |---|---|---|
-| `MealRepository` | `lib/core/repositories/meal/meal_repository.dart` | Categories, trending, recent, popular, meal detail |
+| `MealRepository` | `lib/core/repositories/meal/meal_repository.dart` | Categories, trending, easy, challenge, budget, premium, meal detail |
 | `FavoritesRepository` | `lib/core/repositories/favorites/favorites_repository.dart` | User favourites — add, remove, list, check |
+
+### BE response models — `lib/core/models/be-models/`
+
+All repository methods return a **typed BE response wrapper** that mirrors the real backend contract. Never use raw types like `List<T>` or `void` as return types.
+
+| Class | File | When to use |
+|---|---|---|
+| `GetDataResponse<T>` | `get_response.dart` | GET that returns a single resource |
+| `GetListDataResponse<T>` | `get_response.dart` | GET that returns a paginated list |
+| `MutationResponse` | `mutation_response.dart` | POST, PUT, PATCH, DELETE |
+| `BeError` | `be_error.dart` | Error shape embedded in any response (`error` field is nullable — `null` = success) |
+
+The provider layer extracts `.data` from the response as needed. The repository always returns the full response object.
+
+### `BeSimulators` — `lib/core/utils/be_simulators.dart`
+
+`BeSimulators` is a static utility that owns all mock data logic (filtering, sorting, pagination, mapping). **Repositories never import `dummy_data.dart` directly.**
+
+```dart
+// Repository impl — the full pattern:
+static void _checkResponse(BeError? error) {
+  if (error != null) throw GeneralException.generic();
+}
+
+// Inside a method:
+final response = await BeSimulators.getTrending(...);
+_checkResponse(response.error);
+return response;
+```
+
+When the backend is ready: replace the `BeSimulators` call with a Dio call. The interface, response types, and all consumers remain unchanged.
 
 ### Filtering & Pagination — `MealFilter`
 
@@ -811,17 +853,9 @@ class MealFilter {
 }
 ```
 
-### Switching to the real backend
-
-The concrete implementations (`*_repository_impl.dart`) read from `dummy_data.dart` and are each marked with `// TODO: replace with <HTTP verb> <endpoint>`. When the backend is ready:
-
-1. Replace the method body with a Dio call.
-2. Authentication is sent automatically via a Dio interceptor — never pass tokens as parameters.
-3. The interface, class signature, and all consumers remain unchanged.
-
 ### Error handling
 
-Repositories throw typed exceptions (e.g. `MealNotFoundException`). The provider layer catches them and exposes `AsyncError` via Riverpod's `AsyncNotifier`. The UI handles them in `.when(error: ...)`. Repositories never return `null` or raw error strings.
+Repositories throw typed exceptions (e.g. `MealNotFoundException`). The single translation point is `_checkResponse(BeError?)` inside each impl — it converts a BE error into a Dart exception. The provider layer catches them and exposes `AsyncError` via Riverpod's `AsyncNotifier`. The UI handles them in `.when(error: ...)`.
 
 ### Dependency injection
 

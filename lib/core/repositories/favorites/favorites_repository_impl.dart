@@ -1,10 +1,9 @@
-// Project Data
-import 'package:sfrigola/core/data/dummy_data.dart';
-
 // Project Models
 import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
+import 'package:sfrigola/core/models/be-models/get_response.dart';
+import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
 // Project Repositories
 import 'package:sfrigola/core/repositories/favorites/favorites_repository.dart';
@@ -21,42 +20,35 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
-  Future<List<Meal>> getFavorites(String? categoryId) async {
+  Future<GetListDataResponse<Meal>> getFavorites(String? categoryId) async {
     // TODO: replace with GET /favorites (auth via Dio interceptor)
-    final favorites = availableMeals
-        .where((meal) => _favoriteIds.contains(meal.id))
-        .toList();
-    final filtered = categoryId == null
-        ? favorites
-        : favorites
-              .where((meal) => meal.categories.contains(categoryId))
-              .toList();
-    final response = await BeSimulators.getList(
-      data: filtered,
-      total: filtered.length,
-      delay: const Duration(milliseconds: 300),
+    final response = await BeSimulators.getFavorites(
+      _favoriteIds,
+      categoryId: categoryId,
       simulateError: false,
     );
     _checkResponse(response.error);
-    return response.data;
+    return response;
   }
 
   @override
-  Future<void> addFavorite(String mealId) async {
+  Future<MutationResponse> addFavorite(String mealId) async {
     // TODO: replace with POST /favorites/{mealId}
-    final error = await BeSimulators.voidCall(simulateError: false);
-    _checkResponse(error);
+    final response = await BeSimulators.addFavorite(simulateError: false);
+    _checkResponse(response.error);
     if (!_favoriteIds.contains(mealId)) {
       _favoriteIds.add(mealId);
     }
+    return response;
   }
 
   @override
-  Future<void> removeFavorite(String mealId) async {
+  Future<MutationResponse> removeFavorite(String mealId) async {
     // TODO: replace with DELETE /favorites/{mealId}
-    final error = await BeSimulators.voidCall(simulateError: false);
-    _checkResponse(error);
+    final response = await BeSimulators.removeFavorite(simulateError: false);
+    _checkResponse(response.error);
     _favoriteIds.remove(mealId);
+    return response;
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:sfrigola/core/data/dummy_data.dart';
 // Project Models
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
+import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
@@ -179,6 +180,55 @@ class BeSimulators {
   }
 
   // ---------------------------------------------------------------------------
+  // Favorites endpoints
+  // ---------------------------------------------------------------------------
+
+  /// GET /favorites — returns meals whose IDs are in [favoriteIds], filtered by [categoryId].
+  static Future<GetListDataResponse<Meal>> getFavorites(
+    List<String> favoriteIds, {
+    String? categoryId,
+    Duration delay = const Duration(milliseconds: 300),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    final favorites = availableMeals
+        .where((m) => favoriteIds.contains(m.id))
+        .toList();
+    final filtered = categoryId == null
+        ? favorites
+        : favorites.where((m) => m.categories.contains(categoryId)).toList();
+    return GetListDataResponse(
+      data: filtered,
+      total: filtered.length,
+      error: simulateError ? _error : null,
+    );
+  }
+
+  /// POST /favorites/{mealId}
+  static Future<MutationResponse> addFavorite({
+    Duration delay = const Duration(milliseconds: 200),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    return MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
+  }
+
+  /// DELETE /favorites/{mealId}
+  static Future<MutationResponse> removeFavorite({
+    Duration delay = const Duration(milliseconds: 200),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    return MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
   // Generic helpers — for mutations and repositories without dedicated methods
   // ---------------------------------------------------------------------------
 
@@ -198,13 +248,16 @@ class BeSimulators {
   }
 
   /// Simulates a mutation endpoint (POST / PUT / DELETE) with no response body.
-  /// Returns [BeError] if [simulateError] is true, null otherwise.
-  static Future<BeError?> voidCall({
+  /// Returns a [MutationResponse] with [error] set when [simulateError] is true.
+  static Future<MutationResponse> voidCall({
     Duration delay = const Duration(milliseconds: 200),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    return simulateError ? _error : null;
+    return MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
   }
 
   // ---------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Projects Helpers
 import '../helpers/app_design.dart';
@@ -60,7 +61,7 @@ class BaseImageContainer extends StatelessWidget {
           errorWidget: (context, url, error) => Container(
             color: AppColors.of(context).muted,
             child: Icon(
-              Icons.broken_image,
+              PhosphorIconsBold.imageBroken,
               size: AppDesign.iconSizeXl,
               color: AppColors.of(context).text.withAlpha(120),
             ),
@@ -75,7 +76,7 @@ class BaseImageContainer extends StatelessWidget {
           errorBuilder: (context, error, stackTrace) => Container(
             color: AppColors.of(context).muted,
             child: Icon(
-              Icons.broken_image,
+              PhosphorIconsBold.imageBroken,
               size: AppDesign.iconSizeXl,
               color: AppColors.of(context).text.withAlpha(120),
             ),

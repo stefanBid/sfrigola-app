@@ -345,6 +345,12 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Cerca una ricetta per vedere i risultati.'**
   String get searchEmptyHint;
+
+  /// Title shown in the favourites screen app bar
+  ///
+  /// In it, this message translates to:
+  /// **'I miei preferiti'**
+  String get favouritesTitle;
 }
 
 class _AppLocalizationsDelegate

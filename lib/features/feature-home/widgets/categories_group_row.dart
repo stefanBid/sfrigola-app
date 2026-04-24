@@ -87,7 +87,7 @@ class CategoriesGroupRow extends ConsumerWidget {
           children: [
             Icon(
               PhosphorIconsRegular.warningCircle,
-              size: 16,
+              size: AppDesign.iconSizeSm,
               color: AppColors.of(context).muted,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),

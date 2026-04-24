@@ -209,5 +209,10 @@
   "searchEmptyHint": "Cerca una ricetta per vedere i risultati.",
   "@searchEmptyHint": {
     "description": "Placeholder shown in search before the user types anything"
+  },
+
+  "favouritesTitle": "I miei preferiti",
+  "@favouritesTitle": {
+    "description": "Title shown in the favourites screen app bar"
   }
 }

@@ -99,7 +99,7 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
           children: [
             const Icon(
               PhosphorIconsBold.star,
-              size: 24,
+              size: AppDesign.iconSizeLg,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),

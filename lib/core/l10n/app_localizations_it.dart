@@ -143,4 +143,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get searchEmptyHint => 'Cerca una ricetta per vedere i risultati.';
+
+  @override
+  String get favouritesTitle => 'I miei preferiti';
 }

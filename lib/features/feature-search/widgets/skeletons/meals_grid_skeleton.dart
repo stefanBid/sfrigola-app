@@ -6,14 +6,14 @@ import 'package:sfrigola/core/helpers/app_design.dart';
 
 /// Full-grid animated skeleton for the search screen.
 /// A single [AnimationController] drives all cards — they all pulse in sync.
-class GridCardsSkeleton extends StatefulWidget {
-  const GridCardsSkeleton({super.key});
+class MealsGridSkeleton extends StatefulWidget {
+  const MealsGridSkeleton({super.key});
 
   @override
-  State<GridCardsSkeleton> createState() => _GridCardsSkeletonState();
+  State<MealsGridSkeleton> createState() => _MealsGridSkeletonState();
 }
 
-class _GridCardsSkeletonState extends State<GridCardsSkeleton>
+class _MealsGridSkeletonState extends State<MealsGridSkeleton>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _opacity;

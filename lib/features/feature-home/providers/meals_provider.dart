@@ -51,7 +51,7 @@ class TrendingMeals extends _$TrendingMeals {
         .read(mealRepositoryProvider)
         .getTrending(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
+      state.value!.copyWith(
         meals: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
@@ -82,7 +82,7 @@ class EasyMeals extends _$EasyMeals {
         .read(mealRepositoryProvider)
         .getEasy(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
+      state.value!.copyWith(
         meals: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
@@ -113,7 +113,7 @@ class ChallengeMeals extends _$ChallengeMeals {
         .read(mealRepositoryProvider)
         .getChallenge(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
+      state.value!.copyWith(
         meals: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
@@ -144,7 +144,7 @@ class BudgetMeals extends _$BudgetMeals {
         .read(mealRepositoryProvider)
         .getBudget(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
+      state.value!.copyWith(
         meals: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
@@ -175,7 +175,7 @@ class PremiumMeals extends _$PremiumMeals {
         .read(mealRepositoryProvider)
         .getPremium(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
+      state.value!.copyWith(
         meals: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),

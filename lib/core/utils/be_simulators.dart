@@ -5,6 +5,7 @@ import 'package:sfrigola/core/data/dummy_data.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
+import 'package:sfrigola/core/models/be-models/be_filters.dart';
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
@@ -183,23 +184,70 @@ class BeSimulators {
   // Favorites endpoints
   // ---------------------------------------------------------------------------
 
-  /// GET /favorites — returns meals whose IDs are in [favoriteIds], filtered by [categoryId].
-  static Future<GetListDataResponse<Meal>> getFavorites(
+  /// GET /favorites — returns meal previews whose IDs are in [favoriteIds], filtered and sorted.
+  static Future<GetListDataResponse<MealPreview>> getFavorites(
     List<String> favoriteIds, {
-    String? categoryId,
+    Complexity? complexity,
+    Affordability? affordability,
+    double? minRate,
+    SortOrder? sortOrder,
     Duration delay = const Duration(milliseconds: 300),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    final favorites = availableMeals
-        .where((m) => favoriteIds.contains(m.id))
-        .toList();
-    final filtered = categoryId == null
-        ? favorites
-        : favorites.where((m) => m.categories.contains(categoryId)).toList();
+
+    var results = availableMeals.where((m) => favoriteIds.contains(m.id));
+
+    if (complexity != null) {
+      results = results.where((m) => m.complexity == complexity);
+    }
+    if (affordability != null) {
+      results = results.where((m) => m.affordability == affordability);
+    }
+    if (minRate != null) {
+      results = results.where((m) => m.rate >= minRate);
+    }
+
+    final sorted = results.toList();
+    if (sortOrder != null) {
+      sorted.sort(
+        (a, b) => switch (sortOrder) {
+          SortOrder.alphabeticalAscending => a.title.compareTo(b.title),
+          SortOrder.alphabeticalDescending => b.title.compareTo(a.title),
+          SortOrder.rateAscending => a.rate.compareTo(b.rate),
+          SortOrder.rateDescending => b.rate.compareTo(a.rate),
+          SortOrder.complexityAscending => a.complexity.index.compareTo(
+            b.complexity.index,
+          ),
+          SortOrder.complexityDescending => b.complexity.index.compareTo(
+            a.complexity.index,
+          ),
+          SortOrder.affordabilityAscending => a.affordability.index.compareTo(
+            b.affordability.index,
+          ),
+          SortOrder.affordabilityDescending => b.affordability.index.compareTo(
+            a.affordability.index,
+          ),
+        },
+      );
+    }
+
     return GetListDataResponse(
-      data: filtered,
-      total: filtered.length,
+      data: sorted
+          .map(
+            (m) => MealPreview(
+              id: m.id,
+              title: m.title,
+              subtitle: m.subtitle,
+              imageUrl: m.imageUrl,
+              duration: m.duration,
+              complexity: m.complexity,
+              affordability: m.affordability,
+              rate: m.rate,
+            ),
+          )
+          .toList(),
+      total: sorted.length,
       error: simulateError ? _error : null,
     );
   }

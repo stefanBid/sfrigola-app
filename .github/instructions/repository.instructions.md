@@ -17,13 +17,14 @@ lib/core/repositories/
     meal_repository.dart          ← abstract interface only
     meal_repository_impl.dart     ← concrete implementation only
   favorites/
-    favorites_repository.dart          ← abstract interface only
-    favorites_repository_impl.dart     ← concrete implementation only
+    favorites_repository_model.dart   ← FavoritesFilter + FavoritesSortOrder
+    favorites_repository.dart         ← abstract interface only
+    favorites_repository_impl.dart    ← concrete implementation only
 ```
 
-> **Rule**: one subdirectory per repository domain. Each domain contains a `*_repository_model.dart` file (value objects, exceptions, response shapes) + one abstract file + one implementation file.
+> **Rule**: one subdirectory per repository domain. Each domain has a `*_repository_model.dart` file (value objects, filter classes, exceptions) + one abstract file + one implementation file.
 
-> `meal/meal_repository_model.dart` is the canonical home of `MealFilter` and `MealNotFoundException`. `FavoritesRepository` imports `MealFilter` from there — it is a meal-domain concept used across repositories.
+> `meal/meal_repository_model.dart` is the canonical home of `MealFilter` and `MealNotFoundException`. `favorites/favorites_repository_model.dart` owns `FavoritesFilter` and `FavoritesSortOrder`.
 
 ---
 
@@ -32,25 +33,41 @@ lib/core/repositories/
 `MealFilter` lives in `lib/core/repositories/meal/meal_repository_model.dart`. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
 
 ```dart
-// lib/core/repositories/meal/meal_repository_model.dart
 class MealFilter {
   const MealFilter({this.skip = 0, this.take = 10, this.categoryId, this.query = ''});
 
   final int skip;
   final int take;
-
-  /// null = no category filter applied.
-  final String? categoryId;
-
-  /// Generic search key — BE matches against title and subtitle.
-  /// '' = no text filter applied.
-  final String query;
+  final String? categoryId; // null = no category filter
+  final String query;       // '' = no text filter
 }
 ```
 
 **Rule**: never add individual `categoryId` / `query` / `skip` / `take` arguments to repository methods. Always pass `MealFilter`.
 
-When a new domain filter is needed (e.g. `UserFilter`), create a standalone class in its own `*_repository_model.dart` file — no base class required.
+---
+
+## `FavoritesSortOrder` → `SortOrder`
+
+Sort direction for `getFavorites` is expressed via `SortOrder`, defined in `lib/core/models/be-models/be_filters.dart`. It is a shared BE enum — not specific to the favorites domain.
+
+```dart
+// lib/core/models/be-models/be_filters.dart
+enum SortOrder {
+  alphabeticalAscending,
+  alphabeticalDescending,
+  rateAscending,
+  rateDescending,
+  complexityAscending,
+  complexityDescending,
+  affordabilityAscending,
+  affordabilityDescending,
+}
+```
+
+`getFavorites` accepts `SortOrder?` — when `null`, the list is returned in insertion order (no sort applied).
+
+`getFavorites` accepts filter and sort params **directly as named parameters** — there is no wrapper object. The provider layer owns the filter state and passes the individual values when calling the repository.
 
 ---
 
@@ -132,8 +149,14 @@ Authentication is handled transparently via Dio interceptor — the token is nev
 
 ```dart
 abstract interface class FavoritesRepository {
-  /// GET /favorites — returns the authenticated user's saved meals, filtered by category.
-  Future<GetListDataResponse<Meal>> getFavorites(String? categoryId);
+  /// GET /favorites — returns the user's saved meals, filtered and sorted.
+  /// All params are optional — omit to return the full list, descending by rate.
+  Future<GetListDataResponse<MealPreview>> getFavorites({
+    Complexity? complexity,
+    Affordability? affordability,
+    double? minRate,
+    SortOrder? sortOrder,
+  });
 
   /// POST /favorites/{mealId}
   Future<MutationResponse> addFavorite(String mealId);
@@ -167,7 +190,7 @@ abstract interface class FavoritesRepository {
 | `getTrending({categoryId, skip, take, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
 | `getAllMeals({searchKey, skip, take, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
 | `getMealById(id, {simulateError})` | `Future<GetDataResponse<Meal>>` |
-| `getFavorites(List<String> ids, {categoryId, simulateError})` | `Future<GetListDataResponse<Meal>>` |
+| `getFavorites(List<String> ids, {complexity, affordability, minRate, sortOrder, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
 | `addFavorite({simulateError})` | `Future<MutationResponse>` |
 | `removeFavorite({simulateError})` | `Future<MutationResponse>` |
 | `voidCall({simulateError})` | `Future<MutationResponse>` (generic mutation helper) |

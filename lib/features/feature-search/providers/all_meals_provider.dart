@@ -36,7 +36,7 @@ class AllMeals extends _$AllMeals {
         .read(mealRepositoryProvider)
         .getAllMeals(searchKey, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
+      state.value!.copyWith(
         meals: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),

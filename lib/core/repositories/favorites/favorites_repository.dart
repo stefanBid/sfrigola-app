@@ -2,12 +2,18 @@
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
+import 'package:sfrigola/core/models/be-models/be_filters.dart';
 
 abstract interface class FavoritesRepository {
   /// Returns the authenticated user's saved meals.
-  /// Pass [categoryId] to filter by category, null for no filter.
+  /// All filter params are optional — omit to return the full list.
   /// In production: GET /favorites — auth token is passed via Dio interceptor.
-  Future<GetListDataResponse<Meal>> getFavorites(String? categoryId);
+  Future<GetListDataResponse<MealPreview>> getFavorites({
+    Complexity? complexity,
+    Affordability? affordability,
+    double? minRate,
+    SortOrder? sortOrder,
+  });
 
   /// Adds a meal to the user's favourites.
   /// In production: POST /favorites/{mealId}

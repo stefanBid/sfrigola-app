@@ -2,6 +2,7 @@
 import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
+import 'package:sfrigola/core/models/be-models/be_filters.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
@@ -20,11 +21,19 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
-  Future<GetListDataResponse<Meal>> getFavorites(String? categoryId) async {
+  Future<GetListDataResponse<MealPreview>> getFavorites({
+    Complexity? complexity,
+    Affordability? affordability,
+    double? minRate,
+    SortOrder? sortOrder,
+  }) async {
     // TODO: replace with GET /favorites (auth via Dio interceptor)
     final response = await BeSimulators.getFavorites(
       _favoriteIds,
-      categoryId: categoryId,
+      complexity: complexity,
+      affordability: affordability,
+      minRate: minRate,
+      sortOrder: sortOrder,
       simulateError: false,
     );
     _checkResponse(response.error);

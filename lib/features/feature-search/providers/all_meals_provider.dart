@@ -5,6 +5,9 @@ import 'package:sfrigola/core/providers/repository_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
+// Project Utils
+import 'package:sfrigola/core/utils/has_more.dart';
+
 part 'all_meals_provider.g.dart';
 
 @riverpod
@@ -21,8 +24,8 @@ class AllMeals extends _$AllMeals {
         .read(mealRepositoryProvider)
         .getAllMeals(searchKey, take: _pageSize);
     return MealsProviderState(
-      meals: response.meals,
-      hasMore: response.hasMore(0, _pageSize),
+      meals: response.data,
+      hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
@@ -34,8 +37,8 @@ class AllMeals extends _$AllMeals {
         .getAllMeals(searchKey, skip: current.length, take: _pageSize);
     state = AsyncData(
       MealsProviderState(
-        meals: [...current, ...response.meals],
-        hasMore: response.hasMore(current.length, _pageSize),
+        meals: [...current, ...response.data],
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }

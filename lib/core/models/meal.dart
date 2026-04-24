@@ -1,5 +1,10 @@
-// Project Models
 import 'package:flutter/material.dart';
+
+// Project l10n
+import 'package:sfrigola/core/l10n/app_localizations.dart';
+
+// Project Models
+import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/json_serializable.dart';
 
 // Project Helpers
@@ -217,4 +222,22 @@ extension AffordabilityDisplay on Affordability {
       foreground: const Color(0xFF6A1B9A),
     ),
   };
+}
+
+// ---------------------------------------------------------------------------
+// Exeptions
+// ---------------------------------------------------------------------------
+
+class MealNotFoundException implements AppException {
+  const MealNotFoundException(this.id);
+  final String id;
+
+  @override
+  bool get isRetryable => false;
+
+  @override
+  String localizedMessage(AppLocalizations l) => l.mealNotFoundError;
+
+  @override
+  String toString() => 'MealNotFoundException: no meal found with id "$id"';
 }

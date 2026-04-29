@@ -79,17 +79,19 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
 
   Widget _buildGrid(BuildContext context, List<MealPreview> items) {
     final isTablet = AppDesign.isTablet(context);
-    final skeletonCount = isTablet ? (items.length.isEven ? 2 : 3) : 1;
+    final crossAxisCount = isTablet ? 2 : 1;
+    final skeletonCount = crossAxisCount - (items.length % crossAxisCount);
     final itemCount = items.length + (_isLoadingMore ? skeletonCount : 0);
 
     return GcGridView(
       itemCount: itemCount,
       scrollController: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       dimensions: GridDimensions(
         padding: const EdgeInsetsGeometry.symmetric(
           vertical: AppDesign.gapSectionLg,
         ),
-        crossAxisCount: isTablet ? 2 : 1,
+        crossAxisCount: crossAxisCount,
         maxItemWidth: isTablet ? 400 : double.infinity,
         mainAxisExtent: 300,
       ),
@@ -106,7 +108,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   Widget _buildMealCard(BuildContext context, MealPreview meal) {
     return GeneralMealCard(
       meal: meal,
-      onTap: (id) => AppRouter.goTo(
+      onTap: (id) => AppRouter.goDeep(
         context,
         AppRouter.mealDetails,
         params: MealDetailsParams(mealId: id),

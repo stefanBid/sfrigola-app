@@ -33,6 +33,7 @@ class GcGridView extends StatelessWidget {
   final int itemCount;
   final Widget Function(BuildContext, int) itemBuilder;
   final GridDimensions dimensions;
+  final ScrollPhysics? physics;
 
   const GcGridView({
     super.key,
@@ -40,6 +41,7 @@ class GcGridView extends StatelessWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.dimensions = const GridDimensions(),
+    this.physics,
   });
 
   @override
@@ -47,6 +49,7 @@ class GcGridView extends StatelessWidget {
     final maxGridWidth = dimensions.maxGridWidth;
     final grid = GridView.builder(
       controller: scrollController,
+      physics: physics,
       padding: dimensions.padding,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: dimensions.crossAxisCount,

@@ -80,39 +80,11 @@ class _FavouriteMealCardSkeletonState extends State<FavouriteMealCardSkeleton>
                       borderRadius: AppDesign.borderRadiusXXs,
                     ),
                   ),
-                  const SizedBox(height: AppDesign.gapItemXs),
-                  const Wrap(
-                    spacing: AppDesign.gapInlineSm,
-                    runSpacing: AppDesign.gapInlineSm,
-                    children: [
-                      _BadgePlaceholder(width: 64),
-                      _BadgePlaceholder(width: 72),
-                      _BadgePlaceholder(width: 80),
-                    ],
-                  ),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _BadgePlaceholder extends StatelessWidget {
-  final double width;
-
-  const _BadgePlaceholder({required this.width});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: 24,
-      decoration: BoxDecoration(
-        color: AppColors.of(context).muted,
-        borderRadius: AppDesign.borderRadiusXXs,
       ),
     );
   }

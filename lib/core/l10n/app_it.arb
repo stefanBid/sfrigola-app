@@ -214,5 +214,20 @@
   "favouritesTitle": "I miei preferiti",
   "@favouritesTitle": {
     "description": "Title shown in the favourites screen app bar"
+  },
+
+  "favouritesErrorLoad": "Impossibile caricare i preferiti.",
+  "@favouritesErrorLoad": {
+    "description": "Error message shown in the favourites screen when favourites fail to load"
+  },
+
+  "favouritesEmptyFiltered": "Nessun preferito corrisponde ai filtri selezionati.",
+  "@favouritesEmptyFiltered": {
+    "description": "Empty state shown when no favourites match the active filters"
+  },
+
+  "favouritesEmpty": "Ancora nessun preferito.",
+  "@favouritesEmpty": {
+    "description": "Empty state shown when the user has no favourites yet"
   }
 }

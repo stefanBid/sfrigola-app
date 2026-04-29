@@ -19,6 +19,12 @@ class FavouritesFilterProviderState {
     this.sortOrder,
   });
 
+  bool get hasFilters =>
+      complexity != null ||
+      affordability != null ||
+      minRate != null ||
+      sortOrder != null;
+
   FavouritesFilterProviderState copyWith({
     Complexity? complexity,
     Affordability? affordability,

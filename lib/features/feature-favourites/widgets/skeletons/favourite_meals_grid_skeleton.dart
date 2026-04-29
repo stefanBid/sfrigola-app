@@ -79,16 +79,6 @@ class _FavouriteMealsGridSkeletonState extends State<FavouriteMealsGridSkeleton>
                     borderRadius: AppDesign.borderRadiusXXs,
                   ),
                 ),
-                const SizedBox(height: AppDesign.gapItemXs),
-                Wrap(
-                  spacing: AppDesign.gapInlineSm,
-                  runSpacing: AppDesign.gapInlineSm,
-                  children: [
-                    _buildBadge(context, 64),
-                    _buildBadge(context, 72),
-                    _buildBadge(context, 80),
-                  ],
-                ),
               ],
             ),
           ),
@@ -97,22 +87,11 @@ class _FavouriteMealsGridSkeletonState extends State<FavouriteMealsGridSkeleton>
     );
   }
 
-  Widget _buildBadge(BuildContext context, double width) {
-    return Container(
-      width: width,
-      height: 24,
-      decoration: BoxDecoration(
-        color: AppColors.of(context).muted,
-        borderRadius: AppDesign.borderRadiusXXs,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isTablet = AppDesign.isTablet(context);
-    final columns = isTablet ? 2 : 1;
-    final cardCount = isTablet ? 4 : 5;
+    final columns = isTablet ? 4 : 2;
+    final cardCount = isTablet ? 8 : 4;
 
     return FadeTransition(
       opacity: _opacity,
@@ -124,7 +103,7 @@ class _FavouriteMealsGridSkeletonState extends State<FavouriteMealsGridSkeleton>
           crossAxisCount: columns,
           crossAxisSpacing: AppDesign.gapItemMd,
           mainAxisSpacing: AppDesign.gapItemMd,
-          mainAxisExtent: 300,
+          mainAxisExtent: 220,
         ),
         itemCount: cardCount,
         itemBuilder: (context, _) => _buildCard(context),

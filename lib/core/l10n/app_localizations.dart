@@ -351,6 +351,24 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'I miei preferiti'**
   String get favouritesTitle;
+
+  /// Error message shown in the favourites screen when favourites fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare i preferiti.'**
+  String get favouritesErrorLoad;
+
+  /// Empty state shown when no favourites match the active filters
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun preferito corrisponde ai filtri selezionati.'**
+  String get favouritesEmptyFiltered;
+
+  /// Empty state shown when the user has no favourites yet
+  ///
+  /// In it, this message translates to:
+  /// **'Ancora nessun preferito.'**
+  String get favouritesEmpty;
 }
 
 class _AppLocalizationsDelegate

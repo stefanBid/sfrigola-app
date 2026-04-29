@@ -146,4 +146,14 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get favouritesTitle => 'I miei preferiti';
+
+  @override
+  String get favouritesErrorLoad => 'Impossibile caricare i preferiti.';
+
+  @override
+  String get favouritesEmptyFiltered =>
+      'Nessun preferito corrisponde ai filtri selezionati.';
+
+  @override
+  String get favouritesEmpty => 'Ancora nessun preferito.';
 }

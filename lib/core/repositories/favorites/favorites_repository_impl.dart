@@ -14,7 +14,21 @@ import 'package:sfrigola/core/utils/be_simulators.dart';
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
   /// In-memory favorite IDs — replace with server-side user data.
-  final List<String> _favoriteIds = [];
+  final List<String> _favoriteIds = [
+    'm1',
+    'm3',
+    'm5',
+    'm7',
+    'm9',
+    'm11',
+    'm13',
+    'm15',
+    'm17',
+    'm19',
+    'm21',
+    'm23',
+    'm25',
+  ];
 
   static void _checkResponse(BeError? error) {
     if (error != null) throw GeneralException.generic();

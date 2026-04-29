@@ -13,6 +13,8 @@ abstract interface class FavoritesRepository {
     Affordability? affordability,
     double? minRate,
     SortOrder? sortOrder,
+    int skip,
+    int take,
   });
 
   /// Adds a meal to the user's favourites.

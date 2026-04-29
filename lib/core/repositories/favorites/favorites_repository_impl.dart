@@ -40,6 +40,8 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
     Affordability? affordability,
     double? minRate,
     SortOrder? sortOrder,
+    int skip = 0,
+    int take = 10,
   }) async {
     // TODO: replace with GET /favorites (auth via Dio interceptor)
     final response = await BeSimulators.getFavorites(
@@ -48,6 +50,8 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       affordability: affordability,
       minRate: minRate,
       sortOrder: sortOrder,
+      skip: skip,
+      take: take,
       simulateError: false,
     );
     _checkResponse(response.error);

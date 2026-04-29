@@ -46,6 +46,8 @@ class AllFavourites extends _$AllFavourites {
           affordability: filter.affordability,
           minRate: filter.minRate,
           sortOrder: filter.sortOrder,
+          skip: 0,
+          take: _pageSize,
         );
     return AllFavouritesProviderState(
       favouriteMeals: response.data,
@@ -63,11 +65,13 @@ class AllFavourites extends _$AllFavourites {
           affordability: filter.affordability,
           minRate: filter.minRate,
           sortOrder: filter.sortOrder,
+          skip: current.length,
+          take: _pageSize,
         );
     state = AsyncData(
       state.value!.copyWith(
         favouriteMeals: [...current, ...response.data],
-        hasMore: hasMore(response.total, current.length, _pageSize),
+        hasMore: hasMore(response.total, current.length + response.data.length, _pageSize),
       ),
     );
   }

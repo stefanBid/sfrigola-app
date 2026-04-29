@@ -191,6 +191,8 @@ class BeSimulators {
     Affordability? affordability,
     double? minRate,
     SortOrder? sortOrder,
+    int skip = 0,
+    int take = 10,
     Duration delay = const Duration(milliseconds: 300),
     bool simulateError = false,
   }) async {
@@ -232,8 +234,10 @@ class BeSimulators {
       );
     }
 
+    final paged = sorted.skip(skip).take(take).toList();
+
     return GetListDataResponse(
-      data: sorted
+      data: paged
           .map(
             (m) => MealPreview(
               id: m.id,

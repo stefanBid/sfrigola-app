@@ -271,6 +271,45 @@ Clears previous snack bars automatically before showing the new one. Uses `borde
 
 ---
 
+## BaseBottomSheet
+
+Static utility for showing a modal bottom sheet. Never use `showModalBottomSheet` directly.
+
+```dart
+// Adaptive height — sheet grows with content
+BaseBottomSheet.show(
+  context,
+  title: 'Filter',
+  subtitle: 'Choose your preferences',
+  child: myWidget,
+);
+
+// Fixed height — content scrolls if it exceeds the available space
+BaseBottomSheet.show(
+  context,
+  heightFactor: 0.6,
+  child: myLongList,
+);
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `child` | `Widget` | Required. Content displayed inside the sheet. Always padded with `AppDesign.paddingPage`. |
+| `title` | `String?` | Optional title rendered with `heading3`. |
+| `subtitle` | `String?` | Optional subtitle rendered with `bodySecondary` + `muted`. |
+| `heightFactor` | `double?` | Value in `(0, 1]`. Sheet height as a fraction of available screen height (status bar and home indicator excluded). Omit for adaptive height. |
+
+**Behaviour:**
+- Always clears active snack bars before opening
+- Always full-width (`maxWidth: double.infinity`) — including landscape
+- `useSafeArea: true` — Flutter handles notch and home indicator automatically
+- With `heightFactor`: header fixed, `child` scrolls inside `SingleChildScrollView`
+- Without `heightFactor`: sheet adapts to content height (`mainAxisSize.min`)
+- Drag handle always visible at the top
+- Background `surface`, top corners `borderRadiusTopMd`
+
+---
+
 ## Design system
 
 All colours, spacing and typography must come from helpers — never hardcode values. Full reference in `design-system.instructions.md`.

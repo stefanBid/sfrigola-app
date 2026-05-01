@@ -202,6 +202,7 @@ sfrigola-app/
         base_input.dart              ← standalone text input
         base_box.dart               ← tappable surface container with ripple
         base_scaffold_messenger.dart ← themed SnackBar utility
+        base_bottom_sheet.dart       ← modal bottom sheet utility
         base_value_card.dart         ← metric display card (value + label)
         group-container/
           gc_list_view.dart ← null-safe ListView.builder wrapper
@@ -689,6 +690,41 @@ BaseScaffoldMessenger.show(
 | `SnackBarType.error` | `AppColors.error` |
 | `SnackBarType.warning` | `AppColors.warning` |
 | `SnackBarType.info` | Primary (adaptive) |
+
+### `BaseBottomSheet`
+
+Static utility that shows a modal bottom sheet with optional title, subtitle and scrollable content area.
+
+```dart
+// Adaptive height — sheet grows with content
+BaseBottomSheet.show(
+  context,
+  title: 'Filter',
+  subtitle: 'Choose your preferences',
+  child: myWidget,
+);
+
+// Fixed height — content scrolls if it exceeds the available space
+BaseBottomSheet.show(
+  context,
+  heightFactor: 0.6,
+  child: myLongList,
+);
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `child` | `Widget` | Required. Content displayed inside the sheet. Always padded with `AppDesign.paddingPage`. |
+| `title` | `String?` | Optional title rendered with `heading3`. |
+| `subtitle` | `String?` | Optional subtitle rendered with `bodySecondary` + `muted`. |
+| `heightFactor` | `double?` | Optional. Value in `(0, 1]`. Sheet height as a fraction of the available screen height (excluding status bar and home indicator). When omitted, the sheet adapts to its content. |
+
+**Behaviour:**
+- Always clears active snack bars before opening
+- Always full-width (`maxWidth: double.infinity`) including landscape
+- `useSafeArea: true` — Flutter handles notch and home indicator automatically
+- With `heightFactor`: header is fixed, `child` scrolls inside `SingleChildScrollView`
+- Without `heightFactor`: sheet adapts to content height (`mainAxisSize.min`)
 
 ### `GcListView` (group-container)
 

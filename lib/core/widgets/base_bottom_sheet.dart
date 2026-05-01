@@ -56,8 +56,9 @@ class _BaseBottomSheetContent extends StatelessWidget {
     final mq = MediaQuery.of(context);
     final availableHeight =
         mq.size.height - mq.viewPadding.top - mq.viewPadding.bottom;
-    final resolvedHeight =
-        hasFixedHeight ? availableHeight * heightFactor! : null;
+    final resolvedHeight = hasFixedHeight
+        ? availableHeight * heightFactor!
+        : null;
 
     Widget header = Column(
       mainAxisSize: MainAxisSize.min,

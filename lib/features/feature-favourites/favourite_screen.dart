@@ -11,6 +11,7 @@ import 'package:sfrigola/core/widgets/base_icon_button.dart';
 
 // Project Widgets
 import 'package:sfrigola/features/feature-favourites/widgets/favourite_meals_grid_container.dart';
+import 'package:sfrigola/core/widgets/base_bottom_sheet.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});
@@ -24,7 +25,11 @@ class FavouriteScreen extends StatelessWidget {
         actions: [
           BaseIconButton(
             icon: PhosphorIconsBold.funnel,
-            onPressed: () => print("Filter favourites"),
+            onPressed: () => BaseBottomSheet.show(
+              context,
+              child: Text('Filter options coming soon!'),
+              heightFactor: 0.5,
+            ),
           ),
         ],
       ),

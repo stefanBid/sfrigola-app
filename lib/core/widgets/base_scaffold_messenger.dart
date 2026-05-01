@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import '../helpers/app_colors.dart';
-import '../helpers/app_design.dart';
-import '../helpers/app_typography.dart';
+import 'package:sfrigola/core/helpers/app_colors.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_typography.dart';
 
 enum SnackBarType { success, error, warning, info }
 

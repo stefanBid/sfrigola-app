@@ -8,6 +8,10 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 class BaseBottomSheet {
   const BaseBottomSheet._();
 
+  static void hide(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   static void show(
     BuildContext context, {
     required Widget child,
@@ -25,6 +29,7 @@ class BaseBottomSheet {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
+      useRootNavigator: true,
       constraints: const BoxConstraints(maxWidth: double.infinity),
       useSafeArea: true,
       builder: (_) => _BaseBottomSheetContent(
@@ -94,26 +99,37 @@ class _BaseBottomSheetContent extends StatelessWidget {
       ],
     );
 
-    return Container(
-      width: double.infinity,
-      height: resolvedHeight,
-      decoration: BoxDecoration(
-        color: AppColors.of(context).surface,
-        borderRadius: AppDesign.borderRadiusTopMd,
-      ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: AppDesign.paddingPage,
-        child: Column(
-          mainAxisSize: hasFixedHeight ? MainAxisSize.max : MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            header,
-            if (hasFixedHeight)
-              Expanded(child: SingleChildScrollView(child: child))
-            else
-              child,
-            const SizedBox(height: AppDesign.gapSectionSm),
-          ],
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Container(
+          width: double.infinity,
+          height: resolvedHeight,
+          decoration: BoxDecoration(
+            color: AppColors.of(context).surface,
+            borderRadius: AppDesign.borderRadiusTopMd,
+          ),
+          child: Padding(
+            padding: AppDesign.paddingPage,
+            child: Column(
+              mainAxisSize: hasFixedHeight
+                  ? MainAxisSize.max
+                  : MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                header,
+                if (hasFixedHeight)
+                  Expanded(child: SingleChildScrollView(child: child))
+                else
+                  Flexible(child: SingleChildScrollView(child: child)),
+                const SizedBox(height: AppDesign.gapSectionSm),
+              ],
+            ),
+          ),
         ),
       ),
     );

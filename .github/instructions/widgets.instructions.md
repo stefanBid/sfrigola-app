@@ -103,6 +103,42 @@ BaseFormField(
 
 ---
 
+## BaseDropdown
+
+Styled `DropdownButtonFormField` for use inside a `Form`. Mirrors `BaseFormField` layout and styling — label above the field, same border, error and typography tokens.
+
+Items are passed as `List<BaseDropdownOption<T>>` — a simple data class that hides the Material `DropdownMenuItem` API entirely.
+
+```dart
+// Data class — always use const constructor
+const BaseDropdownOption(value: MyEnum.foo, label: 'Foo label')
+```
+
+```dart
+BaseDropdown<MyEnum>(
+  initialValue: _selectedValue,     // T? — initial selected value, maps to DropdownButtonFormField.initialValue
+  label: 'Label',                   // optional — shown above with caption style
+  voidSelectionItemLabel: 'All',    // optional — adds a null item at the top
+  prefixIcon: PhosphorIconsRegular.funnelSimple, // IconData? — optional
+  items: const [
+    BaseDropdownOption(value: MyEnum.foo, label: 'Foo'),
+    BaseDropdownOption(value: MyEnum.bar, label: 'Bar'),
+  ],
+  onChanged: (v) => setState(() => _selectedValue = v),
+  fillColor: AppColors.of(context).surface, // optional
+  autovalidateMode: AutovalidateMode.onUnfocus, // default
+  validator: (v) => v == null ? 'Required' : null, // optional
+)
+```
+
+**Notes:**
+- Uses `initialValue` (not `value`) on `DropdownButtonFormField` — `value` is deprecated
+- `dropdownColor` is always `AppColors.of(context).surface`
+- Selected value text style is `bodyMedium` + `text` colour
+- `prefixIcon` rendered with `muted` colour + `AppDesign.iconSizeMd`
+
+---
+
 ## BaseButton
 
 ```dart

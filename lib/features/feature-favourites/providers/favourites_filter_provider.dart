@@ -24,20 +24,6 @@ class FavouritesFilterProviderState {
       affordability != null ||
       minRate != null ||
       sortOrder != null;
-
-  FavouritesFilterProviderState copyWith({
-    Complexity? complexity,
-    Affordability? affordability,
-    double? minRate,
-    SortOrder? sortOrder,
-  }) {
-    return FavouritesFilterProviderState(
-      complexity: complexity ?? this.complexity,
-      affordability: affordability ?? this.affordability,
-      minRate: minRate ?? this.minRate,
-      sortOrder: sortOrder ?? this.sortOrder,
-    );
-  }
 }
 
 @riverpod
@@ -58,11 +44,19 @@ class FavouritesFilter extends _$FavouritesFilter {
     double? minRate,
     SortOrder? sortOrder,
   }) {
-    state = state.copyWith(
-      complexity: complexity,
-      affordability: affordability,
-      minRate: minRate,
-      sortOrder: sortOrder,
+    state = FavouritesFilterProviderState(
+      complexity: complexity ?? state.complexity,
+      affordability: affordability ?? state.affordability,
+      minRate: minRate ?? state.minRate,
+      sortOrder: sortOrder ?? state.sortOrder,
     );
+  }
+
+  void replaceWith(FavouritesFilterProviderState newState) {
+    state = newState;
+  }
+
+  void reset() {
+    state = build();
   }
 }

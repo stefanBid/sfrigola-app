@@ -25,7 +25,7 @@ import 'package:sfrigola/core/widgets/group-container/gc_grid_view.dart';
 // Screen Widgets
 import 'package:sfrigola/features/feature-search/widgets/general_meal_card.dart';
 import 'package:sfrigola/features/feature-search/widgets/skeletons/general_meal_card_skeleton.dart';
-import 'package:sfrigola/features/feature-search/widgets/skeletons/grid_cards_skeleton.dart';
+import 'package:sfrigola/features/feature-search/widgets/skeletons/meals_grid_skeleton.dart';
 
 class MealsGridContainer extends ConsumerStatefulWidget {
   const MealsGridContainer({super.key});
@@ -79,17 +79,19 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
 
   Widget _buildGrid(BuildContext context, List<MealPreview> items) {
     final isTablet = AppDesign.isTablet(context);
-    final skeletonCount = isTablet ? (items.length.isEven ? 2 : 3) : 1;
+    final crossAxisCount = isTablet ? 2 : 1;
+    final skeletonCount = crossAxisCount - (items.length % crossAxisCount);
     final itemCount = items.length + (_isLoadingMore ? skeletonCount : 0);
 
     return GcGridView(
       itemCount: itemCount,
       scrollController: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       dimensions: GridDimensions(
         padding: const EdgeInsetsGeometry.symmetric(
           vertical: AppDesign.gapSectionLg,
         ),
-        crossAxisCount: isTablet ? 2 : 1,
+        crossAxisCount: crossAxisCount,
         maxItemWidth: isTablet ? 400 : double.infinity,
         mainAxisExtent: 300,
       ),
@@ -106,7 +108,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   Widget _buildMealCard(BuildContext context, MealPreview meal) {
     return GeneralMealCard(
       meal: meal,
-      onTap: (id) => AppRouter.goTo(
+      onTap: (id) => AppRouter.goDeep(
         context,
         AppRouter.mealDetails,
         params: MealDetailsParams(mealId: id),
@@ -141,7 +143,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
           children: [
             Expanded(
               child: allMeals.isLoading && isSearching
-                  ? const GridCardsSkeleton()
+                  ? const MealsGridSkeleton()
                   : switch (allMeals) {
                       AsyncError() => MessagePageLayout(
                         icon: PhosphorIconsBold.warningCircle,

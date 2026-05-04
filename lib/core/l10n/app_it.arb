@@ -176,6 +176,26 @@
     "description": "Error shown when a specific meal is not found"
   },
 
+  "mealRateError": "Impossibile salvare la valutazione.",
+  "@mealRateError": {
+    "description": "Error shown when rating a meal fails"
+  },
+
+  "rateMealSuccess": "Valutazione salvata.",
+  "@rateMealSuccess": {
+    "description": "Snackbar shown when a meal rating is saved successfully"
+  },
+
+  "rateMealLabel": "La tua valutazione",
+  "@rateMealLabel": {
+    "description": "Section title above the star rating widget in the meal details screen"
+  },
+
+  "rateMealDescription": "Tocca una stella o scorri per assegnare un voto.",
+  "@rateMealDescription": {
+    "description": "Helper text below the rating section title in the meal details screen"
+  },
+
   "retry": "Riprova",
   "@retry": {
     "description": "Generic retry button label"
@@ -209,5 +229,130 @@
   "searchEmptyHint": "Cerca una ricetta per vedere i risultati.",
   "@searchEmptyHint": {
     "description": "Placeholder shown in search before the user types anything"
+  },
+
+  "favouritesTitle": "I miei preferiti",
+  "@favouritesTitle": {
+    "description": "Title shown in the favourites screen app bar"
+  },
+
+  "favouritesErrorLoad": "Impossibile caricare i preferiti.",
+  "@favouritesErrorLoad": {
+    "description": "Error message shown in the favourites screen when favourites fail to load"
+  },
+
+  "favouritesEmptyFiltered": "Nessun preferito corrisponde ai filtri selezionati.",
+  "@favouritesEmptyFiltered": {
+    "description": "Empty state shown when no favourites match the active filters"
+  },
+
+  "favouritesEmpty": "Ancora nessun preferito.",
+  "@favouritesEmpty": {
+    "description": "Empty state shown when the user has no favourites yet"
+  },
+
+  "favouritesFilterComplexityLabel": "Complessità",
+  "@favouritesFilterComplexityLabel": {
+    "description": "Label for the complexity dropdown in the favourites filter form"
+  },
+
+  "favouritesFilterComplexityAll": "Tutte",
+  "@favouritesFilterComplexityAll": {
+    "description": "Void selection label for the complexity dropdown"
+  },
+
+  "favouritesFilterAffordabilityLabel": "Prezzo",
+  "@favouritesFilterAffordabilityLabel": {
+    "description": "Label for the affordability dropdown in the favourites filter form"
+  },
+
+  "favouritesFilterAffordabilityAll": "Tutti",
+  "@favouritesFilterAffordabilityAll": {
+    "description": "Void selection label for the affordability dropdown"
+  },
+
+  "favouritesFilterSortOrderLabel": "Ordina per",
+  "@favouritesFilterSortOrderLabel": {
+    "description": "Label for the sort order dropdown in the favourites filter form"
+  },
+
+  "favouritesFilterSortOrderNone": "Nessun ordine",
+  "@favouritesFilterSortOrderNone": {
+    "description": "Void selection label for the sort order dropdown"
+  },
+
+  "favouritesFilterRateLabel": "Valutazione",
+  "@favouritesFilterRateLabel": {
+    "description": "Label for the rate range slider in the favourites filter form"
+  },
+
+  "favouritesFilterApply": "Applica filtri",
+  "@favouritesFilterApply": {
+    "description": "Label for the apply button in the favourites filter form"
+  },
+
+  "favouritesFilterReset": "Reimposta",
+  "@favouritesFilterReset": {
+    "description": "Label for the reset button in the favourites filter form"
+  },
+
+  "favouriteAdded": "Aggiunto ai preferiti.",
+  "@favouriteAdded": {
+    "description": "Snackbar shown when a meal is successfully added to favourites"
+  },
+
+  "favouriteRemoved": "Rimosso dai preferiti.",
+  "@favouriteRemoved": {
+    "description": "Snackbar shown when a meal is successfully removed from favourites"
+  },
+
+  "favouriteAddError": "Impossibile aggiungere ai preferiti.",
+  "@favouriteAddError": {
+    "description": "Error shown when adding a meal to favourites fails"
+  },
+
+  "favouriteRemoveError": "Impossibile rimuovere dai preferiti.",
+  "@favouriteRemoveError": {
+    "description": "Error shown when removing a meal from favourites fails"
+  },
+
+  "sortOrderAlphabeticalAscending": "A → Z",
+  "@sortOrderAlphabeticalAscending": {
+    "description": "Sort order label: alphabetical ascending"
+  },
+
+  "sortOrderAlphabeticalDescending": "Z → A",
+  "@sortOrderAlphabeticalDescending": {
+    "description": "Sort order label: alphabetical descending"
+  },
+
+  "sortOrderRateAscending": "Valutazione crescente",
+  "@sortOrderRateAscending": {
+    "description": "Sort order label: rate ascending"
+  },
+
+  "sortOrderRateDescending": "Valutazione decrescente",
+  "@sortOrderRateDescending": {
+    "description": "Sort order label: rate descending"
+  },
+
+  "sortOrderComplexityAscending": "Complessità crescente",
+  "@sortOrderComplexityAscending": {
+    "description": "Sort order label: complexity ascending"
+  },
+
+  "sortOrderComplexityDescending": "Complessità decrescente",
+  "@sortOrderComplexityDescending": {
+    "description": "Sort order label: complexity descending"
+  },
+
+  "sortOrderAffordabilityAscending": "Prezzo crescente",
+  "@sortOrderAffordabilityAscending": {
+    "description": "Sort order label: affordability ascending"
+  },
+
+  "sortOrderAffordabilityDescending": "Prezzo decrescente",
+  "@sortOrderAffordabilityDescending": {
+    "description": "Sort order label: affordability descending"
   }
 }

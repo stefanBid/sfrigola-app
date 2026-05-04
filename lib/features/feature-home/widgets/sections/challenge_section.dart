@@ -99,7 +99,7 @@ class _ChallengeSectionState extends ConsumerState<ChallengeSection> {
           children: [
             const Icon(
               PhosphorIconsBold.fire,
-              size: 24,
+              size: AppDesign.iconSizeLg,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),

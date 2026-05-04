@@ -98,7 +98,7 @@ class _EasySectionState extends ConsumerState<EasySection> {
           children: [
             const Icon(
               PhosphorIconsBold.lightning,
-              size: 24,
+              size: AppDesign.iconSizeLg,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),

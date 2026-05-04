@@ -50,7 +50,7 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).parent
 REPO_ROOT   = SCRIPT_DIR.parent
 CACHE_DIR   = SCRIPT_DIR / "cache"
-OUTPUT_FILE = REPO_ROOT / "lib" / "data" / "dummy_data.dart"
+OUTPUT_FILE = REPO_ROOT / "lib" / "core" / "data" / "dummy_data.dart"
 
 # ---------------------------------------------------------------------------
 # TheMealDB API
@@ -372,6 +372,14 @@ def meal_to_dart(sfr_id: str, meal: dict, category_ids: list[str]) -> str:
     is_lactose_free = not _has(ing_text, _DAIRY)
     is_gluten_free  = not _has(ing_text, _GLUTEN)
 
+    # User-specific fields — populated for ~35% of meals (deterministic).
+    is_favourite = rng.random() < 0.35
+    # ~45% of meals have a user rating between 1.0 and 5.0 rounded to 0.5.
+    user_rate_raw = rng.random()
+    user_rate: Optional[float] = (
+        round(rng.uniform(1.0, 5.0) * 2) / 2 if user_rate_raw < 0.45 else None
+    )
+
     origin      = f"di {mdb_area}" if mdb_area else f"di cucina {mdb_cat.lower()}"
     subtitle    = f"Ricetta {origin} — autentica e collaudata"
     description = (
@@ -412,7 +420,9 @@ def meal_to_dart(sfr_id: str, meal: dict, category_ids: list[str]) -> str:
         f"    isVegetarian: {_b(is_vegetarian)},\n"
         f"    isLactoseFree: {_b(is_lactose_free)},\n"
         f"    rate: {rate},\n"
-        f"  ),"
+        f"    isFavourite: {_b(is_favourite)},\n"
+        + (f"    userRate: {user_rate},\n" if user_rate is not None else "")
+        + f"  ),"
     )
 
 
@@ -425,8 +435,8 @@ _DART_HEADER = """\
 // Run:  python scripts/generate_dummy_data.py
 
 // Project Models
-import 'package:sfrigola/models/category.dart';
-import 'package:sfrigola/models/meal.dart';
+import 'package:sfrigola/core/models/category.dart';
+import 'package:sfrigola/core/models/meal.dart';
 
 // ---------------------------------------------------------------------------
 // Categories  (12 total)

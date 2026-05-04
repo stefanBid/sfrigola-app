@@ -6,14 +6,15 @@ import 'package:sfrigola/core/helpers/app_design.dart';
 
 /// Full-grid animated skeleton for the search screen.
 /// A single [AnimationController] drives all cards — they all pulse in sync.
-class GridCardsSkeleton extends StatefulWidget {
-  const GridCardsSkeleton({super.key});
+class FavouriteMealsGridSkeleton extends StatefulWidget {
+  const FavouriteMealsGridSkeleton({super.key});
 
   @override
-  State<GridCardsSkeleton> createState() => _GridCardsSkeletonState();
+  State<FavouriteMealsGridSkeleton> createState() =>
+      _FavouriteMealsGridSkeletonState();
 }
 
-class _GridCardsSkeletonState extends State<GridCardsSkeleton>
+class _FavouriteMealsGridSkeletonState extends State<FavouriteMealsGridSkeleton>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _opacity;
@@ -78,16 +79,6 @@ class _GridCardsSkeletonState extends State<GridCardsSkeleton>
                     borderRadius: AppDesign.borderRadiusXXs,
                   ),
                 ),
-                const SizedBox(height: AppDesign.gapItemXs),
-                Wrap(
-                  spacing: AppDesign.gapInlineSm,
-                  runSpacing: AppDesign.gapInlineSm,
-                  children: [
-                    _buildBadge(context, 64),
-                    _buildBadge(context, 72),
-                    _buildBadge(context, 80),
-                  ],
-                ),
               ],
             ),
           ),
@@ -96,22 +87,11 @@ class _GridCardsSkeletonState extends State<GridCardsSkeleton>
     );
   }
 
-  Widget _buildBadge(BuildContext context, double width) {
-    return Container(
-      width: width,
-      height: 24,
-      decoration: BoxDecoration(
-        color: AppColors.of(context).muted,
-        borderRadius: AppDesign.borderRadiusXXs,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isTablet = AppDesign.isTablet(context);
-    final columns = isTablet ? 2 : 1;
-    final cardCount = isTablet ? 4 : 5;
+    final columns = isTablet ? 4 : 2;
+    final cardCount = isTablet ? 8 : 4;
 
     return FadeTransition(
       opacity: _opacity,
@@ -123,7 +103,7 @@ class _GridCardsSkeletonState extends State<GridCardsSkeleton>
           crossAxisCount: columns,
           crossAxisSpacing: AppDesign.gapItemMd,
           mainAxisSpacing: AppDesign.gapItemMd,
-          mainAxisExtent: 300,
+          mainAxisExtent: 220,
         ),
         itemCount: cardCount,
         itemBuilder: (context, _) => _buildCard(context),

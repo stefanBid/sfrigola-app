@@ -19,6 +19,7 @@ class HeroPageLayout extends StatelessWidget {
   final String? imageUrl;
   final double imageHeight;
   final Widget body;
+  final List<Widget>? actions;
   final VoidCallback? onBack;
 
   const HeroPageLayout({
@@ -27,6 +28,7 @@ class HeroPageLayout extends StatelessWidget {
     required this.body,
     this.imageHeight = 280,
     this.onBack,
+    this.actions,
   });
 
   @override
@@ -70,6 +72,7 @@ class HeroPageLayout extends StatelessWidget {
           left: 0,
           right: 0,
           child: TransparentAppBar(
+            actions: actions,
             leading: BaseIconButton(
               color: Colors.white,
               type: IconButtonType.outlined,

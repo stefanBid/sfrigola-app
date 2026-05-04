@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import '../helpers/app_colors.dart';
-import '../helpers/app_design.dart';
-import '../helpers/app_typography.dart';
+import 'package:sfrigola/core/helpers/app_colors.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_typography.dart';
 
 enum SnackBarType { success, error, warning, info }
 
@@ -21,18 +21,25 @@ class BaseScaffoldMessenger {
   }) {
     final colors = AppColors.of(context);
 
-    final (bgColor, iconData) = switch (type) {
+    final (bgColor, textColor, iconData) = switch (type) {
       SnackBarType.success => (
         AppColors.success,
+        colors.text,
         PhosphorIconsRegular.checkCircle,
       ),
-      SnackBarType.error => (AppColors.error, PhosphorIconsRegular.xCircle),
+      SnackBarType.error => (
+        AppColors.error,
+        colors.text,
+        PhosphorIconsRegular.xCircle,
+      ),
       SnackBarType.warning => (
         AppColors.warning,
+        colors.text,
         PhosphorIconsRegular.warningCircle,
       ),
       SnackBarType.info => (
         colors.isDark ? AppColors.secondary : AppColors.primary,
+        Color(0xFF1A1A1A),
         PhosphorIconsRegular.info,
       ),
     };
@@ -52,13 +59,13 @@ class BaseScaffoldMessenger {
           ),
           child: Row(
             children: [
-              Icon(iconData, color: Colors.white, size: AppDesign.iconSizeMd),
+              Icon(iconData, color: textColor, size: AppDesign.iconSizeMd),
               const SizedBox(width: AppDesign.gapInlineSm),
               Expanded(
                 child: Text(
                   message,
                   style: AppTypography.of(context).bodyMedium.copyWith(
-                    color: Colors.white,
+                    color: textColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -78,7 +85,7 @@ class BaseScaffoldMessenger {
                   child: Text(
                     retryLabel ?? 'Retry',
                     style: AppTypography.of(context).bodyMedium.copyWith(
-                      color: Colors.white,
+                      color: textColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

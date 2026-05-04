@@ -87,7 +87,7 @@ class CategoriesGroupRow extends ConsumerWidget {
           children: [
             Icon(
               PhosphorIconsRegular.warningCircle,
-              size: 16,
+              size: AppDesign.iconSizeSm,
               color: AppColors.of(context).muted,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),
@@ -112,9 +112,13 @@ class CategoriesGroupRow extends ConsumerWidget {
         height: 40,
         child: GcListView(
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) =>
-              _buildCategoryItem(context, index, value, selectedCategoryId),
-          itemCount: value.length,
+          itemBuilder: (context, index) => _buildCategoryItem(
+            context,
+            index,
+            value.categories,
+            selectedCategoryId,
+          ),
+          itemCount: value.categories.length,
         ),
       ),
       AsyncError() => _buildError(context),

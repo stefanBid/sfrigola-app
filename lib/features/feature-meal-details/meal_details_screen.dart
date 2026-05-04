@@ -3,7 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
-import 'package:sfrigola/features/feature-meal-detail/providers/meal_by_id_provider.dart';
+import 'package:sfrigola/features/feature-meal-details/providers/meal_by_id_provider.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -22,7 +22,9 @@ import 'package:sfrigola/core/layouts/body/hero_page_layout.dart';
 import 'package:sfrigola/core/widgets/base_badge.dart';
 
 // Screen Widgets
-import 'package:sfrigola/features/feature-meal-detail/widgets/meal_details_skeleton.dart';
+import 'package:sfrigola/features/feature-meal-details/widgets/meal_details_favourite_button.dart';
+import 'package:sfrigola/features/feature-meal-details/widgets/rate_meal_form.dart';
+import 'package:sfrigola/features/feature-meal-details/widgets/meal_details_skeleton.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
   final String mealId;
@@ -32,6 +34,7 @@ class MealDetailsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mealAsync = ref.watch(mealByIdProvider(mealId));
+    final safeBottomSpace = MediaQuery.of(context).padding.bottom;
 
     return switch (mealAsync) {
       AsyncLoading() => const HeroPageLayout(body: MealDetailsSkeleton()),
@@ -49,6 +52,12 @@ class MealDetailsScreen extends ConsumerWidget {
       ),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,
+        actions: [
+          MealDetailsFavouriteButton(
+            mealId: value.id,
+            isFavourite: value.isFavourite,
+          ),
+        ],
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -226,6 +235,21 @@ class MealDetailsScreen extends ConsumerWidget {
               if (i < value.steps.length - 1)
                 const SizedBox(height: AppDesign.gapItemSm),
             ],
+            const SizedBox(height: AppDesign.gapSectionLg),
+            Text(
+              AppLocale.getLabels(context).rateMealLabel,
+              style: AppTypography.of(context).heading3,
+            ),
+            const SizedBox(height: AppDesign.gapItemXs),
+            Text(
+              AppLocale.getLabels(context).rateMealDescription,
+              style: AppTypography.of(
+                context,
+              ).bodySecondary.copyWith(color: AppColors.of(context).muted),
+            ),
+            const SizedBox(height: AppDesign.gapItemSm),
+            RateMealForm(mealId: value.id),
+            SizedBox(height: safeBottomSpace),
           ],
         ),
       ),

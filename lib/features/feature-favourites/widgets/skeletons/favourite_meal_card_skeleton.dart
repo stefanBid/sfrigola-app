@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+
+// Project Helpers
+import 'package:sfrigola/core/helpers/app_colors.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
+
+class FavouriteMealCardSkeleton extends StatefulWidget {
+  const FavouriteMealCardSkeleton({super.key});
+
+  @override
+  State<FavouriteMealCardSkeleton> createState() =>
+      _FavouriteMealCardSkeletonState();
+}
+
+class _FavouriteMealCardSkeletonState extends State<FavouriteMealCardSkeleton>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    )..repeat(reverse: true);
+    _opacity = Tween<double>(
+      begin: 0.3,
+      end: 0.55,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.of(context).surface,
+          borderRadius: AppDesign.borderRadiusMd,
+        ),
+        padding: AppDesign.paddingSm,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).muted,
+                  borderRadius: AppDesign.borderRadiusSm,
+                ),
+              ),
+            ),
+            Padding(
+              padding: AppDesign.paddingSm.copyWith(top: AppDesign.gapItemSm),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 14,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.of(context).muted,
+                      borderRadius: AppDesign.borderRadiusXXs,
+                    ),
+                  ),
+                  const SizedBox(height: AppDesign.gapItemXs),
+                  Container(
+                    height: 10,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      color: AppColors.of(context).muted,
+                      borderRadius: AppDesign.borderRadiusXXs,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

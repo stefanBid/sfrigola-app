@@ -8,8 +8,15 @@ import 'package:sfrigola/core/providers/repository_provider.dart';
 
 part 'categories_provider.g.dart';
 
+class CategoriesProviderState {
+  final List<Category> categories;
+
+  CategoriesProviderState({required this.categories});
+}
+
 @riverpod
-Future<List<Category>> categories(Ref ref) async {
+Future<CategoriesProviderState> categories(Ref ref) async {
   final repo = ref.watch(mealRepositoryProvider);
-  return repo.getCategories();
+  final response = await repo.getCategories();
+  return CategoriesProviderState(categories: response.data);
 }

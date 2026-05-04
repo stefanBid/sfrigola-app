@@ -1,5 +1,10 @@
-// Project Models
 import 'package:flutter/material.dart';
+
+// Project l10n
+import 'package:sfrigola/core/l10n/app_localizations.dart';
+
+// Project Models
+import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/json_serializable.dart';
 
 // Project Helpers
@@ -86,6 +91,8 @@ class Meal implements JsonSerializable {
     required this.isVegan,
     required this.isVegetarian,
     required this.rate,
+    this.isFavourite = false,
+    this.userRate,
   });
 
   final String id;
@@ -110,6 +117,9 @@ class Meal implements JsonSerializable {
   final bool isVegan;
   final bool isVegetarian;
   final double rate;
+  // User fields
+  final bool isFavourite;
+  final double? userRate;
 
   factory Meal.fromJson(Map<String, dynamic> json) {
     return Meal(
@@ -136,6 +146,8 @@ class Meal implements JsonSerializable {
       isVegan: json['isVegan'] as bool,
       isVegetarian: json['isVegetarian'] as bool,
       rate: (json['rate'] as num).toDouble(),
+      isFavourite: json['isFavourite'] as bool? ?? false,
+      userRate: (json['userRate'] as num?)?.toDouble(),
     );
   }
 
@@ -159,7 +171,33 @@ class Meal implements JsonSerializable {
       'isVegan': isVegan,
       'isVegetarian': isVegetarian,
       'rate': rate,
+      'isFavourite': isFavourite,
+      'userRate': userRate,
     };
+  }
+
+  Meal copyWith({bool? isFavourite, double? userRate}) {
+    return Meal(
+      id: id,
+      categories: categories,
+      title: title,
+      subtitle: subtitle,
+      description: description,
+      imageUrl: imageUrl,
+      ingredients: ingredients,
+      steps: steps,
+      duration: duration,
+      servings: servings,
+      complexity: complexity,
+      affordability: affordability,
+      isGlutenFree: isGlutenFree,
+      isLactoseFree: isLactoseFree,
+      isVegan: isVegan,
+      isVegetarian: isVegetarian,
+      rate: rate,
+      isFavourite: isFavourite ?? this.isFavourite,
+      userRate: userRate ?? this.userRate,
+    );
   }
 }
 
@@ -217,4 +255,53 @@ extension AffordabilityDisplay on Affordability {
       foreground: const Color(0xFF6A1B9A),
     ),
   };
+}
+
+// ---------------------------------------------------------------------------
+// Exeptions
+// ---------------------------------------------------------------------------
+
+class MealNotFoundException implements AppException {
+  const MealNotFoundException(this.id);
+  final String id;
+
+  @override
+  bool get isRetryable => false;
+
+  @override
+  String localizedMessage(AppLocalizations l) => l.mealNotFoundError;
+
+  @override
+  String toString() => 'MealNotFoundException: no meal found with id "$id"';
+}
+
+class MealRateExeption implements AppException {
+  const MealRateExeption(this.id);
+  final String id;
+
+  @override
+  bool get isRetryable => false;
+
+  @override
+  String localizedMessage(AppLocalizations l) => l.mealRateError;
+
+  @override
+  String toString() => 'MealRateExeption: failed to rate meal with id "$id"';
+}
+
+class MealFavoriteException implements AppException {
+  const MealFavoriteException(this.id, this.isAdding);
+  final String id;
+  final bool isAdding;
+
+  @override
+  bool get isRetryable => true;
+
+  @override
+  String localizedMessage(AppLocalizations l) =>
+      isAdding ? l.favouriteAddError : l.favouriteRemoveError;
+
+  @override
+  String toString() =>
+      'MealFavoriteException: failed to ${isAdding ? 'add' : 'remove'} meal with id "$id" ${isAdding ? 'to' : 'from'} favourites';
 }

@@ -121,6 +121,19 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mealNotFoundError => 'Ricetta non trovata.';
 
   @override
+  String get mealRateError => 'Impossibile salvare la valutazione.';
+
+  @override
+  String get rateMealSuccess => 'Valutazione salvata.';
+
+  @override
+  String get rateMealLabel => 'La tua valutazione';
+
+  @override
+  String get rateMealDescription =>
+      'Tocca una stella o scorri per assegnare un voto.';
+
+  @override
   String get retry => 'Riprova';
 
   @override
@@ -143,4 +156,80 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get searchEmptyHint => 'Cerca una ricetta per vedere i risultati.';
+
+  @override
+  String get favouritesTitle => 'I miei preferiti';
+
+  @override
+  String get favouritesErrorLoad => 'Impossibile caricare i preferiti.';
+
+  @override
+  String get favouritesEmptyFiltered =>
+      'Nessun preferito corrisponde ai filtri selezionati.';
+
+  @override
+  String get favouritesEmpty => 'Ancora nessun preferito.';
+
+  @override
+  String get favouritesFilterComplexityLabel => 'Complessità';
+
+  @override
+  String get favouritesFilterComplexityAll => 'Tutte';
+
+  @override
+  String get favouritesFilterAffordabilityLabel => 'Prezzo';
+
+  @override
+  String get favouritesFilterAffordabilityAll => 'Tutti';
+
+  @override
+  String get favouritesFilterSortOrderLabel => 'Ordina per';
+
+  @override
+  String get favouritesFilterSortOrderNone => 'Nessun ordine';
+
+  @override
+  String get favouritesFilterRateLabel => 'Valutazione';
+
+  @override
+  String get favouritesFilterApply => 'Applica filtri';
+
+  @override
+  String get favouritesFilterReset => 'Reimposta';
+
+  @override
+  String get favouriteAdded => 'Aggiunto ai preferiti.';
+
+  @override
+  String get favouriteRemoved => 'Rimosso dai preferiti.';
+
+  @override
+  String get favouriteAddError => 'Impossibile aggiungere ai preferiti.';
+
+  @override
+  String get favouriteRemoveError => 'Impossibile rimuovere dai preferiti.';
+
+  @override
+  String get sortOrderAlphabeticalAscending => 'A → Z';
+
+  @override
+  String get sortOrderAlphabeticalDescending => 'Z → A';
+
+  @override
+  String get sortOrderRateAscending => 'Valutazione crescente';
+
+  @override
+  String get sortOrderRateDescending => 'Valutazione decrescente';
+
+  @override
+  String get sortOrderComplexityAscending => 'Complessità crescente';
+
+  @override
+  String get sortOrderComplexityDescending => 'Complessità decrescente';
+
+  @override
+  String get sortOrderAffordabilityAscending => 'Prezzo crescente';
+
+  @override
+  String get sortOrderAffordabilityDescending => 'Prezzo decrescente';
 }

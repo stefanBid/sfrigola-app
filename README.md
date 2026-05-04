@@ -174,6 +174,10 @@ sfrigola-app/
         category.dart            ← Category model + CategoryColor enum
         meal.dart                ← Meal model + Complexity/Affordability enums
         general_exception.dart   ← AppException interface + AppErrorCode + GeneralException
+        be-models/               ← typed BE response wrappers (mirrors real backend contract)
+          be_error.dart            ← BeError — error shape embedded in any response
+          get_response.dart        ← GetDataResponse<T> + GetListDataResponse<T>
+          mutation_response.dart   ← MutationResponse — for POST / PUT / PATCH / DELETE
 
       providers/          ← app-wide Riverpod providers (repository singletons)
         repository_provider.dart
@@ -187,6 +191,7 @@ sfrigola-app/
           favorites_repository_impl.dart   ← concrete implementation
       utils/              ← shared utilities (non-design-system)
         provider_retry.dart  ← appRetry — shared Riverpod retry function
+        be_simulators.dart   ← static mock-BE layer — owns all data simulation logic (dummy_data.dart → Dio)
       widgets/            ← reusable UI components shared across features
         base_badge.dart              ← status badge
         base_button.dart             ← primary action button
@@ -196,7 +201,9 @@ sfrigola-app/
         base_image_container.dart    ← network / asset image with fade
         base_input.dart              ← standalone text input
         base_box.dart               ← tappable surface container with ripple
+        base_range.dart              ← styled RangeSlider for numeric range filters
         base_scaffold_messenger.dart ← themed SnackBar utility
+        base_bottom_sheet.dart       ← modal bottom sheet utility
         base_value_card.dart         ← metric display card (value + label)
         group-container/
           gc_list_view.dart ← null-safe ListView.builder wrapper
@@ -212,6 +219,10 @@ sfrigola-app/
         widgets/
       feature-search/       ← search feature
         search_screen.dart
+        providers/
+        widgets/
+      feature-favourites/   ← user favourites feature
+        favourite_screen.dart
         providers/
         widgets/
       feature-profile/      ← user profile feature
@@ -558,15 +569,35 @@ BaseButton(label: 'Retry', icon: PhosphorIconsBold.arrowClockwise, type: BaseBut
 
 ### `BaseIconButton`
 
-Icon-only button with filled or outlined style.
+Icon-only button with filled or outlined style. Supports an optional numeric badge.
 
 | Prop | Type | Description |
 |---|---|---|
 | `icon` | `IconData` | Required. Icon to display. |
 | `onPressed` | `VoidCallback?` | Tap handler. |
 | `type` | `IconButtonType` | `filled` (default) or `outlined`. |
-| `color` | `Color?` | Override icon and border colour. |
+| `color` | `Color?` | Button background (filled) or border colour (outlined). Does not affect the icon. |
+| `iconColor` | `Color?` | Icon colour. Defaults to `AppColors.of(context).text`. |
+| `badgeCount` | `int?` | Optional. Shows a red circular badge (top-right) with the count when `> 0`. |
 | `tooltip` | `String?` | Accessibility tooltip. |
+
+```dart
+// Default: surface background, text-coloured icon
+BaseIconButton(
+  icon: PhosphorIconsRegular.funnel,
+  badgeCount: activeFiltersCount,
+  onPressed: _openFilters,
+)
+
+// Filled with primary background and white icon
+BaseIconButton(
+  icon: PhosphorIconsRegular.plus,
+  type: IconButtonType.filled,
+  color: AppColors.primary,
+  iconColor: Colors.white,
+  onPressed: _add,
+)
+```
 
 ### `BaseBadge`
 
@@ -662,6 +693,37 @@ Compact metric display showing a value and a label.
 | `value` | `String` | Required. Main metric text (large). |
 | `label` | `String` | Required. Description below the value. |
 
+### `BaseRange`
+
+Styled `RangeSlider` for numeric range filters (price, rating, time, etc.). Stateless — the caller owns the `RangeValues` state.
+
+| Prop | Type | Description |
+|---|---|---|
+| `values` | `RangeValues` | Required. Current start/end values. |
+| `min` | `double` | Required. Minimum value. |
+| `max` | `double` | Required. Maximum value. |
+| `label` | `String?` | Optional label rendered above with `caption` style. |
+| `divisions` | `int?` | Optional. Number of discrete steps. Must equal `(max - min) / step`. |
+| `valueFormatter` | `String Function(double)?` | Optional. Custom label formatter (e.g. `(v) => v.toStringAsFixed(1)`). |
+| `onChanged` | `ValueChanged<RangeValues>?` | Callback on drag. `null` disables the slider. |
+
+```dart
+BaseRange(
+  label: 'Valutazione',
+  values: _rateRange,
+  min: 0.0,
+  max: 5.0,
+  divisions: 10, // step = (5.0 - 0.0) / 10 = 0.5
+  valueFormatter: (v) => v.toStringAsFixed(1),
+  onChanged: (v) => setState(() => _rateRange = v),
+)
+```
+
+- Track: `AppColors.primary` (active) / `surface` (inactive)
+- Thumb: `AppColors.primary`
+- Value indicator: visible on drag, `AppColors.primary` background, `small` white text
+- Current min/max shown as `caption` text above the slider
+
 ### `BaseScaffoldMessenger`
 
 Static utility that shows a themed SnackBar anchored to the bottom of the screen.
@@ -680,6 +742,41 @@ BaseScaffoldMessenger.show(
 | `SnackBarType.error` | `AppColors.error` |
 | `SnackBarType.warning` | `AppColors.warning` |
 | `SnackBarType.info` | Primary (adaptive) |
+
+### `BaseBottomSheet`
+
+Static utility that shows a modal bottom sheet with optional title, subtitle and scrollable content area.
+
+```dart
+// Adaptive height — sheet grows with content
+BaseBottomSheet.show(
+  context,
+  title: 'Filter',
+  subtitle: 'Choose your preferences',
+  child: myWidget,
+);
+
+// Fixed height — content scrolls if it exceeds the available space
+BaseBottomSheet.show(
+  context,
+  heightFactor: 0.6,
+  child: myLongList,
+);
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `child` | `Widget` | Required. Content displayed inside the sheet. Always padded with `AppDesign.paddingPage`. |
+| `title` | `String?` | Optional title rendered with `heading3`. |
+| `subtitle` | `String?` | Optional subtitle rendered with `bodySecondary` + `muted`. |
+| `heightFactor` | `double?` | Optional. Value in `(0, 1]`. Sheet height as a fraction of the available screen height (excluding status bar and home indicator). When omitted, the sheet adapts to its content. |
+
+**Behaviour:**
+- Always clears active snack bars before opening
+- Always full-width (`maxWidth: double.infinity`) including landscape
+- `useSafeArea: true` — Flutter handles notch and home indicator automatically
+- With `heightFactor`: header is fixed, `child` scrolls inside `SingleChildScrollView`
+- Without `heightFactor`: sheet adapts to content height (`mainAxisSize.min`)
 
 ### `GcListView` (group-container)
 
@@ -780,11 +877,13 @@ The repository layer is the **single point of contact** between the app and any 
 ```
 UI (Screens / Widgets)
        ↓
-  Riverpod Providers   (lib/providers/)
+  Riverpod Providers   (lib/core/providers/)
        ↓
   Repository interface  (abstract interface class)
        ↓
   Repository impl       (*_repository_impl.dart)
+       ↓
+  BeSimulators          (lib/core/utils/be_simulators.dart)
        ↓
   Data source           (dummy_data.dart now → Dio + BE later)
 ```
@@ -793,8 +892,39 @@ UI (Screens / Widgets)
 
 | Domain | Interface | Responsibility |
 |---|---|---|
-| `MealRepository` | `lib/core/repositories/meal/meal_repository.dart` | Categories, trending, recent, popular, meal detail |
+| `MealRepository` | `lib/core/repositories/meal/meal_repository.dart` | Categories, trending, easy, challenge, budget, premium, meal detail |
 | `FavoritesRepository` | `lib/core/repositories/favorites/favorites_repository.dart` | User favourites — add, remove, list, check |
+
+### BE response models — `lib/core/models/be-models/`
+
+All repository methods return a **typed BE response wrapper** that mirrors the real backend contract. Never use raw types like `List<T>` or `void` as return types.
+
+| Class | File | When to use |
+|---|---|---|
+| `GetDataResponse<T>` | `get_response.dart` | GET that returns a single resource |
+| `GetListDataResponse<T>` | `get_response.dart` | GET that returns a paginated list |
+| `MutationResponse` | `mutation_response.dart` | POST, PUT, PATCH, DELETE |
+| `BeError` | `be_error.dart` | Error shape embedded in any response (`error` field is nullable — `null` = success) |
+
+The provider layer extracts `.data` from the response as needed. The repository always returns the full response object.
+
+### `BeSimulators` — `lib/core/utils/be_simulators.dart`
+
+`BeSimulators` is a static utility that owns all mock data logic (filtering, sorting, pagination, mapping). **Repositories never import `dummy_data.dart` directly.**
+
+```dart
+// Repository impl — the full pattern:
+static void _checkResponse(BeError? error) {
+  if (error != null) throw GeneralException.generic();
+}
+
+// Inside a method:
+final response = await BeSimulators.getTrending(...);
+_checkResponse(response.error);
+return response;
+```
+
+When the backend is ready: replace the `BeSimulators` call with a Dio call. The interface, response types, and all consumers remain unchanged.
 
 ### Filtering & Pagination — `MealFilter`
 
@@ -811,17 +941,9 @@ class MealFilter {
 }
 ```
 
-### Switching to the real backend
-
-The concrete implementations (`*_repository_impl.dart`) read from `dummy_data.dart` and are each marked with `// TODO: replace with <HTTP verb> <endpoint>`. When the backend is ready:
-
-1. Replace the method body with a Dio call.
-2. Authentication is sent automatically via a Dio interceptor — never pass tokens as parameters.
-3. The interface, class signature, and all consumers remain unchanged.
-
 ### Error handling
 
-Repositories throw typed exceptions (e.g. `MealNotFoundException`). The provider layer catches them and exposes `AsyncError` via Riverpod's `AsyncNotifier`. The UI handles them in `.when(error: ...)`. Repositories never return `null` or raw error strings.
+Repositories throw typed exceptions (e.g. `MealNotFoundException`). The single translation point is `_checkResponse(BeError?)` inside each impl — it converts a BE error into a Dart exception. The provider layer catches them and exposes `AsyncError` via Riverpod's `AsyncNotifier`. The UI handles them in `.when(error: ...)`.
 
 ### Dependency injection
 

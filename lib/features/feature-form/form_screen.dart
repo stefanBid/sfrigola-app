@@ -186,7 +186,7 @@ class _FormSectionState extends State<FormSection> {
                   _showConfirmPassword
                       ? PhosphorIconsRegular.eye
                       : PhosphorIconsRegular.eyeSlash,
-                  size: 20,
+                  size: AppDesign.iconSizeMd,
                 ),
                 onPressed: () => setState(
                   () => _showConfirmPassword = !_showConfirmPassword,

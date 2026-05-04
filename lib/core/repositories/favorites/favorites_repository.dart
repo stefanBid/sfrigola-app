@@ -25,8 +25,4 @@ abstract interface class FavoritesRepository {
   /// Removes a meal from the user's favourites.
   /// In production: DELETE /favorites/{mealId}
   Future<MutationResponse> removeFavorite(String mealId);
-
-  /// Synchronous check against a locally cached list of IDs.
-  /// No network call — the provider caches IDs after [getFavorites].
-  bool isFavorite(String mealId, List<String> cachedIds);
 }

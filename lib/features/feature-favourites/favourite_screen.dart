@@ -30,7 +30,9 @@ class FavouriteScreen extends StatelessWidget {
             builder: (context, ref, child) {
               final filter = ref.watch(favouritesFilterProvider);
               return BaseIconButton(
-                icon: PhosphorIconsRegular.funnel,
+                icon: filter.hasFilters
+                    ? PhosphorIconsFill.funnel
+                    : PhosphorIconsRegular.funnel,
                 badgeCount: filter.appliedFiltersCount,
                 onPressed: () => BaseBottomSheet.show(
                   context,

@@ -7,6 +7,7 @@ import 'package:sfrigola/features/feature-favourites/providers/favourites_filter
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/be-models/be_filters.dart';
@@ -82,8 +83,10 @@ class _FavouriteMealsFilterFormState
           // ── Complexity ──────────────────────────────────────────────────
           BaseDropdown<Complexity>(
             initialValue: _complexity,
-            label: 'Complessità',
-            voidSelectionItemLabel: 'Tutte',
+            label: AppLocale.getLabels(context).favouritesFilterComplexityLabel,
+            voidSelectionItemLabel: AppLocale.getLabels(
+              context,
+            ).favouritesFilterComplexityAll,
             prefixIcon: PhosphorIconsRegular.chartBar,
             items: Complexity.values
                 .map(
@@ -97,8 +100,12 @@ class _FavouriteMealsFilterFormState
           // ── Affordability ────────────────────────────────────────────────
           BaseDropdown<Affordability>(
             initialValue: _affordability,
-            label: 'Prezzo',
-            voidSelectionItemLabel: 'Tutti',
+            label: AppLocale.getLabels(
+              context,
+            ).favouritesFilterAffordabilityLabel,
+            voidSelectionItemLabel: AppLocale.getLabels(
+              context,
+            ).favouritesFilterAffordabilityAll,
             prefixIcon: PhosphorIconsRegular.tag,
             items: Affordability.values
                 .map(
@@ -112,8 +119,10 @@ class _FavouriteMealsFilterFormState
           // ── Sort order ───────────────────────────────────────────────────
           BaseDropdown<SortOrder>(
             initialValue: _sortOrder,
-            label: 'Ordina per',
-            voidSelectionItemLabel: 'Nessun ordine',
+            label: AppLocale.getLabels(context).favouritesFilterSortOrderLabel,
+            voidSelectionItemLabel: AppLocale.getLabels(
+              context,
+            ).favouritesFilterSortOrderNone,
             prefixIcon: PhosphorIconsRegular.arrowsDownUp,
             items: SortOrder.values
                 .map(
@@ -126,7 +135,7 @@ class _FavouriteMealsFilterFormState
 
           // ── Rate range ───────────────────────────────────────────────────
           BaseRange(
-            label: 'Valutazione',
+            label: AppLocale.getLabels(context).favouritesFilterRateLabel,
             values: _rateRange,
             min: _rateMin,
             max: _rateMax,
@@ -138,14 +147,14 @@ class _FavouriteMealsFilterFormState
 
           // ── Actions ──────────────────────────────────────────────────────
           BaseButton(
-            label: 'Applica filtri',
+            label: AppLocale.getLabels(context).favouritesFilterApply,
             type: BaseButtonType.filled,
             fullWidth: true,
             onPressed: _apply,
           ),
           const SizedBox(height: AppDesign.gapSectionXs),
           BaseButton(
-            label: 'Reimposta',
+            label: AppLocale.getLabels(context).favouritesFilterReset,
             type: BaseButtonType.ghost,
             fullWidth: true,
             pill: true,

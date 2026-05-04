@@ -245,3 +245,34 @@ class MealNotFoundException implements AppException {
   @override
   String toString() => 'MealNotFoundException: no meal found with id "$id"';
 }
+
+class MealRateExeption implements AppException {
+  const MealRateExeption(this.id);
+  final String id;
+
+  @override
+  bool get isRetryable => false;
+
+  @override
+  String localizedMessage(AppLocalizations l) => l.mealRateError;
+
+  @override
+  String toString() => 'MealRateExeption: failed to rate meal with id "$id"';
+}
+
+class MealFavoriteException implements AppException {
+  const MealFavoriteException(this.id, this.isAdding);
+  final String id;
+  final bool isAdding;
+
+  @override
+  bool get isRetryable => true;
+
+  @override
+  String localizedMessage(AppLocalizations l) =>
+      isAdding ? l.favouriteAddError : l.favouriteRemoveError;
+
+  @override
+  String toString() =>
+      'MealFavoriteException: failed to ${isAdding ? 'add' : 'remove'} meal with id "$id" ${isAdding ? 'to' : 'from'} favourites';
+}

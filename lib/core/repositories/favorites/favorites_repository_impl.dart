@@ -64,7 +64,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   Future<MutationResponse> addFavorite(String mealId) async {
     // TODO: replace with POST /favorites/{mealId}
     final response = await BeSimulators.addFavorite(simulateError: false);
-    _checkResponse(response.error);
+    if (response.error != null) throw MealFavoriteException(mealId, true);
     if (!_favoriteIds.contains(mealId)) {
       _favoriteIds.add(mealId);
     }
@@ -75,13 +75,8 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   Future<MutationResponse> removeFavorite(String mealId) async {
     // TODO: replace with DELETE /favorites/{mealId}
     final response = await BeSimulators.removeFavorite(simulateError: false);
-    _checkResponse(response.error);
+    if (response.error != null) throw MealFavoriteException(mealId, false);
     _favoriteIds.remove(mealId);
     return response;
-  }
-
-  @override
-  bool isFavorite(String mealId, List<String> cachedIds) {
-    return cachedIds.contains(mealId);
   }
 }

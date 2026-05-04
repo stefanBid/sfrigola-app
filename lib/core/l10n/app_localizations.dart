@@ -304,6 +304,12 @@ abstract class AppLocalizations {
   /// **'Ricetta non trovata.'**
   String get mealNotFoundError;
 
+  /// Error shown when rating a meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile salvare la valutazione.'**
+  String get mealRateError;
+
   /// Generic retry button label
   ///
   /// In it, this message translates to:
@@ -369,6 +375,84 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Ancora nessun preferito.'**
   String get favouritesEmpty;
+
+  /// Label for the complexity dropdown in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Complessità'**
+  String get favouritesFilterComplexityLabel;
+
+  /// Void selection label for the complexity dropdown
+  ///
+  /// In it, this message translates to:
+  /// **'Tutte'**
+  String get favouritesFilterComplexityAll;
+
+  /// Label for the affordability dropdown in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Prezzo'**
+  String get favouritesFilterAffordabilityLabel;
+
+  /// Void selection label for the affordability dropdown
+  ///
+  /// In it, this message translates to:
+  /// **'Tutti'**
+  String get favouritesFilterAffordabilityAll;
+
+  /// Label for the sort order dropdown in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Ordina per'**
+  String get favouritesFilterSortOrderLabel;
+
+  /// Void selection label for the sort order dropdown
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun ordine'**
+  String get favouritesFilterSortOrderNone;
+
+  /// Label for the rate range slider in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione'**
+  String get favouritesFilterRateLabel;
+
+  /// Label for the apply button in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Applica filtri'**
+  String get favouritesFilterApply;
+
+  /// Label for the reset button in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Reimposta'**
+  String get favouritesFilterReset;
+
+  /// Snackbar shown when a meal is successfully added to favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiunto ai preferiti.'**
+  String get favouriteAdded;
+
+  /// Snackbar shown when a meal is successfully removed from favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Rimosso dai preferiti.'**
+  String get favouriteRemoved;
+
+  /// Error shown when adding a meal to favourites fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aggiungere ai preferiti.'**
+  String get favouriteAddError;
+
+  /// Error shown when removing a meal from favourites fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile rimuovere dai preferiti.'**
+  String get favouriteRemoveError;
 
   /// Sort order label: alphabetical ascending
   ///

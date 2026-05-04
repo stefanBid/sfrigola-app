@@ -576,15 +576,26 @@ Icon-only button with filled or outlined style. Supports an optional numeric bad
 | `icon` | `IconData` | Required. Icon to display. |
 | `onPressed` | `VoidCallback?` | Tap handler. |
 | `type` | `IconButtonType` | `filled` (default) or `outlined`. |
-| `color` | `Color?` | Override icon and border colour. |
+| `color` | `Color?` | Button background (filled) or border colour (outlined). Does not affect the icon. |
+| `iconColor` | `Color?` | Icon colour. Defaults to `AppColors.of(context).text`. |
 | `badgeCount` | `int?` | Optional. Shows a red circular badge (top-right) with the count when `> 0`. |
 | `tooltip` | `String?` | Accessibility tooltip. |
 
 ```dart
+// Default: surface background, text-coloured icon
 BaseIconButton(
   icon: PhosphorIconsRegular.funnel,
-  badgeCount: activeFiltersCount, // hidden when 0 or null
+  badgeCount: activeFiltersCount,
   onPressed: _openFilters,
+)
+
+// Filled with primary background and white icon
+BaseIconButton(
+  icon: PhosphorIconsRegular.plus,
+  type: IconButtonType.filled,
+  color: AppColors.primary,
+  iconColor: Colors.white,
+  onPressed: _add,
 )
 ```
 

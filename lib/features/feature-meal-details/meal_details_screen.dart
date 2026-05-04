@@ -20,6 +20,7 @@ import 'package:sfrigola/core/layouts/body/hero_page_layout.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_badge.dart';
+import 'package:sfrigola/core/widgets/base_icon_button.dart';
 
 // Screen Widgets
 import 'package:sfrigola/features/feature-meal-details/widgets/meal_details_skeleton.dart';
@@ -49,6 +50,17 @@ class MealDetailsScreen extends ConsumerWidget {
       ),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,
+        actions: [
+          BaseIconButton(
+            icon: value.isFavourite
+                ? PhosphorIconsFill.heart
+                : PhosphorIconsRegular.heart,
+            color: Colors.white,
+            iconColor: AppColors.error,
+            type: IconButtonType.filled,
+            onPressed: () {},
+          ),
+        ],
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

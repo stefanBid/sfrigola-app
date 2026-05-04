@@ -91,6 +91,7 @@ class Meal implements JsonSerializable {
     required this.isVegan,
     required this.isVegetarian,
     required this.rate,
+    this.isFavourite = false,
   });
 
   final String id;
@@ -115,6 +116,7 @@ class Meal implements JsonSerializable {
   final bool isVegan;
   final bool isVegetarian;
   final double rate;
+  final bool isFavourite;
 
   factory Meal.fromJson(Map<String, dynamic> json) {
     return Meal(
@@ -141,6 +143,7 @@ class Meal implements JsonSerializable {
       isVegan: json['isVegan'] as bool,
       isVegetarian: json['isVegetarian'] as bool,
       rate: (json['rate'] as num).toDouble(),
+      isFavourite: json['isFavourite'] as bool? ?? false,
     );
   }
 
@@ -164,6 +167,7 @@ class Meal implements JsonSerializable {
       'isVegan': isVegan,
       'isVegetarian': isVegetarian,
       'rate': rate,
+      'isFavourite': isFavourite,
     };
   }
 }

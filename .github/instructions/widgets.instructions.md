@@ -168,13 +168,16 @@ BaseButton(
 BaseIconButton(
   icon: PhosphorIconsRegular.plus,        // required IconData
   type: IconButtonType.filled,            // filled | outlined  (enum: IconButtonType)
-  color: AppColors.primary,              // optional — overrides icon and background colour
+  color: AppColors.primary,               // optional — button background (filled) or border (outlined)
+  iconColor: Colors.white,                // optional — icon colour (default: AppColors.of(context).text)
   badgeCount: 3,                          // optional — shows a red badge with count when > 0
   tooltip: 'Add',                         // optional
   onPressed: () { ... },
 )
 ```
 
+- `color` controls the **button background** (filled) or **border** (outlined) — does not affect the icon
+- `iconColor` controls **only the icon** — defaults to `AppColors.of(context).text`
 - `badgeCount` renders a circular `AppColors.error` badge (top-right) with `AppTypography.small` text. Hidden when `null` or `<= 0`.
 - For a fully custom icon widget, wrap the `BaseIconButton` externally rather than passing a `customIcon`.
 

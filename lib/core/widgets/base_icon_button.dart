@@ -13,6 +13,7 @@ class BaseIconButton extends StatelessWidget {
   final String? tooltip;
   final IconButtonType type;
   final Color? color;
+  final Color? iconColor;
   final int? badgeCount;
 
   const BaseIconButton({
@@ -22,6 +23,7 @@ class BaseIconButton extends StatelessWidget {
     this.tooltip,
     this.type = IconButtonType.filled,
     this.color,
+    this.iconColor,
     this.badgeCount,
   });
 
@@ -40,15 +42,12 @@ class BaseIconButton extends StatelessWidget {
           padding: AppDesign.paddingSm,
           decoration: BoxDecoration(
             color: type == IconButtonType.outlined
-                ? color?.withAlpha(80) ??
-                      AppColors.of(context).text.withAlpha(80)
+                ? color?.withAlpha(30) ?? Colors.transparent
                 : color ?? AppColors.of(context).surface,
             borderRadius: AppDesign.borderRadiusXs,
             border: type == IconButtonType.outlined
                 ? Border.all(
-                    color: type == IconButtonType.outlined
-                        ? color ?? AppColors.of(context).text
-                        : color ?? AppColors.of(context).surface,
+                    color: color ?? AppColors.of(context).text,
                     width: 1,
                   )
                 : null,
@@ -68,7 +67,7 @@ class BaseIconButton extends StatelessWidget {
     final iconWidget = Icon(
       icon,
       size: AppDesign.iconSizeLg,
-      color: color ?? AppColors.of(context).text,
+      color: iconColor ?? AppColors.of(context).text,
     );
 
     if (badgeCount == null || badgeCount! <= 0) return iconWidget;

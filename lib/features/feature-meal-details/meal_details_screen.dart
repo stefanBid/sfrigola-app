@@ -33,6 +33,7 @@ class MealDetailsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mealAsync = ref.watch(mealByIdProvider(mealId));
+    final safeBottomSpace = MediaQuery.of(context).padding.bottom;
 
     return switch (mealAsync) {
       AsyncLoading() => const HeroPageLayout(body: MealDetailsSkeleton()),
@@ -228,6 +229,7 @@ class MealDetailsScreen extends ConsumerWidget {
               if (i < value.steps.length - 1)
                 const SizedBox(height: AppDesign.gapItemSm),
             ],
+            SizedBox(height: safeBottomSpace),
           ],
         ),
       ),

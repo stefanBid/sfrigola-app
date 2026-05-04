@@ -74,6 +74,7 @@ class _FavouriteMealsFilterFormState
 
   @override
   Widget build(BuildContext context) {
+    final safeBottomSpace = MediaQuery.of(context).padding.bottom;
     return Form(
       key: _formKey,
       child: Column(
@@ -160,6 +161,8 @@ class _FavouriteMealsFilterFormState
             pill: true,
             onPressed: _reset,
           ),
+
+          SizedBox(height: safeBottomSpace),
         ],
       ),
     );

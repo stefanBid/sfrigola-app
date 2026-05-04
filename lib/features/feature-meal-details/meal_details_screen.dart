@@ -23,6 +23,7 @@ import 'package:sfrigola/core/widgets/base_badge.dart';
 
 // Screen Widgets
 import 'package:sfrigola/features/feature-meal-details/widgets/meal_details_favourite_button.dart';
+import 'package:sfrigola/features/feature-meal-details/widgets/rate_meal_form.dart';
 import 'package:sfrigola/features/feature-meal-details/widgets/meal_details_skeleton.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
@@ -51,7 +52,7 @@ class MealDetailsScreen extends ConsumerWidget {
       ),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,
-        actions: [MealDetailsFavouriteButton(meal: value)],
+        actions: [MealDetailsFavouriteButton(mealId: value.id)],
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -229,6 +230,20 @@ class MealDetailsScreen extends ConsumerWidget {
               if (i < value.steps.length - 1)
                 const SizedBox(height: AppDesign.gapItemSm),
             ],
+            const SizedBox(height: AppDesign.gapSectionLg),
+            Text(
+              AppLocale.getLabels(context).rateMealLabel,
+              style: AppTypography.of(context).heading3,
+            ),
+            const SizedBox(height: AppDesign.gapItemXs),
+            Text(
+              AppLocale.getLabels(context).rateMealDescription,
+              style: AppTypography.of(
+                context,
+              ).bodySecondary.copyWith(color: AppColors.of(context).muted),
+            ),
+            const SizedBox(height: AppDesign.gapItemSm),
+            RateMealForm(mealId: value.id),
             SizedBox(height: safeBottomSpace),
           ],
         ),

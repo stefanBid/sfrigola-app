@@ -5,9 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project Providers
 import 'package:sfrigola/features/feature-meal-details/providers/update_favourite_provider.dart';
 
-// Project Models
-import 'package:sfrigola/core/models/meal.dart';
-
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
@@ -17,9 +14,9 @@ import 'package:sfrigola/core/widgets/base_icon_button.dart';
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 
 class MealDetailsFavouriteButton extends ConsumerStatefulWidget {
-  final Meal meal;
+  final String mealId;
 
-  const MealDetailsFavouriteButton({super.key, required this.meal});
+  const MealDetailsFavouriteButton({super.key, required this.mealId});
 
   @override
   ConsumerState<MealDetailsFavouriteButton> createState() =>
@@ -28,14 +25,15 @@ class MealDetailsFavouriteButton extends ConsumerStatefulWidget {
 
 class _MealDetailsFavouriteButtonState
     extends ConsumerState<MealDetailsFavouriteButton> {
-  final _cachedIsFavourite = ValueNotifier<bool>(false);
+  // Cached value for optimistic icon rendering — mirrors UpdateFavourite provider.
+  bool? _cachedIsFavourite;
 
   Future<void> _toggleFavourite() async {
-    final provider = ref.read(updateFavouriteProvider(widget.meal.id).notifier);
-    final currentFav = _cachedIsFavourite.value;
+    final provider = ref.read(updateFavouriteProvider(widget.mealId).notifier);
+    final currentFav = _cachedIsFavourite ?? false;
 
     // Optimistic update
-    _cachedIsFavourite.value = !currentFav;
+    setState(() => _cachedIsFavourite = !currentFav);
 
     try {
       await provider.toggle();
@@ -50,8 +48,8 @@ class _MealDetailsFavouriteButtonState
       );
     } catch (e) {
       // Rollback on error
-      _cachedIsFavourite.value = currentFav;
       if (!mounted) return;
+      setState(() => _cachedIsFavourite = currentFav);
       BaseScaffoldMessenger.show(
         context,
         duration: const Duration(seconds: 1),
@@ -63,12 +61,13 @@ class _MealDetailsFavouriteButtonState
 
   @override
   Widget build(BuildContext context) {
-    final isFavouriteAsync = ref.watch(updateFavouriteProvider(widget.meal.id));
+    final isFavouriteAsync = ref.watch(updateFavouriteProvider(widget.mealId));
+
+    // Sync cached value on first load (or after a hot-reload).
+    final displayFav = _cachedIsFavourite ?? isFavouriteAsync.value ?? false;
 
     return BaseIconButton(
-      icon: _cachedIsFavourite.value
-          ? PhosphorIconsFill.heart
-          : PhosphorIconsRegular.heart,
+      icon: displayFav ? PhosphorIconsFill.heart : PhosphorIconsRegular.heart,
       color: Colors.white,
       iconColor: AppColors.error,
       type: IconButtonType.filled,

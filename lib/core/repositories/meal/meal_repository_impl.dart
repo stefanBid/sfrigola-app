@@ -4,6 +4,7 @@ import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
+import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
 // Project Repositories
 import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
@@ -131,10 +132,25 @@ class MealRepositoryImpl implements MealRepository {
     // TODO: replace with GET /meals/{id}
     try {
       final response = await BeSimulators.getMealById(id, simulateError: false);
-      _checkResponse(response.error);
+      if (response.error != null) throw MealNotFoundException(id);
       return response;
     } on StateError {
       throw MealNotFoundException(id);
     }
+  }
+
+  @override
+  Future<MutationResponse> updateMealRating(
+    String mealId,
+    double newRating,
+  ) async {
+    // TODO: replace with PATCH /meals/{id}/rating
+    final response = await BeSimulators.updateMealRating(
+      mealId: mealId,
+      newRating: newRating,
+      simulateError: false,
+    );
+    if (response.error != null) throw MealRateExeption(mealId);
+    return response;
   }
 }

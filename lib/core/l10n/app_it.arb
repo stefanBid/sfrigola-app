@@ -181,6 +181,21 @@
     "description": "Error shown when rating a meal fails"
   },
 
+  "rateMealSuccess": "Valutazione salvata.",
+  "@rateMealSuccess": {
+    "description": "Snackbar shown when a meal rating is saved successfully"
+  },
+
+  "rateMealLabel": "La tua valutazione",
+  "@rateMealLabel": {
+    "description": "Section title above the star rating widget in the meal details screen"
+  },
+
+  "rateMealDescription": "Tocca una stella o scorri per assegnare un voto.",
+  "@rateMealDescription": {
+    "description": "Helper text below the rating section title in the meal details screen"
+  },
+
   "retry": "Riprova",
   "@retry": {
     "description": "Generic retry button label"

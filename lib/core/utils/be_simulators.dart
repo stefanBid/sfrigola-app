@@ -177,16 +177,21 @@ class BeSimulators {
   }) async {
     await Future.delayed(delay);
     final meal = availableMeals.firstWhere((m) => m.id == id);
-    return GetDataResponse(data: meal, error: simulateError ? _error : null);
+    final resolved = meal.copyWith(isFavourite: _favoriteIds.contains(id));
+    return GetDataResponse(data: resolved, error: simulateError ? _error : null);
   }
 
   // ---------------------------------------------------------------------------
   // Favorites endpoints
   // ---------------------------------------------------------------------------
 
-  /// GET /favorites — returns meal previews whose IDs are in [favoriteIds], filtered and sorted.
-  static Future<GetListDataResponse<MealPreview>> getFavorites(
-    List<String> favoriteIds, {
+  /// In-memory favourite IDs — seeded from [isFavourite] in dummy data.
+  /// Mutated by [addFavorite] / [removeFavorite] during the session.
+  static final List<String> _favoriteIds =
+      availableMeals.where((m) => m.isFavourite).map((m) => m.id).toList();
+
+  /// GET /favorites — returns meal previews for the current in-memory favourite list, filtered and sorted.
+  static Future<GetListDataResponse<MealPreview>> getFavorites({
     Complexity? complexity,
     Affordability? affordability,
     double? minRate,
@@ -199,7 +204,7 @@ class BeSimulators {
   }) async {
     await Future.delayed(delay);
 
-    var results = availableMeals.where((m) => favoriteIds.contains(m.id));
+    var results = availableMeals.where((m) => _favoriteIds.contains(m.id));
 
     if (complexity != null) {
       results = results.where((m) => m.complexity == complexity);
@@ -262,10 +267,14 @@ class BeSimulators {
 
   /// POST /favorites/{mealId}
   static Future<MutationResponse> addFavorite({
+    required String mealId,
     Duration delay = const Duration(milliseconds: 200),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    if (!simulateError && !_favoriteIds.contains(mealId)) {
+      _favoriteIds.add(mealId);
+    }
     return MutationResponse(
       success: !simulateError,
       error: simulateError ? _error : null,
@@ -274,10 +283,12 @@ class BeSimulators {
 
   /// DELETE /favorites/{mealId}
   static Future<MutationResponse> removeFavorite({
+    required String mealId,
     Duration delay = const Duration(milliseconds: 200),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    if (!simulateError) _favoriteIds.remove(mealId);
     return MutationResponse(
       success: !simulateError,
       error: simulateError ? _error : null,
@@ -307,6 +318,20 @@ class BeSimulators {
   /// Returns a [MutationResponse] with [error] set when [simulateError] is true.
   static Future<MutationResponse> voidCall({
     Duration delay = const Duration(milliseconds: 200),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    return MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
+  }
+
+  /// PATCH /meals/{mealId}/rating
+  static Future<MutationResponse> updateMealRating({
+    required String mealId,
+    required double newRating,
+    Duration delay = const Duration(milliseconds: 300),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);

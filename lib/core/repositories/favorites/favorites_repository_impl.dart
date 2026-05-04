@@ -13,23 +13,6 @@ import 'package:sfrigola/core/repositories/favorites/favorites_repository.dart';
 import 'package:sfrigola/core/utils/be_simulators.dart';
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
-  /// In-memory favorite IDs — replace with server-side user data.
-  final List<String> _favoriteIds = [
-    'm1',
-    'm3',
-    'm5',
-    'm7',
-    'm9',
-    'm11',
-    'm13',
-    'm15',
-    'm17',
-    'm19',
-    'm21',
-    'm23',
-    'm25',
-  ];
-
   static void _checkResponse(BeError? error) {
     if (error != null) throw GeneralException.generic();
   }
@@ -46,7 +29,6 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }) async {
     // TODO: replace with GET /favorites (auth via Dio interceptor)
     final response = await BeSimulators.getFavorites(
-      _favoriteIds,
       complexity: complexity,
       affordability: affordability,
       minRate: minRate,
@@ -63,20 +45,16 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   @override
   Future<MutationResponse> addFavorite(String mealId) async {
     // TODO: replace with POST /favorites/{mealId}
-    final response = await BeSimulators.addFavorite(simulateError: false);
+    final response = await BeSimulators.addFavorite(mealId: mealId, simulateError: false);
     if (response.error != null) throw MealFavoriteException(mealId, true);
-    if (!_favoriteIds.contains(mealId)) {
-      _favoriteIds.add(mealId);
-    }
     return response;
   }
 
   @override
   Future<MutationResponse> removeFavorite(String mealId) async {
     // TODO: replace with DELETE /favorites/{mealId}
-    final response = await BeSimulators.removeFavorite(simulateError: false);
+    final response = await BeSimulators.removeFavorite(mealId: mealId, simulateError: false);
     if (response.error != null) throw MealFavoriteException(mealId, false);
-    _favoriteIds.remove(mealId);
     return response;
   }
 }

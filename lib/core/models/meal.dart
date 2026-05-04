@@ -92,6 +92,7 @@ class Meal implements JsonSerializable {
     required this.isVegetarian,
     required this.rate,
     this.isFavourite = false,
+    this.userRate,
   });
 
   final String id;
@@ -116,7 +117,9 @@ class Meal implements JsonSerializable {
   final bool isVegan;
   final bool isVegetarian;
   final double rate;
+  // User fields
   final bool isFavourite;
+  final double? userRate;
 
   factory Meal.fromJson(Map<String, dynamic> json) {
     return Meal(
@@ -144,6 +147,7 @@ class Meal implements JsonSerializable {
       isVegetarian: json['isVegetarian'] as bool,
       rate: (json['rate'] as num).toDouble(),
       isFavourite: json['isFavourite'] as bool? ?? false,
+      userRate: (json['userRate'] as num?)?.toDouble(),
     );
   }
 
@@ -168,7 +172,32 @@ class Meal implements JsonSerializable {
       'isVegetarian': isVegetarian,
       'rate': rate,
       'isFavourite': isFavourite,
+      'userRate': userRate,
     };
+  }
+
+  Meal copyWith({bool? isFavourite, double? userRate}) {
+    return Meal(
+      id: id,
+      categories: categories,
+      title: title,
+      subtitle: subtitle,
+      description: description,
+      imageUrl: imageUrl,
+      ingredients: ingredients,
+      steps: steps,
+      duration: duration,
+      servings: servings,
+      complexity: complexity,
+      affordability: affordability,
+      isGlutenFree: isGlutenFree,
+      isLactoseFree: isLactoseFree,
+      isVegan: isVegan,
+      isVegetarian: isVegetarian,
+      rate: rate,
+      isFavourite: isFavourite ?? this.isFavourite,
+      userRate: userRate ?? this.userRate,
+    );
   }
 }
 

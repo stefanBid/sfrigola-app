@@ -310,6 +310,24 @@ abstract class AppLocalizations {
   /// **'Impossibile salvare la valutazione.'**
   String get mealRateError;
 
+  /// Snackbar shown when a meal rating is saved successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione salvata.'**
+  String get rateMealSuccess;
+
+  /// Section title above the star rating widget in the meal details screen
+  ///
+  /// In it, this message translates to:
+  /// **'La tua valutazione'**
+  String get rateMealLabel;
+
+  /// Helper text below the rating section title in the meal details screen
+  ///
+  /// In it, this message translates to:
+  /// **'Tocca una stella o scorri per assegnare un voto.'**
+  String get rateMealDescription;
+
   /// Generic retry button label
   ///
   /// In it, this message translates to:

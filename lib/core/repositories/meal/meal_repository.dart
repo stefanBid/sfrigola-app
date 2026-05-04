@@ -2,6 +2,7 @@
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
+import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
 abstract interface class MealRepository {
   /// Returns all available categories.
@@ -51,4 +52,7 @@ abstract interface class MealRepository {
 
   /// Returns a single meal by ID. Throws [MealNotFoundException] if not found.
   Future<GetDataResponse<Meal>> getMealById(String id);
+
+  /// Updates a meal's average rating based on a new user rating. Returns success status.
+  Future<MutationResponse> updateMealRating(String mealId, double newRating);
 }

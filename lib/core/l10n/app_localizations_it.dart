@@ -124,6 +124,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mealRateError => 'Impossibile salvare la valutazione.';
 
   @override
+  String get rateMealSuccess => 'Valutazione salvata.';
+
+  @override
+  String get rateMealLabel => 'La tua valutazione';
+
+  @override
+  String get rateMealDescription =>
+      'Tocca una stella o scorri per assegnare un voto.';
+
+  @override
   String get retry => 'Riprova';
 
   @override

@@ -32,9 +32,10 @@ class UpdateFavourite extends _$UpdateFavourite {
       }
       // Sync the favourites list with the new state.
       ref.invalidate(allFavouritesProvider);
-    } catch (e, st) {
-      // Rollback — restore previous value and surface the error.
-      state = AsyncError(e, st);
+    } catch (e, _) {
+      // Rollback — restore previous value so the next toggle() can read it correctly.
+      state = AsyncData(isFav);
+      rethrow;
     }
   }
 }

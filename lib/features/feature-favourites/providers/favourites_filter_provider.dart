@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
@@ -9,27 +10,27 @@ part 'favourites_filter_provider.g.dart';
 class FavouritesFilterProviderState {
   final Complexity? complexity;
   final Affordability? affordability;
-  final double? minRate;
+  final RangeValues? rateRange;
   final SortOrder? sortOrder;
 
   FavouritesFilterProviderState({
     this.complexity,
     this.affordability,
-    this.minRate,
+    this.rateRange,
     this.sortOrder,
   });
 
   bool get hasFilters =>
       complexity != null ||
       affordability != null ||
-      minRate != null ||
+      rateRange != null ||
       sortOrder != null;
 
   int get appliedFiltersCount {
     var count = 0;
     if (complexity != null) count++;
     if (affordability != null) count++;
-    if (minRate != null) count++;
+    if (rateRange != null) count++;
     if (sortOrder != null) count++;
     return count;
   }
@@ -42,7 +43,7 @@ class FavouritesFilter extends _$FavouritesFilter {
     return FavouritesFilterProviderState(
       complexity: null,
       affordability: null,
-      minRate: null,
+      rateRange: null,
       sortOrder: null,
     );
   }
@@ -50,13 +51,13 @@ class FavouritesFilter extends _$FavouritesFilter {
   void update({
     Complexity? complexity,
     Affordability? affordability,
-    double? minRate,
+    RangeValues? rateRange,
     SortOrder? sortOrder,
   }) {
     state = FavouritesFilterProviderState(
       complexity: complexity ?? state.complexity,
       affordability: affordability ?? state.affordability,
-      minRate: minRate ?? state.minRate,
+      rateRange: rateRange ?? state.rateRange,
       sortOrder: sortOrder ?? state.sortOrder,
     );
   }

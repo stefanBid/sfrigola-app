@@ -12,6 +12,7 @@ abstract interface class FavoritesRepository {
     Complexity? complexity,
     Affordability? affordability,
     double? minRate,
+    double? maxRate,
     SortOrder? sortOrder,
     int skip,
     int take,

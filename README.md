@@ -201,6 +201,7 @@ sfrigola-app/
         base_image_container.dart    ← network / asset image with fade
         base_input.dart              ← standalone text input
         base_box.dart               ← tappable surface container with ripple
+        base_range.dart              ← styled RangeSlider for numeric range filters
         base_scaffold_messenger.dart ← themed SnackBar utility
         base_bottom_sheet.dart       ← modal bottom sheet utility
         base_value_card.dart         ← metric display card (value + label)
@@ -568,7 +569,7 @@ BaseButton(label: 'Retry', icon: PhosphorIconsBold.arrowClockwise, type: BaseBut
 
 ### `BaseIconButton`
 
-Icon-only button with filled or outlined style.
+Icon-only button with filled or outlined style. Supports an optional numeric badge.
 
 | Prop | Type | Description |
 |---|---|---|
@@ -576,7 +577,16 @@ Icon-only button with filled or outlined style.
 | `onPressed` | `VoidCallback?` | Tap handler. |
 | `type` | `IconButtonType` | `filled` (default) or `outlined`. |
 | `color` | `Color?` | Override icon and border colour. |
+| `badgeCount` | `int?` | Optional. Shows a red circular badge (top-right) with the count when `> 0`. |
 | `tooltip` | `String?` | Accessibility tooltip. |
+
+```dart
+BaseIconButton(
+  icon: PhosphorIconsRegular.funnel,
+  badgeCount: activeFiltersCount, // hidden when 0 or null
+  onPressed: _openFilters,
+)
+```
 
 ### `BaseBadge`
 
@@ -671,6 +681,37 @@ Compact metric display showing a value and a label.
 |---|---|---|
 | `value` | `String` | Required. Main metric text (large). |
 | `label` | `String` | Required. Description below the value. |
+
+### `BaseRange`
+
+Styled `RangeSlider` for numeric range filters (price, rating, time, etc.). Stateless — the caller owns the `RangeValues` state.
+
+| Prop | Type | Description |
+|---|---|---|
+| `values` | `RangeValues` | Required. Current start/end values. |
+| `min` | `double` | Required. Minimum value. |
+| `max` | `double` | Required. Maximum value. |
+| `label` | `String?` | Optional label rendered above with `caption` style. |
+| `divisions` | `int?` | Optional. Number of discrete steps. Must equal `(max - min) / step`. |
+| `valueFormatter` | `String Function(double)?` | Optional. Custom label formatter (e.g. `(v) => v.toStringAsFixed(1)`). |
+| `onChanged` | `ValueChanged<RangeValues>?` | Callback on drag. `null` disables the slider. |
+
+```dart
+BaseRange(
+  label: 'Valutazione',
+  values: _rateRange,
+  min: 0.0,
+  max: 5.0,
+  divisions: 10, // step = (5.0 - 0.0) / 10 = 0.5
+  valueFormatter: (v) => v.toStringAsFixed(1),
+  onChanged: (v) => setState(() => _rateRange = v),
+)
+```
+
+- Track: `AppColors.primary` (active) / `surface` (inactive)
+- Thumb: `AppColors.primary`
+- Value indicator: visible on drag, `AppColors.primary` background, `small` white text
+- Current min/max shown as `caption` text above the slider
 
 ### `BaseScaffoldMessenger`
 

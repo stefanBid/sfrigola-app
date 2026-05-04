@@ -44,7 +44,8 @@ class AllFavourites extends _$AllFavourites {
         .getFavorites(
           complexity: filter.complexity,
           affordability: filter.affordability,
-          minRate: filter.minRate,
+          minRate: filter.rateRange?.start,
+          maxRate: filter.rateRange?.end,
           sortOrder: filter.sortOrder,
           skip: 0,
           take: _pageSize,
@@ -63,7 +64,8 @@ class AllFavourites extends _$AllFavourites {
         .getFavorites(
           complexity: filter.complexity,
           affordability: filter.affordability,
-          minRate: filter.minRate,
+          minRate: filter.rateRange?.start,
+          maxRate: filter.rateRange?.end,
           sortOrder: filter.sortOrder,
           skip: current.length,
           take: _pageSize,

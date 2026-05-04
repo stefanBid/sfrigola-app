@@ -190,6 +190,7 @@ class BeSimulators {
     Complexity? complexity,
     Affordability? affordability,
     double? minRate,
+    double? maxRate,
     SortOrder? sortOrder,
     int skip = 0,
     int take = 10,
@@ -208,6 +209,9 @@ class BeSimulators {
     }
     if (minRate != null) {
       results = results.where((m) => m.rate >= minRate);
+    }
+    if (maxRate != null) {
+      results = results.where((m) => m.rate <= maxRate);
     }
 
     final sorted = results.toList();

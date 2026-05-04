@@ -15,7 +15,7 @@ import 'package:sfrigola/core/models/meal.dart';
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
-import 'package:sfrigola/core/widgets/base_form_field.dart';
+import 'package:sfrigola/core/widgets/base_range.dart';
 
 class FavouriteMealsFilterForm extends ConsumerStatefulWidget {
   const FavouriteMealsFilterForm({super.key, required this.onCloseForm});
@@ -29,12 +29,15 @@ class FavouriteMealsFilterForm extends ConsumerStatefulWidget {
 
 class _FavouriteMealsFilterFormState
     extends ConsumerState<FavouriteMealsFilterForm> {
+  static const double _rateMin = 0.0;
+  static const double _rateMax = 5.0;
+
   final _formKey = GlobalKey<FormState>();
-  final _minRateController = TextEditingController();
 
   Complexity? _complexity;
   Affordability? _affordability;
   SortOrder? _sortOrder;
+  RangeValues _rateRange = const RangeValues(_rateMin, _rateMax);
 
   @override
   void initState() {
@@ -43,29 +46,20 @@ class _FavouriteMealsFilterFormState
     _complexity = current.complexity;
     _affordability = current.affordability;
     _sortOrder = current.sortOrder;
-    _minRateController.text = current.minRate != null
-        ? current.minRate.toString()
-        : '';
-  }
-
-  @override
-  void dispose() {
-    _minRateController.dispose();
-    super.dispose();
+    _rateRange = current.rateRange ?? const RangeValues(_rateMin, _rateMax);
   }
 
   void _apply() {
     if (!_formKey.currentState!.validate()) return;
-    final minRate = _minRateController.text.isNotEmpty
-        ? double.tryParse(_minRateController.text)
-        : null;
+    final isFullRange =
+        _rateRange.start == _rateMin && _rateRange.end == _rateMax;
     ref
         .read(favouritesFilterProvider.notifier)
         .replaceWith(
           FavouritesFilterProviderState(
             complexity: _complexity,
             affordability: _affordability,
-            minRate: minRate,
+            rateRange: isFullRange ? null : _rateRange,
             sortOrder: _sortOrder,
           ),
         );
@@ -130,13 +124,15 @@ class _FavouriteMealsFilterFormState
           ),
           const SizedBox(height: AppDesign.gapSectionSm),
 
-          // ── Min rate ─────────────────────────────────────────────────────
-          BaseFormField(
-            controller: _minRateController,
-            label: 'Valutazione minima',
-            hint: 'Es. 3.5',
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            textInputAction: TextInputAction.done,
+          // ── Rate range ───────────────────────────────────────────────────
+          BaseRange(
+            label: 'Valutazione',
+            values: _rateRange,
+            min: _rateMin,
+            max: _rateMax,
+            divisions: 10,
+            valueFormatter: (v) => v.toStringAsFixed(1),
+            onChanged: (v) => setState(() => _rateRange = v),
           ),
           const SizedBox(height: AppDesign.gapSectionLg),
 

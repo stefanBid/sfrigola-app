@@ -232,6 +232,29 @@ GcGridView(
 
 ---
 
+## BaseRange
+
+Styled `RangeSlider` with optional label and min/max value display. Use for numeric range filters (price, rating, time, etc.).
+
+```dart
+BaseRange(
+  label: 'Valutazione',          // optional — shown above with caption style
+  values: RangeValues(1.0, 5.0), // required — current start/end values
+  min: 0.0,                      // required
+  max: 5.0,                      // required
+  divisions: 10,                 // optional — number of discrete steps
+  valueFormatter: (v) => v.toStringAsFixed(1), // optional — custom label format
+  onChanged: (v) => setState(() => _range = v),
+)
+```
+
+- Track colour: `AppColors.primary` (active), `surface` (inactive)
+- Thumb colour: `AppColors.primary`
+- Value indicator: always visible, `AppColors.primary` background, `small` white text
+- The two current values are shown as `caption` text above the slider
+
+---
+
 ## BaseValueCard
 
 Card that displays a value and a label. Use for stats, KPIs, counts, or any labeled numeric/text value.

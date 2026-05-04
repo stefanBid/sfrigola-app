@@ -178,7 +178,10 @@ class BeSimulators {
     await Future.delayed(delay);
     final meal = availableMeals.firstWhere((m) => m.id == id);
     final resolved = meal.copyWith(isFavourite: _favoriteIds.contains(id));
-    return GetDataResponse(data: resolved, error: simulateError ? _error : null);
+    return GetDataResponse(
+      data: resolved,
+      error: simulateError ? _error : null,
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -186,11 +189,13 @@ class BeSimulators {
   // ---------------------------------------------------------------------------
 
   /// In-memory favourite IDs — seeded from [isFavourite] in dummy data.
-  /// Mutated by [addFavorite] / [removeFavorite] during the session.
-  static final List<String> _favoriteIds =
-      availableMeals.where((m) => m.isFavourite).map((m) => m.id).toList();
+  /// Mutated by [addFavorite] / [removeFavorite] to mirror server-side state.
+  static final List<String> _favoriteIds = availableMeals
+      .where((m) => m.isFavourite)
+      .map((m) => m.id)
+      .toList();
 
-  /// GET /favorites — returns meal previews for the current in-memory favourite list, filtered and sorted.
+  /// GET /favorites — returns meal previews for the current favourite list, filtered and sorted.
   static Future<GetListDataResponse<MealPreview>> getFavorites({
     Complexity? complexity,
     Affordability? affordability,

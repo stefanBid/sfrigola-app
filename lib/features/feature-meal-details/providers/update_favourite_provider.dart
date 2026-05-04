@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sfrigola/core/providers/repository_provider.dart';
 
 // Project Features
-import 'package:sfrigola/features/feature-favourites/providers/all_favourites_provider.dart';
 import 'package:sfrigola/features/feature-meal-details/providers/meal_by_id_provider.dart';
 
 part 'update_favourite_provider.g.dart';
@@ -18,22 +17,18 @@ class UpdateFavourite extends _$UpdateFavourite {
   }
 
   Future<void> toggle() async {
-    final isFav = await future;
-    final repo = ref.read(favoritesRepositoryProvider);
-
-    // Optimistic update — UI responds immediately.
+    final isFav = state.requireValue;
+    // Optimistic update — flip immediately.
     state = AsyncData(!isFav);
-
     try {
+      final repo = ref.read(favoritesRepositoryProvider);
       if (isFav) {
         await repo.removeFavorite(mealId);
       } else {
         await repo.addFavorite(mealId);
       }
-      // Sync the favourites list with the new state.
-      ref.invalidate(allFavouritesProvider);
     } catch (e, _) {
-      // Rollback — restore previous value so the next toggle() can read it correctly.
+      // Rollback — restore previous value.
       state = AsyncData(isFav);
       rethrow;
     }

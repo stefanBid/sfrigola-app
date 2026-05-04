@@ -45,7 +45,10 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   @override
   Future<MutationResponse> addFavorite(String mealId) async {
     // TODO: replace with POST /favorites/{mealId}
-    final response = await BeSimulators.addFavorite(mealId: mealId, simulateError: false);
+    final response = await BeSimulators.addFavorite(
+      mealId: mealId,
+      simulateError: false,
+    );
     if (response.error != null) throw MealFavoriteException(mealId, true);
     return response;
   }
@@ -53,7 +56,10 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   @override
   Future<MutationResponse> removeFavorite(String mealId) async {
     // TODO: replace with DELETE /favorites/{mealId}
-    final response = await BeSimulators.removeFavorite(mealId: mealId, simulateError: false);
+    final response = await BeSimulators.removeFavorite(
+      mealId: mealId,
+      simulateError: false,
+    );
     if (response.error != null) throw MealFavoriteException(mealId, false);
     return response;
   }

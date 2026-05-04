@@ -52,7 +52,12 @@ class MealDetailsScreen extends ConsumerWidget {
       ),
       AsyncData(:final value) => HeroPageLayout(
         imageUrl: value.imageUrl,
-        actions: [MealDetailsFavouriteButton(mealId: value.id)],
+        actions: [
+          MealDetailsFavouriteButton(
+            mealId: value.id,
+            isFavourite: value.isFavourite,
+          ),
+        ],
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

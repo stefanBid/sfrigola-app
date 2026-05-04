@@ -229,5 +229,45 @@
   "favouritesEmpty": "Ancora nessun preferito.",
   "@favouritesEmpty": {
     "description": "Empty state shown when the user has no favourites yet"
+  },
+
+  "sortOrderAlphabeticalAscending": "A → Z",
+  "@sortOrderAlphabeticalAscending": {
+    "description": "Sort order label: alphabetical ascending"
+  },
+
+  "sortOrderAlphabeticalDescending": "Z → A",
+  "@sortOrderAlphabeticalDescending": {
+    "description": "Sort order label: alphabetical descending"
+  },
+
+  "sortOrderRateAscending": "Valutazione crescente",
+  "@sortOrderRateAscending": {
+    "description": "Sort order label: rate ascending"
+  },
+
+  "sortOrderRateDescending": "Valutazione decrescente",
+  "@sortOrderRateDescending": {
+    "description": "Sort order label: rate descending"
+  },
+
+  "sortOrderComplexityAscending": "Complessità crescente",
+  "@sortOrderComplexityAscending": {
+    "description": "Sort order label: complexity ascending"
+  },
+
+  "sortOrderComplexityDescending": "Complessità decrescente",
+  "@sortOrderComplexityDescending": {
+    "description": "Sort order label: complexity descending"
+  },
+
+  "sortOrderAffordabilityAscending": "Prezzo crescente",
+  "@sortOrderAffordabilityAscending": {
+    "description": "Sort order label: affordability ascending"
+  },
+
+  "sortOrderAffordabilityDescending": "Prezzo decrescente",
+  "@sortOrderAffordabilityDescending": {
+    "description": "Sort order label: affordability descending"
   }
 }

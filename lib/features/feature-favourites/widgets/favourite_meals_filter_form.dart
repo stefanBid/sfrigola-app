@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
@@ -89,6 +90,7 @@ class _FavouriteMealsFilterFormState
             initialValue: _complexity,
             label: 'Complessità',
             voidSelectionItemLabel: 'Tutte',
+            prefixIcon: PhosphorIconsRegular.chartBar,
             items: Complexity.values
                 .map(
                   (c) => BaseDropdownOption(value: c, label: c.label(context)),
@@ -103,6 +105,7 @@ class _FavouriteMealsFilterFormState
             initialValue: _affordability,
             label: 'Prezzo',
             voidSelectionItemLabel: 'Tutti',
+            prefixIcon: PhosphorIconsRegular.tag,
             items: Affordability.values
                 .map(
                   (a) => BaseDropdownOption(value: a, label: a.label(context)),
@@ -117,61 +120,17 @@ class _FavouriteMealsFilterFormState
             initialValue: _sortOrder,
             label: 'Ordina per',
             voidSelectionItemLabel: 'Nessun ordine',
-            items: const [
-              BaseDropdownOption(
-                value: SortOrder.alphabeticalAscending,
-                label: 'A → Z',
-              ),
-              BaseDropdownOption(
-                value: SortOrder.alphabeticalDescending,
-                label: 'Z → A',
-              ),
-              BaseDropdownOption(
-                value: SortOrder.rateAscending,
-                label: 'Valutazione crescente',
-              ),
-              BaseDropdownOption(
-                value: SortOrder.rateDescending,
-                label: 'Valutazione decrescente',
-              ),
-              BaseDropdownOption(
-                value: SortOrder.complexityAscending,
-                label: 'Complessità crescente',
-              ),
-              BaseDropdownOption(
-                value: SortOrder.complexityDescending,
-                label: 'Complessità decrescente',
-              ),
-              BaseDropdownOption(
-                value: SortOrder.affordabilityAscending,
-                label: 'Prezzo crescente',
-              ),
-              BaseDropdownOption(
-                value: SortOrder.affordabilityDescending,
-                label: 'Prezzo decrescente',
-              ),
-            ],
+            prefixIcon: PhosphorIconsRegular.arrowsDownUp,
+            items: SortOrder.values
+                .map(
+                  (s) => BaseDropdownOption(value: s, label: s.label(context)),
+                )
+                .toList(),
             onChanged: (v) => setState(() => _sortOrder = v),
           ),
           const SizedBox(height: AppDesign.gapSectionSm),
 
           // ── Min rate ─────────────────────────────────────────────────────
-          BaseFormField(
-            controller: _minRateController,
-            label: 'Valutazione minima',
-            hint: 'Es. 3.5',
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            textInputAction: TextInputAction.done,
-          ),
-          const SizedBox(height: AppDesign.gapSectionLg),
-          BaseFormField(
-            controller: _minRateController,
-            label: 'Valutazione minima',
-            hint: 'Es. 3.5',
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            textInputAction: TextInputAction.done,
-          ),
-          const SizedBox(height: AppDesign.gapSectionLg),
           BaseFormField(
             controller: _minRateController,
             label: 'Valutazione minima',

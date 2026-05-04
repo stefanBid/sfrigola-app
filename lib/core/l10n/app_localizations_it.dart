@@ -156,4 +156,28 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get favouritesEmpty => 'Ancora nessun preferito.';
+
+  @override
+  String get sortOrderAlphabeticalAscending => 'A → Z';
+
+  @override
+  String get sortOrderAlphabeticalDescending => 'Z → A';
+
+  @override
+  String get sortOrderRateAscending => 'Valutazione crescente';
+
+  @override
+  String get sortOrderRateDescending => 'Valutazione decrescente';
+
+  @override
+  String get sortOrderComplexityAscending => 'Complessità crescente';
+
+  @override
+  String get sortOrderComplexityDescending => 'Complessità decrescente';
+
+  @override
+  String get sortOrderAffordabilityAscending => 'Prezzo crescente';
+
+  @override
+  String get sortOrderAffordabilityDescending => 'Prezzo decrescente';
 }

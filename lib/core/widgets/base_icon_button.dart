@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 // Project Helpers
-import '../helpers/app_colors.dart';
-import '../helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_colors.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_typography.dart';
 
 enum IconButtonType { filled, outlined }
 
@@ -12,6 +13,7 @@ class BaseIconButton extends StatelessWidget {
   final String? tooltip;
   final IconButtonType type;
   final Color? color;
+  final int? badgeCount;
 
   const BaseIconButton({
     super.key,
@@ -20,6 +22,7 @@ class BaseIconButton extends StatelessWidget {
     this.tooltip,
     this.type = IconButtonType.filled,
     this.color,
+    this.badgeCount,
   });
 
   // Colors.white.withAlpha(80)
@@ -50,11 +53,7 @@ class BaseIconButton extends StatelessWidget {
                   )
                 : null,
           ),
-          child: Icon(
-            icon,
-            size: AppDesign.iconSizeLg,
-            color: color ?? AppColors.of(context).text,
-          ),
+          child: _buildIconWithBadge(context),
         ),
       ),
     );
@@ -63,5 +62,43 @@ class BaseIconButton extends StatelessWidget {
       return Tooltip(message: tooltip!, child: button);
     }
     return button;
+  }
+
+  Widget _buildIconWithBadge(BuildContext context) {
+    final iconWidget = Icon(
+      icon,
+      size: AppDesign.iconSizeLg,
+      color: color ?? AppColors.of(context).text,
+    );
+
+    if (badgeCount == null || badgeCount! <= 0) return iconWidget;
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        iconWidget,
+        Positioned(
+          right: -AppDesign.gapItemXs,
+          top: -AppDesign.gapItemXs,
+          child: Container(
+            padding: AppDesign.paddingXs,
+            decoration: const BoxDecoration(
+              color: AppColors.error,
+              borderRadius: AppDesign.borderRadiusLg,
+            ),
+            constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+            child: Text(
+              '$badgeCount',
+              style: AppTypography.of(context).small.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                height: 1,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

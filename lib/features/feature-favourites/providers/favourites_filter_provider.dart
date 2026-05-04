@@ -24,6 +24,15 @@ class FavouritesFilterProviderState {
       affordability != null ||
       minRate != null ||
       sortOrder != null;
+
+  int get appliedFiltersCount {
+    var count = 0;
+    if (complexity != null) count++;
+    if (affordability != null) count++;
+    if (minRate != null) count++;
+    if (sortOrder != null) count++;
+    return count;
+  }
 }
 
 @riverpod

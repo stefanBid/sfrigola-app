@@ -166,11 +166,17 @@ BaseButton(
 
 ```dart
 BaseIconButton(
-  icon: PhosphorIconsRegular.plus,
-  type: IconButtonType.filled, // filled | outlined  (enum: IconButtonType)
+  icon: PhosphorIconsRegular.plus,        // required IconData
+  type: IconButtonType.filled,            // filled | outlined  (enum: IconButtonType)
+  color: AppColors.primary,              // optional — overrides icon and background colour
+  badgeCount: 3,                          // optional — shows a red badge with count when > 0
+  tooltip: 'Add',                         // optional
   onPressed: () { ... },
 )
 ```
+
+- `badgeCount` renders a circular `AppColors.error` badge (top-right) with `AppTypography.small` text. Hidden when `null` or `<= 0`.
+- For a fully custom icon widget, wrap the `BaseIconButton` externally rather than passing a `customIcon`.
 
 ---
 

@@ -369,6 +369,54 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Ancora nessun preferito.'**
   String get favouritesEmpty;
+
+  /// Sort order label: alphabetical ascending
+  ///
+  /// In it, this message translates to:
+  /// **'A → Z'**
+  String get sortOrderAlphabeticalAscending;
+
+  /// Sort order label: alphabetical descending
+  ///
+  /// In it, this message translates to:
+  /// **'Z → A'**
+  String get sortOrderAlphabeticalDescending;
+
+  /// Sort order label: rate ascending
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione crescente'**
+  String get sortOrderRateAscending;
+
+  /// Sort order label: rate descending
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione decrescente'**
+  String get sortOrderRateDescending;
+
+  /// Sort order label: complexity ascending
+  ///
+  /// In it, this message translates to:
+  /// **'Complessità crescente'**
+  String get sortOrderComplexityAscending;
+
+  /// Sort order label: complexity descending
+  ///
+  /// In it, this message translates to:
+  /// **'Complessità decrescente'**
+  String get sortOrderComplexityDescending;
+
+  /// Sort order label: affordability ascending
+  ///
+  /// In it, this message translates to:
+  /// **'Prezzo crescente'**
+  String get sortOrderAffordabilityAscending;
+
+  /// Sort order label: affordability descending
+  ///
+  /// In it, this message translates to:
+  /// **'Prezzo decrescente'**
+  String get sortOrderAffordabilityDescending;
 }
 
 class _AppLocalizationsDelegate

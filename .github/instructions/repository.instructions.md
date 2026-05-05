@@ -13,37 +13,16 @@ The repository layer is the **single point of contact between the app and any da
 ```
 lib/core/repositories/
   meal/
-    meal_repository_model.dart    ← MealFilter + MealNotFoundException
     meal_repository.dart          ← abstract interface only
     meal_repository_impl.dart     ← concrete implementation only
   favorites/
-    favorites_repository_model.dart   ← FavoritesFilter + FavoritesSortOrder
     favorites_repository.dart         ← abstract interface only
     favorites_repository_impl.dart    ← concrete implementation only
 ```
 
-> **Rule**: one subdirectory per repository domain. Each domain has a `*_repository_model.dart` file (value objects, filter classes, exceptions) + one abstract file + one implementation file.
+> **Rule**: one subdirectory per repository domain — one abstract file + one implementation file.
 
-> `meal/meal_repository_model.dart` is the canonical home of `MealFilter` and `MealNotFoundException`. `favorites/favorites_repository_model.dart` owns `FavoritesFilter` and `FavoritesSortOrder`.
-
----
-
-## `MealFilter`
-
-`MealFilter` lives in `lib/core/repositories/meal/meal_repository_model.dart`. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
-
-```dart
-class MealFilter {
-  const MealFilter({this.skip = 0, this.take = 10, this.categoryId, this.query = ''});
-
-  final int skip;
-  final int take;
-  final String? categoryId; // null = no category filter
-  final String query;       // '' = no text filter
-}
-```
-
-**Rule**: never add individual `categoryId` / `query` / `skip` / `take` arguments to repository methods. Always pass `MealFilter`.
+> Repository methods accept **direct named parameters** (`categoryId`, `skip`, `take`, `searchKey`, etc.) — there is no `MealFilter` wrapper class. The provider layer owns the filter state and passes the values individually.
 
 ---
 
@@ -128,12 +107,35 @@ abstract interface class MealRepository {
   /// Returns all available categories.
   Future<GetListDataResponse<Category>> getCategories();
 
-  /// Returns trending meals (high rate, currently popular).
-  Future<GetListDataResponse<MealPreview>> getTrending(MealFilter filter);
+  /// Trending meals — highest rated, currently viral.
+  Future<GetListDataResponse<MealPreview>> getTrending(
+    String? categoryId, {int skip = 0, int take = 10});
 
-  /// Returns a single meal by ID. Throws if not found.
+  /// Easy meals — complexity == simple.
+  Future<GetListDataResponse<MealPreview>> getEasy(
+    String? categoryId, {int skip = 0, int take = 10});
+
+  /// Challenge meals — complexity == hard.
+  Future<GetListDataResponse<MealPreview>> getChallenge(
+    String? categoryId, {int skip = 0, int take = 10});
+
+  /// Budget meals — affordability == affordable.
+  Future<GetListDataResponse<MealPreview>> getBudget(
+    String? categoryId, {int skip = 0, int take = 10});
+
+  /// Premium meals — affordability == luxurious.
+  Future<GetListDataResponse<MealPreview>> getPremium(
+    String? categoryId, {int skip = 0, int take = 10});
+
+  /// All meals, paginated. searchKey == null returns empty.
+  Future<GetListDataResponse<MealPreview>> getAllMeals(
+    String? searchKey, {int skip = 0, int take = 10});
+
+  /// Returns a single meal by ID. Throws [MealNotFoundException] if not found.
   Future<GetDataResponse<Meal>> getMealById(String id);
-  // ... other list methods follow the same GetListDataResponse<MealPreview> pattern
+
+  /// Updates a meal's average rating based on a new user rating.
+  Future<MutationResponse> updateMealRating(String mealId, double newRating);
 }
 ```
 
@@ -234,7 +236,6 @@ return response;
 | Element | Pattern | Example |
 |---|---|---|
 | Domain directory | `{domain}/` | `meal/`, `favorites/` |
-| Model file | `{domain}_repository_model.dart` | `meal_repository_model.dart` |
 | Abstract file | `{domain}_repository.dart` | `meal_repository.dart` |
 | Abstract class | `{Domain}Repository` | `MealRepository` |
 | Impl file | `{domain}_repository_impl.dart` | `meal_repository_impl.dart` |

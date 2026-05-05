@@ -32,6 +32,15 @@ Stack: `hooks_riverpod` + `flutter_hooks` + `riverpod_annotation` + `riverpod_ge
 
 Providers live in `lib/core/providers/`. Organise by domain **only when the domain has 3+ provider files** — otherwise keep flat.
 
+**Cross-feature core providers** — even when a provider depends on a feature-scoped provider (e.g. a filter), place it in `lib/core/providers/` if it is consumed by the feature itself as its primary data source or shared with other features:
+
+```
+lib/core/providers/
+  repository_provider.dart      ← all repository singletons
+  all_meals_provider.dart       ← cross-feature: search results (depends on feature-search's searchedKeyProvider)
+  all_favourites_provider.dart  ← cross-feature: favourites list (depends on feature-favourites' favouritesFilterProvider)
+```
+
 **Flat (≤ 2 files per domain):**
 ```
 lib/core/providers/

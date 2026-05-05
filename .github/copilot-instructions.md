@@ -95,10 +95,13 @@ sfrigola-app/
         meal.dart
         general_exception.dart
 
+      custom-widgets/     ← feature-shared widget compositions (not reusable enough for core/widgets)
       providers/          ← app-wide Riverpod providers
+        repository_provider.dart
+        all_meals_provider.dart        ← cross-feature: search results (feature-search)
+        all_favourites_provider.dart   ← cross-feature: favourites list (feature-favourites)
       repositories/       ← repository layer
         meal/
-          meal_repository_model.dart
           meal_repository.dart
           meal_repository_impl.dart
         favorites/
@@ -106,13 +109,15 @@ sfrigola-app/
           favorites_repository_impl.dart
       utils/              ← shared utilities (non-design-system)
         provider_retry.dart
+        be_simulators.dart
+        has_more.dart
       widgets/            ← reusable UI components (base_* + group-container/)
     features/             ← all product features
       feature-home/         ← home feed feature
         home_screen.dart
         providers/
         widgets/
-      feature-meal-detail/  ← meal detail feature
+      feature-meal-details/ ← meal detail feature
         meal_details_screen.dart
         providers/
         widgets/
@@ -120,10 +125,16 @@ sfrigola-app/
         search_screen.dart
         providers/
         widgets/
+      feature-favourites/   ← favourites feature
+        favourite_screen.dart
+        providers/
+        widgets/
       feature-profile/      ← user profile feature
         profile_screen.dart
       feature-form/         ← form demo feature
         form_screen.dart
+      feature-admin-cookbook/ ← admin recipe management
+        cookbook_screen.dart
 ```
 
 ---
@@ -164,7 +175,6 @@ sfrigola-app/
   import 'package:sfrigola/features/feature-recipe-detail/recipe_detail_screen.dart';
 
   // Project Repositories
-  import 'package:sfrigola/core/repositories/meal/meal_repository_model.dart';
   import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
   import 'package:sfrigola/core/repositories/favorites/favorites_repository.dart';
 

@@ -38,8 +38,6 @@ class _MealDetailsFavouriteButtonState
   void initState() {
     super.initState();
     _isFav = widget.isFavourite;
-    // Save the container while context is still valid; used in dispose to avoid
-    // accessing ref after it has been unmounted (avoid_ref_inside_state_dispose).
     _container = ProviderScope.containerOf(context, listen: false);
   }
 
@@ -53,19 +51,21 @@ class _MealDetailsFavouriteButtonState
 
   void _onToggle() {
     final current = _isFav;
-    setState(() => _isFav = !current); // optimistic update
-    ref.read(updateFavouriteProvider.notifier).toggle(current, widget.mealId);
+    // optimistic update
+    setState(() => _isFav = !current);
+    ref.read(updateFavouriteProvider(widget.mealId).notifier).toggle(current);
   }
 
   @override
   Widget build(BuildContext context) {
-    final op = ref.watch(updateFavouriteProvider);
+    final op = ref.watch(updateFavouriteProvider(widget.mealId));
 
     // Listen for operation results — show feedback and rollback on error.
-    ref.listen(updateFavouriteProvider, (previous, next) {
+    ref.listen(updateFavouriteProvider(widget.mealId), (previous, next) {
       if (!mounted) return;
       if (next is AsyncError) {
-        setState(() => _isFav = !_isFav); // rollback optimistic update
+        // rollback optimistic update
+        setState(() => _isFav = !_isFav);
         BaseScaffoldMessenger.show(
           context,
           duration: const Duration(seconds: 1),
@@ -79,7 +79,7 @@ class _MealDetailsFavouriteButtonState
           message: _isFav
               ? AppLocale.getLabels(context).favouriteAdded
               : AppLocale.getLabels(context).favouriteRemoved,
-          type: SnackBarType.info,
+          type: _isFav ? SnackBarType.success : SnackBarType.info,
         );
       }
     });

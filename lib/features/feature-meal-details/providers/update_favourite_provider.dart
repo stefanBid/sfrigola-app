@@ -8,9 +8,9 @@ part 'update_favourite_provider.g.dart';
 @riverpod
 class UpdateFavourite extends _$UpdateFavourite {
   @override
-  FutureOr<void> build() {}
+  FutureOr<void> build(String mealId) {}
 
-  Future<void> toggle(bool isFavourite, String mealId) async {
+  Future<void> toggle(bool isFavourite) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final repo = ref.read(favoritesRepositoryProvider);

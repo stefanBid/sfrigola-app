@@ -177,7 +177,10 @@ class BeSimulators {
   }) async {
     await Future.delayed(delay);
     final meal = availableMeals.firstWhere((m) => m.id == id);
-    final resolved = meal.copyWith(isFavourite: _favoriteIds.contains(id));
+    final resolved = meal.copyWith(
+      isFavourite: _favoriteIds.contains(id),
+      userRate: _userRatings[id] ?? meal.userRate,
+    );
     return GetDataResponse(
       data: resolved,
       error: simulateError ? _error : null,
@@ -194,6 +197,13 @@ class BeSimulators {
       .where((m) => m.isFavourite)
       .map((m) => m.id)
       .toList();
+
+  /// In-memory user ratings — seeded from [userRate] in dummy data.
+  /// Mutated by [updateMealRating] to mirror server-side state.
+  static final Map<String, double> _userRatings = {
+    for (final m in availableMeals)
+      if (m.userRate != null) m.id: m.userRate!,
+  };
 
   /// GET /favorites — returns meal previews for the current favourite list, filtered and sorted.
   static Future<GetListDataResponse<MealPreview>> getFavorites({
@@ -340,6 +350,9 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    if (!simulateError) {
+      _userRatings[mealId] = newRating;
+    }
     return MutationResponse(
       success: !simulateError,
       error: simulateError ? _error : null,

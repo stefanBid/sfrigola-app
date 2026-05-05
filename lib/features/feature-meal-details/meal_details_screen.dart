@@ -248,7 +248,10 @@ class MealDetailsScreen extends ConsumerWidget {
               ).bodySecondary.copyWith(color: AppColors.of(context).muted),
             ),
             const SizedBox(height: AppDesign.gapItemSm),
-            RateMealForm(mealId: value.id),
+            RateMealForm(
+              mealId: value.id,
+              initialRating: value.userRate ?? 0.0,
+            ),
             SizedBox(height: safeBottomSpace),
           ],
         ),

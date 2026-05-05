@@ -36,9 +36,6 @@ class BaseButton extends StatelessWidget {
     final accentColor = AppColors.primary;
     final outlineColor = AppColors.secondary;
     final contentColor = AppTypography.of(context).body.color ?? colors.text;
-    final borderRadius = pill
-        ? AppDesign.borderRadiusSm
-        : AppDesign.borderRadiusXs;
 
     final tapColor = switch (type) {
       BaseButtonType.filled => colors.text.withAlpha(20),
@@ -103,16 +100,16 @@ class BaseButton extends StatelessWidget {
       opacity: onPressed == null && !isLoading ? 0.5 : 1.0,
       child: Material(
         color: Colors.transparent,
-        borderRadius: borderRadius,
+        borderRadius: AppDesign.borderRadiusXs,
         child: InkWell(
           onTap: isLoading ? null : onPressed,
-          borderRadius: borderRadius,
+          borderRadius: AppDesign.borderRadiusXs,
           splashColor: tapColor,
           highlightColor: tapColor,
           child: Ink(
             decoration: BoxDecoration(
               color: fillColor,
-              borderRadius: borderRadius,
+              borderRadius: AppDesign.borderRadiusXs,
               border: border,
             ),
             padding: AppDesign.paddingSymmetricMd,

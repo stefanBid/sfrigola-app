@@ -11,16 +11,17 @@ import 'package:sfrigola/core/models/meal.dart';
 
 const availableCategories = [
   Category(id: 'c1', title: 'Italian', icon: '🍕'),
-  Category(id: 'c2', title: 'Street Food', icon: '🍔'),
-  Category(id: 'c3', title: 'German', icon: '🥨'),
-  Category(id: 'c4', title: 'Light & Healthy', icon: '🥗'),
-  Category(id: 'c5', title: 'Exotic', icon: '🌴'),
-  Category(id: 'c6', title: 'Breakfast', icon: '🥞'),
-  Category(id: 'c7', title: 'Asian', icon: '🍜'),
-  Category(id: 'c8', title: 'French', icon: '🥐'),
-  Category(id: 'c9', title: 'Summer', icon: '☀️'),
-  Category(id: 'c10', title: 'Desserts', icon: '🎂'),
-  Category(id: 'c11', title: 'Mediterranean', icon: '🫒'),
+  Category(id: 'c2', title: 'Quick & Easy', icon: '⚡'),
+  Category(id: 'c3', title: 'Street Food', icon: '🍔'),
+  Category(id: 'c4', title: 'German', icon: '🥨'),
+  Category(id: 'c5', title: 'Light & Healthy', icon: '🥗'),
+  Category(id: 'c6', title: 'Exotic', icon: '🌴'),
+  Category(id: 'c7', title: 'Breakfast', icon: '🥞'),
+  Category(id: 'c8', title: 'Asian', icon: '🍜'),
+  Category(id: 'c9', title: 'French', icon: '🥐'),
+  Category(id: 'c10', title: 'Summer', icon: '☀️'),
+  Category(id: 'c11', title: 'Desserts', icon: '🎂'),
+  Category(id: 'c12', title: 'Mediterranean', icon: '🫒'),
 ];
 
 // ---------------------------------------------------------------------------
@@ -76,6 +77,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.1,
+    isFavourite: false,
   ),
 
   // ── m2: Fettuccine Alfredo
@@ -116,6 +118,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.3,
+    isFavourite: false,
+    userRate: 4.0,
   ),
 
   // ── m3: Fettucine alfredo
@@ -164,6 +168,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.3,
+    isFavourite: true,
   ),
 
   // ── m4: Grilled Mac and Cheese Sandwich
@@ -228,6 +233,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.5,
+    isFavourite: true,
+    userRate: 2.0,
   ),
 
   // ── m5: Lasagna Sandwiches
@@ -270,6 +277,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 3.8,
+    isFavourite: false,
   ),
 
   // ── m6: Lasagne
@@ -328,6 +336,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.4,
+    isFavourite: false,
+    userRate: 4.0,
   ),
 
   // ── m7: Bread omelette
@@ -352,6 +362,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.0,
+    isFavourite: true,
   ),
 
   // ── m8: Breakfast Potatoes
@@ -403,6 +414,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.1,
+    isFavourite: true,
   ),
 
   // ── m9: Dutch poffertjes (mini pancakes)
@@ -449,6 +461,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.2,
+    isFavourite: true,
+    userRate: 2.5,
   ),
 
   // ── m10: English Breakfast
@@ -518,6 +532,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.8,
+    isFavourite: false,
   ),
 
   // ── m11: Fruit and Cream Cheese Breakfast Pastries
@@ -567,6 +582,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.3,
+    isFavourite: false,
   ),
 
   // ── m12: Full English Breakfast
@@ -637,6 +653,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.1,
+    isFavourite: false,
   ),
 
   // ── m13: Æbleskiver
@@ -686,6 +703,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.3,
+    isFavourite: true,
   ),
 
   // ── m14: Alfajores
@@ -730,6 +748,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.9,
+    isFavourite: false,
+    userRate: 4.5,
   ),
 
   // ── m15: Anzac biscuits
@@ -773,6 +793,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.3,
+    isFavourite: false,
+    userRate: 4.0,
   ),
 
   // ── m16: Apam balik
@@ -815,6 +837,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 3.8,
+    isFavourite: false,
+    userRate: 3.0,
   ),
 
   // ── m17: Apple & Blackberry Crumble
@@ -864,6 +888,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 3.8,
+    isFavourite: false,
   ),
 
   // ── m18: Apple cake
@@ -916,6 +941,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.8,
+    isFavourite: false,
   ),
 
   // ── m19: Arroz con gambas y calamar
@@ -966,6 +992,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.4,
+    isFavourite: false,
+    userRate: 2.5,
   ),
 
   // ── m20: Baked salmon with fennel & tomatoes
@@ -1008,6 +1036,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 3.9,
+    isFavourite: false,
+    userRate: 4.0,
   ),
 
   // ── m21: Bang bang prawn salad
@@ -1050,6 +1080,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 3.9,
+    isFavourite: true,
   ),
 
   // ── m22: Barramundi with Moroccan spices
@@ -1105,6 +1136,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.5,
+    isFavourite: true,
   ),
 
   // ── m23: Cajun spiced fish tacos
@@ -1155,6 +1187,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 4.3,
+    isFavourite: false,
   ),
 
   // ── m24: Clam, chorizo & white bean stew
@@ -1202,6 +1235,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 4.4,
+    isFavourite: false,
+    userRate: 2.5,
   ),
 
   // ── m25: Fasoliyyeh Bi Z-Zayt (Syrian Green Beans with Olive Oil)
@@ -1245,6 +1280,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.7,
+    isFavourite: false,
   ),
 
   // ── m26: Padron peppers
@@ -1277,6 +1313,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.9,
+    isFavourite: true,
   ),
 
   // ── m27: Red onion pickle
@@ -1320,6 +1357,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.8,
+    isFavourite: true,
+    userRate: 2.0,
   ),
 
   // ── m28: Roast fennel and aubergine paella
@@ -1373,6 +1412,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.5,
+    isFavourite: true,
+    userRate: 3.0,
   ),
 
   // ── m29: Vegan banh mi
@@ -1420,6 +1461,7 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.4,
+    isFavourite: true,
   ),
 
   // ── m30: Vegan Chocolate Cake
@@ -1457,6 +1499,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.4,
+    isFavourite: false,
+    userRate: 2.5,
   ),
 
   // ── m31: Algerian Kefta (Meatballs)
@@ -1504,6 +1548,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.4,
+    isFavourite: true,
+    userRate: 2.5,
   ),
 
   // ── m32: Arepa Pabellón
@@ -1547,6 +1593,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.1,
+    isFavourite: false,
+    userRate: 5.0,
   ),
 
   // ── m33: Arepa pelua
@@ -1598,6 +1646,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.3,
+    isFavourite: true,
+    userRate: 4.5,
   ),
 
   // ── m34: Asado
@@ -1643,6 +1693,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.7,
+    isFavourite: false,
   ),
 
   // ── m35: Aussie Burgers
@@ -1689,6 +1740,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 4.9,
+    isFavourite: false,
   ),
 
   // ── m36: Beef and Broccoli Stir-Fry
@@ -1746,6 +1798,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.5,
+    isFavourite: false,
   ),
 
   // ── m37: 15-minute chicken & halloumi burgers
@@ -1807,6 +1860,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 3.9,
+    isFavourite: false,
+    userRate: 4.0,
   ),
 
   // ── m38: Ayam Percik
@@ -1864,6 +1919,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.9,
+    isFavourite: false,
+    userRate: 1.5,
   ),
 
   // ── m39: Brown Stew Chicken
@@ -1915,6 +1972,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 3.9,
+    isFavourite: false,
+    userRate: 4.5,
   ),
 
   // ── m40: Chick-Fil-A Sandwich
@@ -1963,6 +2022,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 3.8,
+    isFavourite: false,
   ),
 
   // ── m41: Chicken & chorizo rice pot
@@ -2014,6 +2074,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.1,
+    isFavourite: true,
+    userRate: 1.5,
   ),
 
   // ── m42: Chicken & mushroom Hotpot
@@ -2071,6 +2133,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 4.3,
+    isFavourite: false,
   ),
 
   // ── m43: Adana kebab
@@ -2123,6 +2186,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.6,
+    isFavourite: false,
   ),
 
   // ── m44: Chilli ginger lamb chops
@@ -2164,6 +2228,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.0,
+    isFavourite: true,
+    userRate: 3.0,
   ),
 
   // ── m45: Chorba Hamra bel Frik (Algerian Lamb, Tomato, and Freekeh Soup)
@@ -2215,6 +2281,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.9,
+    isFavourite: false,
   ),
 
   // ── m46: Fårikål (Norwegian National Dish)
@@ -2259,6 +2326,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 4.0,
+    isFavourite: false,
   ),
 
   // ── m47: Hot cumin lamb wrap with crunchy slaw & spicy mayo
@@ -2305,6 +2373,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 3.9,
+    isFavourite: false,
   ),
 
   // ── m48: Imam bayildi with BBQ lamb & tzatziki
@@ -2362,6 +2431,8 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: true,
     rate: 3.9,
+    isFavourite: true,
+    userRate: 3.5,
   ),
 
   // ── m49: Ajo blanco
@@ -2398,6 +2469,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.5,
+    isFavourite: true,
+    userRate: 4.0,
   ),
 
   // ── m50: Broccoli & Stilton soup
@@ -2442,6 +2515,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.0,
+    isFavourite: false,
+    userRate: 2.5,
   ),
 
   // ── m51: Clam chowder
@@ -2499,6 +2574,7 @@ const availableMeals = [
     isVegetarian: false,
     isLactoseFree: false,
     rate: 3.9,
+    isFavourite: false,
   ),
 
   // ── m52: Cream Cheese Tart
@@ -2548,6 +2624,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: false,
     rate: 4.4,
+    isFavourite: false,
+    userRate: 2.0,
   ),
 
   // ── m53: Creamy Tomato Soup
@@ -2596,6 +2674,8 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.7,
+    isFavourite: false,
+    userRate: 1.5,
   ),
 
   // ── m54: Quick gazpacho
@@ -2631,5 +2711,6 @@ const availableMeals = [
     isVegetarian: true,
     isLactoseFree: true,
     rate: 4.6,
+    isFavourite: false,
   ),
 ];

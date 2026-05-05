@@ -103,6 +103,42 @@ BaseFormField(
 
 ---
 
+## BaseDropdown
+
+Styled `DropdownButtonFormField` for use inside a `Form`. Mirrors `BaseFormField` layout and styling — label above the field, same border, error and typography tokens.
+
+Items are passed as `List<BaseDropdownOption<T>>` — a simple data class that hides the Material `DropdownMenuItem` API entirely.
+
+```dart
+// Data class — always use const constructor
+const BaseDropdownOption(value: MyEnum.foo, label: 'Foo label')
+```
+
+```dart
+BaseDropdown<MyEnum>(
+  initialValue: _selectedValue,     // T? — initial selected value, maps to DropdownButtonFormField.initialValue
+  label: 'Label',                   // optional — shown above with caption style
+  voidSelectionItemLabel: 'All',    // optional — adds a null item at the top
+  prefixIcon: PhosphorIconsRegular.funnelSimple, // IconData? — optional
+  items: const [
+    BaseDropdownOption(value: MyEnum.foo, label: 'Foo'),
+    BaseDropdownOption(value: MyEnum.bar, label: 'Bar'),
+  ],
+  onChanged: (v) => setState(() => _selectedValue = v),
+  fillColor: AppColors.of(context).surface, // optional
+  autovalidateMode: AutovalidateMode.onUnfocus, // default
+  validator: (v) => v == null ? 'Required' : null, // optional
+)
+```
+
+**Notes:**
+- Uses `initialValue` (not `value`) on `DropdownButtonFormField` — `value` is deprecated
+- `dropdownColor` is always `AppColors.of(context).surface`
+- Selected value text style is `bodyMedium` + `text` colour
+- `prefixIcon` rendered with `muted` colour + `AppDesign.iconSizeMd`
+
+---
+
 ## BaseButton
 
 ```dart
@@ -130,11 +166,20 @@ BaseButton(
 
 ```dart
 BaseIconButton(
-  icon: PhosphorIconsRegular.plus,
-  type: IconButtonType.filled, // filled | outlined  (enum: IconButtonType)
+  icon: PhosphorIconsRegular.plus,        // required IconData
+  type: IconButtonType.filled,            // filled | outlined  (enum: IconButtonType)
+  color: AppColors.primary,               // optional — button background (filled) or border (outlined)
+  iconColor: Colors.white,                // optional — icon colour (default: AppColors.of(context).text)
+  badgeCount: 3,                          // optional — shows a red badge with count when > 0
+  tooltip: 'Add',                         // optional
   onPressed: () { ... },
 )
 ```
+
+- `color` controls the **button background** (filled) or **border** (outlined) — does not affect the icon
+- `iconColor` controls **only the icon** — defaults to `AppColors.of(context).text`
+- `badgeCount` renders a circular `AppColors.error` badge (top-right) with `AppTypography.small` text. Hidden when `null` or `<= 0`.
+- For a fully custom icon widget, wrap the `BaseIconButton` externally rather than passing a `customIcon`.
 
 ---
 
@@ -187,6 +232,29 @@ GcGridView(
 - `mainAxisExtent` overrides `childAspectRatio` — prefer it when a fixed height is needed (e.g. tablet grids)
 - `maxItemWidth` computes `maxGridWidth = maxItemWidth × crossAxisCount + crossAxisSpacing × (crossAxisCount - 1)`; the grid is wrapped in `Align(topCenter) + ConstrainedBox` when set
 - `padding` defaults to `EdgeInsets.zero` — Flutter's `GridView` would otherwise add `MediaQuery.padding.top` automatically as a top gap when the widget is not a primary scroll view
+
+---
+
+## BaseRange
+
+Styled `RangeSlider` with optional label and min/max value display. Use for numeric range filters (price, rating, time, etc.).
+
+```dart
+BaseRange(
+  label: 'Valutazione',          // optional — shown above with caption style
+  values: RangeValues(1.0, 5.0), // required — current start/end values
+  min: 0.0,                      // required
+  max: 5.0,                      // required
+  divisions: 10,                 // optional — number of discrete steps
+  valueFormatter: (v) => v.toStringAsFixed(1), // optional — custom label format
+  onChanged: (v) => setState(() => _range = v),
+)
+```
+
+- Track colour: `AppColors.primary` (active), `surface` (inactive)
+- Thumb colour: `AppColors.primary`
+- Value indicator: always visible, `AppColors.primary` background, `small` white text
+- The two current values are shown as `caption` text above the slider
 
 ---
 
@@ -268,6 +336,45 @@ When `onRetry` is provided, a `TextButton` with white bold text appears at the t
 | `info` | `primary` / `secondary` (adaptive) | `info` |
 
 Clears previous snack bars automatically before showing the new one. Uses `borderRadiusTopXs` (top corners only).
+
+---
+
+## BaseBottomSheet
+
+Static utility for showing a modal bottom sheet. Never use `showModalBottomSheet` directly.
+
+```dart
+// Adaptive height — sheet grows with content
+BaseBottomSheet.show(
+  context,
+  title: 'Filter',
+  subtitle: 'Choose your preferences',
+  child: myWidget,
+);
+
+// Fixed height — content scrolls if it exceeds the available space
+BaseBottomSheet.show(
+  context,
+  heightFactor: 0.6,
+  child: myLongList,
+);
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `child` | `Widget` | Required. Content displayed inside the sheet. Always padded with `AppDesign.paddingPage`. |
+| `title` | `String?` | Optional title rendered with `heading3`. |
+| `subtitle` | `String?` | Optional subtitle rendered with `bodySecondary` + `muted`. |
+| `heightFactor` | `double?` | Value in `(0, 1]`. Sheet height as a fraction of available screen height (status bar and home indicator excluded). Omit for adaptive height. |
+
+**Behaviour:**
+- Always clears active snack bars before opening
+- Always full-width (`maxWidth: double.infinity`) — including landscape
+- `useSafeArea: true` — Flutter handles notch and home indicator automatically
+- With `heightFactor`: header fixed, `child` scrolls inside `SingleChildScrollView`
+- Without `heightFactor`: sheet adapts to content height (`mainAxisSize.min`)
+- Drag handle always visible at the top
+- Background `surface`, top corners `borderRadiusTopMd`
 
 ---
 

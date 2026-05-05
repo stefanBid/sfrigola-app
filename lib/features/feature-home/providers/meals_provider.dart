@@ -7,6 +7,9 @@ import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/providers/repository_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/selected_category_id_provider.dart';
 
+// Project Utils
+import 'package:sfrigola/core/utils/has_more.dart';
+
 part 'meals_provider.g.dart';
 
 class MealsProviderState {
@@ -36,8 +39,8 @@ class TrendingMeals extends _$TrendingMeals {
         .watch(mealRepositoryProvider)
         .getTrending(categoryId, take: _pageSize);
     return MealsProviderState(
-      meals: response.meals,
-      hasMore: response.hasMore(0, _pageSize),
+      meals: response.data,
+      hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
@@ -48,9 +51,9 @@ class TrendingMeals extends _$TrendingMeals {
         .read(mealRepositoryProvider)
         .getTrending(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
-        meals: [...current, ...response.meals],
-        hasMore: response.hasMore(current.length, _pageSize),
+      state.value!.copyWith(
+        meals: [...current, ...response.data],
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }
@@ -67,8 +70,8 @@ class EasyMeals extends _$EasyMeals {
         .watch(mealRepositoryProvider)
         .getEasy(categoryId, take: _pageSize);
     return MealsProviderState(
-      meals: response.meals,
-      hasMore: response.hasMore(0, _pageSize),
+      meals: response.data,
+      hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
@@ -79,9 +82,9 @@ class EasyMeals extends _$EasyMeals {
         .read(mealRepositoryProvider)
         .getEasy(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
-        meals: [...current, ...response.meals],
-        hasMore: response.hasMore(current.length, _pageSize),
+      state.value!.copyWith(
+        meals: [...current, ...response.data],
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }
@@ -98,8 +101,8 @@ class ChallengeMeals extends _$ChallengeMeals {
         .watch(mealRepositoryProvider)
         .getChallenge(categoryId, take: _pageSize);
     return MealsProviderState(
-      meals: response.meals,
-      hasMore: response.hasMore(0, _pageSize),
+      meals: response.data,
+      hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
@@ -110,9 +113,9 @@ class ChallengeMeals extends _$ChallengeMeals {
         .read(mealRepositoryProvider)
         .getChallenge(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
-        meals: [...current, ...response.meals],
-        hasMore: response.hasMore(current.length, _pageSize),
+      state.value!.copyWith(
+        meals: [...current, ...response.data],
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }
@@ -129,8 +132,8 @@ class BudgetMeals extends _$BudgetMeals {
         .watch(mealRepositoryProvider)
         .getBudget(categoryId, take: _pageSize);
     return MealsProviderState(
-      meals: response.meals,
-      hasMore: response.hasMore(0, _pageSize),
+      meals: response.data,
+      hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
@@ -141,9 +144,9 @@ class BudgetMeals extends _$BudgetMeals {
         .read(mealRepositoryProvider)
         .getBudget(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
-        meals: [...current, ...response.meals],
-        hasMore: response.hasMore(current.length, _pageSize),
+      state.value!.copyWith(
+        meals: [...current, ...response.data],
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }
@@ -160,8 +163,8 @@ class PremiumMeals extends _$PremiumMeals {
         .watch(mealRepositoryProvider)
         .getPremium(categoryId, take: _pageSize);
     return MealsProviderState(
-      meals: response.meals,
-      hasMore: response.hasMore(0, _pageSize),
+      meals: response.data,
+      hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
@@ -172,9 +175,9 @@ class PremiumMeals extends _$PremiumMeals {
         .read(mealRepositoryProvider)
         .getPremium(categoryId, skip: current.length, take: _pageSize);
     state = AsyncData(
-      MealsProviderState(
-        meals: [...current, ...response.meals],
-        hasMore: response.hasMore(current.length, _pageSize),
+      state.value!.copyWith(
+        meals: [...current, ...response.data],
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }

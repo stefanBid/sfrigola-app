@@ -99,7 +99,7 @@ class _BudgetSectionState extends ConsumerState<BudgetSection> {
           children: [
             const Icon(
               PhosphorIconsBold.piggyBank,
-              size: 24,
+              size: AppDesign.iconSizeLg,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),

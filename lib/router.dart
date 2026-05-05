@@ -5,8 +5,9 @@ import 'core/layouts/app_layout.dart';
 
 // Features
 import 'features/feature-home/home_screen.dart';
-import 'features/feature-meal-detail/meal_details_screen.dart';
+import 'features/feature-meal-details/meal_details_screen.dart';
 import 'features/feature-search/search_screen.dart';
+import 'features/feature-favourites/favourite_screen.dart';
 import 'features/feature-form/form_screen.dart';
 import 'features/feature-profile/profile_screen.dart';
 
@@ -38,6 +39,11 @@ final GoRouter appRouter = GoRouter(
           path: '/search',
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: SearchScreen()),
+        ),
+        GoRoute(
+          path: '/favourites',
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: FavouriteScreen()),
         ),
         GoRoute(
           path: '/form',

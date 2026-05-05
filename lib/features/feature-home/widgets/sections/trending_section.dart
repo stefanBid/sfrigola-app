@@ -98,7 +98,7 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
           children: [
             const Icon(
               PhosphorIconsBold.trendUp,
-              size: 24,
+              size: AppDesign.iconSizeLg,
               color: AppColors.primary,
             ),
             const SizedBox(width: AppDesign.gapInlineXs),

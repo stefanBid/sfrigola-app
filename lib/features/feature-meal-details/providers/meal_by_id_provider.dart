@@ -13,6 +13,7 @@ class MealById extends _$MealById {
   @override
   Future<Meal> build(String mealId) async {
     final repo = ref.watch(mealRepositoryProvider);
-    return repo.getMealById(mealId);
+    final response = await repo.getMealById(mealId);
+    return response.data;
   }
 }

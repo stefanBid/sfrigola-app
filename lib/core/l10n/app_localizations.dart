@@ -304,6 +304,30 @@ abstract class AppLocalizations {
   /// **'Ricetta non trovata.'**
   String get mealNotFoundError;
 
+  /// Error shown when rating a meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile salvare la valutazione.'**
+  String get mealRateError;
+
+  /// Snackbar shown when a meal rating is saved successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione salvata.'**
+  String get rateMealSuccess;
+
+  /// Section title above the star rating widget in the meal details screen
+  ///
+  /// In it, this message translates to:
+  /// **'La tua valutazione'**
+  String get rateMealLabel;
+
+  /// Helper text below the rating section title in the meal details screen
+  ///
+  /// In it, this message translates to:
+  /// **'Tocca una stella o scorri per assegnare un voto.'**
+  String get rateMealDescription;
+
   /// Generic retry button label
   ///
   /// In it, this message translates to:
@@ -345,6 +369,156 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Cerca una ricetta per vedere i risultati.'**
   String get searchEmptyHint;
+
+  /// Title shown in the favourites screen app bar
+  ///
+  /// In it, this message translates to:
+  /// **'I miei preferiti'**
+  String get favouritesTitle;
+
+  /// Error message shown in the favourites screen when favourites fail to load
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile caricare i preferiti.'**
+  String get favouritesErrorLoad;
+
+  /// Empty state shown when no favourites match the active filters
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun preferito corrisponde ai filtri selezionati.'**
+  String get favouritesEmptyFiltered;
+
+  /// Empty state shown when the user has no favourites yet
+  ///
+  /// In it, this message translates to:
+  /// **'Ancora nessun preferito.'**
+  String get favouritesEmpty;
+
+  /// Label for the complexity dropdown in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Complessità'**
+  String get favouritesFilterComplexityLabel;
+
+  /// Void selection label for the complexity dropdown
+  ///
+  /// In it, this message translates to:
+  /// **'Tutte'**
+  String get favouritesFilterComplexityAll;
+
+  /// Label for the affordability dropdown in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Prezzo'**
+  String get favouritesFilterAffordabilityLabel;
+
+  /// Void selection label for the affordability dropdown
+  ///
+  /// In it, this message translates to:
+  /// **'Tutti'**
+  String get favouritesFilterAffordabilityAll;
+
+  /// Label for the sort order dropdown in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Ordina per'**
+  String get favouritesFilterSortOrderLabel;
+
+  /// Void selection label for the sort order dropdown
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun ordine'**
+  String get favouritesFilterSortOrderNone;
+
+  /// Label for the rate range slider in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione'**
+  String get favouritesFilterRateLabel;
+
+  /// Label for the apply button in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Applica filtri'**
+  String get favouritesFilterApply;
+
+  /// Label for the reset button in the favourites filter form
+  ///
+  /// In it, this message translates to:
+  /// **'Reimposta'**
+  String get favouritesFilterReset;
+
+  /// Snackbar shown when a meal is successfully added to favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiunto ai preferiti.'**
+  String get favouriteAdded;
+
+  /// Snackbar shown when a meal is successfully removed from favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Rimosso dai preferiti.'**
+  String get favouriteRemoved;
+
+  /// Error shown when adding a meal to favourites fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aggiungere ai preferiti.'**
+  String get favouriteAddError;
+
+  /// Error shown when removing a meal from favourites fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile rimuovere dai preferiti.'**
+  String get favouriteRemoveError;
+
+  /// Sort order label: alphabetical ascending
+  ///
+  /// In it, this message translates to:
+  /// **'A → Z'**
+  String get sortOrderAlphabeticalAscending;
+
+  /// Sort order label: alphabetical descending
+  ///
+  /// In it, this message translates to:
+  /// **'Z → A'**
+  String get sortOrderAlphabeticalDescending;
+
+  /// Sort order label: rate ascending
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione crescente'**
+  String get sortOrderRateAscending;
+
+  /// Sort order label: rate descending
+  ///
+  /// In it, this message translates to:
+  /// **'Valutazione decrescente'**
+  String get sortOrderRateDescending;
+
+  /// Sort order label: complexity ascending
+  ///
+  /// In it, this message translates to:
+  /// **'Complessità crescente'**
+  String get sortOrderComplexityAscending;
+
+  /// Sort order label: complexity descending
+  ///
+  /// In it, this message translates to:
+  /// **'Complessità decrescente'**
+  String get sortOrderComplexityDescending;
+
+  /// Sort order label: affordability ascending
+  ///
+  /// In it, this message translates to:
+  /// **'Prezzo crescente'**
+  String get sortOrderAffordabilityAscending;
+
+  /// Sort order label: affordability descending
+  ///
+  /// In it, this message translates to:
+  /// **'Prezzo decrescente'**
+  String get sortOrderAffordabilityDescending;
 }
 
 class _AppLocalizationsDelegate

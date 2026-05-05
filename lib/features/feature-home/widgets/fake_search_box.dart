@@ -4,6 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_input.dart';
@@ -21,7 +22,7 @@ class FakeSearchBox extends StatelessWidget {
       hint: AppLocale.getLabels(context).homeSearchHint,
       prefixIcon: Icon(
         PhosphorIconsRegular.magnifyingGlass,
-        size: 20,
+        size: AppDesign.iconSizeMd,
         color: AppColors.of(context).muted,
       ),
     );

@@ -22,6 +22,15 @@ Fixed filenames — do not add new files without a real need:
 | File | Purpose |
 |---|---|
 | `provider_retry.dart` | `appRetry` — shared Riverpod retry function |
+| `be_simulators.dart` | Static mock-BE layer — owns all data simulation logic used by repositories |
+
+`lib/core/models/be-models/` contains the typed response wrappers that mirror the real BE contract:
+
+| File | Class(es) | When to use |
+|---|---|---|
+| `be_error.dart` | `BeError` | Error shape embedded in any response |
+| `get_response.dart` | `GetDataResponse<T>`, `GetListDataResponse<T>` | GET endpoints (single resource or paginated list) |
+| `mutation_response.dart` | `MutationResponse` | POST, PUT, PATCH, DELETE endpoints |
 
 ---
 

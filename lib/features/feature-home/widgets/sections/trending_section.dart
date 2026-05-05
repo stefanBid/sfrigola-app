@@ -13,7 +13,9 @@ import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
+import 'package:sfrigola/core/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
+
 // Project Widgets
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header.dart';
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_viral_card.dart';

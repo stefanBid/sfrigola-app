@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Providers
-import 'package:sfrigola/features/feature-favourites/providers/all_favourites_provider.dart';
+import 'package:sfrigola/core/providers/all_favourites_provider.dart';
 import 'package:sfrigola/features/feature-meal-details/providers/update_favourite_provider.dart';
 
 // Project Helpers

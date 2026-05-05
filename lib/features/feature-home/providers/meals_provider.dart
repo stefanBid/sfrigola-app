@@ -1,30 +1,14 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// Project Models
-import 'package:sfrigola/core/models/meal.dart';
-
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
+import 'package:sfrigola/core/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/selected_category_id_provider.dart';
 
 // Project Utils
 import 'package:sfrigola/core/utils/has_more.dart';
 
 part 'meals_provider.g.dart';
-
-class MealsProviderState {
-  final List<MealPreview> meals;
-  final bool hasMore;
-
-  MealsProviderState({required this.meals, required this.hasMore});
-
-  MealsProviderState copyWith({List<MealPreview>? meals, bool? hasMore}) {
-    return MealsProviderState(
-      meals: meals ?? this.meals,
-      hasMore: hasMore ?? this.hasMore,
-    );
-  }
-}
 
 // Trending
 

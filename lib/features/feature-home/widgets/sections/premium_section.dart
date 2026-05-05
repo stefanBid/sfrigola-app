@@ -13,6 +13,7 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
+import 'package:sfrigola/core/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
 // Project Widgets

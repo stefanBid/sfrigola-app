@@ -39,7 +39,7 @@ class BaseScaffoldMessenger {
       ),
       SnackBarType.info => (
         colors.isDark ? AppColors.secondary : AppColors.primary,
-        Color(0xFF1A1A1A),
+        const Color(0xFF1A1A1A),
         PhosphorIconsRegular.info,
       ),
     };

@@ -22,9 +22,9 @@ import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_grid_view.dart';
 
 // Screen Widgets
-import 'package:sfrigola/core/custom-widgets/meals-container/general_meal_card.dart';
-import 'package:sfrigola/core/custom-widgets/meals-container/skeletons/general_meal_card_skeleton.dart';
-import 'package:sfrigola/core/custom-widgets/meals-container/skeletons/meals_grid_skeleton.dart';
+import 'package:sfrigola/core/custom-widgets/general-meal-card/general_meal_card.dart';
+import 'package:sfrigola/core/custom-widgets/general-meal-card/general_meal_card_skeleton.dart';
+import 'package:sfrigola/features/feature-search/widgets/skeletons/meals_grid_skeleton.dart';
 
 class MealsGridContainer extends ConsumerStatefulWidget {
   const MealsGridContainer({super.key});

@@ -4,7 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Widgets
 import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 import 'package:sfrigola/core/layouts/app_bars/classic_app_bar.dart';
-import 'package:sfrigola/features/feature-search/widgets/meals_grid_container.dart';
+import 'package:sfrigola/features/feature-admin-cookbook/widgets/cookbook_grid_container.dart';
 
 class CookbookScreen extends StatelessWidget {
   const CookbookScreen({super.key});
@@ -16,7 +16,7 @@ class CookbookScreen extends StatelessWidget {
         leading: Icon(PhosphorIconsBold.fileText),
         title: 'Manage App CookBook',
       ),
-      body: MealsGridContainer(),
+      body: CookbookGridContainer(),
     );
   }
 }

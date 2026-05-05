@@ -79,6 +79,7 @@ class AppRouter {
   static const home = AppTypedRoute<NoParams>('/home');
   static const search = AppTypedRoute<NoParams>('/search');
   static const favourites = AppTypedRoute<NoParams>('/favourites');
+  static const cookbook = AppTypedRoute<NoParams>('/cookbook');
   static const forms = AppTypedRoute<NoParams>('/form');
   static const profile = AppTypedRoute<NoParams>('/profile');
   static const mealDetails = AppTypedRoute<MealDetailsParams>('/meal/:mealId');

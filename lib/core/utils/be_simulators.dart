@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart' show debugPrint;
+
 // Project Data
 import 'package:sfrigola/core/data/dummy_data.dart';
 
@@ -117,7 +119,16 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    return _buildPreviewResponse(availableMeals, request, simulateError);
+    debugPrint('[BeSimulators.getAllMeals] request: ${request.toJson()}');
+    final response = _buildPreviewResponse(
+      availableMeals,
+      request,
+      simulateError,
+    );
+    debugPrint(
+      '[BeSimulators.getAllMeals] total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+    );
+    return response;
   }
 
   /// GET /meals/{id}

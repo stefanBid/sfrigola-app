@@ -174,10 +174,13 @@ sfrigola-app/
         category.dart            ← Category model + CategoryColor enum
         meal.dart                ← Meal model + Complexity/Affordability enums
         general_exception.dart   ← AppException interface + AppErrorCode + GeneralException
-        be-models/               ← typed BE response wrappers (mirrors real backend contract)
+        be-models/               ← typed BE response wrappers + request standard (mirrors real backend contract)
           be_error.dart            ← BeError — error shape embedded in any response
           get_response.dart        ← GetDataResponse<T> + GetListDataResponse<T>
           mutation_response.dart   ← MutationResponse — for POST / PUT / PATCH / DELETE
+          be_sort.dart             ← SortDirection + SortParam<T> — sort clause for BE requests
+          be_filter.dart           ← FilterOperator + FilterCondition<T> + FilterGroup<T>
+          get_request.dart          ← GetRequest<TFilter, TSort> — standard GET request envelope
 
       providers/          ← app-wide Riverpod providers (repository singletons + cross-feature)
         repository_provider.dart
@@ -919,6 +922,45 @@ All repository methods return a **typed BE response wrapper** that mirrors the r
 | `BeError` | `be_error.dart` | Error shape embedded in any response (`error` field is nullable — `null` = success) |
 
 The provider layer extracts `.data` from the response as needed. The repository always returns the full response object.
+
+### BE request standard — `lib/core/models/be-models/`
+
+All filtered/sorted GET repository methods accept a **`GetRequest`** as input. Never pass loose parameters like raw strings or separate sort fields.
+
+| Class | File | Description |
+|---|---|---|
+| `SortDirection` | `be_sort.dart` | `asc` / `desc` |
+| `SortParam<T extends Enum>` | `be_sort.dart` | Single sort clause — `key` is a resource-specific sortable-fields enum |
+| `FilterOperator` | `be_filter.dart` | `equals`, `notEquals`, `greaterThan`, `greaterThanOrEquals`, `lessThan`, `lessThanOrEquals`, `contains`, `startsWith` |
+| `FilterCondition<T extends Enum>` | `be_filter.dart` | Single predicate — `key`, `comparator`, `value: Object?` |
+| `FilterGroup<T extends Enum>` | `be_filter.dart` | List of `FilterCondition`s — conditions within a group are combined with **OR** |
+| `GetRequest<TFilter, TSort>` | `get_request.dart` | Envelope: `searchKey?`, `skip`, `take`, `filters` (groups combined with **AND**), `sort?` |
+
+**Semantics:**
+- Conditions inside the same `FilterGroup` → **OR**
+- Multiple `FilterGroup`s in `GetRequest.filters` → **AND**
+- `GetRequest.sort` is a single optional `SortParam` (no multi-sort)
+- `GetRequest.skip` / `GetRequest.take` drive offset pagination (defaults: 0 / 20)
+
+```dart
+GetRequest<MealFilterKey, MealSortKey>(
+  searchKey: 'pasta',
+  skip: 0,
+  take: 20,
+  filters: [
+    FilterGroup(conditions: [
+      FilterCondition(key: MealFilterKey.category, comparator: FilterOperator.equals, value: 'pasta'),
+      FilterCondition(key: MealFilterKey.category, comparator: FilterOperator.equals, value: 'riso'),
+    ]),
+    FilterGroup(conditions: [
+      FilterCondition(key: MealFilterKey.complexity, comparator: FilterOperator.lessThanOrEquals, value: 3),
+    ]),
+  ],
+  sort: SortParam(key: MealSortKey.name, direction: SortDirection.asc),
+)
+```
+
+**Localisation:** BE model enums have **no UI dependency**. Each feature defines its own `extension` on `TFilterKey`/`TSortKey`/`FilterOperator` to provide context-specific labels via `AppLocale`.
 
 ### `BeSimulators` — `lib/core/utils/be_simulators.dart`
 

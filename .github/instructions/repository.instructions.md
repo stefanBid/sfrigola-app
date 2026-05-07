@@ -22,7 +22,7 @@ lib/core/repositories/
 
 > **Rule**: one subdirectory per repository domain — one abstract file + one implementation file.
 
-> Repository methods accept **direct named parameters** (`categoryId`, `skip`, `take`, `searchKey`, etc.) — there is no `MealFilter` wrapper class. The provider layer owns the filter state and passes the values individually.
+> Repository methods that return lists accept a **`GetRequest<TFilter, TSort>`** — never loose parameters. `GetRequest` carries `searchKey`, `skip`, `take`, `filters` and `sort`. The provider layer builds and owns the request object.
 
 ---
 
@@ -102,39 +102,37 @@ class BeError {
 
 Abstract interface only. No implementation in this file.
 
+Filter and sort keys are defined in `lib/core/repositories/meal/meal_keys.dart`:
+
+```dart
+enum MealFilterKey { category, complexity, affordability, rating }
+enum MealSortKey   { name, rating, complexity, affordability }
+```
+
 ```dart
 abstract interface class MealRepository {
-  /// Returns all available categories.
   Future<GetListDataResponse<Category>> getCategories();
 
-  /// Trending meals — highest rated, currently viral.
   Future<GetListDataResponse<MealPreview>> getTrending(
-    String? categoryId, {int skip = 0, int take = 10});
+    GetRequest<MealFilterKey, MealSortKey> request);
 
-  /// Easy meals — complexity == simple.
   Future<GetListDataResponse<MealPreview>> getEasy(
-    String? categoryId, {int skip = 0, int take = 10});
+    GetRequest<MealFilterKey, MealSortKey> request);
 
-  /// Challenge meals — complexity == hard.
   Future<GetListDataResponse<MealPreview>> getChallenge(
-    String? categoryId, {int skip = 0, int take = 10});
+    GetRequest<MealFilterKey, MealSortKey> request);
 
-  /// Budget meals — affordability == affordable.
   Future<GetListDataResponse<MealPreview>> getBudget(
-    String? categoryId, {int skip = 0, int take = 10});
+    GetRequest<MealFilterKey, MealSortKey> request);
 
-  /// Premium meals — affordability == luxurious.
   Future<GetListDataResponse<MealPreview>> getPremium(
-    String? categoryId, {int skip = 0, int take = 10});
+    GetRequest<MealFilterKey, MealSortKey> request);
 
-  /// All meals, paginated. searchKey == null returns empty.
   Future<GetListDataResponse<MealPreview>> getAllMeals(
-    String? searchKey, {int skip = 0, int take = 10});
+    GetRequest<MealFilterKey, MealSortKey> request);
 
-  /// Returns a single meal by ID. Throws [MealNotFoundException] if not found.
   Future<GetDataResponse<Meal>> getMealById(String id);
 
-  /// Updates a meal's average rating based on a new user rating.
   Future<MutationResponse> updateMealRating(String mealId, double newRating);
 }
 ```
@@ -189,8 +187,12 @@ abstract interface class FavoritesRepository {
 | Method | Returns |
 |---|---|
 | `getCategories({simulateError})` | `Future<GetListDataResponse<Category>>` |
-| `getTrending({categoryId, skip, take, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
-| `getAllMeals({searchKey, skip, take, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getTrending(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getEasy(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getChallenge(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getBudget(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getPremium(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getAllMeals(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
 | `getMealById(id, {simulateError})` | `Future<GetDataResponse<Meal>>` |
 | `getFavorites(List<String> ids, {complexity, affordability, minRate, sortOrder, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
 | `addFavorite({simulateError})` | `Future<MutationResponse>` |

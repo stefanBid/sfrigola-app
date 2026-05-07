@@ -3,11 +3,17 @@ import 'package:sfrigola/core/data/dummy_data.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/be-models/be_error.dart';
+import 'package:sfrigola/core/models/be-models/be_filter.dart';
+import 'package:sfrigola/core/models/be-models/be_sort.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
+import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 import 'package:sfrigola/core/models/be-models/be_filters.dart';
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
+
+// Project Repositories
+import 'package:sfrigola/core/repositories/meal/meal_keys.dart';
 
 /// Simulates BE HTTP calls during mock development.
 ///
@@ -42,131 +48,76 @@ class BeSimulators {
   }
 
   /// GET /meals/trending
-  static Future<GetListDataResponse<MealPreview>> getTrending({
-    String? categoryId,
-    int skip = 0,
-    int take = 10,
+  static Future<GetListDataResponse<MealPreview>> getTrending(
+    GetRequest<MealFilterKey, MealSortKey> request, {
     Duration delay = const Duration(milliseconds: 500),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    final sorted = [...availableMeals]
-      ..sort((a, b) => b.rate.compareTo(a.rate));
-    return _buildPreviewResponse(
-      sorted,
-      null,
-      categoryId,
-      skip,
-      take,
-      simulateError,
-    );
+    final base = [...availableMeals]..sort((a, b) => b.rate.compareTo(a.rate));
+    return _buildPreviewResponse(base, request, simulateError);
   }
 
   /// GET /meals?complexity=simple
-  static Future<GetListDataResponse<MealPreview>> getEasy({
-    String? categoryId,
-    int skip = 0,
-    int take = 10,
+  static Future<GetListDataResponse<MealPreview>> getEasy(
+    GetRequest<MealFilterKey, MealSortKey> request, {
     Duration delay = const Duration(milliseconds: 500),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    final filtered = availableMeals
+    final base = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
-    return _buildPreviewResponse(
-      filtered,
-      null,
-      categoryId,
-      skip,
-      take,
-      simulateError,
-    );
+    return _buildPreviewResponse(base, request, simulateError);
   }
 
   /// GET /meals?complexity=hard
-  static Future<GetListDataResponse<MealPreview>> getChallenge({
-    String? categoryId,
-    int skip = 0,
-    int take = 10,
+  static Future<GetListDataResponse<MealPreview>> getChallenge(
+    GetRequest<MealFilterKey, MealSortKey> request, {
     Duration delay = const Duration(milliseconds: 500),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    final filtered = availableMeals
+    final base = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
-    return _buildPreviewResponse(
-      filtered,
-      null,
-      categoryId,
-      skip,
-      take,
-      simulateError,
-    );
+    return _buildPreviewResponse(base, request, simulateError);
   }
 
   /// GET /meals?affordability=affordable
-  static Future<GetListDataResponse<MealPreview>> getBudget({
-    String? categoryId,
-    int skip = 0,
-    int take = 10,
+  static Future<GetListDataResponse<MealPreview>> getBudget(
+    GetRequest<MealFilterKey, MealSortKey> request, {
     Duration delay = const Duration(milliseconds: 500),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    final filtered = availableMeals
+    final base = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
-    return _buildPreviewResponse(
-      filtered,
-      null,
-      categoryId,
-      skip,
-      take,
-      simulateError,
-    );
+    return _buildPreviewResponse(base, request, simulateError);
   }
 
   /// GET /meals?affordability=luxurious
-  static Future<GetListDataResponse<MealPreview>> getPremium({
-    String? categoryId,
-    int skip = 0,
-    int take = 10,
+  static Future<GetListDataResponse<MealPreview>> getPremium(
+    GetRequest<MealFilterKey, MealSortKey> request, {
     Duration delay = const Duration(milliseconds: 500),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    final filtered = availableMeals
+    final base = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
-    return _buildPreviewResponse(
-      filtered,
-      null,
-      categoryId,
-      skip,
-      take,
-      simulateError,
-    );
+    return _buildPreviewResponse(base, request, simulateError);
   }
 
   /// GET /meals
-  static Future<GetListDataResponse<MealPreview>> getAllMeals({
-    String? searchKey,
-    int skip = 0,
-    int take = 10,
+  static Future<GetListDataResponse<MealPreview>> getAllMeals(
+    GetRequest<MealFilterKey, MealSortKey> request, {
     Duration delay = const Duration(milliseconds: 500),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    return _buildPreviewResponse(
-      availableMeals,
-      searchKey,
-      null,
-      skip,
-      take,
-      simulateError,
-    );
+    return _buildPreviewResponse(availableMeals, request, simulateError);
   }
 
   /// GET /meals/{id}
@@ -363,33 +314,98 @@ class BeSimulators {
   // Private helpers
   // ---------------------------------------------------------------------------
 
+  /// Applies [request] filters, text search, sort and pagination to [meals].
+  ///
+  /// [meals] must already be base-filtered by the calling endpoint
+  /// (e.g. complexity == simple for getEasy) and base-sorted when relevant
+  /// (e.g. by rate desc for getTrending). [request.sort] overrides the base
+  /// sort when set.
   static GetListDataResponse<MealPreview> _buildPreviewResponse(
     List<Meal> meals,
-    String? searchKey,
-    String? categoryId,
-    int skip,
-    int take,
+    GetRequest<MealFilterKey, MealSortKey> request,
     bool simulateError,
   ) {
-    final categoryFiltered = categoryId == null
-        ? meals
-        : meals.where((m) => m.categories.contains(categoryId)).toList();
-    final fullyFiltered = searchKey == null || searchKey.isEmpty
-        ? categoryFiltered
-        : categoryFiltered
-              .where(
-                (m) => m.title.toLowerCase().contains(searchKey.toLowerCase()),
-              )
-              .toList();
-    final paged = fullyFiltered
-        .skip(skip)
-        .take(take)
+    var filtered = List<Meal>.from(meals);
+
+    // Apply FilterGroups — conditions in a group are OR; groups are AND
+    for (final group in request.filters) {
+      filtered = filtered
+          .where((m) => group.conditions.any((c) => _matchesCondition(m, c)))
+          .toList();
+    }
+
+    // Apply text search
+    if (request.searchKey?.isNotEmpty ?? false) {
+      final key = request.searchKey!.toLowerCase();
+      filtered = filtered
+          .where((m) => m.title.toLowerCase().contains(key))
+          .toList();
+    }
+
+    // Apply sort — overrides endpoint's default sort when set
+    if (request.sort != null) {
+      filtered.sort((a, b) => _compareMealBy(a, b, request.sort!));
+    }
+
+    final total = filtered.length;
+    final paged = filtered
+        .skip(request.skip)
+        .take(request.take)
         .map((m) => MealPreview.fromJson(m.toJson()))
         .toList();
+
     return GetListDataResponse(
       data: paged,
-      total: fullyFiltered.length,
+      total: total,
       error: simulateError ? _error : null,
     );
+  }
+
+  static bool _matchesCondition(
+    Meal meal,
+    FilterCondition<MealFilterKey> condition,
+  ) {
+    return switch (condition.key) {
+      MealFilterKey.category => switch (condition.comparator) {
+        FilterOperator.equals => meal.categories.contains(
+          condition.value as String,
+        ),
+        _ => true,
+      },
+      MealFilterKey.complexity => switch (condition.comparator) {
+        FilterOperator.equals =>
+          meal.complexity.index == (condition.value as int),
+        _ => true,
+      },
+      MealFilterKey.affordability => switch (condition.comparator) {
+        FilterOperator.equals =>
+          meal.affordability.index == (condition.value as int),
+        _ => true,
+      },
+      MealFilterKey.rating => switch (condition.comparator) {
+        FilterOperator.greaterThanOrEquals =>
+          meal.rate >= (condition.value as double),
+        FilterOperator.lessThanOrEquals =>
+          meal.rate <= (condition.value as double),
+        FilterOperator.greaterThan => meal.rate > (condition.value as double),
+        FilterOperator.lessThan => meal.rate < (condition.value as double),
+        FilterOperator.equals => meal.rate == (condition.value as double),
+        _ => true,
+      },
+    };
+  }
+
+  static int _compareMealBy(Meal a, Meal b, SortParam<MealSortKey> sort) {
+    final cmp = switch (sort.key) {
+      MealSortKey.name => a.title.compareTo(b.title),
+      MealSortKey.rating => a.rate.compareTo(b.rate),
+      MealSortKey.complexity => a.complexity.index.compareTo(
+        b.complexity.index,
+      ),
+      MealSortKey.affordability => a.affordability.index.compareTo(
+        b.affordability.index,
+      ),
+    };
+    return sort.direction == SortDirection.desc ? -cmp : cmp;
   }
 }

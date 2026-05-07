@@ -62,12 +62,14 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
   }
 
   Future<void> _loadMore() async {
-    final hasMore = ref.read(allMealsProvider).value?.hasMore ?? false;
+    final searchKey = ref.read(searchedKeyProvider);
+    final hasMore =
+        ref.read(allMealsProvider(searchKey)).value?.hasMore ?? false;
     if (_isLoadingMore || !hasMore) return;
     setState(() => _isLoadingMore = true);
 
     try {
-      await ref.read(allMealsProvider.notifier).loadMore();
+      await ref.read(allMealsProvider(searchKey).notifier).loadMore();
 
       if (mounted) {
         setState(() => _isLoadingMore = false);
@@ -118,10 +120,14 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final allMeals = ref.watch(allMealsProvider);
-    final isSearching = ref.watch(searchedKeyProvider)?.isNotEmpty ?? false;
+    final searchKey = ref.watch(searchedKeyProvider);
+    final isSearching = searchKey?.isNotEmpty ?? false;
+    final allMeals = ref.watch(allMealsProvider(searchKey));
 
-    ref.listen<AsyncValue<MealsProviderState>>(allMealsProvider, (prev, next) {
+    ref.listen<AsyncValue<MealsProviderState>>(allMealsProvider(searchKey), (
+      prev,
+      next,
+    ) {
       if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
         setState(() => _isLoadingMore = false);
       }
@@ -131,14 +137,14 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
           message: AppLocale.getLabels(context).searchErrorLoadMeals,
           type: SnackBarType.error,
           retryLabel: AppLocale.getLabels(context).retry,
-          onRetry: () => ref.invalidate(allMealsProvider),
+          onRetry: () => ref.invalidate(allMealsProvider(searchKey)),
         );
       }
     });
 
     return LayoutBuilder(
       builder: (context, constraints) => RefreshIndicator(
-        onRefresh: () => ref.refresh(allMealsProvider.future),
+        onRefresh: () => ref.refresh(allMealsProvider(searchKey).future),
         child: Column(
           children: [
             Expanded(
@@ -151,7 +157,8 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
                           context,
                         ).searchErrorLoadMeals,
                         type: MessagePageType.muted,
-                        onRetry: () => ref.invalidate(allMealsProvider),
+                        onRetry: () =>
+                            ref.invalidate(allMealsProvider(searchKey)),
                       ),
                       AsyncData(value: MealsProviderState(meals: []))
                           when isSearching =>

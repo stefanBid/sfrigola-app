@@ -9,9 +9,10 @@ import 'package:sfrigola/core/helpers/app_router.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/provider_state.dart';
 
 // Project Providers
-import 'package:sfrigola/core/providers/all_meals_provider.dart';
+import 'package:sfrigola/features/feature-search/providers/all_meals_by_search.dart';
 import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
 
 // Project Layouts
@@ -61,12 +62,12 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
   }
 
   Future<void> _loadMore() async {
-    final hasMore = ref.read(allMealsProvider).value?.hasMore ?? false;
+    final hasMore = ref.read(allMealsBySearchProvider).value?.hasMore ?? false;
     if (_isLoadingMore || !hasMore) return;
     setState(() => _isLoadingMore = true);
 
     try {
-      await ref.read(allMealsProvider.notifier).loadMore();
+      await ref.read(allMealsBySearchProvider.notifier).loadMore();
 
       if (mounted) {
         setState(() => _isLoadingMore = false);
@@ -87,7 +88,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
       scrollController: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
       dimensions: GridDimensions(
-        padding: const EdgeInsetsGeometry.symmetric(
+        padding: const EdgeInsets.symmetric(
           vertical: AppDesign.gapSectionLg,
         ),
         crossAxisCount: crossAxisCount,
@@ -117,27 +118,31 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final allMeals = ref.watch(allMealsProvider);
-    final isSearching = ref.watch(searchedKeyProvider)?.isNotEmpty ?? false;
+    final searchKey = ref.watch(searchedKeyProvider);
+    final isSearching = searchKey?.isNotEmpty ?? false;
+    final allMeals = ref.watch(allMealsBySearchProvider);
 
-    ref.listen<AsyncValue<MealsProviderState>>(allMealsProvider, (prev, next) {
-      if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
-        setState(() => _isLoadingMore = false);
-      }
-      if (next is AsyncError && prev is! AsyncError && mounted) {
-        BaseScaffoldMessenger.show(
-          context,
-          message: AppLocale.getLabels(context).searchErrorLoadMeals,
-          type: SnackBarType.error,
-          retryLabel: AppLocale.getLabels(context).retry,
-          onRetry: () => ref.invalidate(allMealsProvider),
-        );
-      }
-    });
+    ref.listen<AsyncValue<ListProviderState<MealPreview>>>(
+      allMealsBySearchProvider,
+      (prev, next) {
+        if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
+          setState(() => _isLoadingMore = false);
+        }
+        if (next is AsyncError && prev is! AsyncError && mounted) {
+          BaseScaffoldMessenger.show(
+            context,
+            message: AppLocale.getLabels(context).searchErrorLoadMeals,
+            type: SnackBarType.error,
+            retryLabel: AppLocale.getLabels(context).retry,
+            onRetry: () => ref.invalidate(allMealsBySearchProvider),
+          );
+        }
+      },
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) => RefreshIndicator(
-        onRefresh: () => ref.refresh(allMealsProvider.future),
+        onRefresh: () => ref.refresh(allMealsBySearchProvider.future),
         child: Column(
           children: [
             Expanded(
@@ -150,9 +155,11 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                           context,
                         ).searchErrorLoadMeals,
                         type: MessagePageType.muted,
-                        onRetry: () => ref.invalidate(allMealsProvider),
+                        onRetry: () => ref.invalidate(allMealsBySearchProvider),
                       ),
-                      AsyncData(value: MealsProviderState(meals: []))
+                      AsyncData(
+                        value: ListProviderState<MealPreview>(items: []),
+                      )
                           when isSearching =>
                         SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -169,7 +176,9 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                             ),
                           ),
                         ),
-                      AsyncData(value: MealsProviderState(meals: [])) =>
+                      AsyncData(
+                        value: ListProviderState<MealPreview>(items: []),
+                      ) =>
                         ConstrainedBox(
                           constraints: BoxConstraints(
                             minHeight: constraints.maxHeight,
@@ -184,7 +193,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
                         ),
                       AsyncData(:final value) => _buildGrid(
                         context,
-                        value.meals,
+                        value.items,
                       ),
                       _ => ConstrainedBox(
                         constraints: BoxConstraints(

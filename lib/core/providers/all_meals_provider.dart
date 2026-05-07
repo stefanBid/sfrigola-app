@@ -1,11 +1,14 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
+import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
-import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
+
+// Project Repositories
+import 'package:sfrigola/core/repositories/meal/meal_keys.dart';
 
 // Project Utils
 import 'package:sfrigola/core/utils/has_more.dart';
@@ -31,14 +34,18 @@ class AllMeals extends _$AllMeals {
   static const _pageSize = 20;
 
   @override
-  Future<MealsProviderState> build() async {
-    final searchKey = ref.watch(searchedKeyProvider);
+  Future<MealsProviderState> build(String? searchKey) async {
     if (searchKey?.isEmpty ?? true) {
       return MealsProviderState(meals: [], hasMore: false);
     }
     final response = await ref
         .read(mealRepositoryProvider)
-        .getAllMeals(searchKey, take: _pageSize);
+        .getAllMeals(
+          GetRequest<MealFilterKey, MealSortKey>(
+            searchKey: searchKey,
+            take: _pageSize,
+          ),
+        );
     return MealsProviderState(
       meals: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
@@ -47,10 +54,15 @@ class AllMeals extends _$AllMeals {
 
   Future<void> loadMore() async {
     final current = state.value?.meals ?? [];
-    final searchKey = ref.read(searchedKeyProvider);
     final response = await ref
         .read(mealRepositoryProvider)
-        .getAllMeals(searchKey, skip: current.length, take: _pageSize);
+        .getAllMeals(
+          GetRequest<MealFilterKey, MealSortKey>(
+            searchKey: searchKey,
+            skip: current.length,
+            take: _pageSize,
+          ),
+        );
     state = AsyncData(
       state.value!.copyWith(
         meals: [...current, ...response.data],

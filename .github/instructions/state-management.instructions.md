@@ -37,7 +37,7 @@ Providers live in `lib/core/providers/`. Organise by domain **only when the doma
 ```
 lib/core/providers/
   repository_provider.dart      ← all repository singletons
-  all_meals_provider.dart       ← cross-feature: search results (depends on feature-search's searchedKeyProvider)
+  all_meals_provider.dart       ← cross-feature: search results (family provider, accepts String? searchKey)
   all_favourites_provider.dart  ← cross-feature: favourites list (depends on feature-favourites' favouritesFilterProvider)
 ```
 

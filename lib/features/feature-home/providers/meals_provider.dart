@@ -1,12 +1,20 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Project Models
+import 'package:sfrigola/core/models/be-models/be_filter.dart';
+import 'package:sfrigola/core/models/be-models/get_request.dart';
+
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
 import 'package:sfrigola/core/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/selected_category_id_provider.dart';
 
+// Project Repositories
+import 'package:sfrigola/core/repositories/meal/meal_keys.dart';
+
 // Project Utils
 import 'package:sfrigola/core/utils/has_more.dart';
+import 'package:sfrigola/core/utils/request_builder.dart';
 
 part 'meals_provider.g.dart';
 
@@ -21,7 +29,7 @@ class TrendingMeals extends _$TrendingMeals {
     final categoryId = ref.watch(selectedCategoryIdProvider);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getTrending(categoryId, take: _pageSize);
+        .getTrending(_categoryRequest(categoryId, take: _pageSize));
     return MealsProviderState(
       meals: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
@@ -33,7 +41,9 @@ class TrendingMeals extends _$TrendingMeals {
     final categoryId = ref.read(selectedCategoryIdProvider);
     final response = await ref
         .read(mealRepositoryProvider)
-        .getTrending(categoryId, skip: current.length, take: _pageSize);
+        .getTrending(
+          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
+        );
     state = AsyncData(
       state.value!.copyWith(
         meals: [...current, ...response.data],
@@ -52,7 +62,7 @@ class EasyMeals extends _$EasyMeals {
     final categoryId = ref.watch(selectedCategoryIdProvider);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getEasy(categoryId, take: _pageSize);
+        .getEasy(_categoryRequest(categoryId, take: _pageSize));
     return MealsProviderState(
       meals: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
@@ -64,7 +74,9 @@ class EasyMeals extends _$EasyMeals {
     final categoryId = ref.read(selectedCategoryIdProvider);
     final response = await ref
         .read(mealRepositoryProvider)
-        .getEasy(categoryId, skip: current.length, take: _pageSize);
+        .getEasy(
+          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
+        );
     state = AsyncData(
       state.value!.copyWith(
         meals: [...current, ...response.data],
@@ -83,7 +95,7 @@ class ChallengeMeals extends _$ChallengeMeals {
     final categoryId = ref.watch(selectedCategoryIdProvider);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getChallenge(categoryId, take: _pageSize);
+        .getChallenge(_categoryRequest(categoryId, take: _pageSize));
     return MealsProviderState(
       meals: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
@@ -95,7 +107,9 @@ class ChallengeMeals extends _$ChallengeMeals {
     final categoryId = ref.read(selectedCategoryIdProvider);
     final response = await ref
         .read(mealRepositoryProvider)
-        .getChallenge(categoryId, skip: current.length, take: _pageSize);
+        .getChallenge(
+          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
+        );
     state = AsyncData(
       state.value!.copyWith(
         meals: [...current, ...response.data],
@@ -114,7 +128,7 @@ class BudgetMeals extends _$BudgetMeals {
     final categoryId = ref.watch(selectedCategoryIdProvider);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getBudget(categoryId, take: _pageSize);
+        .getBudget(_categoryRequest(categoryId, take: _pageSize));
     return MealsProviderState(
       meals: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
@@ -126,7 +140,9 @@ class BudgetMeals extends _$BudgetMeals {
     final categoryId = ref.read(selectedCategoryIdProvider);
     final response = await ref
         .read(mealRepositoryProvider)
-        .getBudget(categoryId, skip: current.length, take: _pageSize);
+        .getBudget(
+          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
+        );
     state = AsyncData(
       state.value!.copyWith(
         meals: [...current, ...response.data],
@@ -145,7 +161,7 @@ class PremiumMeals extends _$PremiumMeals {
     final categoryId = ref.watch(selectedCategoryIdProvider);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getPremium(categoryId, take: _pageSize);
+        .getPremium(_categoryRequest(categoryId, take: _pageSize));
     return MealsProviderState(
       meals: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
@@ -157,7 +173,9 @@ class PremiumMeals extends _$PremiumMeals {
     final categoryId = ref.read(selectedCategoryIdProvider);
     final response = await ref
         .read(mealRepositoryProvider)
-        .getPremium(categoryId, skip: current.length, take: _pageSize);
+        .getPremium(
+          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
+        );
     state = AsyncData(
       state.value!.copyWith(
         meals: [...current, ...response.data],
@@ -166,3 +184,22 @@ class PremiumMeals extends _$PremiumMeals {
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/// Builds a [GetRequest] with an optional category filter and pagination params.
+GetRequest<MealFilterKey, MealSortKey> _categoryRequest(
+  String? categoryId, {
+  int skip = 0,
+  required int take,
+}) => RequestBuilder<MealFilterKey, MealSortKey>()
+    .setSkip(skip)
+    .setTake(take)
+    .addFilterIfNotNull(
+      MealFilterKey.category,
+      FilterOperator.equals,
+      categoryId,
+    )
+    .build();

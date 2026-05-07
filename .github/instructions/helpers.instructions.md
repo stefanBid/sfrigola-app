@@ -32,6 +32,40 @@ Fixed filenames — do not add new files without a real need:
 | `be_error.dart` | `BeError` | Error shape embedded in any response |
 | `get_response.dart` | `GetDataResponse<T>`, `GetListDataResponse<T>` | GET endpoints (single resource or paginated list) |
 | `mutation_response.dart` | `MutationResponse` | POST, PUT, PATCH, DELETE endpoints |
+| `be_sort.dart` | `SortDirection`, `SortParam<T extends Enum>` | Sort clause for a BE request; `T` is a resource-specific enum of sortable fields |
+| `be_filter.dart` | `FilterOperator`, `FilterCondition<T extends Enum>`, `FilterGroup<T extends Enum>` | Filter predicates; conditions in the same group → OR (implicit); multiple groups → AND (implicit) |
+| `get_request.dart` | `GetRequest<TFilter extends Enum, TSort extends Enum>` | Standard envelope for every filtered/paginated GET; wraps `searchKey`, `skip`, `take`, `filters`, and `sort` |
+
+### BE request standard — rules
+
+- Always use `GetRequest` as the input type for repository methods that accept filters or sort.
+- Define **one** `TFilterKey` enum and one `TSortKey` enum per resource (e.g. `MealFilterKey`, `MealSortKey`) — place them next to the repository file.
+- `FilterCondition.value` is `Object?` — document the expected runtime type in a comment at the call site.
+- Multiple `FilterGroup`s in the same `GetRequest` are combined with **AND** on the backend; conditions inside the same group are combined with **OR**. `LogicalOperator` does not exist — the semantics are implicit and enforced by the BE contract.
+- `FilterOperator` is extended as new backend capabilities are added — keep the enum in sync with the real BE.
+
+### Localisation of filter/sort keys — feature-side extensions
+
+The BE model files (`be_sort.dart`, `be_filter.dart`, `get_request.dart`) are **pure Dart** — no `BuildContext`, no `AppLocale` dependency.
+
+Each feature that exposes filters or sort to the UI must define its own extension on its resource-specific enum to provide localised labels:
+
+```dart
+// feature-meal-details/models/meal_filter_key.dart
+enum MealFilterKey { category, complexity, affordability }
+
+extension MealFilterKeyLabel on MealFilterKey {
+  String label(BuildContext context) => switch (this) {
+    MealFilterKey.category    => AppLocale.getLabels(context).filterMealCategory,
+    MealFilterKey.complexity  => AppLocale.getLabels(context).filterMealComplexity,
+    MealFilterKey.affordability => AppLocale.getLabels(context).filterMealAffordability,
+  };
+}
+```
+
+The same pattern applies to `TSortKey` enums and, when needed, to `FilterOperator` itself — a feature can define its own `FilterOperatorLabel` extension that overrides the display text for a given context (e.g. a numeric field may render `greaterThan` as "più di" while a date field renders it as "dopo il").
+
+**Never add `label()` methods directly to the BE model enums** (`FilterOperator`, `SortDirection`) — those must stay free of UI dependencies.
 
 ---
 

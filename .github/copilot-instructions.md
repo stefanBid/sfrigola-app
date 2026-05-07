@@ -33,7 +33,7 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 | `routing.instructions.md` | `**/*router*` | AppRouter API, transitions, new-route workflow (3 steps) |
 | `feature.instructions.md` | `**/features/**` | Feature structure, screen/widget/provider placement, layouts, app bars, code organisation |
 | `widgets.instructions.md` | `**/widgets/**` | Widget placement rules, BaseCard/BaseFormField/BaseButton/GcListView API |
-| `helpers.instructions.md` | `**/helpers/**` | Fixed helper filenames, AppValidation validators and chaining patterns |
+| `helpers.instructions.md` | `**/helpers/**,**/models/**` | Fixed helper filenames, AppValidation validators, BE request standard (`GetRequest`, `FilterGroup`, `SortParam`) |
 | `repository.instructions.md` | `**/repositories/**` | MealRepository / FavoritesRepository contracts, MealFilter, mock rules, naming, DI pattern |
 | `state-management.instructions.md` | `**/providers/**,**/features/**,**/widgets/**` | Riverpod provider types, `ref` usage rules, `AsyncValue` pattern, `keepAlive`, family, naming, checklist |
 
@@ -94,11 +94,18 @@ sfrigola-app/
         json_serializable.dart
         meal.dart
         general_exception.dart
+        be-models/          ← typed BE response wrappers + request standard
+          be_error.dart
+          get_response.dart
+          mutation_response.dart
+          be_sort.dart          ← SortDirection + SortParam<T>
+          be_filter.dart        ← FilterOperator + FilterCondition<T> + FilterGroup<T>
+          get_request.dart       ← GetRequest<TFilter, TSort> — standard GET request envelope
 
       custom-widgets/     ← feature-shared widget compositions (not reusable enough for core/widgets)
       providers/          ← app-wide Riverpod providers
         repository_provider.dart
-        all_meals_provider.dart        ← cross-feature: search results (feature-search)
+        all_meals_provider.dart        ← cross-feature: search results (family provider, accepts String? searchKey)
         all_favourites_provider.dart   ← cross-feature: favourites list (feature-favourites)
       repositories/       ← repository layer
         meal/

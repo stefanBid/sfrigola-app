@@ -46,7 +46,7 @@ class AllFavourites extends _$AllFavourites {
           affordability: filter.affordability,
           minRate: filter.rateRange?.start,
           maxRate: filter.rateRange?.end,
-          sortOrder: filter.sortOrder,
+          sort: filter.sort,
           skip: 0,
           take: _pageSize,
         );
@@ -66,7 +66,7 @@ class AllFavourites extends _$AllFavourites {
           affordability: filter.affordability,
           minRate: filter.rateRange?.start,
           maxRate: filter.rateRange?.end,
-          sortOrder: filter.sortOrder,
+          sort: filter.sort,
           skip: current.length,
           take: _pageSize,
         );

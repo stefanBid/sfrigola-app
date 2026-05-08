@@ -74,7 +74,7 @@ class SectionsContainer extends ConsumerWidget {
     final nothingToShow =
         !isAnyLoading &&
         allProviders.every(
-          (s) => s.hasError || (s.value?.meals.isEmpty ?? false),
+          (s) => s.hasError || (s.value?.items.isEmpty ?? false),
         );
 
     Future<void> onRefresh() async {

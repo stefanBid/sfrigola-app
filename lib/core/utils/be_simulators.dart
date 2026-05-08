@@ -10,12 +10,10 @@ import 'package:sfrigola/core/models/be-models/be_sort.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
-import 'package:sfrigola/core/models/be-models/be_filters.dart';
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Repositories
-import 'package:sfrigola/core/repositories/meal/meal_keys.dart';
 
 /// Simulates BE HTTP calls during mock development.
 ///
@@ -173,7 +171,7 @@ class BeSimulators {
     Affordability? affordability,
     double? minRate,
     double? maxRate,
-    SortOrder? sortOrder,
+    SortParam<MealSortKey>? sort,
     int skip = 0,
     int take = 10,
     Duration delay = const Duration(milliseconds: 300),
@@ -197,25 +195,21 @@ class BeSimulators {
     }
 
     final sorted = results.toList();
-    if (sortOrder != null) {
+    if (sort != null) {
       sorted.sort(
-        (a, b) => switch (sortOrder) {
-          SortOrder.alphabeticalAscending => a.title.compareTo(b.title),
-          SortOrder.alphabeticalDescending => b.title.compareTo(a.title),
-          SortOrder.rateAscending => a.rate.compareTo(b.rate),
-          SortOrder.rateDescending => b.rate.compareTo(a.rate),
-          SortOrder.complexityAscending => a.complexity.index.compareTo(
-            b.complexity.index,
-          ),
-          SortOrder.complexityDescending => b.complexity.index.compareTo(
-            a.complexity.index,
-          ),
-          SortOrder.affordabilityAscending => a.affordability.index.compareTo(
-            b.affordability.index,
-          ),
-          SortOrder.affordabilityDescending => b.affordability.index.compareTo(
-            a.affordability.index,
-          ),
+        (a, b) => switch ((sort.key, sort.direction)) {
+          (MealSortKey.name, SortDirection.asc) => a.title.compareTo(b.title),
+          (MealSortKey.name, SortDirection.desc) => b.title.compareTo(a.title),
+          (MealSortKey.rating, SortDirection.asc) => a.rate.compareTo(b.rate),
+          (MealSortKey.rating, SortDirection.desc) => b.rate.compareTo(a.rate),
+          (MealSortKey.complexity, SortDirection.asc) =>
+            a.complexity.index.compareTo(b.complexity.index),
+          (MealSortKey.complexity, SortDirection.desc) =>
+            b.complexity.index.compareTo(a.complexity.index),
+          (MealSortKey.affordability, SortDirection.asc) =>
+            a.affordability.index.compareTo(b.affordability.index),
+          (MealSortKey.affordability, SortDirection.desc) =>
+            b.affordability.index.compareTo(a.affordability.index),
         },
       );
     }

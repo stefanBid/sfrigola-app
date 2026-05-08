@@ -27,4 +27,14 @@ class SortParam<T extends Enum> {
     'key': key.name,
     'direction': direction.name,
   };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SortParam<T> &&
+          key == other.key &&
+          direction == other.direction;
+
+  @override
+  int get hashCode => key.hashCode ^ direction.hashCode;
 }

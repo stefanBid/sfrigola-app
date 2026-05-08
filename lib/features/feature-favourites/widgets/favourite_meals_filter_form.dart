@@ -10,7 +10,7 @@ import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 
 // Project Models
-import 'package:sfrigola/core/models/be-models/be_filters.dart';
+import 'package:sfrigola/core/models/be-models/be_sort.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Widgets
@@ -33,11 +33,22 @@ class _FavouriteMealsFilterFormState
   static const double _rateMin = 0.0;
   static const double _rateMax = 5.0;
 
+  static const List<SortParam<MealSortKey>> _sortOptions = [
+    SortParam(key: MealSortKey.name, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.name, direction: SortDirection.desc),
+    SortParam(key: MealSortKey.rating, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.rating, direction: SortDirection.desc),
+    SortParam(key: MealSortKey.complexity, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.complexity, direction: SortDirection.desc),
+    SortParam(key: MealSortKey.affordability, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.affordability, direction: SortDirection.desc),
+  ];
+
   final _formKey = GlobalKey<FormState>();
 
   Complexity? _complexity;
   Affordability? _affordability;
-  SortOrder? _sortOrder;
+  SortParam<MealSortKey>? _sortOrder;
   RangeValues _rateRange = const RangeValues(_rateMin, _rateMax);
 
   @override
@@ -46,7 +57,7 @@ class _FavouriteMealsFilterFormState
     final current = ref.read(favouritesFilterProvider);
     _complexity = current.complexity;
     _affordability = current.affordability;
-    _sortOrder = current.sortOrder;
+    _sortOrder = current.sort;
     _rateRange = current.rateRange ?? const RangeValues(_rateMin, _rateMax);
   }
 
@@ -61,7 +72,7 @@ class _FavouriteMealsFilterFormState
             complexity: _complexity,
             affordability: _affordability,
             rateRange: isFullRange ? null : _rateRange,
-            sortOrder: _sortOrder,
+            sort: _sortOrder,
           ),
         );
     widget.onCloseForm();
@@ -118,14 +129,14 @@ class _FavouriteMealsFilterFormState
           const SizedBox(height: AppDesign.gapSectionSm),
 
           // ── Sort order ───────────────────────────────────────────────────
-          BaseDropdown<SortOrder>(
+          BaseDropdown<SortParam<MealSortKey>>(
             initialValue: _sortOrder,
             label: AppLocale.getLabels(context).favouritesFilterSortOrderLabel,
             voidSelectionItemLabel: AppLocale.getLabels(
               context,
             ).favouritesFilterSortOrderNone,
             prefixIcon: PhosphorIconsRegular.arrowsDownUp,
-            items: SortOrder.values
+            items: _sortOptions
                 .map(
                   (s) => BaseDropdownOption(value: s, label: s.label(context)),
                 )

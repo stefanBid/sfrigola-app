@@ -5,11 +5,6 @@ import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
-// Project Repositories
-import 'package:sfrigola/core/repositories/meal/meal_keys.dart';
-
-export 'package:sfrigola/core/repositories/meal/meal_keys.dart';
-
 abstract interface class MealRepository {
   /// Returns all available categories.
   Future<GetListDataResponse<Category>> getCategories();

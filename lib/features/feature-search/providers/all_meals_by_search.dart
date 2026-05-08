@@ -6,10 +6,7 @@ import 'package:sfrigola/core/models/meal.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
-import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
-
-// Project Repositories
-import 'package:sfrigola/core/repositories/meal/meal_keys.dart';
+import 'package:sfrigola/core/providers/search_key_provider.dart';
 
 // Project Utils
 import 'package:sfrigola/core/utils/has_more.dart';
@@ -22,7 +19,7 @@ class AllMealsBySearch extends _$AllMealsBySearch {
   static const _pageSize = 20;
   @override
   Future<ListProviderState<MealPreview>> build() async {
-    final searchKey = ref.watch(searchedKeyProvider);
+    final searchKey = ref.watch(searchKeyProvider(SearchScope.search));
     if (searchKey?.isEmpty ?? true) {
       return ListProviderState(items: [], hasMore: false);
     }
@@ -45,7 +42,7 @@ class AllMealsBySearch extends _$AllMealsBySearch {
   Future<void> loadMore() async {
     final current = state.value?.items ?? [];
 
-    final searchKey = ref.read(searchedKeyProvider);
+    final searchKey = ref.read(searchKeyProvider(SearchScope.search));
     final request = RequestBuilder<MealFilterKey, MealSortKey>()
         .setSearchKey(searchKey)
         .setTake(_pageSize)

@@ -83,6 +83,13 @@ class RequestBuilder<TFilter extends Enum, TSort extends Enum> {
     return this;
   }
 
+  /// Like [setSort] but skips silently when [param] is null.
+  /// Keeps the call chain fluent for optional sort params.
+  RequestBuilder<TFilter, TSort> setSortIfNotNull(SortParam<TSort>? param) {
+    if (param != null) _sort = param;
+    return this;
+  }
+
   RequestBuilder<TFilter, TSort> clearSort() {
     _sort = null;
     return this;

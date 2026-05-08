@@ -2,7 +2,7 @@
 import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
-import 'package:sfrigola/core/models/be-models/be_filters.dart';
+import 'package:sfrigola/core/models/be-models/be_sort.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
@@ -23,7 +23,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
     Affordability? affordability,
     double? minRate,
     double? maxRate,
-    SortOrder? sortOrder,
+    SortParam<MealSortKey>? sort,
     int skip = 0,
     int take = 10,
   }) async {
@@ -33,7 +33,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       affordability: affordability,
       minRate: minRate,
       maxRate: maxRate,
-      sortOrder: sortOrder,
+      sort: sort,
       skip: skip,
       take: take,
       simulateError: false,

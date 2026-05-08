@@ -7,6 +7,9 @@ import 'package:sfrigola/core/l10n/app_localizations.dart';
 import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/json_serializable.dart';
 
+// Project BE Models
+import 'package:sfrigola/core/models/be-models/be_sort.dart';
+
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_locale.dart';
 
@@ -255,6 +258,48 @@ extension AffordabilityDisplay on Affordability {
       foreground: const Color(0xFF6A1B9A),
     ),
   };
+}
+
+// ---------------------------------------------------------------------------
+// Meal query keys — filter and sort fields for meal endpoints
+// ---------------------------------------------------------------------------
+
+/// Filterable fields for meal list endpoints.
+enum MealFilterKey { category, complexity, affordability, rating }
+
+/// Sortable fields for meal list endpoints.
+enum MealSortKey { name, rating, complexity, affordability }
+
+extension MealSortParamLabel on SortParam<MealSortKey> {
+  String label(BuildContext context) {
+    final l = AppLocale.getLabels(context);
+    return switch ((key, direction)) {
+      (MealSortKey.name, SortDirection.asc) => l.sortOrderAlphabeticalAscending,
+      (MealSortKey.name, SortDirection.desc) =>
+        l.sortOrderAlphabeticalDescending,
+      (MealSortKey.rating, SortDirection.asc) => l.sortOrderRateAscending,
+      (MealSortKey.rating, SortDirection.desc) => l.sortOrderRateDescending,
+      (MealSortKey.complexity, SortDirection.asc) =>
+        l.sortOrderComplexityAscending,
+      (MealSortKey.complexity, SortDirection.desc) =>
+        l.sortOrderComplexityDescending,
+      (MealSortKey.affordability, SortDirection.asc) =>
+        l.sortOrderAffordabilityAscending,
+      (MealSortKey.affordability, SortDirection.desc) =>
+        l.sortOrderAffordabilityDescending,
+    };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Rate range — value object for min/max rate filter
+// ---------------------------------------------------------------------------
+
+class MealsRateRange {
+  final double min;
+  final double max;
+
+  const MealsRateRange({required this.min, required this.max});
 }
 
 // ---------------------------------------------------------------------------

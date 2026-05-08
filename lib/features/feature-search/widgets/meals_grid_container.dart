@@ -13,7 +13,7 @@ import 'package:sfrigola/core/models/provider_state.dart';
 
 // Project Providers
 import 'package:sfrigola/features/feature-search/providers/all_meals_by_search.dart';
-import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
+import 'package:sfrigola/core/providers/search_key_provider.dart';
 
 // Project Layouts
 import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
@@ -88,9 +88,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
       scrollController: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
       dimensions: GridDimensions(
-        padding: const EdgeInsets.symmetric(
-          vertical: AppDesign.gapSectionLg,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: AppDesign.gapSectionLg),
         crossAxisCount: crossAxisCount,
         maxItemWidth: isTablet ? 400 : double.infinity,
         mainAxisExtent: 300,
@@ -118,7 +116,7 @@ class _MealsGridContainerState extends ConsumerState<MealsGridContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final searchKey = ref.watch(searchedKeyProvider);
+    final searchKey = ref.watch(searchKeyProvider(SearchScope.search));
     final isSearching = searchKey?.isNotEmpty ?? false;
     final allMeals = ref.watch(allMealsBySearchProvider);
 

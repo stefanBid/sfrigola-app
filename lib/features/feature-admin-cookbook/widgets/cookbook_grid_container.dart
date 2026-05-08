@@ -9,10 +9,10 @@ import 'package:sfrigola/core/helpers/app_router.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/provider_state.dart';
 
 // Project Providers
-import 'package:sfrigola/core/providers/all_meals_provider.dart';
-import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
+import 'package:sfrigola/features/feature-admin-cookbook/providers/all_meals_by_filter_provider.dart';
 
 // Project Layouts
 import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
@@ -62,14 +62,12 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
   }
 
   Future<void> _loadMore() async {
-    final searchKey = ref.read(searchedKeyProvider);
-    final hasMore =
-        ref.read(allMealsProvider(searchKey)).value?.hasMore ?? false;
+    final hasMore = ref.read(allMealsByFilterProvider).value?.hasMore ?? false;
     if (_isLoadingMore || !hasMore) return;
     setState(() => _isLoadingMore = true);
 
     try {
-      await ref.read(allMealsProvider(searchKey).notifier).loadMore();
+      await ref.read(allMealsByFilterProvider.notifier).loadMore();
 
       if (mounted) {
         setState(() => _isLoadingMore = false);
@@ -120,35 +118,33 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final searchKey = ref.watch(searchedKeyProvider);
-    final isSearching = searchKey?.isNotEmpty ?? false;
-    final allMeals = ref.watch(allMealsProvider(searchKey));
+    final allMeals = ref.watch(allMealsByFilterProvider);
 
-    ref.listen<AsyncValue<MealsProviderState>>(allMealsProvider(searchKey), (
-      prev,
-      next,
-    ) {
-      if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
-        setState(() => _isLoadingMore = false);
-      }
-      if (next is AsyncError && prev is! AsyncError && mounted) {
-        BaseScaffoldMessenger.show(
-          context,
-          message: AppLocale.getLabels(context).searchErrorLoadMeals,
-          type: SnackBarType.error,
-          retryLabel: AppLocale.getLabels(context).retry,
-          onRetry: () => ref.invalidate(allMealsProvider(searchKey)),
-        );
-      }
-    });
+    ref.listen<AsyncValue<ListProviderState<MealPreview>>>(
+      allMealsByFilterProvider,
+      (prev, next) {
+        if ((prev == null || prev.isLoading) && next.hasValue && mounted) {
+          setState(() => _isLoadingMore = false);
+        }
+        if (next is AsyncError && prev is! AsyncError && mounted) {
+          BaseScaffoldMessenger.show(
+            context,
+            message: AppLocale.getLabels(context).searchErrorLoadMeals,
+            type: SnackBarType.error,
+            retryLabel: AppLocale.getLabels(context).retry,
+            onRetry: () => ref.invalidate(allMealsByFilterProvider),
+          );
+        }
+      },
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) => RefreshIndicator(
-        onRefresh: () => ref.refresh(allMealsProvider(searchKey).future),
+        onRefresh: () => ref.refresh(allMealsByFilterProvider.future),
         child: Column(
           children: [
             Expanded(
-              child: allMeals.isLoading && isSearching
+              child: allMeals.isLoading
                   ? const MealsGridSkeleton()
                   : switch (allMeals) {
                       AsyncError() => MessagePageLayout(
@@ -157,27 +153,12 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
                           context,
                         ).searchErrorLoadMeals,
                         type: MessagePageType.muted,
-                        onRetry: () =>
-                            ref.invalidate(allMealsProvider(searchKey)),
+                        onRetry: () => ref.invalidate(allMealsByFilterProvider),
                       ),
-                      AsyncData(value: MealsProviderState(meals: []))
-                          when isSearching =>
-                        SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minHeight: constraints.maxHeight,
-                            ),
-                            child: MessagePageLayout(
-                              icon: PhosphorIconsBold.cookingPot,
-                              message: AppLocale.getLabels(
-                                context,
-                              ).searchEmptyResults,
-                              type: MessagePageType.muted,
-                            ),
-                          ),
-                        ),
-                      AsyncData(value: MealsProviderState(meals: [])) =>
+
+                      AsyncData(
+                        value: ListProviderState<MealPreview>(items: []),
+                      ) =>
                         ConstrainedBox(
                           constraints: BoxConstraints(
                             minHeight: constraints.maxHeight,
@@ -192,7 +173,7 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
                         ),
                       AsyncData(:final value) => _buildGrid(
                         context,
-                        value.meals,
+                        value.items,
                       ),
                       _ => ConstrainedBox(
                         constraints: BoxConstraints(

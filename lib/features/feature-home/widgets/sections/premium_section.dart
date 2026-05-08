@@ -11,9 +11,9 @@ import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/provider_state.dart';
 
 // Project Providers
-import 'package:sfrigola/core/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/meals_provider.dart';
 
 // Project Widgets
@@ -34,7 +34,7 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
   static const double _scrollThreshold = 300.0;
 
   late final ScrollController _scrollController;
-  late final ProviderSubscription<AsyncValue<MealsProviderState>>
+  late final ProviderSubscription<AsyncValue<ListProviderState<MealPreview>>>
   _mealsSubscription;
   bool _isLoadingMore = false;
 
@@ -43,18 +43,21 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
-    _mealsSubscription = ref.listenManual<AsyncValue<MealsProviderState>>(
-      premiumMealsProvider,
-      (prev, current) {
-        if ((prev == null || prev.isLoading) && current.hasValue && mounted) {
-          setState(() => _isLoadingMore = false);
-          if (_scrollController.hasClients) {
-            _scrollController.jumpTo(0);
-          }
-        }
-      },
-      fireImmediately: true,
-    );
+    _mealsSubscription = ref
+        .listenManual<AsyncValue<ListProviderState<MealPreview>>>(
+          premiumMealsProvider,
+          (prev, current) {
+            if ((prev == null || prev.isLoading) &&
+                current.hasValue &&
+                mounted) {
+              setState(() => _isLoadingMore = false);
+              if (_scrollController.hasClients) {
+                _scrollController.jumpTo(0);
+              }
+            }
+          },
+          fireImmediately: true,
+        );
   }
 
   @override
@@ -198,12 +201,12 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
 
     return switch (meals) {
       AsyncError() => const SizedBox.shrink(),
-      AsyncData(:final value) when value.meals.isEmpty =>
+      AsyncData(:final value) when value.items.isEmpty =>
         const SizedBox.shrink(),
       AsyncData(:final value) => _buildSection(
         context,
         header: _buildHeader(context),
-        content: _buildList(context, value.meals),
+        content: _buildList(context, value.items),
       ),
       _ => const SizedBox.shrink(),
     };

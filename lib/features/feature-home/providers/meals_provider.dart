@@ -3,14 +3,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project Models
 import 'package:sfrigola/core/models/be-models/be_filter.dart';
 import 'package:sfrigola/core/models/be-models/get_request.dart';
+import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/provider_state.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
-import 'package:sfrigola/core/providers/all_meals_provider.dart';
 import 'package:sfrigola/features/feature-home/providers/selected_category_id_provider.dart';
-
-// Project Repositories
-import 'package:sfrigola/core/repositories/meal/meal_keys.dart';
 
 // Project Utils
 import 'package:sfrigola/core/utils/has_more.dart';
@@ -25,28 +23,34 @@ class TrendingMeals extends _$TrendingMeals {
   static const _pageSize = 10;
 
   @override
-  Future<MealsProviderState> build() async {
+  Future<ListProviderState<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
+    final request = _categoryRequest(categoryId, take: _pageSize);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getTrending(_categoryRequest(categoryId, take: _pageSize));
-    return MealsProviderState(
-      meals: response.data,
+        .getTrending(request);
+    return ListProviderState<MealPreview>(
+      items: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
   Future<void> loadMore() async {
-    final current = state.value?.meals ?? [];
+    final current = state.value?.items ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
+
+    final request = _categoryRequest(
+      categoryId,
+      skip: current.length,
+      take: _pageSize,
+    );
     final response = await ref
         .read(mealRepositoryProvider)
-        .getTrending(
-          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
-        );
+        .getTrending(request);
+
     state = AsyncData(
       state.value!.copyWith(
-        meals: [...current, ...response.data],
+        items: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
@@ -58,28 +62,28 @@ class EasyMeals extends _$EasyMeals {
   static const _pageSize = 10;
 
   @override
-  Future<MealsProviderState> build() async {
+  Future<ListProviderState<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    final response = await ref
-        .watch(mealRepositoryProvider)
-        .getEasy(_categoryRequest(categoryId, take: _pageSize));
-    return MealsProviderState(
-      meals: response.data,
+    final request = _categoryRequest(categoryId, take: _pageSize);
+    final response = await ref.watch(mealRepositoryProvider).getEasy(request);
+    return ListProviderState<MealPreview>(
+      items: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
   Future<void> loadMore() async {
-    final current = state.value?.meals ?? [];
+    final current = state.value?.items ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
-    final response = await ref
-        .read(mealRepositoryProvider)
-        .getEasy(
-          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
-        );
+    final request = _categoryRequest(
+      categoryId,
+      skip: current.length,
+      take: _pageSize,
+    );
+    final response = await ref.read(mealRepositoryProvider).getEasy(request);
     state = AsyncData(
       state.value!.copyWith(
-        meals: [...current, ...response.data],
+        items: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
@@ -91,28 +95,33 @@ class ChallengeMeals extends _$ChallengeMeals {
   static const _pageSize = 10;
 
   @override
-  Future<MealsProviderState> build() async {
+  Future<ListProviderState<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
+    final request = _categoryRequest(categoryId, take: _pageSize);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getChallenge(_categoryRequest(categoryId, take: _pageSize));
-    return MealsProviderState(
-      meals: response.data,
+        .getChallenge(request);
+    return ListProviderState<MealPreview>(
+      items: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
   Future<void> loadMore() async {
-    final current = state.value?.meals ?? [];
+    final current = state.value?.items ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
+    final request = _categoryRequest(
+      categoryId,
+      skip: current.length,
+      take: _pageSize,
+    );
     final response = await ref
         .read(mealRepositoryProvider)
-        .getChallenge(
-          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
-        );
+        .getChallenge(request);
+
     state = AsyncData(
       state.value!.copyWith(
-        meals: [...current, ...response.data],
+        items: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
@@ -124,28 +133,29 @@ class BudgetMeals extends _$BudgetMeals {
   static const _pageSize = 10;
 
   @override
-  Future<MealsProviderState> build() async {
+  Future<ListProviderState<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
-    final response = await ref
-        .watch(mealRepositoryProvider)
-        .getBudget(_categoryRequest(categoryId, take: _pageSize));
-    return MealsProviderState(
-      meals: response.data,
+    final request = _categoryRequest(categoryId, take: _pageSize);
+    final response = await ref.watch(mealRepositoryProvider).getBudget(request);
+    return ListProviderState<MealPreview>(
+      items: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
   Future<void> loadMore() async {
-    final current = state.value?.meals ?? [];
+    final current = state.value?.items ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
-    final response = await ref
-        .read(mealRepositoryProvider)
-        .getBudget(
-          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
-        );
+    final request = _categoryRequest(
+      categoryId,
+      skip: current.length,
+      take: _pageSize,
+    );
+    final response = await ref.read(mealRepositoryProvider).getBudget(request);
+
     state = AsyncData(
       state.value!.copyWith(
-        meals: [...current, ...response.data],
+        items: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
@@ -157,28 +167,30 @@ class PremiumMeals extends _$PremiumMeals {
   static const _pageSize = 10;
 
   @override
-  Future<MealsProviderState> build() async {
+  Future<ListProviderState<MealPreview>> build() async {
     final categoryId = ref.watch(selectedCategoryIdProvider);
+    final request = _categoryRequest(categoryId, take: _pageSize);
     final response = await ref
         .watch(mealRepositoryProvider)
-        .getPremium(_categoryRequest(categoryId, take: _pageSize));
-    return MealsProviderState(
-      meals: response.data,
+        .getPremium(request);
+    return ListProviderState<MealPreview>(
+      items: response.data,
       hasMore: hasMore(response.total, 0, _pageSize),
     );
   }
 
   Future<void> loadMore() async {
-    final current = state.value?.meals ?? [];
+    final current = state.value?.items ?? [];
     final categoryId = ref.read(selectedCategoryIdProvider);
-    final response = await ref
-        .read(mealRepositoryProvider)
-        .getPremium(
-          _categoryRequest(categoryId, skip: current.length, take: _pageSize),
-        );
+    final request = _categoryRequest(
+      categoryId,
+      skip: current.length,
+      take: _pageSize,
+    );
+    final response = await ref.read(mealRepositoryProvider).getPremium(request);
     state = AsyncData(
       state.value!.copyWith(
-        meals: [...current, ...response.data],
+        items: [...current, ...response.data],
         hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );

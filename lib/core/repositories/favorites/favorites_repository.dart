@@ -2,7 +2,7 @@
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
-import 'package:sfrigola/core/models/be-models/be_filters.dart';
+import 'package:sfrigola/core/models/be-models/be_sort.dart';
 
 abstract interface class FavoritesRepository {
   /// Returns the authenticated user's saved meals.
@@ -13,7 +13,7 @@ abstract interface class FavoritesRepository {
     Affordability? affordability,
     double? minRate,
     double? maxRate,
-    SortOrder? sortOrder,
+    SortParam<MealSortKey>? sort,
     int skip,
     int take,
   });

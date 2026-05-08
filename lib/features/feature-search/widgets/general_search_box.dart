@@ -9,7 +9,7 @@ import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 
 // Project Providers
-import 'package:sfrigola/features/feature-search/providers/searched_key_provider.dart';
+import 'package:sfrigola/core/providers/search_key_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_input.dart';
@@ -65,7 +65,7 @@ class _GeneralSearchBoxState extends ConsumerState<GeneralSearchBox> {
     _debounceTimer?.cancel();
     _debounceTimer = Timer(widget.debounceDuration, () {
       ref
-          .read(searchedKeyProvider.notifier)
+          .read(searchKeyProvider(SearchScope.search).notifier)
           .change(value.isEmpty ? null : value);
     });
   }

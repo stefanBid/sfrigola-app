@@ -73,11 +73,7 @@ class AllFavourites extends _$AllFavourites {
     state = AsyncData(
       state.value!.copyWith(
         favouriteMeals: [...current, ...response.data],
-        hasMore: hasMore(
-          response.total,
-          current.length,
-          _pageSize,
-        ),
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }

@@ -11,7 +11,7 @@ import 'package:sfrigola/core/helpers/app_router.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // project Providers
-import 'package:sfrigola/core/providers/all_favourites_provider.dart';
+import 'package:sfrigola/features/feature-favourites/providers/all_favourites_provider.dart';
 import 'package:sfrigola/features/feature-favourites/providers/favourites_filter_provider.dart';
 
 // Project Layouts

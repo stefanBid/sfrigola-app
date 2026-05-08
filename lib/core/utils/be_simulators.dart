@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart' show debugPrint;
+// Project Helpers
+import 'package:sfrigola/core/helpers/app_logger.dart';
 
 // Project Data
 import 'package:sfrigola/core/data/dummy_data.dart';
@@ -40,11 +41,20 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    return GetListDataResponse(
+    AppLogger.debug(
+      'fetching all categories',
+      tag: 'BeSimulators.getCategories',
+    );
+    final response = GetListDataResponse(
       data: availableCategories,
       total: availableCategories.length,
       error: simulateError ? _error : null,
     );
+    AppLogger.debug(
+      'total: ${response.total} | error: ${response.error}',
+      tag: 'BeSimulators.getCategories',
+    );
+    return response;
   }
 
   /// GET /meals/trending
@@ -54,8 +64,17 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug(
+      'request: ${request.toJson()}',
+      tag: 'BeSimulators.getTrending',
+    );
     final base = [...availableMeals]..sort((a, b) => b.rate.compareTo(a.rate));
-    return _buildPreviewResponse(base, request, simulateError);
+    final response = _buildPreviewResponse(base, request, simulateError);
+    AppLogger.debug(
+      'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+      tag: 'BeSimulators.getTrending',
+    );
+    return response;
   }
 
   /// GET /meals?complexity=simple
@@ -65,10 +84,19 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug(
+      'request: ${request.toJson()}',
+      tag: 'BeSimulators.getEasy',
+    );
     final base = availableMeals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
-    return _buildPreviewResponse(base, request, simulateError);
+    final response = _buildPreviewResponse(base, request, simulateError);
+    AppLogger.debug(
+      'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+      tag: 'BeSimulators.getEasy',
+    );
+    return response;
   }
 
   /// GET /meals?complexity=hard
@@ -78,10 +106,19 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug(
+      'request: ${request.toJson()}',
+      tag: 'BeSimulators.getChallenge',
+    );
     final base = availableMeals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
-    return _buildPreviewResponse(base, request, simulateError);
+    final response = _buildPreviewResponse(base, request, simulateError);
+    AppLogger.debug(
+      'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+      tag: 'BeSimulators.getChallenge',
+    );
+    return response;
   }
 
   /// GET /meals?affordability=affordable
@@ -91,10 +128,19 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug(
+      'request: ${request.toJson()}',
+      tag: 'BeSimulators.getBudget',
+    );
     final base = availableMeals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
-    return _buildPreviewResponse(base, request, simulateError);
+    final response = _buildPreviewResponse(base, request, simulateError);
+    AppLogger.debug(
+      'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+      tag: 'BeSimulators.getBudget',
+    );
+    return response;
   }
 
   /// GET /meals?affordability=luxurious
@@ -104,10 +150,19 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug(
+      'request: ${request.toJson()}',
+      tag: 'BeSimulators.getPremium',
+    );
     final base = availableMeals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
-    return _buildPreviewResponse(base, request, simulateError);
+    final response = _buildPreviewResponse(base, request, simulateError);
+    AppLogger.debug(
+      'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+      tag: 'BeSimulators.getPremium',
+    );
+    return response;
   }
 
   /// GET /meals
@@ -117,14 +172,18 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
-    debugPrint('[BeSimulators.getAllMeals] request: ${request.toJson()}');
+    AppLogger.debug(
+      'request: ${request.toJson()}',
+      tag: 'BeSimulators.getAllMeals',
+    );
     final response = _buildPreviewResponse(
       availableMeals,
       request,
       simulateError,
     );
-    debugPrint(
-      '[BeSimulators.getAllMeals] total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+    AppLogger.debug(
+      'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+      tag: 'BeSimulators.getAllMeals',
     );
     return response;
   }
@@ -136,15 +195,21 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug('id: $id', tag: 'BeSimulators.getMealById');
     final meal = availableMeals.firstWhere((m) => m.id == id);
     final resolved = meal.copyWith(
       isFavourite: _favoriteIds.contains(id),
       userRate: _userRatings[id] ?? meal.userRate,
     );
-    return GetDataResponse(
+    final response = GetDataResponse(
       data: resolved,
       error: simulateError ? _error : null,
     );
+    AppLogger.debug(
+      'found: ${meal.title} | isFavourite: ${resolved.isFavourite} | error: ${response.error}',
+      tag: 'BeSimulators.getMealById',
+    );
+    return response;
   }
 
   // ---------------------------------------------------------------------------
@@ -178,6 +243,10 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug(
+      'skip: $skip | take: $take | sort: $sort',
+      tag: 'BeSimulators.getFavorites',
+    );
 
     var results = availableMeals.where((m) => _favoriteIds.contains(m.id));
 
@@ -216,7 +285,7 @@ class BeSimulators {
 
     final paged = sorted.skip(skip).take(take).toList();
 
-    return GetListDataResponse(
+    final response = GetListDataResponse(
       data: paged
           .map(
             (m) => MealPreview(
@@ -234,6 +303,11 @@ class BeSimulators {
       total: sorted.length,
       error: simulateError ? _error : null,
     );
+    AppLogger.debug(
+      'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
+      tag: 'BeSimulators.getFavorites',
+    );
+    return response;
   }
 
   /// POST /favorites/{mealId}
@@ -243,13 +317,19 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug('mealId: $mealId', tag: 'BeSimulators.addFavorite');
     if (!simulateError && !_favoriteIds.contains(mealId)) {
       _favoriteIds.add(mealId);
     }
-    return MutationResponse(
+    final response = MutationResponse(
       success: !simulateError,
       error: simulateError ? _error : null,
     );
+    AppLogger.debug(
+      'success: ${response.success} | error: ${response.error}',
+      tag: 'BeSimulators.addFavorite',
+    );
+    return response;
   }
 
   /// DELETE /favorites/{mealId}
@@ -259,11 +339,17 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug('mealId: $mealId', tag: 'BeSimulators.removeFavorite');
     if (!simulateError) _favoriteIds.remove(mealId);
-    return MutationResponse(
+    final response = MutationResponse(
       success: !simulateError,
       error: simulateError ? _error : null,
     );
+    AppLogger.debug(
+      'success: ${response.success} | error: ${response.error}',
+      tag: 'BeSimulators.removeFavorite',
+    );
+    return response;
   }
 
   // ---------------------------------------------------------------------------
@@ -306,13 +392,22 @@ class BeSimulators {
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
+    AppLogger.debug(
+      'mealId: $mealId | newRating: $newRating',
+      tag: 'BeSimulators.updateMealRating',
+    );
     if (!simulateError) {
       _userRatings[mealId] = newRating;
     }
-    return MutationResponse(
+    final response = MutationResponse(
       success: !simulateError,
       error: simulateError ? _error : null,
     );
+    AppLogger.debug(
+      'success: ${response.success} | error: ${response.error}',
+      tag: 'BeSimulators.updateMealRating',
+    );
+    return response;
   }
 
   // ---------------------------------------------------------------------------

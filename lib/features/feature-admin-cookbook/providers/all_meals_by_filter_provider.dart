@@ -64,7 +64,7 @@ class AllMealsByFilter extends _$AllMealsByFilter {
     state = AsyncData(
       state.value!.copyWith(
         items: newItems,
-        hasMore: hasMore(response.total, newItems.length, _pageSize),
+        hasMore: hasMore(response.total, current.length, _pageSize),
       ),
     );
   }

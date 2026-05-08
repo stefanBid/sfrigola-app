@@ -75,7 +75,7 @@ class AllFavourites extends _$AllFavourites {
         favouriteMeals: [...current, ...response.data],
         hasMore: hasMore(
           response.total,
-          current.length + response.data.length,
+          current.length,
           _pageSize,
         ),
       ),

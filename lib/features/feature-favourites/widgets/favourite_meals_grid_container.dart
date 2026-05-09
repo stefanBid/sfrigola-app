@@ -9,9 +9,10 @@ import 'package:sfrigola/core/helpers/app_router.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/provider_state.dart';
 
 // project Providers
-import 'package:sfrigola/features/feature-favourites/providers/all_favourites_provider.dart';
+import 'package:sfrigola/features/feature-favourites/providers/all_favourites_by_filter_provider.dart';
 import 'package:sfrigola/features/feature-favourites/providers/favourites_filter_provider.dart';
 
 // Project Layouts
@@ -60,13 +61,13 @@ class _FavouriteMealsGridContainerState
   }
 
   Future<void> _loadMore() async {
-    final hasMore = ref.read(allFavouritesProvider).value?.hasMore ?? false;
+    final hasMore =
+        ref.read(allFavouritesByFilterProvider).value?.hasMore ?? false;
     if (_isLoadingMore || !hasMore) return;
-
     setState(() => _isLoadingMore = true);
 
     try {
-      await ref.read(allFavouritesProvider.notifier).loadMore();
+      await ref.read(allFavouritesByFilterProvider.notifier).loadMore();
 
       if (mounted) {
         setState(() => _isLoadingMore = false);
@@ -122,12 +123,12 @@ class _FavouriteMealsGridContainerState
 
   @override
   Widget build(BuildContext context) {
-    final allFavourites = ref.watch(allFavouritesProvider);
+    final allFavourites = ref.watch(allFavouritesByFilterProvider);
     final filter = ref.watch(favouritesFilterProvider);
 
     return LayoutBuilder(
       builder: (context, constraints) => RefreshIndicator(
-        onRefresh: () => ref.refresh(allFavouritesProvider.future),
+        onRefresh: () => ref.refresh(allFavouritesByFilterProvider.future),
         child: Column(
           children: [
             Expanded(
@@ -140,10 +141,11 @@ class _FavouriteMealsGridContainerState
                           context,
                         ).favouritesErrorLoad,
                         type: MessagePageType.muted,
-                        onRetry: () => ref.invalidate(allFavouritesProvider),
+                        onRetry: () =>
+                            ref.invalidate(allFavouritesByFilterProvider),
                       ),
                       AsyncData(
-                        value: AllFavouritesProviderState(favouriteMeals: []),
+                        value: ListProviderState<MealPreview>(items: []),
                       )
                           when filter.hasFilters =>
                         SingleChildScrollView(
@@ -162,8 +164,9 @@ class _FavouriteMealsGridContainerState
                           ),
                         ),
                       AsyncData(
-                        value: AllFavouritesProviderState(favouriteMeals: []),
-                      ) =>
+                        value: ListProviderState<MealPreview>(items: []),
+                      )
+                          when filter.hasFilters =>
                         SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
                           child: ConstrainedBox(
@@ -181,7 +184,7 @@ class _FavouriteMealsGridContainerState
                         ),
                       AsyncData(:final value) => _buildGrid(
                         context,
-                        value.favouriteMeals,
+                        value.items,
                       ),
                       _ => SingleChildScrollView(
                         physics: const AlwaysScrollableScrollPhysics(),

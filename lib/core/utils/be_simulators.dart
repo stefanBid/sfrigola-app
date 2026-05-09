@@ -231,78 +231,20 @@ class BeSimulators {
   };
 
   /// GET /favorites — returns meal previews for the current favourite list, filtered and sorted.
-  static Future<GetListDataResponse<MealPreview>> getFavorites({
-    Complexity? complexity,
-    Affordability? affordability,
-    double? minRate,
-    double? maxRate,
-    SortParam<MealSortKey>? sort,
-    int skip = 0,
-    int take = 10,
+  static Future<GetListDataResponse<MealPreview>> getFavorites(
+    GetRequest<MealFilterKey, MealSortKey> request, {
     Duration delay = const Duration(milliseconds: 300),
     bool simulateError = false,
   }) async {
     await Future.delayed(delay);
     AppLogger.debug(
-      'skip: $skip | take: $take | sort: $sort',
+      'request: ${request.toJson()}',
       tag: 'BeSimulators.getFavorites',
     );
-
-    var results = availableMeals.where((m) => _favoriteIds.contains(m.id));
-
-    if (complexity != null) {
-      results = results.where((m) => m.complexity == complexity);
-    }
-    if (affordability != null) {
-      results = results.where((m) => m.affordability == affordability);
-    }
-    if (minRate != null) {
-      results = results.where((m) => m.rate >= minRate);
-    }
-    if (maxRate != null) {
-      results = results.where((m) => m.rate <= maxRate);
-    }
-
-    final sorted = results.toList();
-    if (sort != null) {
-      sorted.sort(
-        (a, b) => switch ((sort.key, sort.direction)) {
-          (MealSortKey.name, SortDirection.asc) => a.title.compareTo(b.title),
-          (MealSortKey.name, SortDirection.desc) => b.title.compareTo(a.title),
-          (MealSortKey.rating, SortDirection.asc) => a.rate.compareTo(b.rate),
-          (MealSortKey.rating, SortDirection.desc) => b.rate.compareTo(a.rate),
-          (MealSortKey.complexity, SortDirection.asc) =>
-            a.complexity.index.compareTo(b.complexity.index),
-          (MealSortKey.complexity, SortDirection.desc) =>
-            b.complexity.index.compareTo(a.complexity.index),
-          (MealSortKey.affordability, SortDirection.asc) =>
-            a.affordability.index.compareTo(b.affordability.index),
-          (MealSortKey.affordability, SortDirection.desc) =>
-            b.affordability.index.compareTo(a.affordability.index),
-        },
-      );
-    }
-
-    final paged = sorted.skip(skip).take(take).toList();
-
-    final response = GetListDataResponse(
-      data: paged
-          .map(
-            (m) => MealPreview(
-              id: m.id,
-              title: m.title,
-              subtitle: m.subtitle,
-              imageUrl: m.imageUrl,
-              duration: m.duration,
-              complexity: m.complexity,
-              affordability: m.affordability,
-              rate: m.rate,
-            ),
-          )
-          .toList(),
-      total: sorted.length,
-      error: simulateError ? _error : null,
-    );
+    final base = availableMeals
+        .where((m) => _favoriteIds.contains(m.id))
+        .toList();
+    final response = _buildPreviewResponse(base, request, simulateError);
     AppLogger.debug(
       'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
       tag: 'BeSimulators.getFavorites',
@@ -351,10 +293,6 @@ class BeSimulators {
     );
     return response;
   }
-
-  // ---------------------------------------------------------------------------
-  // Generic helpers — for mutations and repositories without dedicated methods
-  // ---------------------------------------------------------------------------
 
   /// Simulates a GET endpoint that returns a list with pagination metadata.
   static Future<GetListDataResponse<T>> getList<T>({

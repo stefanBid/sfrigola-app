@@ -549,6 +549,12 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Rimuovi dai preferiti'**
   String get tooltipRemoveFromFavourites;
+
+  /// Placeholder text in the cookbook admin search bar
+  ///
+  /// In it, this message translates to:
+  /// **'Cerca per nome o descrizione...'**
+  String get cookbookSearchHint;
 }
 
 class _AppLocalizationsDelegate

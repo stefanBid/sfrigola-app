@@ -247,4 +247,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get tooltipRemoveFromFavourites => 'Rimuovi dai preferiti';
+
+  @override
+  String get cookbookSearchHint => 'Cerca per nome o descrizione...';
 }

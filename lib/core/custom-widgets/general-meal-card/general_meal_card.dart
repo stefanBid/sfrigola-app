@@ -57,25 +57,47 @@ class GeneralMealCard extends StatelessWidget {
                   ),
                   Padding(
                     padding: AppDesign.paddingSm.copyWith(
-                      top: AppDesign.gapItemSm,
+                      top: AppDesign.gapItemMd,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          meal.title,
-                          style: AppTypography.of(
-                            context,
-                          ).body.copyWith(fontWeight: FontWeight.w600),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: AppDesign.gapItemXs),
-                        Text(
-                          meal.subtitle,
-                          style: AppTypography.of(context).bodyMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    meal.title,
+                                    style: AppTypography.of(context).body
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: AppDesign.gapItemXs),
+                                  Text(
+                                    meal.subtitle,
+                                    style: AppTypography.of(context).bodyMedium,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: AppDesign.gapInlineSm),
+                            BaseBadge(
+                              label: meal.rate.toStringAsFixed(1),
+                              icon: PhosphorIconsRegular.star,
+                              style: const BadgeStyle(
+                                color: AppColors.secondary,
+                                foregroundColor: Colors.black,
+                                borderRadius: AppDesign.borderRadiusSm,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: AppDesign.gapItemSm),
                         Wrap(

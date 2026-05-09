@@ -17,6 +17,7 @@ import 'package:sfrigola/core/widgets/base_icon_button.dart';
 import 'package:sfrigola/core/widgets/base_bottom_sheet.dart';
 import 'package:sfrigola/core/custom-widgets/meals-filter-form/meals_filter_form.dart';
 import 'package:sfrigola/features/feature-admin-cookbook/widgets/cookbook_grid_container.dart';
+import 'package:sfrigola/features/feature-admin-cookbook/widgets/meals_search_bar.dart';
 
 class CookbookScreen extends StatelessWidget {
   const CookbookScreen({super.key});
@@ -27,6 +28,7 @@ class CookbookScreen extends StatelessWidget {
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsBold.fileText),
         title: 'Manage App CookBook',
+        bottomContent: const MealsSearchBar(),
         actions: [
           Builder(
             builder: (context) => BaseIconButton(

@@ -14,58 +14,41 @@ import 'package:sfrigola/core/providers/search_key_provider.dart';
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_input.dart';
 
-class GeneralSearchBar extends ConsumerStatefulWidget {
-  final VoidCallback? onBlurEmpty;
-
+class MealsSearchBar extends ConsumerStatefulWidget {
   /// Delay after the user stops typing before the search key is updated.
   final Duration debounceDuration;
 
-  const GeneralSearchBar({
+  const MealsSearchBar({
     super.key,
-    this.onBlurEmpty,
     this.debounceDuration = const Duration(milliseconds: 500),
   });
 
   @override
-  ConsumerState<GeneralSearchBar> createState() => _GeneralSearchBarState();
+  ConsumerState<MealsSearchBar> createState() => _MealsSearchBarState();
 }
 
-class _GeneralSearchBarState extends ConsumerState<GeneralSearchBar> {
+class _MealsSearchBarState extends ConsumerState<MealsSearchBar> {
   late final TextEditingController _searchController;
-  late final FocusNode _focusNode;
   Timer? _debounceTimer;
-  bool _hasFocusedOnce = false;
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-    _focusNode = FocusNode();
-    _focusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
     _debounceTimer?.cancel();
-    _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
     _searchController.dispose();
     super.dispose();
-  }
-
-  void _onFocusChange() {
-    if (_focusNode.hasFocus) {
-      _hasFocusedOnce = true;
-    } else if (_hasFocusedOnce && _searchController.text.isEmpty) {
-      widget.onBlurEmpty?.call();
-    }
   }
 
   void _handleSearchChanged(String value) {
     _debounceTimer?.cancel();
     _debounceTimer = Timer(widget.debounceDuration, () {
       ref
-          .read(searchKeyProvider(SearchScope.search).notifier)
+          .read(searchKeyProvider(SearchScope.adminCookbook).notifier)
           .change(value.isEmpty ? null : value);
     });
   }
@@ -74,9 +57,7 @@ class _GeneralSearchBarState extends ConsumerState<GeneralSearchBar> {
   Widget build(BuildContext context) {
     return BaseInput(
       controller: _searchController,
-      autofocus: true,
-      focusNode: _focusNode,
-      hint: AppLocale.getLabels(context).homeSearchHint,
+      hint: AppLocale.getLabels(context).cookbookSearchHint,
       prefixIcon: Icon(
         PhosphorIconsRegular.magnifyingGlass,
         size: AppDesign.iconSizeMd,

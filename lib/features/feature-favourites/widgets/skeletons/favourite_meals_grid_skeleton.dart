@@ -63,7 +63,7 @@ class _FavouriteMealsGridSkeletonState extends State<FavouriteMealsGridSkeleton>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 14,
+                  height: 16,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: AppColors.of(context).muted,
@@ -72,7 +72,7 @@ class _FavouriteMealsGridSkeletonState extends State<FavouriteMealsGridSkeleton>
                 ),
                 const SizedBox(height: AppDesign.gapItemXs),
                 Container(
-                  height: 10,
+                  height: 12,
                   width: 120,
                   decoration: BoxDecoration(
                     color: AppColors.of(context).muted,
@@ -96,7 +96,7 @@ class _FavouriteMealsGridSkeletonState extends State<FavouriteMealsGridSkeleton>
     return FadeTransition(
       opacity: _opacity,
       child: GridView.builder(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(vertical: AppDesign.gapSectionLg),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -118,7 +118,7 @@ class _CookbookGridContainerSkeletonState
     return FadeTransition(
       opacity: _opacity,
       child: GridView.builder(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(vertical: AppDesign.gapSectionLg),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

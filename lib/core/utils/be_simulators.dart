@@ -372,11 +372,15 @@ class BeSimulators {
           .toList();
     }
 
-    // Apply text search
+    // Apply text search (title + description)
     if (request.searchKey?.isNotEmpty ?? false) {
       final key = request.searchKey!.toLowerCase();
       filtered = filtered
-          .where((m) => m.title.toLowerCase().contains(key))
+          .where(
+            (m) =>
+                m.title.toLowerCase().contains(key) ||
+                m.description.toLowerCase().contains(key),
+          )
           .toList();
     }
 

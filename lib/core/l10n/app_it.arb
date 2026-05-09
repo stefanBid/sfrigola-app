@@ -354,5 +354,30 @@
   "sortOrderAffordabilityDescending": "Prezzo decrescente",
   "@sortOrderAffordabilityDescending": {
     "description": "Sort order label: affordability descending"
+  },
+
+  "tooltipBack": "Indietro",
+  "@tooltipBack": {
+    "description": "Tooltip for the back button in hero page layout"
+  },
+
+  "tooltipFilterMeals": "Filtra ricette",
+  "@tooltipFilterMeals": {
+    "description": "Tooltip for the filter icon button in meal list screens"
+  },
+
+  "tooltipAddMeal": "Aggiungi ricetta",
+  "@tooltipAddMeal": {
+    "description": "Tooltip for the add meal icon button in cookbook screen"
+  },
+
+  "tooltipAddToFavourites": "Aggiungi ai preferiti",
+  "@tooltipAddToFavourites": {
+    "description": "Tooltip for the favourite button when the meal is not yet in favourites"
+  },
+
+  "tooltipRemoveFromFavourites": "Rimuovi dai preferiti",
+  "@tooltipRemoveFromFavourites": {
+    "description": "Tooltip for the favourite button when the meal is already in favourites"
   }
 }

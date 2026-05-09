@@ -53,7 +53,11 @@ class ClassicAppBar extends StatelessWidget {
                       ),
                     ),
                     if (actions != null)
-                      Row(mainAxisSize: MainAxisSize.min, children: actions!),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: AppDesign.gapInlineSm,
+                        children: actions!,
+                      ),
                   ],
                 ),
                 if (bottomContent != null) ...[

@@ -11,11 +11,11 @@ import 'package:sfrigola/core/helpers/app_locale.dart';
 // Project Layouts
 import 'package:sfrigola/core/layouts/app_bars/classic_app_bar.dart';
 import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
-import 'package:sfrigola/core/widgets/base_icon_button.dart';
 
 // Project Widgets
 import 'package:sfrigola/features/feature-favourites/widgets/favourite_meals_grid_container.dart';
 import 'package:sfrigola/core/widgets/base_bottom_sheet.dart';
+import 'package:sfrigola/core/widgets/base_icon_button.dart';
 import 'package:sfrigola/core/custom-widgets/meals-filter-form/meals_filter_form.dart';
 
 class FavouriteScreen extends StatelessWidget {
@@ -38,6 +38,7 @@ class FavouriteScreen extends StatelessWidget {
                     ? PhosphorIconsFill.funnel
                     : PhosphorIconsRegular.funnel,
                 badgeCount: filter.appliedFiltersCount,
+                tooltip: AppLocale.getLabels(context).tooltipFilterMeals,
                 onPressed: () => BaseBottomSheet.show(
                   context,
                   child: MealsFilterForm(

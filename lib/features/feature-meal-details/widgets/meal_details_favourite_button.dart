@@ -89,6 +89,9 @@ class _MealDetailsFavouriteButtonState
       color: Colors.white,
       iconColor: AppColors.error,
       type: IconButtonType.filled,
+      tooltip: _isFav
+          ? AppLocale.getLabels(context).tooltipRemoveFromFavourites
+          : AppLocale.getLabels(context).tooltipAddToFavourites,
       onPressed: op.isLoading ? null : _onToggle,
     );
   }

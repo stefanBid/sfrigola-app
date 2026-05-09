@@ -519,6 +519,36 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Prezzo decrescente'**
   String get sortOrderAffordabilityDescending;
+
+  /// Tooltip for the back button in hero page layout
+  ///
+  /// In it, this message translates to:
+  /// **'Indietro'**
+  String get tooltipBack;
+
+  /// Tooltip for the filter icon button in meal list screens
+  ///
+  /// In it, this message translates to:
+  /// **'Filtra ricette'**
+  String get tooltipFilterMeals;
+
+  /// Tooltip for the add meal icon button in cookbook screen
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi ricetta'**
+  String get tooltipAddMeal;
+
+  /// Tooltip for the favourite button when the meal is not yet in favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi ai preferiti'**
+  String get tooltipAddToFavourites;
+
+  /// Tooltip for the favourite button when the meal is already in favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Rimuovi dai preferiti'**
+  String get tooltipRemoveFromFavourites;
 }
 
 class _AppLocalizationsDelegate

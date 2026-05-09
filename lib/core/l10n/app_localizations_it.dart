@@ -232,4 +232,19 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get sortOrderAffordabilityDescending => 'Prezzo decrescente';
+
+  @override
+  String get tooltipBack => 'Indietro';
+
+  @override
+  String get tooltipFilterMeals => 'Filtra ricette';
+
+  @override
+  String get tooltipAddMeal => 'Aggiungi ricetta';
+
+  @override
+  String get tooltipAddToFavourites => 'Aggiungi ai preferiti';
+
+  @override
+  String get tooltipRemoveFromFavourites => 'Rimuovi dai preferiti';
 }

@@ -26,6 +26,23 @@ Fixed filenames — do not add new files without a real need:
 | `has_more.dart` | `hasMore(total, skip, take)` — utility function for pagination state |
 | `request_builder.dart` | `RequestBuilder<TFilter, TSort>` — fluent builder for `GetRequest`; decouples providers from the internal construction of filter/sort/pagination params |
 
+### `RequestBuilder` — API summary
+
+Providers must never construct `GetRequest` manually. Always use `RequestBuilder`:
+
+```dart
+RequestBuilder<MealFilterKey, MealSortKey>()
+    .setSearchKey(searchKey)                                           // String? — skipped when null
+    .addFilter(MealFilterKey.category, FilterOperator.equals, id)     // single-condition FilterGroup (AND with others)
+    .addFilterIfNotNull(MealFilterKey.complexity, FilterOperator.equals, complexity)  // no-op when null
+    .addFilterGroup(FilterGroup(conditions: [...]))                    // multi-condition OR group
+    .removeFilter(MealFilterKey.category)                             // removes all groups with this key
+    .setSortIfNotNull(sortParam)                                       // SortParam? — skipped when null
+    .setSkip(skip)
+    .setTake(pageSize)
+    .build();                                                          // → GetRequest<TFilter, TSort>
+```
+
 `lib/core/models/be-models/` contains the typed response wrappers that mirror the real BE contract:
 
 | File | Class(es) | When to use |

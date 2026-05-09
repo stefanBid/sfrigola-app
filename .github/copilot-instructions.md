@@ -20,7 +20,7 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 - **phosphor_flutter** for icons
 - **google_fonts** (Lato) for typography
 - **transparent_image** for network images with fade
-- **hooks_riverpod** + **flutter_hooks** + **riverpod_annotation** for state management
+- **flutter_riverpod** + **riverpod_annotation** for state management
 - **Dio** for HTTP client (future — not yet installed)
 
 ---

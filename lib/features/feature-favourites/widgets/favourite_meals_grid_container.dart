@@ -13,7 +13,7 @@ import 'package:sfrigola/core/models/provider_state.dart';
 
 // project Providers
 import 'package:sfrigola/features/feature-favourites/providers/all_favourites_by_filter_provider.dart';
-import 'package:sfrigola/features/feature-favourites/providers/favourites_filter_provider.dart';
+import 'package:sfrigola/core/providers/meals_filter_provider.dart';
 
 // Project Layouts
 import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
@@ -124,7 +124,7 @@ class _FavouriteMealsGridContainerState
   @override
   Widget build(BuildContext context) {
     final allFavourites = ref.watch(allFavouritesByFilterProvider);
-    final filter = ref.watch(favouritesFilterProvider);
+    final filter = ref.watch(mealsFilterProvider(MealsFilterScope.favorites));
 
     return LayoutBuilder(
       builder: (context, constraints) => RefreshIndicator(

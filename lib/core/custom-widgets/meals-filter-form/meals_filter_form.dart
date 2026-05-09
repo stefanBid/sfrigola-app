@@ -3,7 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
-import 'package:sfrigola/features/feature-favourites/providers/favourites_filter_provider.dart';
+import 'package:sfrigola/core/providers/meals_filter_provider.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
@@ -18,18 +18,21 @@ import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_range.dart';
 
-class FavouriteMealsFilterForm extends ConsumerStatefulWidget {
-  const FavouriteMealsFilterForm({super.key, required this.onCloseForm});
+class MealsFilterForm extends ConsumerStatefulWidget {
+  const MealsFilterForm({
+    super.key,
+    required this.scope,
+    required this.onCloseForm,
+  });
 
+  final String scope;
   final VoidCallback onCloseForm;
 
   @override
-  ConsumerState<FavouriteMealsFilterForm> createState() =>
-      _FavouriteMealsFilterFormState();
+  ConsumerState<MealsFilterForm> createState() => _MealsFilterFormState();
 }
 
-class _FavouriteMealsFilterFormState
-    extends ConsumerState<FavouriteMealsFilterForm> {
+class _MealsFilterFormState extends ConsumerState<MealsFilterForm> {
   static const double _rateMin = 0.0;
   static const double _rateMax = 5.0;
 
@@ -45,7 +48,6 @@ class _FavouriteMealsFilterFormState
   ];
 
   final _formKey = GlobalKey<FormState>();
-
   Complexity? _complexity;
   Affordability? _affordability;
   SortParam<MealSortKey>? _sortOrder;
@@ -54,24 +56,31 @@ class _FavouriteMealsFilterFormState
   @override
   void initState() {
     super.initState();
-    final current = ref.read(favouritesFilterProvider);
+    final current = ref.read((mealsFilterProvider(widget.scope)));
     _complexity = current.complexity;
     _affordability = current.affordability;
     _sortOrder = current.sort;
-    _rateRange = current.rateRange ?? const RangeValues(_rateMin, _rateMax);
+    _rateRange = RangeValues(
+      current.rateRange?.min ?? _rateMin,
+      current.rateRange?.max ?? _rateMax,
+    );
   }
 
   void _apply() {
     if (!_formKey.currentState!.validate()) return;
+
     final isFullRange =
         _rateRange.start == _rateMin && _rateRange.end == _rateMax;
+
     ref
-        .read(favouritesFilterProvider.notifier)
+        .read((mealsFilterProvider(widget.scope)).notifier)
         .replaceWith(
-          FavouritesFilterProviderState(
+          MealsFilterProviderState(
             complexity: _complexity,
             affordability: _affordability,
-            rateRange: isFullRange ? null : _rateRange,
+            rateRange: isFullRange
+                ? null
+                : MealsRateRange(min: _rateRange.start, max: _rateRange.end),
             sort: _sortOrder,
           ),
         );
@@ -79,7 +88,7 @@ class _FavouriteMealsFilterFormState
   }
 
   void _reset() {
-    ref.read(favouritesFilterProvider.notifier).reset();
+    ref.read((mealsFilterProvider(widget.scope)).notifier).clear();
     widget.onCloseForm();
   }
 

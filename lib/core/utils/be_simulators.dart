@@ -412,12 +412,12 @@ class BeSimulators {
       },
       MealFilterKey.complexity => switch (condition.comparator) {
         FilterOperator.equals =>
-          meal.complexity.index == (condition.value as int),
+          meal.complexity == (condition.value as Complexity),
         _ => true,
       },
       MealFilterKey.affordability => switch (condition.comparator) {
         FilterOperator.equals =>
-          meal.affordability.index == (condition.value as int),
+          meal.affordability == (condition.value as Affordability),
         _ => true,
       },
       MealFilterKey.rating => switch (condition.comparator) {

@@ -118,6 +118,7 @@ sfrigola-app/
         provider_retry.dart
         be_simulators.dart
         has_more.dart
+        request_builder.dart
       widgets/            ← reusable UI components (base_* + group-container/)
     features/             ← all product features
       feature-home/         ← home feed feature

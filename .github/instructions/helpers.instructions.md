@@ -24,6 +24,7 @@ Fixed filenames — do not add new files without a real need:
 | `provider_retry.dart` | `appRetry` — shared Riverpod retry function |
 | `be_simulators.dart` | Static mock-BE layer — owns all data simulation logic used by repositories |
 | `has_more.dart` | `hasMore(total, skip, take)` — utility function for pagination state |
+| `request_builder.dart` | `RequestBuilder<TFilter, TSort>` — fluent builder for `GetRequest`; decouples providers from the internal construction of filter/sort/pagination params |
 
 `lib/core/models/be-models/` contains the typed response wrappers that mirror the real BE contract:
 

@@ -46,9 +46,11 @@ class RequestBuilder<TFilter extends Enum, TSort extends Enum> {
     Object value,
   ) {
     _filters.add(
-      FilterGroup(conditions: [
-        FilterCondition(key: key, comparator: comparator, value: value),
-      ]),
+      FilterGroup(
+        conditions: [
+          FilterCondition(key: key, comparator: comparator, value: value),
+        ],
+      ),
     );
     return this;
   }
@@ -72,9 +74,7 @@ class RequestBuilder<TFilter extends Enum, TSort extends Enum> {
 
   /// Removes all filter groups that contain at least one condition with [key].
   RequestBuilder<TFilter, TSort> removeFilter(TFilter key) {
-    _filters.removeWhere(
-      (group) => group.conditions.any((c) => c.key == key),
-    );
+    _filters.removeWhere((group) => group.conditions.any((c) => c.key == key));
     return this;
   }
 
@@ -103,5 +103,3 @@ class RequestBuilder<TFilter extends Enum, TSort extends Enum> {
     sort: _sort,
   );
 }
-
-

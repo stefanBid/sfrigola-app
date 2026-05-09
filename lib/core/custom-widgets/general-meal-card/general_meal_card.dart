@@ -91,7 +91,7 @@ class GeneralMealCard extends StatelessWidget {
                               ),
                             ),
                             BaseBadge(
-                              label: meal.complexity.name,
+                              label: meal.complexity.label(context),
                               icon: PhosphorIconsRegular.chefHat,
                               style: BadgeStyle(
                                 color: meal.complexity.badgeColors.color,
@@ -100,7 +100,7 @@ class GeneralMealCard extends StatelessWidget {
                               ),
                             ),
                             BaseBadge(
-                              label: meal.affordability.name,
+                              label: meal.affordability.label(context),
                               icon: PhosphorIconsRegular.wallet,
                               style: BadgeStyle(
                                 color: meal.affordability.badgeColors.color,

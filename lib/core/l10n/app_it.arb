@@ -384,5 +384,10 @@
   "cookbookSearchHint": "Cerca per nome o descrizione...",
   "@cookbookSearchHint": {
     "description": "Placeholder text in the cookbook admin search bar"
+  },
+
+  "cookbookTitle": "Ricettario",
+  "@cookbookTitle": {
+    "description": "Title shown in the admin cookbook screen app bar"
   }
 }

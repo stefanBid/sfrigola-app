@@ -110,8 +110,8 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
       meal: meal,
       onTap: (id) => AppRouter.goDeep(
         context,
-        AppRouter.mealDetails,
-        params: MealDetailsParams(mealId: id),
+        AppRouter.manageMeal,
+        params: ManageMealParams(mealId: id),
       ),
     );
   }

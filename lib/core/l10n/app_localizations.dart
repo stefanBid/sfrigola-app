@@ -555,6 +555,12 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Cerca per nome o descrizione...'**
   String get cookbookSearchHint;
+
+  /// Title shown in the admin cookbook screen app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Ricettario'**
+  String get cookbookTitle;
 }
 
 class _AppLocalizationsDelegate

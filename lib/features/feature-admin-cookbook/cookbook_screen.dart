@@ -7,6 +7,7 @@ import 'package:sfrigola/core/providers/meals_filter_provider.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_locale.dart';
+import 'package:sfrigola/core/helpers/app_router.dart';
 
 // Project Layouts
 import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
@@ -27,13 +28,20 @@ class CookbookScreen extends StatelessWidget {
     return StandardPageLayout(
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsBold.fileText),
-        title: 'Manage App CookBook',
+        title: AppLocale.getLabels(context).cookbookTitle,
         bottomContent: const MealsSearchBar(),
         actions: [
           Builder(
             builder: (context) => BaseIconButton(
               icon: PhosphorIconsRegular.plus,
-              onPressed: null,
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                AppRouter.goDeep(
+                  context,
+                  AppRouter.manageMeal,
+                  params: const ManageMealParams(),
+                );
+              },
               tooltip: AppLocale.getLabels(context).tooltipAddMeal,
             ),
           ),

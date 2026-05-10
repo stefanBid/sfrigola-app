@@ -250,4 +250,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get cookbookSearchHint => 'Cerca per nome o descrizione...';
+
+  @override
+  String get cookbookTitle => 'Ricettario';
 }

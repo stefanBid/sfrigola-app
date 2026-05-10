@@ -208,6 +208,8 @@ sfrigola-app/
         base_input.dart              ← standalone text input
         base_box.dart               ← tappable surface container with ripple
         base_range.dart              ← styled RangeSlider for numeric range filters
+        base_slider.dart             ← styled single-thumb Slider for picking a single numeric value
+        base_slider.dart             ← styled single-thumb Slider for picking a single numeric value
         base_scaffold_messenger.dart ← themed SnackBar utility
         base_bottom_sheet.dart       ← modal bottom sheet utility
         base_value_card.dart         ← metric display card (value + label)
@@ -738,6 +740,37 @@ BaseRange(
 - Thumb: `AppColors.primary`
 - Value indicator: visible on drag, `AppColors.primary` background, `small` white text
 - Current min/max shown as `caption` text above the slider
+
+### `BaseSlider`
+
+Styled single-thumb `Slider` for picking a single numeric value (minutes, servings, quantity, etc.). Stateless — the caller owns the `double` state.
+
+| Prop | Type | Description |
+|---|---|---|
+| `value` | `double` | Required. Current value. |
+| `min` | `double` | Required. Minimum value. |
+| `max` | `double` | Required. Maximum value. |
+| `label` | `String?` | Optional label rendered above with `caption` style. |
+| `divisions` | `int?` | Optional. Number of discrete steps. Must equal `(max - min) / step`. |
+| `valueFormatter` | `String Function(double)?` | Optional. Custom label formatter (e.g. `(v) => '${v.toInt()} min'`). |
+| `onChanged` | `ValueChanged<double>?` | Callback on drag. `null` disables the slider. |
+
+```dart
+BaseSlider(
+  label: 'Minuti',
+  value: _minutes,
+  min: 0.0,
+  max: 120.0,
+  divisions: 24,
+  valueFormatter: (v) => '${v.toInt()} min',
+  onChanged: (v) => setState(() => _minutes = v),
+)
+```
+
+- Track: `AppColors.primary` (active) / `muted` (inactive)
+- Thumb: `AppColors.primary`
+- Value indicator: visible on drag, `AppColors.primary` background, `small` white text
+- Min, current value (primary colour) and max shown as `caption` text above the slider
 
 ### `BaseScaffoldMessenger`
 

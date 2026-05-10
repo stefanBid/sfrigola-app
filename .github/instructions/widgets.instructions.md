@@ -97,6 +97,8 @@ BaseFormField(
   keyboardType: TextInputType.emailAddress,
   textInputAction: TextInputAction.next,
   obscureText: false,
+  maxLines: 1,                               // default 1 — use null for auto-grow textarea, or fixed int for fixed-height textarea
+  maxLength: null,                            // default null (no limit) — shows character counter below the field when set
   validator: (v) => AppValidation.notEmpty(v) ?? AppValidation.email(v),
 )
 ```
@@ -255,6 +257,29 @@ BaseRange(
 - Thumb colour: `AppColors.primary`
 - Value indicator: always visible, `AppColors.primary` background, `small` white text
 - The two current values are shown as `caption` text above the slider
+
+---
+
+## BaseSlider
+
+Styled single-thumb `Slider` for picking a single numeric value (e.g. minutes, servings, quantity). Stateless — the caller owns the `double` state.
+
+```dart
+BaseSlider(
+  label: 'Minuti',              // optional — shown above with caption style
+  value: _minutes,              // required — current value
+  min: 0.0,                     // required
+  max: 120.0,                   // required
+  divisions: 24,                // optional — discrete steps: (max - min) / step
+  valueFormatter: (v) => '${v.toInt()} min', // optional — custom label format
+  onChanged: (v) => setState(() => _minutes = v),
+)
+```
+
+- Track colour: `AppColors.primary` (active), `muted` (inactive)
+- Thumb colour: `AppColors.primary`
+- Value indicator: visible on drag, `AppColors.primary` background, `small` white text
+- Min, current value (primary colour) and max shown as `caption` text above the slider
 
 ---
 

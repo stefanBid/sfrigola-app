@@ -5,9 +5,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
-import 'package:sfrigola/core/helpers/app_router.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
+import 'package:sfrigola/core/helpers/app_router.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -21,6 +20,7 @@ import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_viral_card.dart';
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_viral_row.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
+import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
 import 'package:sfrigola/features/feature-home/widgets/viral_meal_card.dart';
 
 class TrendingSection extends ConsumerStatefulWidget {
@@ -93,59 +93,24 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
     }
   }
 
-  // ─── Header ─────────────────────────────────────────────────────────────────
+  // ─── Skeleton shell ──────────────────────────────────────────────────────────
 
-  Widget _buildHeader(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const Icon(
-              PhosphorIconsBold.trendUp,
-              size: AppDesign.iconSizeLg,
-              color: AppColors.primary,
-            ),
-            const SizedBox(width: AppDesign.gapInlineXs),
-            Text(
-              AppLocale.getLabels(context).homeSectionTrending,
-              style: AppTypography.of(context).heading3,
-            ),
-          ],
-        ),
-        const SizedBox(height: AppDesign.gapInlineXs),
-        Text(
-          AppLocale.getLabels(context).homeSectionTrendingSubtitle,
-          style: AppTypography.of(context).bodySecondary,
-        ),
-      ],
-    );
-  }
-
-  // ─── Section shell ────────────────────────────────────────────────────────────
-
-  Widget _buildSection(
-    BuildContext context, {
-    required Widget header,
-    required Widget content,
-    double groupHeight = 280.0,
-  }) {
-    // heading3 (18px) ≈ 22, subtitle body (16px) ≈ 20
+  Widget _buildSkeletonSection(BuildContext context) {
     const double titleSectionHeight =
         22 + AppDesign.gapSectionXs + AppDesign.gapInlineXs + 20.0;
-
-    return Padding(
-      padding: const EdgeInsetsGeometry.symmetric(
-        vertical: AppDesign.gapSectionLg,
-      ),
+    return const Padding(
+      padding: EdgeInsetsGeometry.symmetric(vertical: AppDesign.gapSectionLg),
       child: SizedBox(
-        height: groupHeight + titleSectionHeight,
+        height: 280.0 + titleSectionHeight,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(padding: AppDesign.paddingHorizontalLg, child: header),
-            const SizedBox(height: AppDesign.gapSectionXs),
-            Expanded(child: content),
+            Padding(
+              padding: AppDesign.paddingHorizontalLg,
+              child: SkeletonHeader(),
+            ),
+            SizedBox(height: AppDesign.gapSectionXs),
+            Expanded(child: SkeletonViralRow()),
           ],
         ),
       ),
@@ -193,22 +158,25 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
   Widget build(BuildContext context) {
     final meals = ref.watch(trendingMealsProvider);
 
-    if (meals.isLoading) {
-      return _buildSection(
-        context,
-        header: const SkeletonHeader(),
-        content: const SkeletonViralRow(),
-      );
-    }
+    if (meals.isLoading) return _buildSkeletonSection(context);
 
     return switch (meals) {
       AsyncError() => const SizedBox.shrink(),
       AsyncData(:final value) when value.items.isEmpty =>
         const SizedBox.shrink(),
-      AsyncData(:final value) => _buildSection(
-        context,
-        header: _buildHeader(context),
-        content: _buildList(context, value.items),
+      AsyncData(:final value) => Padding(
+        padding: const EdgeInsetsGeometry.symmetric(
+          vertical: AppDesign.gapSectionLg,
+        ),
+        child: GcSectionView(
+          title: AppLocale.getLabels(context).homeSectionTrending,
+          subtitle: AppLocale.getLabels(context).homeSectionTrendingSubtitle,
+          icon: PhosphorIconsBold.trendUp,
+          iconColor: AppColors.primary,
+          paddingHeader: AppDesign.paddingHorizontalLg,
+          sectionFixedHeight: 280.0,
+          child: _buildList(context, value.items),
+        ),
       ),
       _ => const SizedBox.shrink(),
     };

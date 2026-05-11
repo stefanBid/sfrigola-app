@@ -6,13 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Helpers
+import 'package:sfrigola/core/helpers/app_colors.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
-import 'package:sfrigola/core/helpers/app_design.dart';
-import 'package:sfrigola/core/helpers/app_colors.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Widgets
+import 'package:sfrigola/features/feature-admin-manage-meal/widgets/form-components/dietary_info.dart';
 import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_form_field.dart';
@@ -34,6 +34,7 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
   Complexity? _complexity;
   Affordability? _affordability;
   double _durationMinutes = 30;
+  DietaryInfoFields _dietaryInfoFields = const DietaryInfoFields();
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -133,6 +134,12 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
                       divisions: 59,
                       valueFormatter: (v) => '${v.toInt()} min',
                       onChanged: (v) => setState(() => _durationMinutes = v),
+                    ),
+                    const SizedBox(height: AppDesign.gapSectionMd),
+                    DietaryInfo(
+                      fields: _dietaryInfoFields,
+                      onFieldsChanged: (v) =>
+                          setState(() => _dietaryInfoFields = v),
                     ),
                     const SizedBox(height: AppDesign.gapSectionSm),
                   ],

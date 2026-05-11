@@ -7,7 +7,6 @@ import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -22,6 +21,7 @@ import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_header
 import 'package:sfrigola/features/feature-home/widgets/skeletons/skeleton_card.dart';
 import 'package:sfrigola/core/widgets/base_card.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_list_view.dart';
+import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
 
 class PremiumSection extends ConsumerStatefulWidget {
   const PremiumSection({super.key});
@@ -93,58 +93,24 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
     }
   }
 
-  // ─── Header ─────────────────────────────────────────────────────────────────
+  // ─── Skeleton shell ──────────────────────────────────────────────────────────
 
-  Widget _buildHeader(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const Icon(
-              PhosphorIconsBold.star,
-              size: AppDesign.iconSizeLg,
-              color: AppColors.primary,
-            ),
-            const SizedBox(width: AppDesign.gapInlineXs),
-            Text(
-              AppLocale.getLabels(context).homeSectionPremium,
-              style: AppTypography.of(context).heading3,
-            ),
-          ],
-        ),
-        const SizedBox(height: AppDesign.gapInlineXs),
-        Text(
-          AppLocale.getLabels(context).homeSectionPremiumSubtitle,
-          style: AppTypography.of(context).bodySecondary,
-        ),
-      ],
-    );
-  }
-
-  // ─── Section shell ────────────────────────────────────────────────────────────
-
-  Widget _buildSection(
-    BuildContext context, {
-    required Widget header,
-    required Widget content,
-    double groupHeight = 220.0,
-  }) {
+  Widget _buildSkeletonSection(BuildContext context) {
     const double titleSectionHeight =
         22 + AppDesign.gapSectionXs + AppDesign.gapInlineXs + 20.0;
-
-    return Padding(
-      padding: const EdgeInsetsGeometry.symmetric(
-        vertical: AppDesign.gapSectionLg,
-      ),
+    return const Padding(
+      padding: EdgeInsetsGeometry.symmetric(vertical: AppDesign.gapSectionLg),
       child: SizedBox(
-        height: groupHeight + titleSectionHeight,
+        height: 220.0 + titleSectionHeight,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(padding: AppDesign.paddingHorizontalLg, child: header),
-            const SizedBox(height: AppDesign.gapSectionXs),
-            Expanded(child: content),
+            Padding(
+              padding: AppDesign.paddingHorizontalLg,
+              child: SkeletonHeader(),
+            ),
+            SizedBox(height: AppDesign.gapSectionXs),
+            Expanded(child: SkeletonCardRow()),
           ],
         ),
       ),
@@ -191,22 +157,25 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
   Widget build(BuildContext context) {
     final meals = ref.watch(premiumMealsProvider);
 
-    if (meals.isLoading) {
-      return _buildSection(
-        context,
-        header: const SkeletonHeader(),
-        content: const SkeletonCardRow(),
-      );
-    }
+    if (meals.isLoading) return _buildSkeletonSection(context);
 
     return switch (meals) {
       AsyncError() => const SizedBox.shrink(),
       AsyncData(:final value) when value.items.isEmpty =>
         const SizedBox.shrink(),
-      AsyncData(:final value) => _buildSection(
-        context,
-        header: _buildHeader(context),
-        content: _buildList(context, value.items),
+      AsyncData(:final value) => Padding(
+        padding: const EdgeInsetsGeometry.symmetric(
+          vertical: AppDesign.gapSectionLg,
+        ),
+        child: GcSectionView(
+          title: AppLocale.getLabels(context).homeSectionPremium,
+          subtitle: AppLocale.getLabels(context).homeSectionPremiumSubtitle,
+          icon: PhosphorIconsBold.star,
+          iconColor: AppColors.primary,
+          paddingHeader: AppDesign.paddingHorizontalLg,
+          sectionFixedHeight: 220.0,
+          child: _buildList(context, value.items),
+        ),
       ),
       _ => const SizedBox.shrink(),
     };

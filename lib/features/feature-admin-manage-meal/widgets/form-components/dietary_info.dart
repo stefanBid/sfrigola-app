@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';

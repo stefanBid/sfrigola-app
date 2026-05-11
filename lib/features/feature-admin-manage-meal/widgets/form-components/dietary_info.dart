@@ -5,7 +5,6 @@ import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 
 // Project Widgets
-import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
 import 'package:sfrigola/core/widgets/base_checkbox.dart';
 
 class DietaryInfoFields {
@@ -48,47 +47,40 @@ class DietaryInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GcSectionView(
-      title: 'Dietary information',
-      subtitle: 'Select all that apply',
-      icon: Icons.info_outline,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.of(context).muted),
-          borderRadius: AppDesign.borderRadiusSm,
-        ),
-        padding: AppDesign.paddingLg,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BaseCheckbox(
-              value: fields.isGlutenFree,
-              label: 'Gluten free',
-              onChanged: (v) =>
-                  onFieldsChanged(fields.copyWith(isGlutenFree: v)),
-            ),
-            const SizedBox(height: AppDesign.gapItemMd),
-            BaseCheckbox(
-              value: fields.isLactoseFree,
-              label: 'Lactose free',
-              onChanged: (v) =>
-                  onFieldsChanged(fields.copyWith(isLactoseFree: v)),
-            ),
-            const SizedBox(height: AppDesign.gapItemMd),
-            BaseCheckbox(
-              value: fields.isVegan,
-              label: 'Vegan',
-              onChanged: (v) => onFieldsChanged(fields.copyWith(isVegan: v)),
-            ),
-            const SizedBox(height: AppDesign.gapItemMd),
-            BaseCheckbox(
-              value: fields.isVegetarian,
-              label: 'Vegetarian',
-              onChanged: (v) =>
-                  onFieldsChanged(fields.copyWith(isVegetarian: v)),
-            ),
-          ],
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.of(context).muted),
+        borderRadius: AppDesign.borderRadiusSm,
+      ),
+      padding: AppDesign.paddingLg,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BaseCheckbox(
+            value: fields.isGlutenFree,
+            label: 'Gluten free',
+            onChanged: (v) => onFieldsChanged(fields.copyWith(isGlutenFree: v)),
+          ),
+          const SizedBox(height: AppDesign.gapItemMd),
+          BaseCheckbox(
+            value: fields.isLactoseFree,
+            label: 'Lactose free',
+            onChanged: (v) =>
+                onFieldsChanged(fields.copyWith(isLactoseFree: v)),
+          ),
+          const SizedBox(height: AppDesign.gapItemMd),
+          BaseCheckbox(
+            value: fields.isVegan,
+            label: 'Vegan',
+            onChanged: (v) => onFieldsChanged(fields.copyWith(isVegan: v)),
+          ),
+          const SizedBox(height: AppDesign.gapItemMd),
+          BaseCheckbox(
+            value: fields.isVegetarian,
+            label: 'Vegetarian',
+            onChanged: (v) => onFieldsChanged(fields.copyWith(isVegetarian: v)),
+          ),
+        ],
       ),
     );
   }

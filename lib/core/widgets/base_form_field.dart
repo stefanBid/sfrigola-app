@@ -50,7 +50,7 @@ class BaseFormField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) ...[
-          Text(label!, style: AppTypography.of(context).caption),
+          Text(label!, style: AppTypography.of(context).bodyMedium),
           const SizedBox(height: AppDesign.gapInlineSm),
         ],
         TextFormField(

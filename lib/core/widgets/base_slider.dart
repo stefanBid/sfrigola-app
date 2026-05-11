@@ -38,18 +38,18 @@ class BaseSlider extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) ...[
-          Text(label!, style: typography.caption),
+          Text(label!, style: typography.bodyMedium),
           const SizedBox(height: AppDesign.gapInlineSm),
         ],
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(_format(min), style: typography.caption),
+            Text(_format(min), style: typography.bodyMedium),
             Text(
               _format(value),
-              style: typography.caption.copyWith(color: AppColors.primary),
+              style: typography.bodyMedium.copyWith(color: AppColors.primary),
             ),
-            Text(_format(max), style: typography.caption),
+            Text(_format(max), style: typography.bodyMedium),
           ],
         ),
         const SizedBox(height: AppDesign.gapItemXs),
@@ -64,7 +64,7 @@ class BaseSlider extends StatelessWidget {
             trackShape: const RoundedRectSliderTrackShape(),
             showValueIndicator: ShowValueIndicator.onDrag,
             valueIndicatorColor: AppColors.primary,
-            valueIndicatorTextStyle: typography.small.copyWith(
+            valueIndicatorTextStyle: typography.bodyMedium.copyWith(
               color: Colors.white,
             ),
           ),

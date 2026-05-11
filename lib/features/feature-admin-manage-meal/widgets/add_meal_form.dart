@@ -17,6 +17,7 @@ import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_form_field.dart';
 import 'package:sfrigola/core/widgets/base_slider.dart';
+import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
 
 class AddMealForm extends ConsumerStatefulWidget {
   const AddMealForm({super.key});
@@ -60,86 +61,107 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
                 padding: AppDesign.paddingLg,
                 child: Column(
                   children: [
-                    BaseFormField(
-                      controller: titleController,
-                      fillColor: AppColors.of(context).surface,
-                      label: 'Meal Title',
-                      prefixIcon: PhosphorIconsRegular.fileText,
-                      textInputAction: TextInputAction.next,
+                    GcSectionView(
+                      title: 'General info',
+                      icon: PhosphorIconsRegular.notepad,
+                      child: Column(
+                        children: [
+                          BaseFormField(
+                            controller: titleController,
+                            fillColor: AppColors.of(context).surface,
+                            label: 'Meal Title',
+                            prefixIcon: PhosphorIconsRegular.fileText,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          SizedBox(height: AppDesign.gapSectionMd),
+                          BaseFormField(
+                            controller: subtitleController,
+                            fillColor: AppColors.of(context).surface,
+                            label: 'Meal Subtitle',
+                            prefixIcon: PhosphorIconsRegular.fileText,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          SizedBox(height: AppDesign.gapSectionMd),
+                          BaseFormField(
+                            controller: descriptionController,
+                            fillColor: AppColors.of(context).surface,
+                            label: 'Meal Description',
+                            prefixIcon: PhosphorIconsRegular.fileText,
+                            keyboardType: TextInputType.multiline,
+                            textInputAction: TextInputAction.newline,
+                            maxLines: null,
+                            maxLength: 500,
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: AppDesign.gapSectionMd),
-                    BaseFormField(
-                      controller: subtitleController,
-                      fillColor: AppColors.of(context).surface,
-                      label: 'Meal Subtitle',
-                      prefixIcon: PhosphorIconsRegular.fileText,
-                      textInputAction: TextInputAction.next,
+                    const SizedBox(height: AppDesign.gapSectionLg),
+                    GcSectionView(
+                      title: 'Recipe details',
+                      icon: PhosphorIconsRegular.cookingPot,
+                      child: Column(
+                        children: [
+                          BaseDropdown<Complexity>(
+                            initialValue: _complexity,
+                            label: AppLocale.getLabels(
+                              context,
+                            ).favouritesFilterComplexityLabel,
+                            prefixIcon: PhosphorIconsRegular.chartBar,
+                            fillColor: AppColors.of(context).surface,
+                            items: Complexity.values
+                                .map(
+                                  (c) => BaseDropdownOption(
+                                    value: c,
+                                    label: c.label(context),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (v) => setState(() => _complexity = v),
+                          ),
+                          const SizedBox(height: AppDesign.gapSectionMd),
+                          BaseDropdown<Affordability>(
+                            initialValue: _affordability,
+                            label: AppLocale.getLabels(
+                              context,
+                            ).favouritesFilterAffordabilityLabel,
+                            prefixIcon: PhosphorIconsRegular.tag,
+                            fillColor: AppColors.of(context).surface,
+                            items: Affordability.values
+                                .map(
+                                  (a) => BaseDropdownOption(
+                                    value: a,
+                                    label: a.label(context),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (v) =>
+                                setState(() => _affordability = v),
+                          ),
+                          const SizedBox(height: AppDesign.gapSectionMd),
+                          BaseSlider(
+                            label: 'Total time (prep + cooking)',
+                            value: _durationMinutes,
+                            min: 5,
+                            max: 300,
+                            divisions: 59,
+                            valueFormatter: (v) => '${v.toInt()} min',
+                            onChanged: (v) =>
+                                setState(() => _durationMinutes = v),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: AppDesign.gapSectionMd),
-                    BaseFormField(
-                      controller: descriptionController,
-                      fillColor: AppColors.of(context).surface,
-                      label: 'Meal Description',
-                      prefixIcon: PhosphorIconsRegular.fileText,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
-                      maxLines: null,
-                      maxLength: 500,
-                    ),
-                    SizedBox(height: AppDesign.gapSectionMd),
-                    BaseDropdown<Complexity>(
-                      initialValue: _complexity,
-                      label: AppLocale.getLabels(
-                        context,
-                      ).favouritesFilterComplexityLabel,
-                      prefixIcon: PhosphorIconsRegular.chartBar,
-                      fillColor: AppColors.of(context).surface,
-                      items: Complexity.values
-                          .map(
-                            (c) => BaseDropdownOption(
-                              value: c,
-                              label: c.label(context),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (v) => setState(() => _complexity = v),
-                    ),
-                    const SizedBox(height: AppDesign.gapSectionMd),
-
-                    // ── Affordability ────────────────────────────────────────────────
-                    BaseDropdown<Affordability>(
-                      initialValue: _affordability,
-                      label: AppLocale.getLabels(
-                        context,
-                      ).favouritesFilterAffordabilityLabel,
-
-                      prefixIcon: PhosphorIconsRegular.tag,
-                      fillColor: AppColors.of(context).surface,
-                      items: Affordability.values
-                          .map(
-                            (a) => BaseDropdownOption(
-                              value: a,
-                              label: a.label(context),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (v) => setState(() => _affordability = v),
-                    ),
-                    const SizedBox(height: AppDesign.gapSectionMd),
-                    BaseSlider(
-                      label: 'Total time (prep + cooking)',
-                      value: _durationMinutes,
-                      min: 5,
-                      max: 300,
-                      divisions: 59,
-                      valueFormatter: (v) => '${v.toInt()} min',
-                      onChanged: (v) => setState(() => _durationMinutes = v),
-                    ),
-                    const SizedBox(height: AppDesign.gapSectionMd),
-                    DietaryInfo(
-                      fields: _dietaryInfoFields,
-                      onFieldsChanged: (v) =>
-                          setState(() => _dietaryInfoFields = v),
+                    const SizedBox(height: AppDesign.gapSectionLg),
+                    GcSectionView(
+                      title: 'Dietary info',
+                      subtitle:
+                          'Select all the dietary properties that apply to this meal.',
+                      icon: PhosphorIconsRegular.leaf,
+                      child: DietaryInfo(
+                        fields: _dietaryInfoFields,
+                        onFieldsChanged: (v) =>
+                            setState(() => _dietaryInfoFields = v),
+                      ),
                     ),
                     const SizedBox(height: AppDesign.gapSectionSm),
                   ],

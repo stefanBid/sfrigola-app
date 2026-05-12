@@ -350,3 +350,29 @@ class MealFavoriteException implements AppException {
   String toString() =>
       'MealFavoriteException: failed to ${isAdding ? 'add' : 'remove'} meal with id "$id" ${isAdding ? 'to' : 'from'} favourites';
 }
+
+enum MealMutationType { add, update, delete }
+
+class MealMutationException implements AppException {
+  const MealMutationException(this.opType);
+  final MealMutationType opType;
+
+  @override
+  bool get isRetryable => true;
+
+  @override
+  String localizedMessage(AppLocalizations l) {
+    switch (opType) {
+      case MealMutationType.add:
+        return l.mealAddError;
+      case MealMutationType.update:
+        return l.mealUpdateError;
+      case MealMutationType.delete:
+        return l.mealDeleteError;
+    }
+  }
+
+  @override
+  String toString() =>
+      'MealMutationException: failed to perform ${opType.name} operation on meal';
+}

@@ -310,6 +310,24 @@ abstract class AppLocalizations {
   /// **'Impossibile salvare la valutazione.'**
   String get mealRateError;
 
+  /// Error shown when adding a new meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aggiungere la ricetta. Riprova.'**
+  String get mealAddError;
+
+  /// Error shown when updating a meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aggiornare la ricetta. Riprova.'**
+  String get mealUpdateError;
+
+  /// Error shown when deleting a meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile eliminare la ricetta. Riprova.'**
+  String get mealDeleteError;
+
   /// Snackbar shown when a meal rating is saved successfully
   ///
   /// In it, this message translates to:
@@ -561,6 +579,108 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Ricettario'**
   String get cookbookTitle;
+
+  /// Section title for the general info block in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Informazioni generali'**
+  String get manageMealFormSectionGeneralInfo;
+
+  /// Section title for the recipe details block in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Dettagli ricetta'**
+  String get manageMealFormSectionRecipeDetails;
+
+  /// Section title for the dietary info block in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Info dietetiche'**
+  String get manageMealFormSectionDietaryInfo;
+
+  /// Subtitle for the dietary info section in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona tutte le proprietà dietetiche applicabili a questa ricetta.'**
+  String get manageMealFormSectionDietaryInfoSubtitle;
+
+  /// Label for the meal title input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Titolo ricetta'**
+  String get manageMealFormFieldTitleLabel;
+
+  /// Hint text for the meal title input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Es. Pasta alla carbonara'**
+  String get manageMealFormFieldTitleHint;
+
+  /// Label for the meal subtitle input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Sottotitolo ricetta'**
+  String get manageMealFormFieldSubtitleLabel;
+
+  /// Hint text for the meal subtitle input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Es. Il classico romano rivisitato'**
+  String get manageMealFormFieldSubtitleHint;
+
+  /// Label for the meal description input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Descrizione ricetta'**
+  String get manageMealFormFieldDescriptionLabel;
+
+  /// Hint text for the meal description textarea in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Descrivi la ricetta, il suo sapore e le occasioni in cui prepararla...'**
+  String get manageMealFormFieldDescriptionHint;
+
+  /// Label for the category dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Categoria'**
+  String get manageMealFormFieldCategoryLabel;
+
+  /// Hint text for the category dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona una categoria'**
+  String get manageMealFormFieldCategoryHint;
+
+  /// Hint text for the complexity dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona la complessità'**
+  String get manageMealFormFieldComplexityHint;
+
+  /// Hint text for the affordability dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona il prezzo'**
+  String get manageMealFormFieldAffordabilityHint;
+
+  /// Label for the duration slider in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Tempo totale (preparazione + cottura)'**
+  String get manageMealFormFieldDurationLabel;
+
+  /// Label for the save button in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Salva'**
+  String get manageMealFormSave;
+
+  /// Label for the cancel button in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Annulla'**
+  String get manageMealFormCancel;
 }
 
 class _AppLocalizationsDelegate

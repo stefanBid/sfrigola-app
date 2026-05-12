@@ -181,6 +181,21 @@
     "description": "Error shown when rating a meal fails"
   },
 
+  "mealAddError": "Impossibile aggiungere la ricetta. Riprova.",
+  "@mealAddError": {
+    "description": "Error shown when adding a new meal fails"
+  },
+
+  "mealUpdateError": "Impossibile aggiornare la ricetta. Riprova.",
+  "@mealUpdateError": {
+    "description": "Error shown when updating a meal fails"
+  },
+
+  "mealDeleteError": "Impossibile eliminare la ricetta. Riprova.",
+  "@mealDeleteError": {
+    "description": "Error shown when deleting a meal fails"
+  },
+
   "rateMealSuccess": "Valutazione salvata.",
   "@rateMealSuccess": {
     "description": "Snackbar shown when a meal rating is saved successfully"
@@ -389,5 +404,90 @@
   "cookbookTitle": "Ricettario",
   "@cookbookTitle": {
     "description": "Title shown in the admin cookbook screen app bar"
+  },
+
+  "manageMealFormSectionGeneralInfo": "Informazioni generali",
+  "@manageMealFormSectionGeneralInfo": {
+    "description": "Section title for the general info block in the manage meal form"
+  },
+
+  "manageMealFormSectionRecipeDetails": "Dettagli ricetta",
+  "@manageMealFormSectionRecipeDetails": {
+    "description": "Section title for the recipe details block in the manage meal form"
+  },
+
+  "manageMealFormSectionDietaryInfo": "Info dietetiche",
+  "@manageMealFormSectionDietaryInfo": {
+    "description": "Section title for the dietary info block in the manage meal form"
+  },
+
+  "manageMealFormSectionDietaryInfoSubtitle": "Seleziona tutte le proprietà dietetiche applicabili a questa ricetta.",
+  "@manageMealFormSectionDietaryInfoSubtitle": {
+    "description": "Subtitle for the dietary info section in the manage meal form"
+  },
+
+  "manageMealFormFieldTitleLabel": "Titolo ricetta",
+  "@manageMealFormFieldTitleLabel": {
+    "description": "Label for the meal title input in the manage meal form"
+  },
+
+  "manageMealFormFieldTitleHint": "Es. Pasta alla carbonara",
+  "@manageMealFormFieldTitleHint": {
+    "description": "Hint text for the meal title input in the manage meal form"
+  },
+
+  "manageMealFormFieldSubtitleLabel": "Sottotitolo ricetta",
+  "@manageMealFormFieldSubtitleLabel": {
+    "description": "Label for the meal subtitle input in the manage meal form"
+  },
+
+  "manageMealFormFieldSubtitleHint": "Es. Il classico romano rivisitato",
+  "@manageMealFormFieldSubtitleHint": {
+    "description": "Hint text for the meal subtitle input in the manage meal form"
+  },
+
+  "manageMealFormFieldDescriptionLabel": "Descrizione ricetta",
+  "@manageMealFormFieldDescriptionLabel": {
+    "description": "Label for the meal description input in the manage meal form"
+  },
+
+  "manageMealFormFieldDescriptionHint": "Descrivi la ricetta, il suo sapore e le occasioni in cui prepararla...",
+  "@manageMealFormFieldDescriptionHint": {
+    "description": "Hint text for the meal description textarea in the manage meal form"
+  },
+
+  "manageMealFormFieldCategoryLabel": "Categoria",
+  "@manageMealFormFieldCategoryLabel": {
+    "description": "Label for the category dropdown in the manage meal form"
+  },
+
+  "manageMealFormFieldCategoryHint": "Seleziona una categoria",
+  "@manageMealFormFieldCategoryHint": {
+    "description": "Hint text for the category dropdown in the manage meal form"
+  },
+
+  "manageMealFormFieldComplexityHint": "Seleziona la complessità",
+  "@manageMealFormFieldComplexityHint": {
+    "description": "Hint text for the complexity dropdown in the manage meal form"
+  },
+
+  "manageMealFormFieldAffordabilityHint": "Seleziona il prezzo",
+  "@manageMealFormFieldAffordabilityHint": {
+    "description": "Hint text for the affordability dropdown in the manage meal form"
+  },
+
+  "manageMealFormFieldDurationLabel": "Tempo totale (preparazione + cottura)",
+  "@manageMealFormFieldDurationLabel": {
+    "description": "Label for the duration slider in the manage meal form"
+  },
+
+  "manageMealFormSave": "Salva",
+  "@manageMealFormSave": {
+    "description": "Label for the save button in the manage meal form"
+  },
+
+  "manageMealFormCancel": "Annulla",
+  "@manageMealFormCancel": {
+    "description": "Label for the cancel button in the manage meal form"
   }
 }

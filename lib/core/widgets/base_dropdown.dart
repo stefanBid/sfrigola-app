@@ -20,8 +20,11 @@ class BaseDropdown<T> extends StatelessWidget {
   final ValueChanged<T?>? onChanged;
   final Color? fillColor;
   final IconData? prefixIcon;
+  final String? hint;
   final AutovalidateMode autovalidateMode;
   final String? Function(T?)? validator;
+  final bool disabled;
+  final bool isLoading;
 
   const BaseDropdown({
     super.key,
@@ -32,8 +35,11 @@ class BaseDropdown<T> extends StatelessWidget {
     this.onChanged,
     this.fillColor,
     this.prefixIcon,
+    this.hint,
     this.autovalidateMode = AutovalidateMode.onUnfocus,
     this.validator,
+    this.disabled = false,
+    this.isLoading = false,
   });
 
   @override
@@ -51,8 +57,28 @@ class BaseDropdown<T> extends StatelessWidget {
           initialValue: initialValue,
           autovalidateMode: autovalidateMode,
           validator: validator,
-          style: AppTypography.of(context).body.copyWith(color: colors.text),
+          style: AppTypography.of(context).body.copyWith(
+            color: (disabled || isLoading) ? colors.muted : colors.text,
+          ),
+          hint: hint != null
+              ? Text(
+                  hint!,
+                  style: AppTypography.of(
+                    context,
+                  ).body.copyWith(color: colors.muted),
+                )
+              : null,
           dropdownColor: colors.surface,
+          icon: isLoading
+              ? SizedBox(
+                  width: AppDesign.iconSizeMd,
+                  height: AppDesign.iconSizeMd,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: colors.muted,
+                  ),
+                )
+              : null,
           decoration: InputDecoration(
             filled: true,
             fillColor: fillColor ?? colors.background,
@@ -88,6 +114,13 @@ class BaseDropdown<T> extends StatelessWidget {
               context,
             ).caption.copyWith(color: AppColors.error),
             errorMaxLines: 3,
+            disabledBorder: OutlineInputBorder(
+              borderRadius: AppDesign.borderRadiusXs,
+              borderSide: BorderSide(
+                color: colors.muted.withAlpha(80),
+                width: 1.5,
+              ),
+            ),
           ),
           items: [
             if (voidSelectionItemLabel != null)
@@ -105,7 +138,7 @@ class BaseDropdown<T> extends StatelessWidget {
               ),
             ),
           ],
-          onChanged: onChanged,
+          onChanged: (disabled || isLoading) ? null : onChanged,
         ),
       ],
     );

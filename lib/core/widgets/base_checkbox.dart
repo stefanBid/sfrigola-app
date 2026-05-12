@@ -26,18 +26,20 @@ class BaseCheckbox extends StatelessWidget {
         onTap: () => onChanged(!value),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            value ? PhosphorIconsBold.checkSquare : PhosphorIconsRegular.square,
-            size: AppDesign.iconSizeLg,
-            color: value ? AppColors.primary : AppColors.of(context).muted,
-          ),
-          if (label != null) ...[
-            const SizedBox(width: AppDesign.gapInlineSm),
-            Text(label!, style: AppTypography.of(context).body),
+          children: [
+            Icon(
+              value
+                  ? PhosphorIconsBold.checkSquare
+                  : PhosphorIconsRegular.square,
+              size: AppDesign.iconSizeLg,
+              color: value ? AppColors.primary : AppColors.of(context).muted,
+            ),
+            if (label != null) ...[
+              const SizedBox(width: AppDesign.gapInlineSm),
+              Text(label!, style: AppTypography.of(context).bodyMedium),
+            ],
           ],
-        ],
-      ),
+        ),
       ),
     );
   }

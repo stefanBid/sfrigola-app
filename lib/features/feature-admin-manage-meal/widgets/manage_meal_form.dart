@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// Projects Providers
+import 'package:sfrigola/core/providers/categories_provider.dart';
+import 'package:sfrigola/core/providers/meal_by_id_provider.dart';
+
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/category.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -11,31 +16,75 @@ import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
 
+// Project Layouts
+import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
+
 // Project Widgets
 import 'package:sfrigola/features/feature-admin-manage-meal/widgets/form-components/dietary_info.dart';
-import 'package:sfrigola/core/widgets/base_button.dart';
+import 'package:sfrigola/features/feature-admin-manage-meal/widgets/form-components/form_action_bar.dart';
+import 'package:sfrigola/features/feature-admin-manage-meal/widgets/skeletons/manage_meal_form_skeleton.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_form_field.dart';
 import 'package:sfrigola/core/widgets/base_slider.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
 
-class AddMealForm extends ConsumerStatefulWidget {
-  const AddMealForm({super.key});
+class ManageMealForm extends ConsumerStatefulWidget {
+  const ManageMealForm({super.key, this.mealId});
+
+  final String? mealId;
 
   @override
-  ConsumerState<AddMealForm> createState() => _AddMealFormState();
+  ConsumerState<ManageMealForm> createState() => _ManageMealFormState();
 }
 
-class _AddMealFormState extends ConsumerState<AddMealForm> {
+class _ManageMealFormState extends ConsumerState<ManageMealForm> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController subtitleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  Category? _category;
   Complexity? _complexity;
   Affordability? _affordability;
   double _durationMinutes = 30;
   DietaryInfoFields _dietaryInfoFields = const DietaryInfoFields();
+  bool _populated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.mealId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || _populated) return;
+        final mealAsync = ref.read(mealByIdProvider(widget.mealId!));
+        final cats = ref.read(categoriesProvider).value?.categories ?? [];
+        mealAsync.whenData((meal) => _populateFromMeal(meal, cats));
+      });
+    }
+  }
+
+  void _populateFromMeal(Meal meal, List<Category> availableCategories) {
+    if (_populated) return;
+    titleController.text = meal.title;
+    subtitleController.text = meal.subtitle;
+    descriptionController.text = meal.description;
+    final matching = availableCategories.where(
+      (c) => meal.categories.contains(c.id),
+    );
+    setState(() {
+      _category = matching.isEmpty ? null : matching.first;
+      _complexity = meal.complexity;
+      _affordability = meal.affordability;
+      _durationMinutes = meal.duration.toDouble();
+      _dietaryInfoFields = DietaryInfoFields(
+        isGlutenFree: meal.isGlutenFree,
+        isLactoseFree: meal.isLactoseFree,
+        isVegan: meal.isVegan,
+        isVegetarian: meal.isVegetarian,
+      );
+      _populated = true;
+    });
+  }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -50,7 +99,34 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomSpacing = MediaQuery.of(context).padding.bottom;
+    final categories = ref.watch(categoriesProvider);
+    final l = AppLocale.getLabels(context);
+
+    if (widget.mealId != null) {
+      final mealAsync = ref.watch(mealByIdProvider(widget.mealId!));
+
+      ref.listen<AsyncValue<Meal>>(mealByIdProvider(widget.mealId!), (_, next) {
+        if (_populated) return;
+        next.whenData((meal) {
+          final cats = ref.read(categoriesProvider).value?.categories ?? [];
+          _populateFromMeal(meal, cats);
+        });
+      });
+
+      if (!_populated) {
+        if (mealAsync.isLoading) {
+          return const ManageMealFormSkeleton();
+        }
+        if (mealAsync.hasError) {
+          return MessagePageLayout(
+            icon: PhosphorIconsRegular.warningCircle,
+            message: AppLocale.errorFor(context, mealAsync.error!),
+            onRetry: () => ref.invalidate(mealByIdProvider(widget.mealId!)),
+          );
+        }
+      }
+    }
+
     return Form(
       key: _formKey,
       child: Column(
@@ -62,30 +138,33 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
                 child: Column(
                   children: [
                     GcSectionView(
-                      title: 'General info',
+                      title: l.manageMealFormSectionGeneralInfo,
                       icon: PhosphorIconsRegular.notepad,
                       child: Column(
                         children: [
                           BaseFormField(
                             controller: titleController,
                             fillColor: AppColors.of(context).surface,
-                            label: 'Meal Title',
+                            label: l.manageMealFormFieldTitleLabel,
+                            hint: l.manageMealFormFieldTitleHint,
                             prefixIcon: PhosphorIconsRegular.fileText,
                             textInputAction: TextInputAction.next,
                           ),
-                          SizedBox(height: AppDesign.gapSectionMd),
+                          const SizedBox(height: AppDesign.gapSectionMd),
                           BaseFormField(
                             controller: subtitleController,
                             fillColor: AppColors.of(context).surface,
-                            label: 'Meal Subtitle',
+                            label: l.manageMealFormFieldSubtitleLabel,
+                            hint: l.manageMealFormFieldSubtitleHint,
                             prefixIcon: PhosphorIconsRegular.fileText,
                             textInputAction: TextInputAction.next,
                           ),
-                          SizedBox(height: AppDesign.gapSectionMd),
+                          const SizedBox(height: AppDesign.gapSectionMd),
                           BaseFormField(
                             controller: descriptionController,
                             fillColor: AppColors.of(context).surface,
-                            label: 'Meal Description',
+                            label: l.manageMealFormFieldDescriptionLabel,
+                            hint: l.manageMealFormFieldDescriptionHint,
                             prefixIcon: PhosphorIconsRegular.fileText,
                             keyboardType: TextInputType.multiline,
                             textInputAction: TextInputAction.newline,
@@ -97,15 +176,39 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
                     ),
                     const SizedBox(height: AppDesign.gapSectionLg),
                     GcSectionView(
-                      title: 'Recipe details',
+                      title: l.manageMealFormSectionRecipeDetails,
                       icon: PhosphorIconsRegular.cookingPot,
                       child: Column(
                         children: [
+                          BaseDropdown<Category>(
+                            initialValue: _category,
+                            label: l.manageMealFormFieldCategoryLabel,
+                            hint: l.manageMealFormFieldCategoryHint,
+                            prefixIcon: PhosphorIconsRegular.tag,
+                            fillColor: AppColors.of(context).surface,
+                            disabled:
+                                categories.isLoading || categories.hasError,
+                            isLoading: categories.isLoading,
+                            items: switch (categories) {
+                              AsyncData(:final value) =>
+                                value.categories
+                                    .map(
+                                      (c) => BaseDropdownOption(
+                                        value: c,
+                                        label: c.title,
+                                      ),
+                                    )
+                                    .toList(),
+                              AsyncLoading() => [],
+                              AsyncError() => [],
+                            },
+                            onChanged: (v) => setState(() => _category = v),
+                          ),
+                          const SizedBox(height: AppDesign.gapSectionMd),
                           BaseDropdown<Complexity>(
                             initialValue: _complexity,
-                            label: AppLocale.getLabels(
-                              context,
-                            ).favouritesFilterComplexityLabel,
+                            label: l.favouritesFilterComplexityLabel,
+                            hint: l.manageMealFormFieldComplexityHint,
                             prefixIcon: PhosphorIconsRegular.chartBar,
                             fillColor: AppColors.of(context).surface,
                             items: Complexity.values
@@ -121,9 +224,8 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseDropdown<Affordability>(
                             initialValue: _affordability,
-                            label: AppLocale.getLabels(
-                              context,
-                            ).favouritesFilterAffordabilityLabel,
+                            label: l.favouritesFilterAffordabilityLabel,
+                            hint: l.manageMealFormFieldAffordabilityHint,
                             prefixIcon: PhosphorIconsRegular.tag,
                             fillColor: AppColors.of(context).surface,
                             items: Affordability.values
@@ -139,7 +241,7 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseSlider(
-                            label: 'Total time (prep + cooking)',
+                            label: l.manageMealFormFieldDurationLabel,
                             value: _durationMinutes,
                             min: 5,
                             max: 300,
@@ -153,9 +255,8 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
                     ),
                     const SizedBox(height: AppDesign.gapSectionLg),
                     GcSectionView(
-                      title: 'Dietary info',
-                      subtitle:
-                          'Select all the dietary properties that apply to this meal.',
+                      title: l.manageMealFormSectionDietaryInfo,
+                      subtitle: l.manageMealFormSectionDietaryInfoSubtitle,
                       icon: PhosphorIconsRegular.leaf,
                       child: DietaryInfo(
                         fields: _dietaryInfoFields,
@@ -169,33 +270,7 @@ class _AddMealFormState extends ConsumerState<AddMealForm> {
               ),
             ),
           ),
-
-          Container(
-            padding: AppDesign.paddingLg.copyWith(
-              bottom: bottomSpacing + AppDesign.gapSectionMd,
-            ),
-            color: AppColors.of(context).bottomBar,
-            child: Row(
-              children: [
-                Expanded(
-                  child: BaseButton(
-                    label: 'Save',
-                    icon: PhosphorIconsRegular.check,
-                    onPressed: _submitForm,
-                  ),
-                ),
-                const SizedBox(width: AppDesign.gapInlineMd),
-                Expanded(
-                  child: BaseButton(
-                    label: 'Cancel',
-                    icon: PhosphorIconsRegular.x,
-                    type: BaseButtonType.outlined,
-                    onPressed: _cancelForm,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          FormActionBar(onCancel: _cancelForm, onSubmit: _submitForm),
         ],
       ),
     );

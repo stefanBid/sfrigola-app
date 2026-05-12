@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_locale.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_checkbox.dart';
@@ -47,6 +48,7 @@ class DietaryInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocale.getLabels(context);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.of(context).muted),
@@ -58,26 +60,26 @@ class DietaryInfo extends StatelessWidget {
         children: [
           BaseCheckbox(
             value: fields.isGlutenFree,
-            label: 'Gluten free',
+            label: l.mealDetailsBadgeGlutenFree,
             onChanged: (v) => onFieldsChanged(fields.copyWith(isGlutenFree: v)),
           ),
           const SizedBox(height: AppDesign.gapItemMd),
           BaseCheckbox(
             value: fields.isLactoseFree,
-            label: 'Lactose free',
+            label: l.mealDetailsBadgeLactoseFree,
             onChanged: (v) =>
                 onFieldsChanged(fields.copyWith(isLactoseFree: v)),
           ),
           const SizedBox(height: AppDesign.gapItemMd),
           BaseCheckbox(
             value: fields.isVegan,
-            label: 'Vegan',
+            label: l.mealDetailsBadgeVegan,
             onChanged: (v) => onFieldsChanged(fields.copyWith(isVegan: v)),
           ),
           const SizedBox(height: AppDesign.gapItemMd),
           BaseCheckbox(
             value: fields.isVegetarian,
-            label: 'Vegetarian',
+            label: l.mealDetailsBadgeVegetarian,
             onChanged: (v) => onFieldsChanged(fields.copyWith(isVegetarian: v)),
           ),
         ],

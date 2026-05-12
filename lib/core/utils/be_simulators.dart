@@ -68,7 +68,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getTrending',
     );
-    final base = [...availableMeals]..sort((a, b) => b.rate.compareTo(a.rate));
+    final base = [..._meals]..sort((a, b) => b.rate.compareTo(a.rate));
     final response = _buildPreviewResponse(base, request, simulateError);
     AppLogger.debug(
       'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
@@ -88,7 +88,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getEasy',
     );
-    final base = availableMeals
+    final base = _meals
         .where((m) => m.complexity == Complexity.simple)
         .toList();
     final response = _buildPreviewResponse(base, request, simulateError);
@@ -110,7 +110,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getChallenge',
     );
-    final base = availableMeals
+    final base = _meals
         .where((m) => m.complexity == Complexity.hard)
         .toList();
     final response = _buildPreviewResponse(base, request, simulateError);
@@ -132,7 +132,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getBudget',
     );
-    final base = availableMeals
+    final base = _meals
         .where((m) => m.affordability == Affordability.affordable)
         .toList();
     final response = _buildPreviewResponse(base, request, simulateError);
@@ -154,7 +154,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getPremium',
     );
-    final base = availableMeals
+    final base = _meals
         .where((m) => m.affordability == Affordability.luxurious)
         .toList();
     final response = _buildPreviewResponse(base, request, simulateError);
@@ -177,7 +177,7 @@ class BeSimulators {
       tag: 'BeSimulators.getAllMeals',
     );
     final response = _buildPreviewResponse(
-      availableMeals,
+      _meals,
       request,
       simulateError,
     );
@@ -196,7 +196,7 @@ class BeSimulators {
   }) async {
     await Future.delayed(delay);
     AppLogger.debug('id: $id', tag: 'BeSimulators.getMealById');
-    final meal = availableMeals.firstWhere((m) => m.id == id);
+    final meal = _meals.firstWhere((m) => m.id == id);
     final resolved = meal.copyWith(
       isFavourite: _favoriteIds.contains(id),
       userRate: _userRatings[id] ?? meal.userRate,
@@ -230,6 +230,10 @@ class BeSimulators {
       if (m.userRate != null) m.id: m.userRate!,
   };
 
+  /// In-memory meals list — mutable copy of [availableMeals].
+  /// Mutated by admin operations ([addMeal], [updateMeal], [deleteMeal]).
+  static final List<Meal> _meals = [...availableMeals];
+
   /// GET /favorites — returns meal previews for the current favourite list, filtered and sorted.
   static Future<GetListDataResponse<MealPreview>> getFavorites(
     GetRequest<MealFilterKey, MealSortKey> request, {
@@ -241,7 +245,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getFavorites',
     );
-    final base = availableMeals
+    final base = _meals
         .where((m) => _favoriteIds.contains(m.id))
         .toList();
     final response = _buildPreviewResponse(base, request, simulateError);
@@ -344,6 +348,73 @@ class BeSimulators {
     AppLogger.debug(
       'success: ${response.success} | error: ${response.error}',
       tag: 'BeSimulators.updateMealRating',
+    );
+    return response;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Admin endpoints
+  // ---------------------------------------------------------------------------
+
+  /// POST /admin/meals
+  static Future<MutationResponse> addMeal({
+    required Meal meal,
+    Duration delay = const Duration(milliseconds: 400),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug('mealId: ${meal.id}', tag: 'BeSimulators.addMeal');
+    if (!simulateError) _meals.add(meal);
+    final response = MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
+    AppLogger.debug(
+      'success: ${response.success} | error: ${response.error}',
+      tag: 'BeSimulators.addMeal',
+    );
+    return response;
+  }
+
+  /// PUT /admin/meals/{mealId}
+  static Future<MutationResponse> updateMeal({
+    required Meal meal,
+    Duration delay = const Duration(milliseconds: 400),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug('mealId: ${meal.id}', tag: 'BeSimulators.updateMeal');
+    if (!simulateError) {
+      final index = _meals.indexWhere((m) => m.id == meal.id);
+      if (index != -1) _meals[index] = meal;
+    }
+    final response = MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
+    AppLogger.debug(
+      'success: ${response.success} | error: ${response.error}',
+      tag: 'BeSimulators.updateMeal',
+    );
+    return response;
+  }
+
+  /// DELETE /admin/meals/{mealId}
+  static Future<MutationResponse> deleteMeal({
+    required String mealId,
+    Duration delay = const Duration(milliseconds: 300),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug('mealId: $mealId', tag: 'BeSimulators.deleteMeal');
+    if (!simulateError) _meals.removeWhere((m) => m.id == mealId);
+    final response = MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
+    AppLogger.debug(
+      'success: ${response.success} | error: ${response.error}',
+      tag: 'BeSimulators.deleteMeal',
     );
     return response;
   }

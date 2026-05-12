@@ -124,6 +124,15 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mealRateError => 'Impossibile salvare la valutazione.';
 
   @override
+  String get mealAddError => 'Impossibile aggiungere la ricetta. Riprova.';
+
+  @override
+  String get mealUpdateError => 'Impossibile aggiornare la ricetta. Riprova.';
+
+  @override
+  String get mealDeleteError => 'Impossibile eliminare la ricetta. Riprova.';
+
+  @override
   String get rateMealSuccess => 'Valutazione salvata.';
 
   @override
@@ -253,4 +262,59 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get cookbookTitle => 'Ricettario';
+
+  @override
+  String get manageMealFormSectionGeneralInfo => 'Informazioni generali';
+
+  @override
+  String get manageMealFormSectionRecipeDetails => 'Dettagli ricetta';
+
+  @override
+  String get manageMealFormSectionDietaryInfo => 'Info dietetiche';
+
+  @override
+  String get manageMealFormSectionDietaryInfoSubtitle =>
+      'Seleziona tutte le proprietà dietetiche applicabili a questa ricetta.';
+
+  @override
+  String get manageMealFormFieldTitleLabel => 'Titolo ricetta';
+
+  @override
+  String get manageMealFormFieldTitleHint => 'Es. Pasta alla carbonara';
+
+  @override
+  String get manageMealFormFieldSubtitleLabel => 'Sottotitolo ricetta';
+
+  @override
+  String get manageMealFormFieldSubtitleHint =>
+      'Es. Il classico romano rivisitato';
+
+  @override
+  String get manageMealFormFieldDescriptionLabel => 'Descrizione ricetta';
+
+  @override
+  String get manageMealFormFieldDescriptionHint =>
+      'Descrivi la ricetta, il suo sapore e le occasioni in cui prepararla...';
+
+  @override
+  String get manageMealFormFieldCategoryLabel => 'Categoria';
+
+  @override
+  String get manageMealFormFieldCategoryHint => 'Seleziona una categoria';
+
+  @override
+  String get manageMealFormFieldComplexityHint => 'Seleziona la complessità';
+
+  @override
+  String get manageMealFormFieldAffordabilityHint => 'Seleziona il prezzo';
+
+  @override
+  String get manageMealFormFieldDurationLabel =>
+      'Tempo totale (preparazione + cottura)';
+
+  @override
+  String get manageMealFormSave => 'Salva';
+
+  @override
+  String get manageMealFormCancel => 'Annulla';
 }

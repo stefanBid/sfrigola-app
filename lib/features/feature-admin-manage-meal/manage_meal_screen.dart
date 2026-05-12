@@ -6,8 +6,7 @@ import 'package:sfrigola/core/layouts/app_bars/classic_app_bar.dart';
 import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 
 // Project Widgets
-import 'package:sfrigola/features/feature-admin-manage-meal/widgets/add_meal_form.dart';
-import 'package:sfrigola/features/feature-admin-manage-meal/widgets/edit_meal_form.dart';
+import 'package:sfrigola/features/feature-admin-manage-meal/widgets/manage_meal_form.dart';
 
 class ManageMealScreen extends StatelessWidget {
   final String? mealId;
@@ -15,14 +14,13 @@ class ManageMealScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isEditing = mealId != null;
     return StandardPageLayout(
       hasPadding: false,
       appBar: const ClassicAppBar(
         leading: Icon(PhosphorIconsBold.fileText),
         title: 'Manage Meal',
       ),
-      body: isEditing ? EditMealForm(mealId: mealId!) : const AddMealForm(),
+      body: ManageMealForm(mealId: mealId),
     );
   }
 }

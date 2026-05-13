@@ -18,6 +18,7 @@ import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_router.dart';
+import 'package:sfrigola/core/helpers/app_validation.dart';
 
 // Project Layouts
 import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
@@ -222,6 +223,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             hint: l.manageMealFormFieldTitleHint,
                             prefixIcon: PhosphorIconsRegular.fileText,
                             textInputAction: TextInputAction.next,
+                            validator: (value) => AppValidation.notEmpty(
+                              value,
+                              message: 'Title is required',
+                            ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseFormField(
@@ -231,6 +236,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             hint: l.manageMealFormFieldSubtitleHint,
                             prefixIcon: PhosphorIconsRegular.fileText,
                             textInputAction: TextInputAction.next,
+                            validator: (value) => AppValidation.notEmpty(
+                              value,
+                              message: 'Subtitle is required',
+                            ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseFormField(
@@ -243,6 +252,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             textInputAction: TextInputAction.newline,
                             maxLines: null,
                             maxLength: 500,
+                            validator: (value) => AppValidation.notEmpty(
+                              value,
+                              message: 'Description is required',
+                            ),
                           ),
                         ],
                       ),
@@ -276,6 +289,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                               AsyncError() => [],
                             },
                             onChanged: (v) => setState(() => _categories = v),
+                            validator: (value) => AppValidation.listNotEmpty(
+                              value,
+                              message: 'Select at least one category',
+                            ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseDropdown<Complexity>(
@@ -293,6 +310,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                                 )
                                 .toList(),
                             onChanged: (v) => setState(() => _complexity = v),
+                            validator: (value) => AppValidation.notEmpty(
+                              value.toString(),
+                              message: 'Select complexity',
+                            ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseDropdown<Affordability>(
@@ -311,6 +332,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                                 .toList(),
                             onChanged: (v) =>
                                 setState(() => _affordability = v),
+                            validator: (value) => AppValidation.notEmpty(
+                              value.toString(),
+                              message: 'Select affordability',
+                            ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseSlider(

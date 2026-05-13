@@ -75,4 +75,16 @@ class AppValidation {
     if (!hasUpper || !hasLower || !hasDigit) return message;
     return null;
   }
+
+  /// List must not be null or empty.
+  /// Useful for multi-select dropdowns.
+  /// Checks if the value is a List and has at least one item.
+
+  static String? listNotEmpty(
+    dynamic v, {
+    String message = 'Select at least one item',
+  }) {
+    if (v is! List || v.isEmpty) return message;
+    return null;
+  }
 }

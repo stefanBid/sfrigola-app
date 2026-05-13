@@ -681,6 +681,18 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Annulla'**
   String get manageMealFormCancel;
+
+  /// Success message shown after a new meal is created successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Ricetta aggiunta con successo!'**
+  String get manageMealFormAddSuccessMessage;
+
+  /// Success message shown after a meal is updated successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Ricetta aggiornata con successo!'**
+  String get manageMealFormEditSuccessMessage;
 }
 
 class _AppLocalizationsDelegate

@@ -13,7 +13,7 @@ class AddMeal extends _$AddMeal {
   @override
   FutureOr<void> build() {}
 
-  Future<void> submit({required Meal meal}) async {
+  Future<void> submit(Meal meal) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final repo = ref.read(adminRepositoryProvider);

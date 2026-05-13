@@ -317,4 +317,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get manageMealFormCancel => 'Annulla';
+
+  @override
+  String get manageMealFormAddSuccessMessage =>
+      'Ricetta aggiunta con successo!';
+
+  @override
+  String get manageMealFormEditSuccessMessage =>
+      'Ricetta aggiornata con successo!';
 }

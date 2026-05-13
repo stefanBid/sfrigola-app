@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Projects Providers
 import 'package:sfrigola/core/providers/categories_provider.dart';
 import 'package:sfrigola/core/providers/meal_by_id_provider.dart';
+import 'package:sfrigola/features/feature-admin-manage-meal/providers/add_meal_provider.dart';
+import 'package:sfrigola/features/feature-admin-manage-meal/providers/edit_meal_provider.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -26,6 +29,7 @@ import 'package:sfrigola/features/feature-admin-manage-meal/widgets/skeletons/ma
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_form_field.dart';
 import 'package:sfrigola/core/widgets/base_slider.dart';
+import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
 
 class ManageMealForm extends ConsumerStatefulWidget {
@@ -88,19 +92,87 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Process form submission logic here
+      final mealObj = Meal(
+        id: widget.mealId ?? const Uuid().v4(),
+        title: titleController.text,
+        subtitle: subtitleController.text,
+        description: descriptionController.text,
+        categories: _category == null ? [] : [_category!.id],
+        complexity: _complexity!,
+        affordability: _affordability!,
+        duration: _durationMinutes.toInt(),
+        isGlutenFree: _dietaryInfoFields.isGlutenFree,
+        isLactoseFree: _dietaryInfoFields.isLactoseFree,
+        isVegan: _dietaryInfoFields.isVegan,
+        isVegetarian: _dietaryInfoFields.isVegetarian,
+        rate: 0,
+        steps: [],
+        ingredients: [],
+        imageUrl: '',
+        servings: 1,
+      );
+      if (widget.mealId == null) {
+        ref.read(addMealProvider.notifier).submit(mealObj);
+      } else {
+        ref.read(editMealProvider.notifier).submit(mealObj);
+      }
     }
   }
 
-  void _cancelForm() {
+  void _closeForm() {
     FocusScope.of(context).unfocus();
     AppRouter.goBack(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Operation providers
+    final addMealOp = ref.watch(addMealProvider);
+    final editMealOp = ref.watch(editMealProvider);
+
     final categories = ref.watch(categoriesProvider);
     final l = AppLocale.getLabels(context);
+
+    // Manage only error state
+    ref.listen(addMealProvider, (previous, next) {
+      if (!mounted) return;
+      if (next is AsyncError) {
+        BaseScaffoldMessenger.show(
+          context,
+          duration: const Duration(seconds: 1),
+          message: AppLocale.errorFor(context, next.error),
+          type: SnackBarType.error,
+        );
+      } else if (next is AsyncData && previous?.isLoading == true) {
+        BaseScaffoldMessenger.show(
+          context,
+          duration: const Duration(seconds: 1),
+          message: l.manageMealFormAddSuccessMessage,
+          type: SnackBarType.success,
+        );
+        _closeForm();
+      }
+    });
+
+    ref.listen(editMealProvider, (previous, next) {
+      if (!mounted) return;
+      if (next is AsyncError) {
+        BaseScaffoldMessenger.show(
+          context,
+          duration: const Duration(seconds: 1),
+          message: AppLocale.errorFor(context, next.error),
+          type: SnackBarType.error,
+        );
+      } else if (next is AsyncData && previous?.isLoading == true) {
+        BaseScaffoldMessenger.show(
+          context,
+          duration: const Duration(seconds: 1),
+          message: l.manageMealFormEditSuccessMessage,
+          type: SnackBarType.success,
+        );
+        _closeForm();
+      }
+    });
 
     if (widget.mealId != null) {
       final mealAsync = ref.watch(mealByIdProvider(widget.mealId!));
@@ -270,7 +342,11 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
               ),
             ),
           ),
-          FormActionBar(onCancel: _cancelForm, onSubmit: _submitForm),
+          FormActionBar(
+            onCancel: _closeForm,
+            onSubmit: _submitForm,
+            isSubmitting: addMealOp.isLoading || editMealOp.isLoading,
+          ),
         ],
       ),
     );

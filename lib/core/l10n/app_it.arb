@@ -489,5 +489,15 @@
   "manageMealFormCancel": "Annulla",
   "@manageMealFormCancel": {
     "description": "Label for the cancel button in the manage meal form"
+  },
+
+  "manageMealFormAddSuccessMessage": "Ricetta aggiunta con successo!",
+  "@manageMealFormAddSuccessMessage": {
+    "description": "Success message shown after a new meal is created successfully"
+  },
+
+  "manageMealFormEditSuccessMessage": "Ricetta aggiornata con successo!",
+  "@manageMealFormEditSuccessMessage": {
+    "description": "Success message shown after a meal is updated successfully"
   }
 }

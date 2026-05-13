@@ -52,9 +52,9 @@ class AppTypography {
   TextStyle get bodySecondary =>
       TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: colors.muted);
 
-  /// Secondary information, labels (12px, normal)
+  /// Secondary information, labels (13px, normal)
   TextStyle get caption =>
-      TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: colors.text);
+      TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: colors.text);
 
   /// Badges, tiny labels (11px, normal)
   TextStyle get small =>

@@ -11,10 +11,12 @@ class BaseCheckbox extends StatelessWidget {
     super.key,
     required this.value,
     required this.onChanged,
+    this.fullWidth = false,
     this.label,
   });
 
   final bool value;
+  final bool fullWidth;
   final ValueChanged<bool> onChanged;
   final String? label;
 
@@ -22,23 +24,38 @@ class BaseCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: InkWell(
-        onTap: () => onChanged(!value),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              value
-                  ? PhosphorIconsBold.checkSquare
-                  : PhosphorIconsRegular.square,
-              size: AppDesign.iconSizeLg,
-              color: value ? AppColors.primary : AppColors.of(context).muted,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          splashColor: AppColors.of(context).text.withAlpha(60),
+          highlightColor: AppColors.of(context).text.withAlpha(30),
+          borderRadius: AppDesign.borderRadiusXs,
+          onTap: () => onChanged(!value),
+          child: Ink(
+            padding: AppDesign.paddingXs,
+            decoration: const BoxDecoration(
+              borderRadius: AppDesign.borderRadiusXs,
+              color: Colors.transparent,
             ),
-            if (label != null) ...[
-              const SizedBox(width: AppDesign.gapInlineSm),
-              Text(label!, style: AppTypography.of(context).bodyMedium),
-            ],
-          ],
+            child: Row(
+              mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
+              children: [
+                Icon(
+                  value
+                      ? PhosphorIconsFill.checkSquare
+                      : PhosphorIconsRegular.square,
+                  size: AppDesign.iconSizeLg,
+                  color: value
+                      ? AppColors.primary
+                      : AppColors.of(context).muted,
+                ),
+                if (label != null) ...[
+                  const SizedBox(width: AppDesign.gapInlineSm),
+                  Text(label!, style: AppTypography.of(context).bodyMedium),
+                ],
+              ],
+            ),
+          ),
         ),
       ),
     );

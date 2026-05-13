@@ -28,6 +28,7 @@ import 'package:sfrigola/features/feature-admin-manage-meal/widgets/form-compone
 import 'package:sfrigola/features/feature-admin-manage-meal/widgets/skeletons/manage_meal_form_skeleton.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_form_field.dart';
+import 'package:sfrigola/core/widgets/base_multi_select.dart';
 import 'package:sfrigola/core/widgets/base_slider.dart';
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
@@ -47,7 +48,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController subtitleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  Category? _category;
+  List<Category> _categories = [];
   Complexity? _complexity;
   Affordability? _affordability;
   double _durationMinutes = 30;
@@ -72,11 +73,11 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
     titleController.text = meal.title;
     subtitleController.text = meal.subtitle;
     descriptionController.text = meal.description;
-    final matching = availableCategories.where(
-      (c) => meal.categories.contains(c.id),
-    );
+    final matching = availableCategories
+        .where((c) => meal.categories.contains(c.id))
+        .toList();
     setState(() {
-      _category = matching.isEmpty ? null : matching.first;
+      _categories = matching;
       _complexity = meal.complexity;
       _affordability = meal.affordability;
       _durationMinutes = meal.duration.toDouble();
@@ -97,7 +98,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         title: titleController.text,
         subtitle: subtitleController.text,
         description: descriptionController.text,
-        categories: _category == null ? [] : [_category!.id],
+        categories: _categories.map((c) => c.id).toList(),
         complexity: _complexity!,
         affordability: _affordability!,
         duration: _durationMinutes.toInt(),
@@ -252,8 +253,8 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                       icon: PhosphorIconsRegular.cookingPot,
                       child: Column(
                         children: [
-                          BaseDropdown<Category>(
-                            initialValue: _category,
+                          BaseMultiSelect<Category>(
+                            initialValues: _categories,
                             label: l.manageMealFormFieldCategoryLabel,
                             hint: l.manageMealFormFieldCategoryHint,
                             prefixIcon: PhosphorIconsRegular.tag,
@@ -274,7 +275,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                               AsyncLoading() => [],
                               AsyncError() => [],
                             },
-                            onChanged: (v) => setState(() => _category = v),
+                            onChanged: (v) => setState(() => _categories = v),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
                           BaseDropdown<Complexity>(

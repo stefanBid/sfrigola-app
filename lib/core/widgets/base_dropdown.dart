@@ -12,6 +12,8 @@ class BaseDropdownOption<T> {
   const BaseDropdownOption({required this.value, required this.label});
 }
 
+/// Styled single-select [DropdownButtonFormField] for use inside a [Form].
+/// For multi-select, use [BaseMultiSelect].
 class BaseDropdown<T> extends StatelessWidget {
   final T? initialValue;
   final String? label;
@@ -63,9 +65,9 @@ class BaseDropdown<T> extends StatelessWidget {
           hint: hint != null
               ? Text(
                   hint!,
-                  style: AppTypography.of(
-                    context,
-                  ).body.copyWith(color: colors.muted),
+                  style: AppTypography.of(context)
+                      .body
+                      .copyWith(color: colors.muted),
                 )
               : null,
           dropdownColor: colors.surface,

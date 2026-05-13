@@ -1,6 +1,16 @@
 {
   "@@locale": "it",
 
+  "globalConfirm": "Conferma",
+  "@globalConfirm": {
+    "description": "Generic confirm button label used in dialogs"
+  },
+
+  "globalCancel": "Annulla",
+  "@globalCancel": {
+    "description": "Generic cancel button label used in dialogs"
+  },
+
   "homeTitle": "Che cosa cuciniamo oggi?",
   "@homeTitle": {
     "description": "Title shown in the home screen app bar"

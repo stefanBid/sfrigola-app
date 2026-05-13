@@ -49,6 +49,30 @@ class DietaryInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocale.getLabels(context);
+
+    final entries = [
+      (
+        value: fields.isGlutenFree,
+        label: l.mealDetailsBadgeGlutenFree,
+        update: (bool v) => fields.copyWith(isGlutenFree: v),
+      ),
+      (
+        value: fields.isLactoseFree,
+        label: l.mealDetailsBadgeLactoseFree,
+        update: (bool v) => fields.copyWith(isLactoseFree: v),
+      ),
+      (
+        value: fields.isVegan,
+        label: l.mealDetailsBadgeVegan,
+        update: (bool v) => fields.copyWith(isVegan: v),
+      ),
+      (
+        value: fields.isVegetarian,
+        label: l.mealDetailsBadgeVegetarian,
+        update: (bool v) => fields.copyWith(isVegetarian: v),
+      ),
+    ];
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.of(context).muted),
@@ -57,32 +81,17 @@ class DietaryInfo extends StatelessWidget {
       padding: AppDesign.paddingLg,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BaseCheckbox(
-            value: fields.isGlutenFree,
-            label: l.mealDetailsBadgeGlutenFree,
-            onChanged: (v) => onFieldsChanged(fields.copyWith(isGlutenFree: v)),
-          ),
-          const SizedBox(height: AppDesign.gapItemMd),
-          BaseCheckbox(
-            value: fields.isLactoseFree,
-            label: l.mealDetailsBadgeLactoseFree,
-            onChanged: (v) =>
-                onFieldsChanged(fields.copyWith(isLactoseFree: v)),
-          ),
-          const SizedBox(height: AppDesign.gapItemMd),
-          BaseCheckbox(
-            value: fields.isVegan,
-            label: l.mealDetailsBadgeVegan,
-            onChanged: (v) => onFieldsChanged(fields.copyWith(isVegan: v)),
-          ),
-          const SizedBox(height: AppDesign.gapItemMd),
-          BaseCheckbox(
-            value: fields.isVegetarian,
-            label: l.mealDetailsBadgeVegetarian,
-            onChanged: (v) => onFieldsChanged(fields.copyWith(isVegetarian: v)),
-          ),
-        ],
+        spacing: AppDesign.gapItemSm,
+        children: entries
+            .map(
+              (e) => BaseCheckbox(
+                value: e.value,
+                label: e.label,
+                fullWidth: true,
+                onChanged: (v) => onFieldsChanged(e.update(v)),
+              ),
+            )
+            .toList(),
       ),
     );
   }

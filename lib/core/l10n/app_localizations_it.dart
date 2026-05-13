@@ -9,6 +9,12 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
+  String get globalConfirm => 'Conferma';
+
+  @override
+  String get globalCancel => 'Annulla';
+
+  @override
   String get homeTitle => 'Che cosa cuciniamo oggi?';
 
   @override

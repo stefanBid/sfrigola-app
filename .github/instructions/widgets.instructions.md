@@ -107,9 +107,9 @@ BaseFormField(
 
 ## BaseDropdown
 
-Styled `DropdownButtonFormField` for use inside a `Form`. Mirrors `BaseFormField` layout and styling — label above the field, same border, error and typography tokens.
+Styled single-select [DropdownButtonFormField] for use inside a [Form]. Mirrors `BaseFormField` layout and styling — label above the field, same border, error and typography tokens.
 
-Items are passed as `List<BaseDropdownOption<T>>` — a simple data class that hides the Material `DropdownMenuItem` API entirely.
+Items are passed as `List<BaseDropdownOption<T>>` — a simple data class shared with `BaseMultiSelect`.
 
 ```dart
 // Data class — always use const constructor
@@ -118,7 +118,7 @@ const BaseDropdownOption(value: MyEnum.foo, label: 'Foo label')
 
 ```dart
 BaseDropdown<MyEnum>(
-  initialValue: _selectedValue,     // T? — initial selected value, maps to DropdownButtonFormField.initialValue
+  initialValue: _selectedValue,     // T? — initial selected value
   label: 'Label',                   // optional — shown above with caption style
   voidSelectionItemLabel: 'All',    // optional — adds a null item at the top
   prefixIcon: PhosphorIconsRegular.funnelSimple, // IconData? — optional
@@ -136,8 +136,37 @@ BaseDropdown<MyEnum>(
 **Notes:**
 - Uses `initialValue` (not `value`) on `DropdownButtonFormField` — `value` is deprecated
 - `dropdownColor` is always `AppColors.of(context).surface`
-- Selected value text style is `bodyMedium` + `text` colour
 - `prefixIcon` rendered with `muted` colour + `AppDesign.iconSizeMd`
+- For multi-select, use `BaseMultiSelect` instead
+
+---
+
+## BaseMultiSelect
+
+Styled multi-select field for use inside a [Form]. Same visual language as `BaseDropdown` — label above, identical borders and typography tokens. Shares `BaseDropdownOption<T>` as item data class.
+
+Tapping the field opens an `AlertDialog` with `BaseCheckbox` items. Selected values appear as deletable chips inside the field.
+
+```dart
+BaseMultiSelect<MyEnum>(
+  initialValues: _selectedValues,   // List<T> — initial selected values (default: [])
+  label: 'Label',
+  hint: 'Select options...',
+  prefixIcon: PhosphorIconsRegular.tag,
+  items: const [
+    BaseDropdownOption(value: MyEnum.foo, label: 'Foo'),
+    BaseDropdownOption(value: MyEnum.bar, label: 'Bar'),
+  ],
+  onChanged: (v) => setState(() => _selectedValues = v),
+  fillColor: AppColors.of(context).surface,
+  validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+)
+```
+
+**Notes:**
+- Dialog labels use `l.globalConfirm` / `l.globalCancel` — never hardcode strings
+- `onChanged` fires both on dialog confirm and on inline chip deletion
+- `disabled` and `isLoading` work as in `BaseDropdown`
 
 ---
 
@@ -400,6 +429,26 @@ BaseBottomSheet.show(
 - Without `heightFactor`: sheet adapts to content height (`mainAxisSize.min`)
 - Drag handle always visible at the top
 - Background `surface`, top corners `borderRadiusTopMd`
+
+---
+
+## BaseCheckbox
+
+Styled checkbox with Phosphor icon and ripple. Use instead of Material `Checkbox` or `CheckboxListTile` everywhere.
+
+```dart
+BaseCheckbox(
+  value: _isChecked,
+  label: 'Gluten free',   // optional — rendered with bodyMedium style
+  fullWidth: false,       // true → Row takes full available width
+  onChanged: (v) => setState(() => _isChecked = v),
+)
+```
+
+- Unchecked icon: `PhosphorIconsRegular.square` in `muted` colour
+- Checked icon: `PhosphorIconsFill.checkSquare` in `AppColors.primary`
+- Ripple: always visible — `Material(type: transparency)` is built in. No need to add it externally.
+- `Ink` + `padding: AppDesign.paddingXs` ensures the ripple area is slightly larger than the icon.
 
 ---
 

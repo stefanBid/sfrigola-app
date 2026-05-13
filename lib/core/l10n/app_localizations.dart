@@ -94,6 +94,18 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('it')];
 
+  /// Generic confirm button label used in dialogs
+  ///
+  /// In it, this message translates to:
+  /// **'Conferma'**
+  String get globalConfirm;
+
+  /// Generic cancel button label used in dialogs
+  ///
+  /// In it, this message translates to:
+  /// **'Annulla'**
+  String get globalCancel;
+
   /// Title shown in the home screen app bar
   ///
   /// In it, this message translates to:

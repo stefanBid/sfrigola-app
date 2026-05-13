@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -65,9 +66,9 @@ class BaseDropdown<T> extends StatelessWidget {
           hint: hint != null
               ? Text(
                   hint!,
-                  style: AppTypography.of(context)
-                      .body
-                      .copyWith(color: colors.muted),
+                  style: AppTypography.of(
+                    context,
+                  ).body.copyWith(color: colors.muted),
                 )
               : null,
           dropdownColor: colors.surface,
@@ -80,7 +81,11 @@ class BaseDropdown<T> extends StatelessWidget {
                     color: colors.muted,
                   ),
                 )
-              : null,
+              : Icon(
+                  PhosphorIconsRegular.caretDown,
+                  size: AppDesign.iconSizeMd,
+                  color: AppColors.of(context).muted,
+                ),
           decoration: InputDecoration(
             filled: true,
             fillColor: fillColor ?? colors.background,
@@ -92,6 +97,7 @@ class BaseDropdown<T> extends StatelessWidget {
                     size: AppDesign.iconSizeMd,
                   )
                 : null,
+
             border: OutlineInputBorder(
               borderRadius: AppDesign.borderRadiusXs,
               borderSide: BorderSide(color: colors.surface, width: 1.5),

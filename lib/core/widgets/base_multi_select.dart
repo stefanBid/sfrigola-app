@@ -138,9 +138,9 @@ class BaseMultiSelect<T> extends StatelessWidget {
               ),
             )
           : Icon(
-              Icons.arrow_drop_down_sharp,
-              color: colors.muted,
-              size: AppDesign.iconSizeLg,
+              PhosphorIconsRegular.caretDown,
+              size: AppDesign.iconSizeMd,
+              color: AppColors.of(context).muted,
             ),
       border: OutlineInputBorder(
         borderRadius: AppDesign.borderRadiusXs,

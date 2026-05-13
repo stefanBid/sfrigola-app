@@ -137,6 +137,7 @@ BaseDropdown<MyEnum>(
 - Uses `initialValue` (not `value`) on `DropdownButtonFormField` — `value` is deprecated
 - `dropdownColor` is always `AppColors.of(context).surface`
 - `prefixIcon` rendered with `muted` colour + `AppDesign.iconSizeMd`
+- Dropdown arrow: `PhosphorIconsRegular.caretDown` with `muted` colour — never use Material `Icons.arrow_drop_down`
 - For multi-select, use `BaseMultiSelect` instead
 
 ---

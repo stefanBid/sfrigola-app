@@ -9,6 +9,9 @@ import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
+// Project Utils
+import 'package:sfrigola/core/utils/general_utils.dart';
+
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_badge.dart';
 import 'package:sfrigola/core/widgets/base_image_container.dart';
@@ -50,6 +53,7 @@ class GeneralMealCard extends StatelessWidget {
                       Expanded(
                         child: BaseImageContainer(
                           imageUrl: meal.imageUrl,
+                          type: getImageType(meal.imageUrl),
                           width: double.infinity,
                         ),
                       ),

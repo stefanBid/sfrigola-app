@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Projects Helpers
-import '../helpers/app_design.dart';
-import '../helpers/app_colors.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_colors.dart';
+
+// Project Utils
+import 'package:sfrigola/core/utils/general_utils.dart';
 
 enum ImageFilter { none, darken }
 
 enum ImageFit { cover, contain }
-
-enum ImageType { network, asset }
 
 class BaseImageContainer extends StatelessWidget {
   final String imageUrl;
@@ -70,6 +73,21 @@ class BaseImageContainer extends StatelessWidget {
       case ImageType.asset:
         return Image.asset(
           imageUrl,
+          fit: _boxFit,
+          width: width,
+          height: height,
+          errorBuilder: (context, error, stackTrace) => Container(
+            color: AppColors.of(context).muted,
+            child: Icon(
+              PhosphorIconsBold.imageBroken,
+              size: AppDesign.iconSizeXl,
+              color: AppColors.of(context).text.withAlpha(120),
+            ),
+          ),
+        );
+      case ImageType.file:
+        return Image.file(
+          File(imageUrl),
           fit: _boxFit,
           width: width,
           height: height,

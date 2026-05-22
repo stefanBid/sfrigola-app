@@ -706,6 +706,120 @@ abstract class AppLocalizations {
   /// **'Ricetta aggiornata con successo!'**
   String get manageMealFormEditSuccessMessage;
 
+  /// Success message shown after a meal is deleted successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Ricetta eliminata con successo!'**
+  String get manageMealFormDeleteSuccessMessage;
+
+  /// Label for the delete button in the manage meal form action bar
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina'**
+  String get manageMealFormDelete;
+
+  /// Title shown in the app bar when creating a new meal
+  ///
+  /// In it, this message translates to:
+  /// **'Nuova ricetta'**
+  String get manageMealFormTitleAdd;
+
+  /// Title shown in the app bar when editing an existing meal
+  ///
+  /// In it, this message translates to:
+  /// **'Modifica ricetta'**
+  String get manageMealFormTitleEdit;
+
+  /// Tooltip for the back button in the manage meal form app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Indietro'**
+  String get manageMealFormTooltipBack;
+
+  /// Tooltip for the delete button in the manage meal form app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina ricetta'**
+  String get manageMealFormTooltipDelete;
+
+  /// Validation error shown when the meal title is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Il titolo è obbligatorio'**
+  String get manageMealFormFieldTitleRequired;
+
+  /// Validation error shown when the meal subtitle is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Il sottotitolo è obbligatorio'**
+  String get manageMealFormFieldSubtitleRequired;
+
+  /// Validation error shown when the meal description is empty
+  ///
+  /// In it, this message translates to:
+  /// **'La descrizione è obbligatoria'**
+  String get manageMealFormFieldDescriptionRequired;
+
+  /// Validation error shown when no category is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona almeno una categoria'**
+  String get manageMealFormFieldCategoryRequired;
+
+  /// Validation error shown when no complexity is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona la complessità'**
+  String get manageMealFormFieldComplexityRequired;
+
+  /// Validation error shown when no affordability is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona il costo'**
+  String get manageMealFormFieldAffordabilityRequired;
+
+  /// Label for the servings slider in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Porzioni'**
+  String get manageMealFormFieldServingsLabel;
+
+  /// Section title for the ingredients list in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Ingredienti'**
+  String get manageMealFormSectionIngredients;
+
+  /// Placeholder hint for the ingredient input field
+  ///
+  /// In it, this message translates to:
+  /// **'Es. 200g farina 00'**
+  String get manageMealFormFieldIngredientsHint;
+
+  /// Validation error shown when the ingredients list is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi almeno un ingrediente'**
+  String get manageMealFormFieldIngredientsEmpty;
+
+  /// Section title for the preparation steps in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Preparazione'**
+  String get manageMealFormSectionSteps;
+
+  /// Placeholder hint for the preparation step input field
+  ///
+  /// In it, this message translates to:
+  /// **'Es. Porta a bollore l\'acqua salata...'**
+  String get manageMealFormFieldStepsHint;
+
+  /// Validation error shown when the preparation steps list is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi almeno uno step di preparazione'**
+  String get manageMealFormFieldStepsEmpty;
+
   /// Title of the bottom sheet for selecting a recipe image
   ///
   /// In it, this message translates to:

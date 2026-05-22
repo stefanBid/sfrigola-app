@@ -9,7 +9,6 @@ import 'features/feature-meal-details/meal_details_screen.dart';
 import 'features/feature-search/search_screen.dart';
 import 'features/feature-favourites/favourite_screen.dart';
 import 'features/feature-admin-cookbook/cookbook_screen.dart';
-import 'features/feature-form/form_screen.dart';
 import 'features/feature-profile/profile_screen.dart';
 import 'features/feature-admin-manage-meal/manage_meal_screen.dart';
 
@@ -46,11 +45,6 @@ final GoRouter appRouter = GoRouter(
           path: '/favourites',
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: FavouriteScreen()),
-        ),
-        GoRoute(
-          path: '/form',
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: FormScreen()),
         ),
         GoRoute(
           path: '/profile',

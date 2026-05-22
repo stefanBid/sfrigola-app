@@ -78,6 +78,7 @@ BaseInput(
   controller: controller,
   hint: 'Search...',
   fillColor: AppColors.of(context).surface, // optional
+  maxLines: 1,                              // default 1 — use null for auto-grow textarea
 )
 ```
 
@@ -178,6 +179,7 @@ BaseButton(
   label: 'Submit',
   icon: PhosphorIconsRegular.arrowRight, // optional
   type: BaseButtonType.filled,           // filled | outlined | ghost
+  color: AppColors.secondary,            // optional — accent colour; defaults to AppColors.primary
   fullWidth: true,
   pill: false,                           // true → borderRadiusSm (pill shape)
   isLoading: false,
@@ -185,12 +187,11 @@ BaseButton(
 )
 ```
 
-- **`filled`** — `AppColors.primary` background, dark text. Use for primary CTA and form submit.
-- **`outlined`** — transparent background, `AppColors.secondary` border + text. Use for secondary CTA.
-- **`ghost`** — no background, no border, `AppColors.primary` text + ripple. Use for low-prominence actions (empty states, error pages, dialogs).
+- **`filled`** — `color` background (default `AppColors.primary`), dark text. Use for primary CTA and form submit.
+- **`outlined`** — transparent background, `color` border + text. Use for secondary CTA.
+- **`ghost`** — no background, no border, `color` text + ripple. Use for low-prominence actions (empty states, error pages, dialogs).
 - **`pill: true`** — applies `AppDesign.borderRadiusSm` instead of `borderRadiusXs`. Use with `ghost` in contextual layouts (e.g. `MessagePageLayout`).
-
-`AppColors.primary` is always primary — no dark mode swap.
+- **`color`** — controls the accent for all types. Omit to use `AppColors.primary`.
 
 ---
 

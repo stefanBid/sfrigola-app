@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Projects Providers
 import 'package:sfrigola/core/providers/categories_provider.dart';
 import 'package:sfrigola/core/providers/meal_by_id_provider.dart';
+import 'package:sfrigola/features/feature-admin-cookbook/providers/all_meals_by_filter_provider.dart';
 import 'package:sfrigola/features/feature-admin-manage-meal/providers/add_meal_provider.dart';
 import 'package:sfrigola/features/feature-admin-manage-meal/providers/edit_meal_provider.dart';
 
@@ -26,6 +27,7 @@ import 'package:sfrigola/core/layouts/body/message_page_layout.dart';
 
 // Project Widgets
 import 'package:sfrigola/features/feature-admin-manage-meal/widgets/form-components/dietary_info.dart';
+import 'package:sfrigola/features/feature-admin-manage-meal/widgets/form-components/editable_list_field.dart';
 import 'package:sfrigola/features/feature-admin-manage-meal/widgets/form-components/form_action_bar.dart';
 import 'package:sfrigola/features/feature-admin-manage-meal/widgets/skeletons/manage_meal_form_skeleton.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
@@ -58,6 +60,9 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
   DietaryInfoFields _dietaryInfoFields = const DietaryInfoFields();
   XFile? _pickedImage;
   String? _existingImageUrl;
+  int _servings = 2;
+  List<String> _ingredients = [];
+  List<String> _steps = [];
   bool _populated = false;
 
   @override
@@ -94,6 +99,9 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
       );
       _populated = true;
       _existingImageUrl = meal.imageUrl.isNotEmpty ? meal.imageUrl : null;
+      _servings = meal.servings;
+      _ingredients = List<String>.from(meal.ingredients);
+      _steps = List<String>.from(meal.steps);
     });
   }
 
@@ -113,10 +121,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         isVegan: _dietaryInfoFields.isVegan,
         isVegetarian: _dietaryInfoFields.isVegetarian,
         rate: 0,
-        steps: [],
-        ingredients: [],
+        steps: _steps,
+        ingredients: _ingredients,
         imageUrl: _pickedImage?.path ?? _existingImageUrl ?? '',
-        servings: 1,
+        servings: _servings,
       );
       if (widget.mealId == null) {
         ref.read(addMealProvider.notifier).submit(mealObj);
@@ -127,7 +135,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
   }
 
   void _onImageSelected(XFile? file) {
-    setState(() => _pickedImage = file);
+    setState(() {
+      _pickedImage = file;
+      if (file == null) _existingImageUrl = null;
+    });
   }
 
   void _closeForm() {
@@ -155,6 +166,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
           type: SnackBarType.error,
         );
       } else if (next is AsyncData && previous?.isLoading == true) {
+        ref.invalidate(allMealsByFilterProvider);
         BaseScaffoldMessenger.show(
           context,
           duration: const Duration(seconds: 1),
@@ -175,6 +187,8 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
           type: SnackBarType.error,
         );
       } else if (next is AsyncData && previous?.isLoading == true) {
+        ref.invalidate(mealByIdProvider(widget.mealId!));
+        ref.invalidate(allMealsByFilterProvider);
         BaseScaffoldMessenger.show(
           context,
           duration: const Duration(seconds: 1),
@@ -239,7 +253,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             textInputAction: TextInputAction.next,
                             validator: (value) => AppValidation.notEmpty(
                               value,
-                              message: 'Title is required',
+                              message: l.manageMealFormFieldTitleRequired,
                             ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
@@ -252,7 +266,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             textInputAction: TextInputAction.next,
                             validator: (value) => AppValidation.notEmpty(
                               value,
-                              message: 'Subtitle is required',
+                              message: l.manageMealFormFieldSubtitleRequired,
                             ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
@@ -268,7 +282,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             maxLength: 500,
                             validator: (value) => AppValidation.notEmpty(
                               value,
-                              message: 'Description is required',
+                              message: l.manageMealFormFieldDescriptionRequired,
                             ),
                           ),
                         ],
@@ -305,7 +319,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             onChanged: (v) => setState(() => _categories = v),
                             validator: (value) => AppValidation.listNotEmpty(
                               value,
-                              message: 'Select at least one category',
+                              message: l.manageMealFormFieldCategoryRequired,
                             ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
@@ -326,7 +340,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             onChanged: (v) => setState(() => _complexity = v),
                             validator: (value) => AppValidation.notEmpty(
                               value,
-                              message: 'Select complexity',
+                              message: l.manageMealFormFieldComplexityRequired,
                             ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
@@ -348,7 +362,8 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                                 setState(() => _affordability = v),
                             validator: (value) => AppValidation.notEmpty(
                               value,
-                              message: 'Select affordability',
+                              message:
+                                  l.manageMealFormFieldAffordabilityRequired,
                             ),
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
@@ -361,6 +376,17 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             valueFormatter: (v) => '${v.toInt()} min',
                             onChanged: (v) =>
                                 setState(() => _durationMinutes = v),
+                          ),
+                          const SizedBox(height: AppDesign.gapSectionMd),
+                          BaseSlider(
+                            label: l.manageMealFormFieldServingsLabel,
+                            value: _servings.toDouble(),
+                            min: 1,
+                            max: 20,
+                            divisions: 19,
+                            valueFormatter: (v) => v.toInt().toString(),
+                            onChanged: (v) =>
+                                setState(() => _servings = v.toInt()),
                           ),
                         ],
                       ),
@@ -376,6 +402,35 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             setState(() => _dietaryInfoFields = v),
                       ),
                     ),
+                    const SizedBox(height: AppDesign.gapSectionLg),
+                    GcSectionView(
+                      title: l.manageMealFormSectionIngredients,
+                      icon: PhosphorIconsRegular.listBullets,
+                      child: EditableListField(
+                        items: _ingredients,
+                        onChanged: (v) => setState(() => _ingredients = v),
+                        hint: l.manageMealFormFieldIngredientsHint,
+                        multiline: true,
+                        validator: (v) => (v == null || v.isEmpty)
+                            ? l.manageMealFormFieldIngredientsEmpty
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(height: AppDesign.gapSectionLg),
+                    GcSectionView(
+                      title: l.manageMealFormSectionSteps,
+                      icon: PhosphorIconsRegular.listNumbers,
+                      child: EditableListField(
+                        items: _steps,
+                        onChanged: (v) => setState(() => _steps = v),
+                        hint: l.manageMealFormFieldStepsHint,
+                        numbered: true,
+                        multiline: true,
+                        validator: (v) => (v == null || v.isEmpty)
+                            ? l.manageMealFormFieldStepsEmpty
+                            : null,
+                      ),
+                    ),
                     const SizedBox(height: AppDesign.gapSectionSm),
                   ],
                 ),
@@ -383,7 +438,6 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
             ),
           ),
           FormActionBar(
-            onCancel: _closeForm,
             onSubmit: _submitForm,
             isSubmitting: addMealOp.isLoading || editMealOp.isLoading,
           ),

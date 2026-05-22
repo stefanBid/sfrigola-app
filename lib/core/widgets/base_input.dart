@@ -16,6 +16,7 @@ class BaseInput extends StatelessWidget {
   final bool autofocus;
   final FocusNode? focusNode;
   final VoidCallback? onTap;
+  final int? maxLines;
 
   const BaseInput({
     super.key,
@@ -29,6 +30,7 @@ class BaseInput extends StatelessWidget {
     this.autofocus = false,
     this.focusNode,
     this.onTap,
+    this.maxLines = 1,
   }) : assert(
          readOnly || controller != null,
          'controller is required when readOnly is false',
@@ -45,6 +47,7 @@ class BaseInput extends StatelessWidget {
       focusNode: focusNode,
       readOnly: readOnly,
       autofocus: autofocus,
+      maxLines: maxLines,
       showCursor: readOnly ? false : null,
       onTap: onTap,
       onChanged: readOnly ? null : onChanged,

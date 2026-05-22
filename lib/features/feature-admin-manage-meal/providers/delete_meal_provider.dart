@@ -10,7 +10,7 @@ class DeleteMeal extends _$DeleteMeal {
   @override
   FutureOr<void> build() {}
 
-  Future<void> submit({required String mealId}) async {
+  Future<void> submit(String mealId) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final repo = ref.read(adminRepositoryProvider);

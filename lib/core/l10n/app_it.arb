@@ -511,6 +511,101 @@
     "description": "Success message shown after a meal is updated successfully"
   },
 
+  "manageMealFormDeleteSuccessMessage": "Ricetta eliminata con successo!",
+  "@manageMealFormDeleteSuccessMessage": {
+    "description": "Success message shown after a meal is deleted successfully"
+  },
+
+  "manageMealFormDelete": "Elimina",
+  "@manageMealFormDelete": {
+    "description": "Label for the delete button in the manage meal form action bar"
+  },
+
+  "manageMealFormTitleAdd": "Nuova ricetta",
+  "@manageMealFormTitleAdd": {
+    "description": "Title shown in the app bar when creating a new meal"
+  },
+
+  "manageMealFormTitleEdit": "Modifica ricetta",
+  "@manageMealFormTitleEdit": {
+    "description": "Title shown in the app bar when editing an existing meal"
+  },
+
+  "manageMealFormTooltipBack": "Indietro",
+  "@manageMealFormTooltipBack": {
+    "description": "Tooltip for the back button in the manage meal form app bar"
+  },
+
+  "manageMealFormTooltipDelete": "Elimina ricetta",
+  "@manageMealFormTooltipDelete": {
+    "description": "Tooltip for the delete button in the manage meal form app bar"
+  },
+
+  "manageMealFormFieldTitleRequired": "Il titolo è obbligatorio",
+  "@manageMealFormFieldTitleRequired": {
+    "description": "Validation error shown when the meal title is empty"
+  },
+
+  "manageMealFormFieldSubtitleRequired": "Il sottotitolo è obbligatorio",
+  "@manageMealFormFieldSubtitleRequired": {
+    "description": "Validation error shown when the meal subtitle is empty"
+  },
+
+  "manageMealFormFieldDescriptionRequired": "La descrizione è obbligatoria",
+  "@manageMealFormFieldDescriptionRequired": {
+    "description": "Validation error shown when the meal description is empty"
+  },
+
+  "manageMealFormFieldCategoryRequired": "Seleziona almeno una categoria",
+  "@manageMealFormFieldCategoryRequired": {
+    "description": "Validation error shown when no category is selected"
+  },
+
+  "manageMealFormFieldComplexityRequired": "Seleziona la complessità",
+  "@manageMealFormFieldComplexityRequired": {
+    "description": "Validation error shown when no complexity is selected"
+  },
+
+  "manageMealFormFieldAffordabilityRequired": "Seleziona il costo",
+  "@manageMealFormFieldAffordabilityRequired": {
+    "description": "Validation error shown when no affordability is selected"
+  },
+
+  "manageMealFormFieldServingsLabel": "Porzioni",
+  "@manageMealFormFieldServingsLabel": {
+    "description": "Label for the servings slider in the manage meal form"
+  },
+
+  "manageMealFormSectionIngredients": "Ingredienti",
+  "@manageMealFormSectionIngredients": {
+    "description": "Section title for the ingredients list in the manage meal form"
+  },
+
+  "manageMealFormFieldIngredientsHint": "Es. 200g farina 00",
+  "@manageMealFormFieldIngredientsHint": {
+    "description": "Placeholder hint for the ingredient input field"
+  },
+
+  "manageMealFormFieldIngredientsEmpty": "Aggiungi almeno un ingrediente",
+  "@manageMealFormFieldIngredientsEmpty": {
+    "description": "Validation error shown when the ingredients list is empty"
+  },
+
+  "manageMealFormSectionSteps": "Preparazione",
+  "@manageMealFormSectionSteps": {
+    "description": "Section title for the preparation steps in the manage meal form"
+  },
+
+  "manageMealFormFieldStepsHint": "Es. Porta a bollore l'acqua salata...",
+  "@manageMealFormFieldStepsHint": {
+    "description": "Placeholder hint for the preparation step input field"
+  },
+
+  "manageMealFormFieldStepsEmpty": "Aggiungi almeno uno step di preparazione",
+  "@manageMealFormFieldStepsEmpty": {
+    "description": "Validation error shown when the preparation steps list is empty"
+  },
+
   "imagePickerSheetTitle": "Immagine ricetta",
   "@imagePickerSheetTitle": {
     "description": "Title of the bottom sheet for selecting a recipe image"

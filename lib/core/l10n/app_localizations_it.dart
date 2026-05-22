@@ -333,6 +333,71 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ricetta aggiornata con successo!';
 
   @override
+  String get manageMealFormDeleteSuccessMessage =>
+      'Ricetta eliminata con successo!';
+
+  @override
+  String get manageMealFormDelete => 'Elimina';
+
+  @override
+  String get manageMealFormTitleAdd => 'Nuova ricetta';
+
+  @override
+  String get manageMealFormTitleEdit => 'Modifica ricetta';
+
+  @override
+  String get manageMealFormTooltipBack => 'Indietro';
+
+  @override
+  String get manageMealFormTooltipDelete => 'Elimina ricetta';
+
+  @override
+  String get manageMealFormFieldTitleRequired => 'Il titolo è obbligatorio';
+
+  @override
+  String get manageMealFormFieldSubtitleRequired =>
+      'Il sottotitolo è obbligatorio';
+
+  @override
+  String get manageMealFormFieldDescriptionRequired =>
+      'La descrizione è obbligatoria';
+
+  @override
+  String get manageMealFormFieldCategoryRequired =>
+      'Seleziona almeno una categoria';
+
+  @override
+  String get manageMealFormFieldComplexityRequired =>
+      'Seleziona la complessità';
+
+  @override
+  String get manageMealFormFieldAffordabilityRequired => 'Seleziona il costo';
+
+  @override
+  String get manageMealFormFieldServingsLabel => 'Porzioni';
+
+  @override
+  String get manageMealFormSectionIngredients => 'Ingredienti';
+
+  @override
+  String get manageMealFormFieldIngredientsHint => 'Es. 200g farina 00';
+
+  @override
+  String get manageMealFormFieldIngredientsEmpty =>
+      'Aggiungi almeno un ingrediente';
+
+  @override
+  String get manageMealFormSectionSteps => 'Preparazione';
+
+  @override
+  String get manageMealFormFieldStepsHint =>
+      'Es. Porta a bollore l\'acqua salata...';
+
+  @override
+  String get manageMealFormFieldStepsEmpty =>
+      'Aggiungi almeno uno step di preparazione';
+
+  @override
   String get imagePickerSheetTitle => 'Immagine ricetta';
 
   @override

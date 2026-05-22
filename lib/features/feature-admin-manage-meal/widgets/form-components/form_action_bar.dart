@@ -12,12 +12,10 @@ import 'package:sfrigola/core/widgets/base_button.dart';
 class FormActionBar extends StatelessWidget {
   const FormActionBar({
     super.key,
-    required this.onCancel,
     required this.onSubmit,
     this.isSubmitting = false,
   });
 
-  final VoidCallback onCancel;
   final VoidCallback onSubmit;
   final bool isSubmitting;
 
@@ -31,25 +29,12 @@ class FormActionBar extends StatelessWidget {
         bottom: bottomSpacing + AppDesign.gapSectionMd,
       ),
       color: AppColors.of(context).bottomBar,
-      child: Row(
-        children: [
-          Expanded(
-            child: BaseButton(
-              label: l.manageMealFormSave,
-              icon: PhosphorIconsRegular.check,
-              onPressed: onSubmit,
-            ),
-          ),
-          const SizedBox(width: AppDesign.gapInlineMd),
-          Expanded(
-            child: BaseButton(
-              label: l.manageMealFormCancel,
-              icon: PhosphorIconsRegular.x,
-              type: BaseButtonType.outlined,
-              onPressed: onCancel,
-            ),
-          ),
-        ],
+      child: BaseButton(
+        label: l.manageMealFormSave,
+        icon: PhosphorIconsRegular.check,
+        fullWidth: true,
+        isLoading: isSubmitting,
+        onPressed: onSubmit,
       ),
     );
   }

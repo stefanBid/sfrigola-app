@@ -331,4 +331,19 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get manageMealFormEditSuccessMessage =>
       'Ricetta aggiornata con successo!';
+
+  @override
+  String get imagePickerSheetTitle => 'Immagine ricetta';
+
+  @override
+  String get imagePickerLabelAdd => 'Tocca per aggiungere un\'immagine';
+
+  @override
+  String get imagePickerGallery => 'Scegli dalla galleria';
+
+  @override
+  String get imagePickerCamera => 'Scatta una foto';
+
+  @override
+  String get imagePickerRemove => 'Rimuovi immagine';
 }

@@ -53,6 +53,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Sfrigola ha bisogno di accedere alla galleria per aggiungere un'immagine alla ricetta e per selezionare un'immagine come avatar del profilo.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Sfrigola ha bisogno di accedere alla fotocamera per scattare una foto della ricetta e per aggiornare l'avatar del profilo.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

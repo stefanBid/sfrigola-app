@@ -509,5 +509,30 @@
   "manageMealFormEditSuccessMessage": "Ricetta aggiornata con successo!",
   "@manageMealFormEditSuccessMessage": {
     "description": "Success message shown after a meal is updated successfully"
+  },
+
+  "imagePickerSheetTitle": "Immagine ricetta",
+  "@imagePickerSheetTitle": {
+    "description": "Title of the bottom sheet for selecting a recipe image"
+  },
+
+  "imagePickerLabelAdd": "Tocca per aggiungere un'immagine",
+  "@imagePickerLabelAdd": {
+    "description": "Placeholder label shown in the image picker when no image is selected"
+  },
+
+  "imagePickerGallery": "Scegli dalla galleria",
+  "@imagePickerGallery": {
+    "description": "Option label to pick an image from the gallery"
+  },
+
+  "imagePickerCamera": "Scatta una foto",
+  "@imagePickerCamera": {
+    "description": "Option label to take a photo with the camera"
+  },
+
+  "imagePickerRemove": "Rimuovi immagine",
+  "@imagePickerRemove": {
+    "description": "Option label to remove the current image"
   }
 }

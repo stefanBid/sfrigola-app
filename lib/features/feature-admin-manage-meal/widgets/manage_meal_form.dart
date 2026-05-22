@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,6 +32,7 @@ import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_form_field.dart';
 import 'package:sfrigola/core/widgets/base_multi_select.dart';
 import 'package:sfrigola/core/widgets/base_slider.dart';
+import 'package:sfrigola/core/widgets/base_image_picker.dart';
 import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/group-container/gc_section_view.dart';
 
@@ -54,6 +56,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
   Affordability? _affordability;
   double _durationMinutes = 30;
   DietaryInfoFields _dietaryInfoFields = const DietaryInfoFields();
+  XFile? _pickedImage;
   bool _populated = false;
 
   @override
@@ -110,7 +113,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         rate: 0,
         steps: [],
         ingredients: [],
-        imageUrl: '',
+        imageUrl: _pickedImage?.path ?? '',
         servings: 1,
       );
       if (widget.mealId == null) {
@@ -119,6 +122,10 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         ref.read(editMealProvider.notifier).submit(mealObj);
       }
     }
+  }
+
+  void _onImageSelected(XFile? file) {
+    setState(() => _pickedImage = file);
   }
 
   void _closeForm() {
@@ -216,6 +223,11 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                       icon: PhosphorIconsRegular.notepad,
                       child: Column(
                         children: [
+                          BaseImagePicker(
+                            localImage: _pickedImage,
+                            onImageSelected: _onImageSelected,
+                          ),
+                          const SizedBox(height: AppDesign.gapSectionMd),
                           BaseFormField(
                             controller: titleController,
                             fillColor: AppColors.of(context).surface,

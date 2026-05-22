@@ -705,6 +705,36 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Ricetta aggiornata con successo!'**
   String get manageMealFormEditSuccessMessage;
+
+  /// Title of the bottom sheet for selecting a recipe image
+  ///
+  /// In it, this message translates to:
+  /// **'Immagine ricetta'**
+  String get imagePickerSheetTitle;
+
+  /// Placeholder label shown in the image picker when no image is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Tocca per aggiungere un\'immagine'**
+  String get imagePickerLabelAdd;
+
+  /// Option label to pick an image from the gallery
+  ///
+  /// In it, this message translates to:
+  /// **'Scegli dalla galleria'**
+  String get imagePickerGallery;
+
+  /// Option label to take a photo with the camera
+  ///
+  /// In it, this message translates to:
+  /// **'Scatta una foto'**
+  String get imagePickerCamera;
+
+  /// Option label to remove the current image
+  ///
+  /// In it, this message translates to:
+  /// **'Rimuovi immagine'**
+  String get imagePickerRemove;
 }
 
 class _AppLocalizationsDelegate

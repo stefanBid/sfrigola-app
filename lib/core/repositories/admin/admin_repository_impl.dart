@@ -16,8 +16,9 @@ class AdminRepositoryImpl implements AdminRepository {
       meal: meal,
       simulateError: false,
     );
-    if (response.error != null)
-      throw MealMutationException(MealMutationType.add);
+    if (response.error != null) {
+      throw const MealMutationException(MealMutationType.add);
+    }
     return response;
   }
 
@@ -28,8 +29,9 @@ class AdminRepositoryImpl implements AdminRepository {
       meal: meal,
       simulateError: false,
     );
-    if (response.error != null)
-      throw MealMutationException(MealMutationType.update);
+    if (response.error != null) {
+      throw const MealMutationException(MealMutationType.update);
+    }
     return response;
   }
 
@@ -40,8 +42,9 @@ class AdminRepositoryImpl implements AdminRepository {
       mealId: mealId,
       simulateError: false,
     );
-    if (response.error != null)
-      throw MealMutationException(MealMutationType.delete);
+    if (response.error != null) {
+      throw const MealMutationException(MealMutationType.delete);
+    }
     return response;
   }
 }

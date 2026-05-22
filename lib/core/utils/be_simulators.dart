@@ -110,9 +110,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getChallenge',
     );
-    final base = _meals
-        .where((m) => m.complexity == Complexity.hard)
-        .toList();
+    final base = _meals.where((m) => m.complexity == Complexity.hard).toList();
     final response = _buildPreviewResponse(base, request, simulateError);
     AppLogger.debug(
       'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
@@ -176,11 +174,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getAllMeals',
     );
-    final response = _buildPreviewResponse(
-      _meals,
-      request,
-      simulateError,
-    );
+    final response = _buildPreviewResponse(_meals, request, simulateError);
     AppLogger.debug(
       'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',
       tag: 'BeSimulators.getAllMeals',
@@ -245,9 +239,7 @@ class BeSimulators {
       'request: ${request.toJson()}',
       tag: 'BeSimulators.getFavorites',
     );
-    final base = _meals
-        .where((m) => _favoriteIds.contains(m.id))
-        .toList();
+    final base = _meals.where((m) => _favoriteIds.contains(m.id)).toList();
     final response = _buildPreviewResponse(base, request, simulateError);
     AppLogger.debug(
       'total: ${response.total} | returned: ${response.data.length} | error: ${response.error}',

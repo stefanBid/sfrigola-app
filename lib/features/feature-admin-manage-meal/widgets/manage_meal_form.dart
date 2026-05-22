@@ -57,6 +57,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
   double _durationMinutes = 30;
   DietaryInfoFields _dietaryInfoFields = const DietaryInfoFields();
   XFile? _pickedImage;
+  String? _existingImageUrl;
   bool _populated = false;
 
   @override
@@ -92,6 +93,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         isVegetarian: meal.isVegetarian,
       );
       _populated = true;
+      _existingImageUrl = meal.imageUrl.isNotEmpty ? meal.imageUrl : null;
     });
   }
 
@@ -113,7 +115,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         rate: 0,
         steps: [],
         ingredients: [],
-        imageUrl: _pickedImage?.path ?? '',
+        imageUrl: _pickedImage?.path ?? _existingImageUrl ?? '',
         servings: 1,
       );
       if (widget.mealId == null) {
@@ -224,7 +226,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                       child: Column(
                         children: [
                           BaseImagePicker(
-                            localImage: _pickedImage,
+                            imageUrl: _pickedImage?.path ?? _existingImageUrl,
                             onImageSelected: _onImageSelected,
                           ),
                           const SizedBox(height: AppDesign.gapSectionMd),
@@ -323,7 +325,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                                 .toList(),
                             onChanged: (v) => setState(() => _complexity = v),
                             validator: (value) => AppValidation.notEmpty(
-                              value.toString(),
+                              value,
                               message: 'Select complexity',
                             ),
                           ),
@@ -345,7 +347,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             onChanged: (v) =>
                                 setState(() => _affordability = v),
                             validator: (value) => AppValidation.notEmpty(
-                              value.toString(),
+                              value,
                               message: 'Select affordability',
                             ),
                           ),

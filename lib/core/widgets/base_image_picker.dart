@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -6,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_image.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
@@ -16,21 +16,21 @@ import 'package:sfrigola/core/widgets/base_image_selector_bottom_sheet.dart';
 /// gallery or take one with the camera.
 ///
 /// The widget is stateless — the caller owns the image state:
-/// - [localImage]: the [XFile] currently selected by the user (null = no image).
+/// - [imageUrl]: URL/path of the image to display (network, asset or local file path). Null shows the empty placeholder.
 /// - [onImageSelected]: called with the new [XFile] on pick, or `null` when the user removes the image.
 class BaseImagePicker extends StatelessWidget {
   const BaseImagePicker({
     super.key,
-    this.localImage,
+    this.imageUrl,
     this.height = 200,
     required this.onImageSelected,
   });
 
-  final XFile? localImage;
+  final String? imageUrl;
   final ValueChanged<XFile?> onImageSelected;
   final double height;
 
-  bool get _hasImage => localImage != null;
+  bool get _hasImage => imageUrl != null;
 
   Future<void> _pickImage(ImageSource source) async {
     final file = await ImagePicker().pickImage(
@@ -72,8 +72,13 @@ class BaseImagePicker extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  if (localImage != null)
-                    Image.file(File(localImage!.path), fit: BoxFit.cover)
+                  if (imageUrl != null)
+                    AppImage.buildImage(
+                      context,
+                      imageUrl: imageUrl!,
+                      type: AppImage.getType(imageUrl!),
+                      fit: BoxFit.cover,
+                    )
                   else
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,

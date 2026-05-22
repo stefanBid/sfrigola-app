@@ -33,18 +33,17 @@ class BaseBox extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       borderRadius: settings.borderRadius,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: settings.borderRadius,
-        splashColor: AppColors.of(context).text.withAlpha(60),
-        highlightColor: AppColors.of(context).text.withAlpha(30),
-        child: Ink(
-          padding: settings.padding,
-          decoration: BoxDecoration(
-            borderRadius: settings.borderRadius,
-            color: settings.color ?? AppColors.of(context).surface,
-          ),
-          child: child,
+      child: Ink(
+        decoration: BoxDecoration(
+          borderRadius: settings.borderRadius,
+          color: settings.color ?? AppColors.of(context).surface,
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: settings.borderRadius,
+          splashColor: AppColors.of(context).text.withAlpha(60),
+          highlightColor: AppColors.of(context).text.withAlpha(30),
+          child: Padding(padding: settings.padding, child: child),
         ),
       ),
     );

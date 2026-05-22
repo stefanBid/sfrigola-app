@@ -26,34 +26,36 @@ class BaseCheckbox extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Material(
         type: MaterialType.transparency,
-        child: InkWell(
-          splashColor: AppColors.of(context).text.withAlpha(60),
-          highlightColor: AppColors.of(context).text.withAlpha(30),
-          borderRadius: AppDesign.borderRadiusXs,
-          onTap: () => onChanged(!value),
-          child: Ink(
-            padding: AppDesign.paddingXs,
-            decoration: const BoxDecoration(
-              borderRadius: AppDesign.borderRadiusXs,
-              color: Colors.transparent,
-            ),
-            child: Row(
-              mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
-              children: [
-                Icon(
-                  value
-                      ? PhosphorIconsFill.checkSquare
-                      : PhosphorIconsRegular.square,
-                  size: AppDesign.iconSizeLg,
-                  color: value
-                      ? AppColors.primary
-                      : AppColors.of(context).muted,
-                ),
-                if (label != null) ...[
-                  const SizedBox(width: AppDesign.gapInlineSm),
-                  Text(label!, style: AppTypography.of(context).bodyMedium),
+        child: Ink(
+          decoration: const BoxDecoration(
+            borderRadius: AppDesign.borderRadiusXs,
+            color: Colors.transparent,
+          ),
+          child: InkWell(
+            splashColor: AppColors.of(context).text.withAlpha(60),
+            highlightColor: AppColors.of(context).text.withAlpha(30),
+            borderRadius: AppDesign.borderRadiusXs,
+            onTap: () => onChanged(!value),
+            child: Padding(
+              padding: AppDesign.paddingXs,
+              child: Row(
+                mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
+                children: [
+                  Icon(
+                    value
+                        ? PhosphorIconsFill.checkSquare
+                        : PhosphorIconsRegular.square,
+                    size: AppDesign.iconSizeLg,
+                    color: value
+                        ? AppColors.primary
+                        : AppColors.of(context).muted,
+                  ),
+                  if (label != null) ...[
+                    const SizedBox(width: AppDesign.gapInlineSm),
+                    Text(label!, style: AppTypography.of(context).bodyMedium),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),

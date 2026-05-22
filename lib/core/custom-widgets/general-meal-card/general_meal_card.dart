@@ -32,110 +32,119 @@ class GeneralMealCard extends StatelessWidget {
       child: SizedBox(
         width: AppDesign.isPhone(context) ? double.infinity : 100,
         height: double.infinity,
-        child: Material(
-          color: Colors.transparent,
+        child: ClipRRect(
           borderRadius: AppDesign.borderRadiusMd,
-          child: InkWell(
-            splashColor: AppColors.of(context).text.withAlpha(60),
-            highlightColor: AppColors.of(context).text.withAlpha(30),
-            borderRadius: AppDesign.borderRadiusMd,
-            onTap: () => onTap(meal.id),
+          child: Material(
+            color: Colors.transparent,
             child: Ink(
-              decoration: BoxDecoration(
-                borderRadius: AppDesign.borderRadiusMd,
-                color: AppColors.of(context).surface,
-              ),
-              padding: AppDesign.paddingSm,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: BaseImageContainer(
-                      imageUrl: meal.imageUrl,
-                      width: double.infinity,
-                    ),
-                  ),
-                  Padding(
-                    padding: AppDesign.paddingSm.copyWith(
-                      top: AppDesign.gapItemMd,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+              decoration: BoxDecoration(color: AppColors.of(context).surface),
+              child: InkWell(
+                splashColor: AppColors.of(context).text.withAlpha(60),
+                highlightColor: AppColors.of(context).text.withAlpha(30),
+                onTap: () => onTap(meal.id),
+                child: Padding(
+                  padding: AppDesign.paddingSm,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: BaseImageContainer(
+                          imageUrl: meal.imageUrl,
+                          width: double.infinity,
+                        ),
+                      ),
+                      Padding(
+                        padding: AppDesign.paddingSm.copyWith(
+                          top: AppDesign.gapItemMd,
+                        ),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    meal.title,
-                                    style: AppTypography.of(context).body
-                                        .copyWith(fontWeight: FontWeight.w600),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        meal.title,
+                                        style: AppTypography.of(context).body
+                                            .copyWith(
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(
+                                        height: AppDesign.gapItemXs,
+                                      ),
+                                      Text(
+                                        meal.subtitle,
+                                        style: AppTypography.of(
+                                          context,
+                                        ).bodyMedium,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: AppDesign.gapItemXs),
-                                  Text(
-                                    meal.subtitle,
-                                    style: AppTypography.of(context).bodyMedium,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(width: AppDesign.gapInlineSm),
+                                BaseBadge(
+                                  label: meal.rate.toStringAsFixed(1),
+                                  icon: PhosphorIconsRegular.star,
+                                  style: const BadgeStyle(
+                                    color: AppColors.secondary,
+                                    foregroundColor: Colors.black,
+                                    borderRadius: AppDesign.borderRadiusSm,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: AppDesign.gapInlineSm),
-                            BaseBadge(
-                              label: meal.rate.toStringAsFixed(1),
-                              icon: PhosphorIconsRegular.star,
-                              style: const BadgeStyle(
-                                color: AppColors.secondary,
-                                foregroundColor: Colors.black,
-                                borderRadius: AppDesign.borderRadiusSm,
-                              ),
+                            const SizedBox(height: AppDesign.gapItemSm),
+                            Wrap(
+                              spacing: AppDesign.gapInlineSm,
+                              runSpacing: AppDesign.gapInlineMd,
+                              children: [
+                                BaseBadge(
+                                  label: '${meal.duration} min',
+                                  icon: PhosphorIconsRegular.clock,
+                                  style: const BadgeStyle(
+                                    color: Color(0xFFB3E5FC),
+                                    foregroundColor: Color(0xFF0277BD),
+                                  ),
+                                ),
+                                BaseBadge(
+                                  label: meal.complexity.label(context),
+                                  icon: PhosphorIconsRegular.chefHat,
+                                  style: BadgeStyle(
+                                    color: meal.complexity.badgeColors.color,
+                                    foregroundColor:
+                                        meal.complexity.badgeColors.foreground,
+                                  ),
+                                ),
+                                BaseBadge(
+                                  label: meal.affordability.label(context),
+                                  icon: PhosphorIconsRegular.wallet,
+                                  style: BadgeStyle(
+                                    color: meal.affordability.badgeColors.color,
+                                    foregroundColor: meal
+                                        .affordability
+                                        .badgeColors
+                                        .foreground,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        const SizedBox(height: AppDesign.gapItemSm),
-                        Wrap(
-                          spacing: AppDesign.gapInlineSm,
-                          runSpacing: AppDesign.gapInlineMd,
-                          children: [
-                            BaseBadge(
-                              label: '${meal.duration} min',
-                              icon: PhosphorIconsRegular.clock,
-                              style: const BadgeStyle(
-                                color: Color(0xFFB3E5FC),
-                                foregroundColor: Color(0xFF0277BD),
-                              ),
-                            ),
-                            BaseBadge(
-                              label: meal.complexity.label(context),
-                              icon: PhosphorIconsRegular.chefHat,
-                              style: BadgeStyle(
-                                color: meal.complexity.badgeColors.color,
-                                foregroundColor:
-                                    meal.complexity.badgeColors.foreground,
-                              ),
-                            ),
-                            BaseBadge(
-                              label: meal.affordability.label(context),
-                              icon: PhosphorIconsRegular.wallet,
-                              style: BadgeStyle(
-                                color: meal.affordability.badgeColors.color,
-                                foregroundColor:
-                                    meal.affordability.badgeColors.foreground,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

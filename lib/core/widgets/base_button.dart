@@ -101,19 +101,21 @@ class BaseButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         borderRadius: AppDesign.borderRadiusXs,
-        child: InkWell(
-          onTap: isLoading ? null : onPressed,
-          borderRadius: AppDesign.borderRadiusXs,
-          splashColor: tapColor,
-          highlightColor: tapColor,
-          child: Ink(
-            decoration: BoxDecoration(
-              color: fillColor,
-              borderRadius: AppDesign.borderRadiusXs,
-              border: border,
+        child: Ink(
+          decoration: BoxDecoration(
+            color: fillColor,
+            borderRadius: AppDesign.borderRadiusXs,
+            border: border,
+          ),
+          child: InkWell(
+            onTap: isLoading ? null : onPressed,
+            borderRadius: AppDesign.borderRadiusXs,
+            splashColor: tapColor,
+            highlightColor: tapColor,
+            child: Padding(
+              padding: AppDesign.paddingSymmetricMd,
+              child: content,
             ),
-            padding: AppDesign.paddingSymmetricMd,
-            child: content,
           ),
         ),
       ),

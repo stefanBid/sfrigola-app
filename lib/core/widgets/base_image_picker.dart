@@ -10,7 +10,7 @@ import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
 
 // Project Widgets
-import 'package:sfrigola/core/widgets/base_bottom_sheet.dart';
+import 'package:sfrigola/core/widgets/base_image_selector_bottom_sheet.dart';
 
 /// Tappable image preview that opens a bottom sheet to pick a photo from the
 /// gallery or take one with the camera.
@@ -42,65 +42,11 @@ class BaseImagePicker extends StatelessWidget {
   }
 
   void _showOptions(BuildContext context) {
-    final l = AppLocale.getLabels(context);
-    BaseBottomSheet.show(
+    BaseImageSelectorBottomSheet.show(
       context,
-      title: l.imagePickerSheetTitle,
-      child: Builder(
-        builder: (sheetContext) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(
-                PhosphorIconsRegular.image,
-                size: AppDesign.iconSizeLg,
-                color: AppColors.of(context).text,
-              ),
-              title: Text(
-                l.imagePickerGallery,
-                style: AppTypography.of(context).body,
-              ),
-              onTap: () {
-                Navigator.of(sheetContext).pop();
-                _pickImage(ImageSource.gallery);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                PhosphorIconsRegular.camera,
-                size: AppDesign.iconSizeLg,
-                color: AppColors.of(context).text,
-              ),
-              title: Text(
-                l.imagePickerCamera,
-                style: AppTypography.of(context).body,
-              ),
-              onTap: () {
-                Navigator.of(sheetContext).pop();
-                _pickImage(ImageSource.camera);
-              },
-            ),
-            if (_hasImage)
-              ListTile(
-                leading: const Icon(
-                  PhosphorIconsRegular.trash,
-                  size: AppDesign.iconSizeLg,
-                  color: AppColors.error,
-                ),
-                title: Text(
-                  l.imagePickerRemove,
-                  style: AppTypography.of(
-                    context,
-                  ).body.copyWith(color: AppColors.error),
-                ),
-                onTap: () {
-                  Navigator.of(sheetContext).pop();
-                  onImageSelected(null);
-                },
-              ),
-          ],
-        ),
-      ),
+      onImageSourceSelected: _pickImage,
+      hasImage: _hasImage,
+      onRemove: () => onImageSelected(null),
     );
   }
 

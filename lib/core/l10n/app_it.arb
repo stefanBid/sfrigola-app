@@ -341,6 +341,16 @@
     "description": "Error shown when removing a meal from favourites fails"
   },
 
+  "favouritesLoginRequired": "Accedi per salvare e ritrovare le tue ricette preferite.",
+  "@favouritesLoginRequired": {
+    "description": "Message shown in the favourites screen when the user is not logged in"
+  },
+
+  "favouritesLoginButton": "Accedi",
+  "@favouritesLoginButton": {
+    "description": "Label for the login button shown in the favourites screen when the user is not logged in"
+  },
+
   "sortOrderAlphabeticalAscending": "A → Z",
   "@sortOrderAlphabeticalAscending": {
     "description": "Sort order label: alphabetical ascending"

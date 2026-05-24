@@ -502,6 +502,18 @@ abstract class AppLocalizations {
   /// **'Impossibile rimuovere dai preferiti.'**
   String get favouriteRemoveError;
 
+  /// Message shown in the favourites screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi per salvare e ritrovare le tue ricette preferite.'**
+  String get favouritesLoginRequired;
+
+  /// Label for the login button shown in the favourites screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi'**
+  String get favouritesLoginButton;
+
   /// Sort order label: alphabetical ascending
   ///
   /// In it, this message translates to:

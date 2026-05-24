@@ -225,6 +225,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get favouriteRemoveError => 'Impossibile rimuovere dai preferiti.';
 
   @override
+  String get favouritesLoginRequired =>
+      'Accedi per salvare e ritrovare le tue ricette preferite.';
+
+  @override
+  String get favouritesLoginButton => 'Accedi';
+
+  @override
   String get sortOrderAlphabeticalAscending => 'A → Z';
 
   @override

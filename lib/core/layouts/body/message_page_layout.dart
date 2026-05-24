@@ -17,6 +17,7 @@ class MessagePageLayout extends StatelessWidget {
   final String message;
   final MessagePageType type;
   final VoidCallback? onRetry;
+  final Widget? customButton;
 
   const MessagePageLayout({
     super.key,
@@ -24,6 +25,7 @@ class MessagePageLayout extends StatelessWidget {
     this.icon,
     this.onRetry,
     this.type = MessagePageType.standard,
+    this.customButton,
   });
 
   @override
@@ -58,6 +60,10 @@ class MessagePageLayout extends StatelessWidget {
                 pill: true,
                 onPressed: onRetry,
               ),
+            ],
+            if (customButton != null) ...[
+              const SizedBox(height: AppDesign.gapSectionSm),
+              customButton!,
             ],
           ],
         ),

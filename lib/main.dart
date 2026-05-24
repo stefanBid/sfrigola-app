@@ -10,6 +10,7 @@ import 'package:sfrigola/core/helpers/app_theme.dart';
 import 'package:sfrigola/core/utils/provider_retry.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(retry: appRetry, child: MyApp()));
 }
 

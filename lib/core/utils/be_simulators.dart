@@ -560,6 +560,42 @@ class BeSimulators {
   }
 
   // ---------------------------------------------------------------------------
+  // User stats
+  // ---------------------------------------------------------------------------
+
+  /// GET /user/favourites/count
+  static Future<GetDataResponse<int>> getUserFavouritesCount({
+    Duration delay = const Duration(milliseconds: 200),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug(
+      'count: ${_favoriteIds.length}',
+      tag: 'BeSimulators.getUserFavouritesCount',
+    );
+    if (simulateError) return GetDataResponse(data: 0, error: _error);
+    return GetDataResponse(data: _favoriteIds.length);
+  }
+
+  /// GET /user/recipes/count
+  ///
+  /// Mock: static values per user; Meal has no authorId field.
+  static Future<GetDataResponse<int>> getUserRecipesCount({
+    Duration delay = const Duration(milliseconds: 200),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    if (simulateError) return GetDataResponse(data: 0, error: _error);
+    const _recipesCountByUser = <String, int>{'u1': 3, 'u2': 8};
+    final count = _recipesCountByUser[_currentUserId] ?? 0;
+    AppLogger.debug(
+      'userId: $_currentUserId | count: $count',
+      tag: 'BeSimulators.getUserRecipesCount',
+    );
+    return GetDataResponse(data: count);
+  }
+
+  // ---------------------------------------------------------------------------
   // Private helpers
   // ---------------------------------------------------------------------------
 

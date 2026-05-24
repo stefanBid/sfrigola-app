@@ -351,6 +351,16 @@
     "description": "Label for the login button shown in the favourites screen when the user is not logged in"
   },
 
+  "profileLoginRequired": "Accedi per visualizzare il tuo profilo e gestire le impostazioni.",
+  "@profileLoginRequired": {
+    "description": "Message shown in the profile screen when the user is not logged in"
+  },
+
+  "profileLoginButton": "Accedi",
+  "@profileLoginButton": {
+    "description": "Label for the login button shown in the profile screen when the user is not logged in"
+  },
+
   "sortOrderAlphabeticalAscending": "A → Z",
   "@sortOrderAlphabeticalAscending": {
     "description": "Sort order label: alphabetical ascending"
@@ -709,5 +719,60 @@
   "authErrorWrongCurrentPassword": "La password attuale non è corretta",
   "@authErrorWrongCurrentPassword": {
     "description": "Error shown when the current password is wrong in the change-password flow"
+  },
+
+  "profileTitle": "Profilo",
+  "@profileTitle": {
+    "description": "Title shown in the profile screen app bar"
+  },
+
+  "profileSectionStats": "Statistiche",
+  "@profileSectionStats": {
+    "description": "Section heading for the stats row in the profile screen"
+  },
+
+  "profileStatsRecipes": "Ricette",
+  "@profileStatsRecipes": {
+    "description": "Label for the recipes stat card in the profile screen"
+  },
+
+  "profileStatsFavourites": "Preferiti",
+  "@profileStatsFavourites": {
+    "description": "Label for the favourites stat card in the profile screen"
+  },
+
+  "profileSectionSettings": "Impostazioni",
+  "@profileSectionSettings": {
+    "description": "Section heading for the settings rows in the profile screen"
+  },
+
+  "profileChangePassword": "Cambia password",
+  "@profileChangePassword": {
+    "description": "Label for the change-password settings row in the profile screen"
+  },
+
+  "profileChangePasswordSuccess": "Password aggiornata con successo.",
+  "@profileChangePasswordSuccess": {
+    "description": "Snackbar shown when the password is changed successfully"
+  },
+
+  "profileLogout": "Esci",
+  "@profileLogout": {
+    "description": "Label for the logout button in the profile screen"
+  },
+
+  "profileUserTypeAdmin": "Amministratore",
+  "@profileUserTypeAdmin": {
+    "description": "Role badge label for admin users in the profile screen"
+  },
+
+  "profileUserTypeChef": "Chef",
+  "@profileUserTypeChef": {
+    "description": "Role badge label for chef users in the profile screen"
+  },
+
+  "profileUserTypeConsumer": "Utente",
+  "@profileUserTypeConsumer": {
+    "description": "Role badge label for consumer users in the profile screen"
   }
 }

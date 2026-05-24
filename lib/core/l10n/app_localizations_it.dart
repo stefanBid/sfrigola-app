@@ -232,6 +232,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get favouritesLoginButton => 'Accedi';
 
   @override
+  String get profileLoginRequired =>
+      'Accedi per visualizzare il tuo profilo e gestire le impostazioni.';
+
+  @override
+  String get profileLoginButton => 'Accedi';
+
+  @override
   String get sortOrderAlphabeticalAscending => 'A → Z';
 
   @override
@@ -466,4 +473,38 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get authErrorWrongCurrentPassword =>
       'La password attuale non è corretta';
+
+  @override
+  String get profileTitle => 'Profilo';
+
+  @override
+  String get profileSectionStats => 'Statistiche';
+
+  @override
+  String get profileStatsRecipes => 'Ricette';
+
+  @override
+  String get profileStatsFavourites => 'Preferiti';
+
+  @override
+  String get profileSectionSettings => 'Impostazioni';
+
+  @override
+  String get profileChangePassword => 'Cambia password';
+
+  @override
+  String get profileChangePasswordSuccess =>
+      'Password aggiornata con successo.';
+
+  @override
+  String get profileLogout => 'Esci';
+
+  @override
+  String get profileUserTypeAdmin => 'Amministratore';
+
+  @override
+  String get profileUserTypeChef => 'Chef';
+
+  @override
+  String get profileUserTypeConsumer => 'Utente';
 }

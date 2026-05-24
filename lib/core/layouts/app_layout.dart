@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import '../helpers/app_colors.dart';
-import '../helpers/app_router.dart';
-import '../helpers/app_design.dart';
+import 'package:sfrigola/core/helpers/app_colors.dart';
+import 'package:sfrigola/core/helpers/app_router.dart';
+import 'package:sfrigola/core/helpers/app_design.dart';
 
 class _TabItem {
   final AppTypedRoute route;
@@ -45,12 +45,6 @@ class AppLayout extends StatelessWidget {
       label: 'Cookbook',
       icon: PhosphorIconsBold.book,
       activeIcon: PhosphorIconsFill.book,
-    ),
-    const _TabItem(
-      route: AppRouter.login,
-      label: 'Login',
-      icon: PhosphorIconsBold.signIn,
-      activeIcon: PhosphorIconsFill.signIn,
     ),
     const _TabItem(
       route: AppRouter.profile,

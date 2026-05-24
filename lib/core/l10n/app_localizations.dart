@@ -514,6 +514,18 @@ abstract class AppLocalizations {
   /// **'Accedi'**
   String get favouritesLoginButton;
 
+  /// Message shown in the profile screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi per visualizzare il tuo profilo e gestire le impostazioni.'**
+  String get profileLoginRequired;
+
+  /// Label for the login button shown in the profile screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi'**
+  String get profileLoginButton;
+
   /// Sort order label: alphabetical ascending
   ///
   /// In it, this message translates to:
@@ -951,6 +963,72 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'La password attuale non è corretta'**
   String get authErrorWrongCurrentPassword;
+
+  /// Title shown in the profile screen app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Profilo'**
+  String get profileTitle;
+
+  /// Section heading for the stats row in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Statistiche'**
+  String get profileSectionStats;
+
+  /// Label for the recipes stat card in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Ricette'**
+  String get profileStatsRecipes;
+
+  /// Label for the favourites stat card in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Preferiti'**
+  String get profileStatsFavourites;
+
+  /// Section heading for the settings rows in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Impostazioni'**
+  String get profileSectionSettings;
+
+  /// Label for the change-password settings row in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Cambia password'**
+  String get profileChangePassword;
+
+  /// Snackbar shown when the password is changed successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Password aggiornata con successo.'**
+  String get profileChangePasswordSuccess;
+
+  /// Label for the logout button in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Esci'**
+  String get profileLogout;
+
+  /// Role badge label for admin users in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Amministratore'**
+  String get profileUserTypeAdmin;
+
+  /// Role badge label for chef users in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Chef'**
+  String get profileUserTypeChef;
+
+  /// Role badge label for consumer users in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Utente'**
+  String get profileUserTypeConsumer;
 }
 
 class _AppLocalizationsDelegate

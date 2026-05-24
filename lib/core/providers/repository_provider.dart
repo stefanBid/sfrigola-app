@@ -9,6 +9,8 @@ import 'package:sfrigola/core/repositories/meal/meal_repository.dart';
 import 'package:sfrigola/core/repositories/meal/meal_repository_impl.dart';
 import 'package:sfrigola/core/repositories/admin/admin_repository.dart';
 import 'package:sfrigola/core/repositories/admin/admin_repository_impl.dart';
+import 'package:sfrigola/core/repositories/user/user_repository.dart';
+import 'package:sfrigola/core/repositories/user/user_repository_impl.dart';
 
 part 'repository_provider.g.dart';
 
@@ -23,3 +25,6 @@ FavoritesRepository favoritesRepository(Ref ref) => FavoritesRepositoryImpl();
 
 @Riverpod(keepAlive: true)
 AdminRepository adminRepository(Ref ref) => AdminRepositoryImpl();
+
+@Riverpod(keepAlive: true)
+UserRepository userRepository(Ref ref) => UserRepositoryImpl();

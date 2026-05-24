@@ -64,6 +64,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
   List<String> _ingredients = [];
   List<String> _steps = [];
   bool _populated = false;
+  double _rate = 0;
 
   @override
   void initState() {
@@ -102,6 +103,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
       _servings = meal.servings;
       _ingredients = List<String>.from(meal.ingredients);
       _steps = List<String>.from(meal.steps);
+      _rate = meal.rate;
     });
   }
 
@@ -120,7 +122,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         isLactoseFree: _dietaryInfoFields.isLactoseFree,
         isVegan: _dietaryInfoFields.isVegan,
         isVegetarian: _dietaryInfoFields.isVegetarian,
-        rate: 0,
+        rate: _rate,
         steps: _steps,
         ingredients: _ingredients,
         imageUrl: _pickedImage?.path ?? _existingImageUrl ?? '',

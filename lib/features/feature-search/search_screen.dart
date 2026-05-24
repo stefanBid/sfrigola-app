@@ -10,7 +10,7 @@ import 'package:sfrigola/core/layouts/app_bars/classic_app_bar.dart';
 import 'package:sfrigola/core/layouts/body/standard_page_layout.dart';
 
 // Project Widgets
-import 'package:sfrigola/features/feature-search/widgets/general_search_box.dart';
+import 'package:sfrigola/features/feature-search/widgets/general_search_bar.dart';
 import 'package:sfrigola/features/feature-search/widgets/meals_grid_container.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -22,7 +22,7 @@ class SearchScreen extends StatelessWidget {
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsRegular.magnifyingGlass),
         title: AppLocale.getLabels(context).homeTitle,
-        bottomContent: GeneralSearchBox(
+        bottomContent: GeneralSearchBar(
           onBlurEmpty: () => AppRouter.goBack(context),
         ),
       ),

@@ -1,72 +1,81 @@
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
-import 'package:sfrigola/core/models/be-models/be_filters.dart';
+import 'package:sfrigola/core/models/be-models/be_sort.dart';
 
-part 'favourites_filter_provider.g.dart';
+part 'meals_filter_provider.g.dart';
 
-class FavouritesFilterProviderState {
+abstract final class MealsFilterScope {
+  static const String adminCookbook = 'admin-cookbook';
+  static const String favorites = 'favorites';
+}
+
+class MealsFilterProviderState {
   final Complexity? complexity;
   final Affordability? affordability;
-  final RangeValues? rateRange;
-  final SortOrder? sortOrder;
+  final MealsRateRange? rateRange;
+  final SortParam<MealSortKey>? sort;
 
-  FavouritesFilterProviderState({
+  MealsFilterProviderState({
     this.complexity,
     this.affordability,
     this.rateRange,
-    this.sortOrder,
+    this.sort,
   });
 
   bool get hasFilters =>
       complexity != null ||
       affordability != null ||
       rateRange != null ||
-      sortOrder != null;
+      sort != null;
 
   int get appliedFiltersCount {
     var count = 0;
     if (complexity != null) count++;
     if (affordability != null) count++;
     if (rateRange != null) count++;
-    if (sortOrder != null) count++;
+    if (sort != null) count++;
     return count;
   }
 }
 
 @riverpod
-class FavouritesFilter extends _$FavouritesFilter {
+class MealsFilter extends _$MealsFilter {
   @override
-  FavouritesFilterProviderState build() {
-    return FavouritesFilterProviderState(
+  MealsFilterProviderState build(String scope) {
+    return MealsFilterProviderState(
       complexity: null,
       affordability: null,
       rateRange: null,
-      sortOrder: null,
+      sort: null,
     );
   }
 
   void update({
     Complexity? complexity,
     Affordability? affordability,
-    RangeValues? rateRange,
-    SortOrder? sortOrder,
+    MealsRateRange? rateRange,
+    SortParam<MealSortKey>? sort,
   }) {
-    state = FavouritesFilterProviderState(
+    state = MealsFilterProviderState(
       complexity: complexity ?? state.complexity,
       affordability: affordability ?? state.affordability,
       rateRange: rateRange ?? state.rateRange,
-      sortOrder: sortOrder ?? state.sortOrder,
+      sort: sort ?? state.sort,
     );
   }
 
-  void replaceWith(FavouritesFilterProviderState newState) {
+  void replaceWith(MealsFilterProviderState newState) {
     state = newState;
   }
 
-  void reset() {
-    state = build();
+  void clear() {
+    state = MealsFilterProviderState(
+      complexity: null,
+      affordability: null,
+      rateRange: null,
+      sort: null,
+    );
   }
 }

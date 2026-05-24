@@ -8,8 +8,9 @@ import 'features/feature-home/home_screen.dart';
 import 'features/feature-meal-details/meal_details_screen.dart';
 import 'features/feature-search/search_screen.dart';
 import 'features/feature-favourites/favourite_screen.dart';
-import 'features/feature-form/form_screen.dart';
+import 'features/feature-admin-cookbook/cookbook_screen.dart';
 import 'features/feature-profile/profile_screen.dart';
+import 'features/feature-admin-manage-meal/manage_meal_screen.dart';
 
 Widget _customTransitionBuilder(
   BuildContext context,
@@ -46,14 +47,14 @@ final GoRouter appRouter = GoRouter(
               const NoTransitionPage(child: FavouriteScreen()),
         ),
         GoRoute(
-          path: '/form',
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: FormScreen()),
-        ),
-        GoRoute(
           path: '/profile',
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: ProfileScreen()),
+        ),
+        GoRoute(
+          path: '/cookbook',
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: CookbookScreen()),
         ),
       ],
     ),
@@ -68,6 +69,18 @@ final GoRouter appRouter = GoRouter(
             return CustomTransitionPage(
               key: state.pageKey,
               child: MealDetailsScreen(mealId: mealId),
+              transitionsBuilder: _customTransitionBuilder,
+              transitionDuration: const Duration(milliseconds: 150),
+            );
+          },
+        ),
+        GoRoute(
+          path: '/manage-meal',
+          pageBuilder: (context, state) {
+            final mealId = state.uri.queryParameters['mealId'];
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: ManageMealScreen(mealId: mealId),
               transitionsBuilder: _customTransitionBuilder,
               transitionDuration: const Duration(milliseconds: 150),
             );

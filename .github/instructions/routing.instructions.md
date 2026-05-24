@@ -8,8 +8,11 @@ applyTo: "**/*router*"
 
 ```dart
 AppRouter.goTo(context, AppRouter.home);
-AppRouter.goTo(context, AppRouter.details, params: DetailParams(detailId: '123'));
-AppRouter.goDeep(context, AppRouter.details, params: DetailParams(detailId: '123')); // push
+AppRouter.goTo(context, AppRouter.search);
+AppRouter.goTo(context, AppRouter.favourites);
+AppRouter.goTo(context, AppRouter.forms);
+AppRouter.goTo(context, AppRouter.profile);
+AppRouter.goDeep(context, AppRouter.mealDetails, params: MealDetailsParams(mealId: '42')); // push
 AppRouter.goBack(context);
 ```
 
@@ -25,7 +28,7 @@ AppRouter.goBack(context);
 
 ## Transitions
 
-- Top-level tabs (home/form/profile) → `NoTransitionPage`
+- Top-level tabs (home/search/favourites/form/profile/cookbook) → `NoTransitionPage`
 - Detail routes → `CustomTransitionPage` with `FadeTransition` (150ms)
 
 ```dart
@@ -37,11 +40,11 @@ GoRoute(
 
 // Detail
 GoRoute(
-  path: '/details/:detailId',
+  path: '/meal/:mealId',
   pageBuilder: (context, state) {
     return CustomTransitionPage(
       key: state.pageKey,
-      child: DetailsScreen(detailId: state.pathParameters['detailId']!),
+      child: MealDetailsScreen(mealId: state.pathParameters['mealId']!),
       transitionsBuilder: (context, animation, _, child) =>
           FadeTransition(opacity: animation, child: child),
       transitionDuration: const Duration(milliseconds: 150),

@@ -38,14 +38,14 @@ class BaseRange extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) ...[
-          Text(label!, style: typography.caption),
+          Text(label!, style: typography.bodyMedium),
           const SizedBox(height: AppDesign.gapInlineSm),
         ],
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(_format(values.start), style: typography.caption),
-            Text(_format(values.end), style: typography.caption),
+            Text(_format(values.start), style: typography.bodyMedium),
+            Text(_format(values.end), style: typography.bodyMedium),
           ],
         ),
         const SizedBox(height: AppDesign.gapItemXs),
@@ -62,7 +62,7 @@ class BaseRange extends StatelessWidget {
             rangeTrackShape: const RoundedRectRangeSliderTrackShape(),
             showValueIndicator: ShowValueIndicator.onDrag,
             valueIndicatorColor: AppColors.primary,
-            valueIndicatorTextStyle: typography.small.copyWith(
+            valueIndicatorTextStyle: typography.bodyMedium.copyWith(
               color: Colors.white,
             ),
           ),

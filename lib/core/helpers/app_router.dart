@@ -73,15 +73,26 @@ class MealDetailsParams extends GenericRouteParams {
   Map<String, String> toPathParams() => {'mealId': mealId};
 }
 
+class ManageMealParams extends GenericRouteParams {
+  final String? mealId;
+
+  const ManageMealParams({this.mealId});
+
+  @override
+  Map<String, String> toQueryParams() =>
+      mealId != null ? {'mealId': mealId!} : {};
+}
+
 class AppRouter {
   const AppRouter._();
 
   static const home = AppTypedRoute<NoParams>('/home');
   static const search = AppTypedRoute<NoParams>('/search');
   static const favourites = AppTypedRoute<NoParams>('/favourites');
-  static const forms = AppTypedRoute<NoParams>('/form');
+  static const cookbook = AppTypedRoute<NoParams>('/cookbook');
   static const profile = AppTypedRoute<NoParams>('/profile');
   static const mealDetails = AppTypedRoute<MealDetailsParams>('/meal/:mealId');
+  static const manageMeal = AppTypedRoute<ManageMealParams>('/manage-meal');
 
   static void goTo<P extends GenericRouteParams>(
     BuildContext context,

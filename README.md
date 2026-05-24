@@ -174,16 +174,20 @@ sfrigola-app/
         category.dart            ← Category model + CategoryColor enum
         meal.dart                ← Meal model + Complexity/Affordability enums
         general_exception.dart   ← AppException interface + AppErrorCode + GeneralException
-        be-models/               ← typed BE response wrappers (mirrors real backend contract)
+        be-models/               ← typed BE response wrappers + request standard (mirrors real backend contract)
           be_error.dart            ← BeError — error shape embedded in any response
           get_response.dart        ← GetDataResponse<T> + GetListDataResponse<T>
           mutation_response.dart   ← MutationResponse — for POST / PUT / PATCH / DELETE
+          be_sort.dart             ← SortDirection + SortParam<T> — sort clause for BE requests
+          be_filter.dart           ← FilterOperator + FilterCondition<T> + FilterGroup<T>
+          get_request.dart          ← GetRequest<TFilter, TSort> — standard GET request envelope
 
-      providers/          ← app-wide Riverpod providers (repository singletons)
+      providers/          ← app-wide Riverpod providers (repository singletons + cross-feature)
         repository_provider.dart
+        all_meals_provider.dart       ← cross-feature: search results (feature-search)
+        all_favourites_provider.dart  ← cross-feature: favourites list (feature-favourites)
       repositories/       ← repository layer (single point of contact with any data source)
         meal/
-          meal_repository_model.dart  ← MealFilter + MealNotFoundException
           meal_repository.dart        ← abstract interface
           meal_repository_impl.dart   ← concrete implementation (dummy data → Dio)
         favorites/
@@ -191,7 +195,9 @@ sfrigola-app/
           favorites_repository_impl.dart   ← concrete implementation
       utils/              ← shared utilities (non-design-system)
         provider_retry.dart  ← appRetry — shared Riverpod retry function
-        be_simulators.dart   ← static mock-BE layer — owns all data simulation logic (dummy_data.dart → Dio)
+        be_simulators.dart   ← static mock-BE layer — owns all data simulation logic
+        has_more.dart        ← hasMore(total, skip, take) — pagination state helper
+      custom-widgets/     ← feature-shared widget compositions (not reusable enough for core/widgets)
       widgets/            ← reusable UI components shared across features
         base_badge.dart              ← status badge
         base_button.dart             ← primary action button
@@ -202,9 +208,12 @@ sfrigola-app/
         base_input.dart              ← standalone text input
         base_box.dart               ← tappable surface container with ripple
         base_range.dart              ← styled RangeSlider for numeric range filters
+        base_slider.dart             ← styled single-thumb Slider for picking a single numeric value
+        base_slider.dart             ← styled single-thumb Slider for picking a single numeric value
         base_scaffold_messenger.dart ← themed SnackBar utility
         base_bottom_sheet.dart       ← modal bottom sheet utility
         base_value_card.dart         ← metric display card (value + label)
+        base_dropdown.dart           ← styled DropdownButtonFormField
         group-container/
           gc_list_view.dart ← null-safe ListView.builder wrapper
           gc_grid_view.dart ← GridView.count wrapper with dimensions
@@ -213,7 +222,7 @@ sfrigola-app/
         home_screen.dart
         providers/          ← feature-scoped providers
         widgets/            ← feature-scoped widgets (sections, skeletons, etc.)
-      feature-meal-detail/  ← meal detail feature
+      feature-meal-details/ ← meal detail feature
         meal_details_screen.dart
         providers/
         widgets/
@@ -229,6 +238,8 @@ sfrigola-app/
         profile_screen.dart
       feature-form/         ← form demo feature
         form_screen.dart
+      feature-admin-cookbook/ ← admin recipe management (cookbook)
+        cookbook_screen.dart
 ```
 
 ---
@@ -349,11 +360,13 @@ Never call `context.go()` directly in your screens. Use `AppRouter` instead:
 ```dart
 // Navigate to a route with no parameters
 AppRouter.goTo(context, AppRouter.home);
+AppRouter.goTo(context, AppRouter.search);
+AppRouter.goTo(context, AppRouter.favourites);
 AppRouter.goTo(context, AppRouter.forms);
 AppRouter.goTo(context, AppRouter.profile);
 
 // Push a detail route with a typed path parameter
-AppRouter.goDeep(context, AppRouter.details, params: DetailParams(detailId: '42'));
+AppRouter.goDeep(context, AppRouter.mealDetails, params: MealDetailsParams(mealId: '42'));
 
 // Go back (pops if possible, otherwise navigates home)
 AppRouter.goBack(context);
@@ -364,9 +377,11 @@ AppRouter.goBack(context);
 | Constant | Path | Parameters |
 |---|---|---|
 | `AppRouter.home` | `/home` | none |
+| `AppRouter.search` | `/search` | none |
+| `AppRouter.favourites` | `/favourites` | none |
 | `AppRouter.forms` | `/form` | none |
 | `AppRouter.profile` | `/profile` | none |
-| `AppRouter.details` | `/details/:detailId` | `DetailParams(detailId)` |
+| `AppRouter.mealDetails` | `/meal/:mealId` | `MealDetailsParams(mealId)` |
 
 ### Adding a new route
 
@@ -417,7 +432,7 @@ Layouts are reusable page-level scaffolds in `lib/core/layouts/`. A screen shoul
 
 ### `AppLayout`
 
-The root shell used by `GoRouter`'s `ShellRoute`. Renders the bottom navigation bar with three tabs (Home, Forms, Profile). Pass `withBottomNav: false` for full-screen flows like detail screens.
+The root shell used by `GoRouter`'s `ShellRoute`. Renders the bottom navigation bar with tabs (Home, Search, Favourites, Forms, Profile, Cookbook). Pass `withBottomNav: false` for full-screen flows like detail screens.
 
 ### `StandardPageLayout`
 
@@ -490,9 +505,11 @@ Screens live in their own `lib/feature-[name]/` directory, alongside their featu
 |---|---|---|---|
 | `HomeScreen` | `feature-home/` | `/home` | Main landing tab |
 | `SearchScreen` | `feature-search/` | `/search` | Search tab |
+| `FavouriteScreen` | `feature-favourites/` | `/favourites` | Favourites tab |
 | `FormScreen` | `feature-form/` | `/form` | Form examples tab |
 | `ProfileScreen` | `feature-profile/` | `/profile` | Profile tab |
-| `MealDetailsScreen` | `feature-meal-detail/` | `/meal/:mealId` | Detail view pushed with a `mealId` parameter |
+| `CookbookScreen` | `feature-admin-cookbook/` | `/cookbook` | Admin cookbook tab |
+| `MealDetailsScreen` | `feature-meal-details/` | `/meal/:mealId` | Detail view pushed with a `mealId` parameter |
 
 ---
 
@@ -724,6 +741,37 @@ BaseRange(
 - Value indicator: visible on drag, `AppColors.primary` background, `small` white text
 - Current min/max shown as `caption` text above the slider
 
+### `BaseSlider`
+
+Styled single-thumb `Slider` for picking a single numeric value (minutes, servings, quantity, etc.). Stateless — the caller owns the `double` state.
+
+| Prop | Type | Description |
+|---|---|---|
+| `value` | `double` | Required. Current value. |
+| `min` | `double` | Required. Minimum value. |
+| `max` | `double` | Required. Maximum value. |
+| `label` | `String?` | Optional label rendered above with `caption` style. |
+| `divisions` | `int?` | Optional. Number of discrete steps. Must equal `(max - min) / step`. |
+| `valueFormatter` | `String Function(double)?` | Optional. Custom label formatter (e.g. `(v) => '${v.toInt()} min'`). |
+| `onChanged` | `ValueChanged<double>?` | Callback on drag. `null` disables the slider. |
+
+```dart
+BaseSlider(
+  label: 'Minuti',
+  value: _minutes,
+  min: 0.0,
+  max: 120.0,
+  divisions: 24,
+  valueFormatter: (v) => '${v.toInt()} min',
+  onChanged: (v) => setState(() => _minutes = v),
+)
+```
+
+- Track: `AppColors.primary` (active) / `muted` (inactive)
+- Thumb: `AppColors.primary`
+- Value indicator: visible on drag, `AppColors.primary` background, `small` white text
+- Min, current value (primary colour) and max shown as `caption` text above the slider
+
 ### `BaseScaffoldMessenger`
 
 Static utility that shows a themed SnackBar anchored to the bottom of the screen.
@@ -907,6 +955,45 @@ All repository methods return a **typed BE response wrapper** that mirrors the r
 | `BeError` | `be_error.dart` | Error shape embedded in any response (`error` field is nullable — `null` = success) |
 
 The provider layer extracts `.data` from the response as needed. The repository always returns the full response object.
+
+### BE request standard — `lib/core/models/be-models/`
+
+All filtered/sorted GET repository methods accept a **`GetRequest`** as input. Never pass loose parameters like raw strings or separate sort fields.
+
+| Class | File | Description |
+|---|---|---|
+| `SortDirection` | `be_sort.dart` | `asc` / `desc` |
+| `SortParam<T extends Enum>` | `be_sort.dart` | Single sort clause — `key` is a resource-specific sortable-fields enum |
+| `FilterOperator` | `be_filter.dart` | `equals`, `notEquals`, `greaterThan`, `greaterThanOrEquals`, `lessThan`, `lessThanOrEquals`, `contains`, `startsWith` |
+| `FilterCondition<T extends Enum>` | `be_filter.dart` | Single predicate — `key`, `comparator`, `value: Object?` |
+| `FilterGroup<T extends Enum>` | `be_filter.dart` | List of `FilterCondition`s — conditions within a group are combined with **OR** |
+| `GetRequest<TFilter, TSort>` | `get_request.dart` | Envelope: `searchKey?`, `skip`, `take`, `filters` (groups combined with **AND**), `sort?` |
+
+**Semantics:**
+- Conditions inside the same `FilterGroup` → **OR**
+- Multiple `FilterGroup`s in `GetRequest.filters` → **AND**
+- `GetRequest.sort` is a single optional `SortParam` (no multi-sort)
+- `GetRequest.skip` / `GetRequest.take` drive offset pagination (defaults: 0 / 20)
+
+```dart
+GetRequest<MealFilterKey, MealSortKey>(
+  searchKey: 'pasta',
+  skip: 0,
+  take: 20,
+  filters: [
+    FilterGroup(conditions: [
+      FilterCondition(key: MealFilterKey.category, comparator: FilterOperator.equals, value: 'pasta'),
+      FilterCondition(key: MealFilterKey.category, comparator: FilterOperator.equals, value: 'riso'),
+    ]),
+    FilterGroup(conditions: [
+      FilterCondition(key: MealFilterKey.complexity, comparator: FilterOperator.lessThanOrEquals, value: 3),
+    ]),
+  ],
+  sort: SortParam(key: MealSortKey.name, direction: SortDirection.asc),
+)
+```
+
+**Localisation:** BE model enums have **no UI dependency**. Each feature defines its own `extension` on `TFilterKey`/`TSortKey`/`FilterOperator` to provide context-specific labels via `AppLocale`.
 
 ### `BeSimulators` — `lib/core/utils/be_simulators.dart`
 

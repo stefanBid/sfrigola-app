@@ -78,6 +78,7 @@ BaseInput(
   controller: controller,
   hint: 'Search...',
   fillColor: AppColors.of(context).surface, // optional
+  maxLines: 1,                              // default 1 — use null for auto-grow textarea
 )
 ```
 
@@ -97,6 +98,8 @@ BaseFormField(
   keyboardType: TextInputType.emailAddress,
   textInputAction: TextInputAction.next,
   obscureText: false,
+  maxLines: 1,                               // default 1 — use null for auto-grow textarea, or fixed int for fixed-height textarea
+  maxLength: null,                            // default null (no limit) — shows character counter below the field when set
   validator: (v) => AppValidation.notEmpty(v) ?? AppValidation.email(v),
 )
 ```
@@ -105,9 +108,9 @@ BaseFormField(
 
 ## BaseDropdown
 
-Styled `DropdownButtonFormField` for use inside a `Form`. Mirrors `BaseFormField` layout and styling — label above the field, same border, error and typography tokens.
+Styled single-select [DropdownButtonFormField] for use inside a [Form]. Mirrors `BaseFormField` layout and styling — label above the field, same border, error and typography tokens.
 
-Items are passed as `List<BaseDropdownOption<T>>` — a simple data class that hides the Material `DropdownMenuItem` API entirely.
+Items are passed as `List<BaseDropdownOption<T>>` — a simple data class shared with `BaseMultiSelect`.
 
 ```dart
 // Data class — always use const constructor
@@ -116,7 +119,7 @@ const BaseDropdownOption(value: MyEnum.foo, label: 'Foo label')
 
 ```dart
 BaseDropdown<MyEnum>(
-  initialValue: _selectedValue,     // T? — initial selected value, maps to DropdownButtonFormField.initialValue
+  initialValue: _selectedValue,     // T? — initial selected value
   label: 'Label',                   // optional — shown above with caption style
   voidSelectionItemLabel: 'All',    // optional — adds a null item at the top
   prefixIcon: PhosphorIconsRegular.funnelSimple, // IconData? — optional
@@ -134,8 +137,38 @@ BaseDropdown<MyEnum>(
 **Notes:**
 - Uses `initialValue` (not `value`) on `DropdownButtonFormField` — `value` is deprecated
 - `dropdownColor` is always `AppColors.of(context).surface`
-- Selected value text style is `bodyMedium` + `text` colour
 - `prefixIcon` rendered with `muted` colour + `AppDesign.iconSizeMd`
+- Dropdown arrow: `PhosphorIconsRegular.caretDown` with `muted` colour — never use Material `Icons.arrow_drop_down`
+- For multi-select, use `BaseMultiSelect` instead
+
+---
+
+## BaseMultiSelect
+
+Styled multi-select field for use inside a [Form]. Same visual language as `BaseDropdown` — label above, identical borders and typography tokens. Shares `BaseDropdownOption<T>` as item data class.
+
+Tapping the field opens an `AlertDialog` with `BaseCheckbox` items. Selected values appear as deletable chips inside the field.
+
+```dart
+BaseMultiSelect<MyEnum>(
+  initialValues: _selectedValues,   // List<T> — initial selected values (default: [])
+  label: 'Label',
+  hint: 'Select options...',
+  prefixIcon: PhosphorIconsRegular.tag,
+  items: const [
+    BaseDropdownOption(value: MyEnum.foo, label: 'Foo'),
+    BaseDropdownOption(value: MyEnum.bar, label: 'Bar'),
+  ],
+  onChanged: (v) => setState(() => _selectedValues = v),
+  fillColor: AppColors.of(context).surface,
+  validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+)
+```
+
+**Notes:**
+- Dialog labels use `l.globalConfirm` / `l.globalCancel` — never hardcode strings
+- `onChanged` fires both on dialog confirm and on inline chip deletion
+- `disabled` and `isLoading` work as in `BaseDropdown`
 
 ---
 
@@ -146,6 +179,7 @@ BaseButton(
   label: 'Submit',
   icon: PhosphorIconsRegular.arrowRight, // optional
   type: BaseButtonType.filled,           // filled | outlined | ghost
+  color: AppColors.secondary,            // optional — accent colour; defaults to AppColors.primary
   fullWidth: true,
   pill: false,                           // true → borderRadiusSm (pill shape)
   isLoading: false,
@@ -153,12 +187,11 @@ BaseButton(
 )
 ```
 
-- **`filled`** — `AppColors.primary` background, dark text. Use for primary CTA and form submit.
-- **`outlined`** — transparent background, `AppColors.secondary` border + text. Use for secondary CTA.
-- **`ghost`** — no background, no border, `AppColors.primary` text + ripple. Use for low-prominence actions (empty states, error pages, dialogs).
+- **`filled`** — `color` background (default `AppColors.primary`), dark text. Use for primary CTA and form submit.
+- **`outlined`** — transparent background, `color` border + text. Use for secondary CTA.
+- **`ghost`** — no background, no border, `color` text + ripple. Use for low-prominence actions (empty states, error pages, dialogs).
 - **`pill: true`** — applies `AppDesign.borderRadiusSm` instead of `borderRadiusXs`. Use with `ghost` in contextual layouts (e.g. `MessagePageLayout`).
-
-`AppColors.primary` is always primary — no dark mode swap.
+- **`color`** — controls the accent for all types. Omit to use `AppColors.primary`.
 
 ---
 
@@ -255,6 +288,29 @@ BaseRange(
 - Thumb colour: `AppColors.primary`
 - Value indicator: always visible, `AppColors.primary` background, `small` white text
 - The two current values are shown as `caption` text above the slider
+
+---
+
+## BaseSlider
+
+Styled single-thumb `Slider` for picking a single numeric value (e.g. minutes, servings, quantity). Stateless — the caller owns the `double` state.
+
+```dart
+BaseSlider(
+  label: 'Minuti',              // optional — shown above with caption style
+  value: _minutes,              // required — current value
+  min: 0.0,                     // required
+  max: 120.0,                   // required
+  divisions: 24,                // optional — discrete steps: (max - min) / step
+  valueFormatter: (v) => '${v.toInt()} min', // optional — custom label format
+  onChanged: (v) => setState(() => _minutes = v),
+)
+```
+
+- Track colour: `AppColors.primary` (active), `muted` (inactive)
+- Thumb colour: `AppColors.primary`
+- Value indicator: visible on drag, `AppColors.primary` background, `small` white text
+- Min, current value (primary colour) and max shown as `caption` text above the slider
 
 ---
 
@@ -375,6 +431,26 @@ BaseBottomSheet.show(
 - Without `heightFactor`: sheet adapts to content height (`mainAxisSize.min`)
 - Drag handle always visible at the top
 - Background `surface`, top corners `borderRadiusTopMd`
+
+---
+
+## BaseCheckbox
+
+Styled checkbox with Phosphor icon and ripple. Use instead of Material `Checkbox` or `CheckboxListTile` everywhere.
+
+```dart
+BaseCheckbox(
+  value: _isChecked,
+  label: 'Gluten free',   // optional — rendered with bodyMedium style
+  fullWidth: false,       // true → Row takes full available width
+  onChanged: (v) => setState(() => _isChecked = v),
+)
+```
+
+- Unchecked icon: `PhosphorIconsRegular.square` in `muted` colour
+- Checked icon: `PhosphorIconsFill.checkSquare` in `AppColors.primary`
+- Ripple: always visible — `Material(type: transparency)` is built in. No need to add it externally.
+- `Ink` + `padding: AppDesign.paddingXs` ensures the ripple area is slightly larger than the icon.
 
 ---
 

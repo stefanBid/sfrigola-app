@@ -35,53 +35,56 @@ class BaseCard extends StatelessWidget {
       child: SizedBox(
         width: width,
         height: height,
-        child: Material(
+        child: ClipRRect(
           borderRadius: AppDesign.borderRadiusMd,
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: AppColors.of(context).text.withAlpha(60),
-            highlightColor: AppColors.of(context).text.withAlpha(30),
-            borderRadius: AppDesign.borderRadiusMd,
-            onTap: onTap,
+          child: Material(
+            color: Colors.transparent,
             child: Ink(
               decoration: BoxDecoration(
                 borderRadius: AppDesign.borderRadiusMd,
                 color: AppColors.of(context).surface,
               ),
-              padding: AppDesign.paddingSm,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: BaseImageContainer(
-                      imageUrl: imageUrl,
-                      width: double.infinity,
-                    ),
-                  ),
-                  Padding(
-                    padding: AppDesign.paddingSm.copyWith(top: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: AppTypography.of(
-                            context,
-                          ).body.copyWith(fontWeight: FontWeight.w600),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+              child: InkWell(
+                splashColor: AppColors.of(context).text.withAlpha(60),
+                highlightColor: AppColors.of(context).text.withAlpha(30),
+                onTap: onTap,
+                child: Padding(
+                  padding: AppDesign.paddingSm,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: BaseImageContainer(
+                          imageUrl: imageUrl,
+                          width: double.infinity,
                         ),
-                        const SizedBox(height: AppDesign.gapItemXs),
-                        Text(
-                          content,
-                          style: AppTypography.of(context).caption,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                      ),
+                      Padding(
+                        padding: AppDesign.paddingSm.copyWith(top: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: AppTypography.of(
+                                context,
+                              ).body.copyWith(fontWeight: FontWeight.w600),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: AppDesign.gapItemXs),
+                            Text(
+                              content,
+                              style: AppTypography.of(context).caption,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

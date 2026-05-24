@@ -138,6 +138,7 @@ class ProfileScreen extends StatelessWidget {
             BaseButton(
               fullWidth: true,
               type: BaseButtonType.outlined,
+              color: AppColors.secondary,
               label: 'Log out',
               icon: PhosphorIconsRegular.signOut,
               onPressed: () {},

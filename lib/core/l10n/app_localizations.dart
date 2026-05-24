@@ -94,6 +94,18 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('it')];
 
+  /// Generic confirm button label used in dialogs
+  ///
+  /// In it, this message translates to:
+  /// **'Conferma'**
+  String get globalConfirm;
+
+  /// Generic cancel button label used in dialogs
+  ///
+  /// In it, this message translates to:
+  /// **'Annulla'**
+  String get globalCancel;
+
   /// Title shown in the home screen app bar
   ///
   /// In it, this message translates to:
@@ -310,6 +322,24 @@ abstract class AppLocalizations {
   /// **'Impossibile salvare la valutazione.'**
   String get mealRateError;
 
+  /// Error shown when adding a new meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aggiungere la ricetta. Riprova.'**
+  String get mealAddError;
+
+  /// Error shown when updating a meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aggiornare la ricetta. Riprova.'**
+  String get mealUpdateError;
+
+  /// Error shown when deleting a meal fails
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile eliminare la ricetta. Riprova.'**
+  String get mealDeleteError;
+
   /// Snackbar shown when a meal rating is saved successfully
   ///
   /// In it, this message translates to:
@@ -519,6 +549,306 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Prezzo decrescente'**
   String get sortOrderAffordabilityDescending;
+
+  /// Tooltip for the back button in hero page layout
+  ///
+  /// In it, this message translates to:
+  /// **'Indietro'**
+  String get tooltipBack;
+
+  /// Tooltip for the filter icon button in meal list screens
+  ///
+  /// In it, this message translates to:
+  /// **'Filtra ricette'**
+  String get tooltipFilterMeals;
+
+  /// Tooltip for the add meal icon button in cookbook screen
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi ricetta'**
+  String get tooltipAddMeal;
+
+  /// Tooltip for the favourite button when the meal is not yet in favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi ai preferiti'**
+  String get tooltipAddToFavourites;
+
+  /// Tooltip for the favourite button when the meal is already in favourites
+  ///
+  /// In it, this message translates to:
+  /// **'Rimuovi dai preferiti'**
+  String get tooltipRemoveFromFavourites;
+
+  /// Placeholder text in the cookbook admin search bar
+  ///
+  /// In it, this message translates to:
+  /// **'Cerca per nome o descrizione...'**
+  String get cookbookSearchHint;
+
+  /// Title shown in the admin cookbook screen app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Ricettario'**
+  String get cookbookTitle;
+
+  /// Section title for the general info block in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Informazioni generali'**
+  String get manageMealFormSectionGeneralInfo;
+
+  /// Section title for the recipe details block in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Dettagli ricetta'**
+  String get manageMealFormSectionRecipeDetails;
+
+  /// Section title for the dietary info block in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Info dietetiche'**
+  String get manageMealFormSectionDietaryInfo;
+
+  /// Subtitle for the dietary info section in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona tutte le proprietà dietetiche applicabili a questa ricetta.'**
+  String get manageMealFormSectionDietaryInfoSubtitle;
+
+  /// Label for the meal title input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Titolo ricetta'**
+  String get manageMealFormFieldTitleLabel;
+
+  /// Hint text for the meal title input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Es. Pasta alla carbonara'**
+  String get manageMealFormFieldTitleHint;
+
+  /// Label for the meal subtitle input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Sottotitolo ricetta'**
+  String get manageMealFormFieldSubtitleLabel;
+
+  /// Hint text for the meal subtitle input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Es. Il classico romano rivisitato'**
+  String get manageMealFormFieldSubtitleHint;
+
+  /// Label for the meal description input in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Descrizione ricetta'**
+  String get manageMealFormFieldDescriptionLabel;
+
+  /// Hint text for the meal description textarea in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Descrivi la ricetta, il suo sapore e le occasioni in cui prepararla...'**
+  String get manageMealFormFieldDescriptionHint;
+
+  /// Label for the category dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Categoria'**
+  String get manageMealFormFieldCategoryLabel;
+
+  /// Hint text for the category dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona una categoria'**
+  String get manageMealFormFieldCategoryHint;
+
+  /// Hint text for the complexity dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona la complessità'**
+  String get manageMealFormFieldComplexityHint;
+
+  /// Hint text for the affordability dropdown in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona il prezzo'**
+  String get manageMealFormFieldAffordabilityHint;
+
+  /// Label for the duration slider in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Tempo totale (preparazione + cottura)'**
+  String get manageMealFormFieldDurationLabel;
+
+  /// Label for the save button in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Salva'**
+  String get manageMealFormSave;
+
+  /// Label for the cancel button in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Annulla'**
+  String get manageMealFormCancel;
+
+  /// Success message shown after a new meal is created successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Ricetta aggiunta con successo!'**
+  String get manageMealFormAddSuccessMessage;
+
+  /// Success message shown after a meal is updated successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Ricetta aggiornata con successo!'**
+  String get manageMealFormEditSuccessMessage;
+
+  /// Success message shown after a meal is deleted successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Ricetta eliminata con successo!'**
+  String get manageMealFormDeleteSuccessMessage;
+
+  /// Label for the delete button in the manage meal form action bar
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina'**
+  String get manageMealFormDelete;
+
+  /// Title shown in the app bar when creating a new meal
+  ///
+  /// In it, this message translates to:
+  /// **'Nuova ricetta'**
+  String get manageMealFormTitleAdd;
+
+  /// Title shown in the app bar when editing an existing meal
+  ///
+  /// In it, this message translates to:
+  /// **'Modifica ricetta'**
+  String get manageMealFormTitleEdit;
+
+  /// Tooltip for the back button in the manage meal form app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Indietro'**
+  String get manageMealFormTooltipBack;
+
+  /// Tooltip for the delete button in the manage meal form app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina ricetta'**
+  String get manageMealFormTooltipDelete;
+
+  /// Validation error shown when the meal title is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Il titolo è obbligatorio'**
+  String get manageMealFormFieldTitleRequired;
+
+  /// Validation error shown when the meal subtitle is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Il sottotitolo è obbligatorio'**
+  String get manageMealFormFieldSubtitleRequired;
+
+  /// Validation error shown when the meal description is empty
+  ///
+  /// In it, this message translates to:
+  /// **'La descrizione è obbligatoria'**
+  String get manageMealFormFieldDescriptionRequired;
+
+  /// Validation error shown when no category is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona almeno una categoria'**
+  String get manageMealFormFieldCategoryRequired;
+
+  /// Validation error shown when no complexity is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona la complessità'**
+  String get manageMealFormFieldComplexityRequired;
+
+  /// Validation error shown when no affordability is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Seleziona il costo'**
+  String get manageMealFormFieldAffordabilityRequired;
+
+  /// Label for the servings slider in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Porzioni'**
+  String get manageMealFormFieldServingsLabel;
+
+  /// Section title for the ingredients list in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Ingredienti'**
+  String get manageMealFormSectionIngredients;
+
+  /// Placeholder hint for the ingredient input field
+  ///
+  /// In it, this message translates to:
+  /// **'Es. 200g farina 00'**
+  String get manageMealFormFieldIngredientsHint;
+
+  /// Validation error shown when the ingredients list is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi almeno un ingrediente'**
+  String get manageMealFormFieldIngredientsEmpty;
+
+  /// Section title for the preparation steps in the manage meal form
+  ///
+  /// In it, this message translates to:
+  /// **'Preparazione'**
+  String get manageMealFormSectionSteps;
+
+  /// Placeholder hint for the preparation step input field
+  ///
+  /// In it, this message translates to:
+  /// **'Es. Porta a bollore l\'acqua salata...'**
+  String get manageMealFormFieldStepsHint;
+
+  /// Validation error shown when the preparation steps list is empty
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi almeno uno step di preparazione'**
+  String get manageMealFormFieldStepsEmpty;
+
+  /// Title of the bottom sheet for selecting a recipe image
+  ///
+  /// In it, this message translates to:
+  /// **'Immagine ricetta'**
+  String get imagePickerSheetTitle;
+
+  /// Placeholder label shown in the image picker when no image is selected
+  ///
+  /// In it, this message translates to:
+  /// **'Tocca per aggiungere un\'immagine'**
+  String get imagePickerLabelAdd;
+
+  /// Option label to pick an image from the gallery
+  ///
+  /// In it, this message translates to:
+  /// **'Scegli dalla galleria'**
+  String get imagePickerGallery;
+
+  /// Option label to take a photo with the camera
+  ///
+  /// In it, this message translates to:
+  /// **'Scatta una foto'**
+  String get imagePickerCamera;
+
+  /// Option label to remove the current image
+  ///
+  /// In it, this message translates to:
+  /// **'Rimuovi immagine'**
+  String get imagePickerRemove;
 }
 
 class _AppLocalizationsDelegate

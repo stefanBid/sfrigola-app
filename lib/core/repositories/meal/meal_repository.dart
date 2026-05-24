@@ -2,6 +2,7 @@
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
+import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
 abstract interface class MealRepository {
@@ -10,45 +11,33 @@ abstract interface class MealRepository {
 
   /// Trending meals — highest rated, currently viral.
   Future<GetListDataResponse<MealPreview>> getTrending(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  });
+    GetRequest<MealFilterKey, MealSortKey> request,
+  );
 
   /// Easy meals — complexity == simple.
   Future<GetListDataResponse<MealPreview>> getEasy(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  });
+    GetRequest<MealFilterKey, MealSortKey> request,
+  );
 
   /// Challenge meals — complexity == hard.
   Future<GetListDataResponse<MealPreview>> getChallenge(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  });
+    GetRequest<MealFilterKey, MealSortKey> request,
+  );
 
   /// Budget meals — affordability == affordable.
   Future<GetListDataResponse<MealPreview>> getBudget(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  });
+    GetRequest<MealFilterKey, MealSortKey> request,
+  );
 
   /// Premium meals — affordability == luxurious.
   Future<GetListDataResponse<MealPreview>> getPremium(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  });
+    GetRequest<MealFilterKey, MealSortKey> request,
+  );
 
   /// All meals, paginated
   Future<GetListDataResponse<MealPreview>> getAllMeals(
-    String? searchKey, {
-    int skip = 0,
-    int take = 10,
-  });
+    GetRequest<MealFilterKey, MealSortKey> request,
+  );
 
   /// Returns a single meal by ID. Throws [MealNotFoundException] if not found.
   Future<GetDataResponse<Meal>> getMealById(String id);

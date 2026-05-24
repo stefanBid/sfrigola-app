@@ -41,10 +41,10 @@ class AppLayout extends StatelessWidget {
       activeIcon: PhosphorIconsFill.heart,
     ),
     const _TabItem(
-      route: AppRouter.forms,
-      label: 'Forms',
-      icon: PhosphorIconsBold.fileText,
-      activeIcon: PhosphorIconsFill.fileText,
+      route: AppRouter.cookbook,
+      label: 'Cookbook',
+      icon: PhosphorIconsBold.book,
+      activeIcon: PhosphorIconsFill.book,
     ),
     const _TabItem(
       route: AppRouter.profile,

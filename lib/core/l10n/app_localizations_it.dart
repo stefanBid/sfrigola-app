@@ -9,6 +9,12 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
+  String get globalConfirm => 'Conferma';
+
+  @override
+  String get globalCancel => 'Annulla';
+
+  @override
   String get homeTitle => 'Che cosa cuciniamo oggi?';
 
   @override
@@ -124,6 +130,15 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mealRateError => 'Impossibile salvare la valutazione.';
 
   @override
+  String get mealAddError => 'Impossibile aggiungere la ricetta. Riprova.';
+
+  @override
+  String get mealUpdateError => 'Impossibile aggiornare la ricetta. Riprova.';
+
+  @override
+  String get mealDeleteError => 'Impossibile eliminare la ricetta. Riprova.';
+
+  @override
   String get rateMealSuccess => 'Valutazione salvata.';
 
   @override
@@ -232,4 +247,168 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get sortOrderAffordabilityDescending => 'Prezzo decrescente';
+
+  @override
+  String get tooltipBack => 'Indietro';
+
+  @override
+  String get tooltipFilterMeals => 'Filtra ricette';
+
+  @override
+  String get tooltipAddMeal => 'Aggiungi ricetta';
+
+  @override
+  String get tooltipAddToFavourites => 'Aggiungi ai preferiti';
+
+  @override
+  String get tooltipRemoveFromFavourites => 'Rimuovi dai preferiti';
+
+  @override
+  String get cookbookSearchHint => 'Cerca per nome o descrizione...';
+
+  @override
+  String get cookbookTitle => 'Ricettario';
+
+  @override
+  String get manageMealFormSectionGeneralInfo => 'Informazioni generali';
+
+  @override
+  String get manageMealFormSectionRecipeDetails => 'Dettagli ricetta';
+
+  @override
+  String get manageMealFormSectionDietaryInfo => 'Info dietetiche';
+
+  @override
+  String get manageMealFormSectionDietaryInfoSubtitle =>
+      'Seleziona tutte le proprietà dietetiche applicabili a questa ricetta.';
+
+  @override
+  String get manageMealFormFieldTitleLabel => 'Titolo ricetta';
+
+  @override
+  String get manageMealFormFieldTitleHint => 'Es. Pasta alla carbonara';
+
+  @override
+  String get manageMealFormFieldSubtitleLabel => 'Sottotitolo ricetta';
+
+  @override
+  String get manageMealFormFieldSubtitleHint =>
+      'Es. Il classico romano rivisitato';
+
+  @override
+  String get manageMealFormFieldDescriptionLabel => 'Descrizione ricetta';
+
+  @override
+  String get manageMealFormFieldDescriptionHint =>
+      'Descrivi la ricetta, il suo sapore e le occasioni in cui prepararla...';
+
+  @override
+  String get manageMealFormFieldCategoryLabel => 'Categoria';
+
+  @override
+  String get manageMealFormFieldCategoryHint => 'Seleziona una categoria';
+
+  @override
+  String get manageMealFormFieldComplexityHint => 'Seleziona la complessità';
+
+  @override
+  String get manageMealFormFieldAffordabilityHint => 'Seleziona il prezzo';
+
+  @override
+  String get manageMealFormFieldDurationLabel =>
+      'Tempo totale (preparazione + cottura)';
+
+  @override
+  String get manageMealFormSave => 'Salva';
+
+  @override
+  String get manageMealFormCancel => 'Annulla';
+
+  @override
+  String get manageMealFormAddSuccessMessage =>
+      'Ricetta aggiunta con successo!';
+
+  @override
+  String get manageMealFormEditSuccessMessage =>
+      'Ricetta aggiornata con successo!';
+
+  @override
+  String get manageMealFormDeleteSuccessMessage =>
+      'Ricetta eliminata con successo!';
+
+  @override
+  String get manageMealFormDelete => 'Elimina';
+
+  @override
+  String get manageMealFormTitleAdd => 'Nuova ricetta';
+
+  @override
+  String get manageMealFormTitleEdit => 'Modifica ricetta';
+
+  @override
+  String get manageMealFormTooltipBack => 'Indietro';
+
+  @override
+  String get manageMealFormTooltipDelete => 'Elimina ricetta';
+
+  @override
+  String get manageMealFormFieldTitleRequired => 'Il titolo è obbligatorio';
+
+  @override
+  String get manageMealFormFieldSubtitleRequired =>
+      'Il sottotitolo è obbligatorio';
+
+  @override
+  String get manageMealFormFieldDescriptionRequired =>
+      'La descrizione è obbligatoria';
+
+  @override
+  String get manageMealFormFieldCategoryRequired =>
+      'Seleziona almeno una categoria';
+
+  @override
+  String get manageMealFormFieldComplexityRequired =>
+      'Seleziona la complessità';
+
+  @override
+  String get manageMealFormFieldAffordabilityRequired => 'Seleziona il costo';
+
+  @override
+  String get manageMealFormFieldServingsLabel => 'Porzioni';
+
+  @override
+  String get manageMealFormSectionIngredients => 'Ingredienti';
+
+  @override
+  String get manageMealFormFieldIngredientsHint => 'Es. 200g farina 00';
+
+  @override
+  String get manageMealFormFieldIngredientsEmpty =>
+      'Aggiungi almeno un ingrediente';
+
+  @override
+  String get manageMealFormSectionSteps => 'Preparazione';
+
+  @override
+  String get manageMealFormFieldStepsHint =>
+      'Es. Porta a bollore l\'acqua salata...';
+
+  @override
+  String get manageMealFormFieldStepsEmpty =>
+      'Aggiungi almeno uno step di preparazione';
+
+  @override
+  String get imagePickerSheetTitle => 'Immagine ricetta';
+
+  @override
+  String get imagePickerLabelAdd => 'Tocca per aggiungere un\'immagine';
+
+  @override
+  String get imagePickerGallery => 'Scegli dalla galleria';
+
+  @override
+  String get imagePickerCamera => 'Scatta una foto';
+
+  @override
+  String get imagePickerRemove => 'Rimuovi immagine';
 }

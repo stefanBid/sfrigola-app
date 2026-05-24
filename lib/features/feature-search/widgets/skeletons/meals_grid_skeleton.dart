@@ -57,31 +57,55 @@ class _MealsGridSkeletonState extends State<MealsGridSkeleton>
             ),
           ),
           Padding(
-            padding: AppDesign.paddingSm.copyWith(top: AppDesign.gapItemSm),
+            padding: AppDesign.paddingSm.copyWith(top: AppDesign.gapItemMd),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 14,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.of(context).muted,
-                    borderRadius: AppDesign.borderRadiusXXs,
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 16,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.of(context).muted,
+                              borderRadius: AppDesign.borderRadiusXXs,
+                            ),
+                          ),
+                          const SizedBox(height: AppDesign.gapItemXs),
+                          Container(
+                            height: 14,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: AppColors.of(context).muted,
+                              borderRadius: AppDesign.borderRadiusXXs,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: AppDesign.gapInlineSm),
+                    Container(
+                      width: 52,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: AppColors.of(context).muted,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(100),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppDesign.gapItemXs),
-                Container(
-                  height: 10,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    color: AppColors.of(context).muted,
-                    borderRadius: AppDesign.borderRadiusXXs,
-                  ),
-                ),
-                const SizedBox(height: AppDesign.gapItemXs),
+                const SizedBox(height: AppDesign.gapItemSm),
                 Wrap(
                   spacing: AppDesign.gapInlineSm,
-                  runSpacing: AppDesign.gapInlineSm,
+                  runSpacing: AppDesign.gapInlineMd,
                   children: [
                     _buildBadge(context, 64),
                     _buildBadge(context, 72),
@@ -99,7 +123,7 @@ class _MealsGridSkeletonState extends State<MealsGridSkeleton>
   Widget _buildBadge(BuildContext context, double width) {
     return Container(
       width: width,
-      height: 24,
+      height: 28,
       decoration: BoxDecoration(
         color: AppColors.of(context).muted,
         borderRadius: AppDesign.borderRadiusXXs,
@@ -116,7 +140,7 @@ class _MealsGridSkeletonState extends State<MealsGridSkeleton>
     return FadeTransition(
       opacity: _opacity,
       child: GridView.builder(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(vertical: AppDesign.gapSectionLg),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

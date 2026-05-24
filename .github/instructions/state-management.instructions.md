@@ -13,7 +13,7 @@ applyTo: "**/providers/**,**/features/**,**/widgets/**"
 > - Global retry is set on `ProviderScope(retry: ...)` — no per-provider `@Riverpod(retry: ...)`
 > - `ProviderBase` is not exported — do not reference it directly
 
-Stack: `hooks_riverpod` + `flutter_hooks` + `riverpod_annotation` + `riverpod_generator`.
+Stack: `flutter_riverpod` + `riverpod_annotation` + `riverpod_generator`.
 
 ---
 
@@ -21,8 +21,7 @@ Stack: `hooks_riverpod` + `flutter_hooks` + `riverpod_annotation` + `riverpod_ge
 
 | Package | Role |
 |---|---|
-| `hooks_riverpod` | Flutter bindings — `ProviderScope`, `ConsumerWidget`, `HookConsumerWidget`, `WidgetRef` |
-| `flutter_hooks` | Local state hooks (`useState`, `useTextEditingController`, `useAnimationController`, …) |
+| `flutter_riverpod` | Flutter bindings — `ProviderScope`, `ConsumerWidget`, `ConsumerStatefulWidget`, `WidgetRef` |
 | `riverpod_annotation` | `@riverpod` annotation used to declare providers |
 | `riverpod_generator` | Code-gen — reads `@riverpod` and emits the actual provider objects (run with `dart run build_runner watch -d`) |
 
@@ -31,6 +30,15 @@ Stack: `hooks_riverpod` + `flutter_hooks` + `riverpod_annotation` + `riverpod_ge
 ## File placement
 
 Providers live in `lib/core/providers/`. Organise by domain **only when the domain has 3+ provider files** — otherwise keep flat.
+
+**Cross-feature core providers** — even when a provider depends on a feature-scoped provider (e.g. a filter), place it in `lib/core/providers/` if it is consumed by the feature itself as its primary data source or shared with other features:
+
+```
+lib/core/providers/
+  repository_provider.dart      ← all repository singletons
+  all_meals_provider.dart       ← cross-feature: search results (family provider, accepts String? searchKey)
+  all_favourites_provider.dart  ← cross-feature: favourites list (depends on feature-favourites' favouritesFilterProvider)
+```
 
 **Flat (≤ 2 files per domain):**
 ```
@@ -85,13 +93,11 @@ part 'meal_provider.g.dart';
 | Widget needs | Base class |
 |---|---|
 | Only reads providers — no local state | `ConsumerWidget` |
-| Local state (controller, animation, flag) **and** reads providers | `HookConsumerWidget` |
+| Local state (controller, form key, flag, …) **and** reads providers | `ConsumerStatefulWidget` + `ConsumerState` |
 | Cannot be converted (already extends something else) | Wrap the reactive subtree with `Consumer` |
 
-> **Rule**: never use `HookConsumerWidget` as the default for all widgets. Use it only when Flutter Hooks are actually needed.
-
 ```dart
-// Good — only providers, no hooks needed
+// Good — only providers, no local state
 class MealCard extends ConsumerWidget {
   const MealCard({super.key, required this.meal});
   final Meal meal;
@@ -103,15 +109,27 @@ class MealCard extends ConsumerWidget {
   }
 }
 
-// Good — needs a TextEditingController (hook) + a provider
-class SearchBar extends HookConsumerWidget {
+// Good — local state (TextEditingController) + providers
+class SearchBar extends ConsumerStatefulWidget {
   const SearchBar({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final controller = useTextEditingController();
-    final results = ref.watch(searchProvider(controller.text));
-    return TextField(controller: controller);
+  ConsumerState<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends ConsumerState<SearchBar> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final results = ref.watch(searchProvider(_controller.text));
+    return TextField(controller: _controller);
   }
 }
 ```
@@ -203,30 +221,133 @@ Generated name: `mealFilterProvider`.
 
 ### Async Notifier — mutable state that also loads data
 
-Use for: favorites list (load from API + local toggle).
+Use for: paginated lists that respond to a filter Notifier.
 
 ```dart
 @riverpod
-class Favorites extends _$Favorites {
+class AllFavouritesByFilter extends _$AllFavouritesByFilter {
+  static const _pageSize = 20;
+
   @override
-  Future<List<Meal>> build() async {
-    final repo = ref.watch(favoritesRepositoryProvider);
-    return repo.getFavorites(const MealFilter());
+  Future<ListProviderState<MealPreview>> build() async {
+    final filterState = ref.watch(
+      mealsFilterProvider(MealsFilterScope.favorites),
+    );
+    final request = _buildRequest(filterState: filterState, skip: 0);
+    final response = await ref
+        .watch(favoritesRepositoryProvider)
+        .getFavorites(request);
+    return ListProviderState<MealPreview>(
+      items: response.data,
+      hasMore: hasMore(response.total, 0, _pageSize),
+    );
   }
 
-  Future<void> toggle(String mealId) async {
-    final repo = ref.read(favoritesRepositoryProvider);
-    final current = await future;
-    final isAlready = current.any((m) => m.id == mealId);
-    if (isAlready) {
-      await repo.removeFavorite(mealId);
-    } else {
-      await repo.addFavorite(mealId);
-    }
-    ref.invalidateSelf(); // re-fetch from repo
+  Future<void> loadMore() async {
+    final current = state.value?.items ?? [];
+    final filterState = ref.read(
+      mealsFilterProvider(MealsFilterScope.favorites),
+    );
+    final request = _buildRequest(
+      filterState: filterState,
+      skip: current.length,
+    );
+    final response = await ref
+        .read(favoritesRepositoryProvider)
+        .getFavorites(request);
+    state = AsyncData(
+      state.value!.copyWith(
+        items: [...current, ...response.data],
+        hasMore: hasMore(response.total, current.length, _pageSize),
+      ),
+    );
+  }
+
+  GetRequest<MealFilterKey, MealSortKey> _buildRequest({
+    required MealsFilterProviderState filterState,
+    required int skip,
+  }) {
+    return RequestBuilder<MealFilterKey, MealSortKey>()
+        .addFilterIfNotNull(
+          MealFilterKey.complexity,
+          FilterOperator.equals,
+          filterState.complexity,
+        )
+        .addFilterIfNotNull(
+          MealFilterKey.affordability,
+          FilterOperator.equals,
+          filterState.affordability,
+        )
+        .setSortIfNotNull(filterState.sort)
+        .setSkip(skip)
+        .setTake(_pageSize)
+        .build();
   }
 }
 ```
+
+**Rules:**
+- `build()` uses `ref.watch` on the filter provider — it auto-rebuilds when filters change, restarting from page 0.
+- `loadMore()` uses `ref.read` — it is called from a callback, not from `build`.
+- The repository always returns `GetListDataResponse<T>` — map it to `ListProviderState<T>` using `response.data` and `hasMore(response.total, skip, _pageSize)`.
+- Never return `List<T>` directly from a paginated Notifier — always wrap in `ListProviderState<T>`.
+
+---
+
+## `ListProviderState<T>` — paginated list state wrapper
+
+Defined in `lib/core/models/provider_state.dart`. Used as the state type for every paginated list Async Notifier.
+
+```dart
+class ListProviderState<T> {
+  final List<T> items;
+  final bool hasMore;
+  // + copyWith
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `items` | `List<T>` | Accumulated items across all loaded pages |
+| `hasMore` | `bool` | `true` if there are more pages to load |
+
+Compute `hasMore` using the utility from `lib/core/utils/has_more.dart`:
+```dart
+bool hasMore(int totalCount, int skip, int take)
+// => skip + take < totalCount
+```
+
+---
+
+## `RequestBuilder<TFilter, TSort>` — building `GetRequest` in providers
+
+Providers never construct `GetRequest` directly — they use `RequestBuilder` (from `lib/core/utils/request_builder.dart`) for a fluent, null-safe chain:
+
+```dart
+RequestBuilder<MealFilterKey, MealSortKey>()
+    .setSearchKey(searchKey)           // String? — skipped when null
+    .addFilter(MealFilterKey.category, FilterOperator.equals, categoryId)
+    .addFilterIfNotNull(MealFilterKey.complexity, FilterOperator.equals, complexity)
+    .addFilterGroup(FilterGroup(conditions: [...]))  // multi-condition OR group
+    .setSortIfNotNull(sortParam)       // SortParam<TSort>? — skipped when null
+    .setSkip(skip)
+    .setTake(pageSize)
+    .build();                          // returns GetRequest<TFilter, TSort>
+```
+
+**Key methods:**
+
+| Method | Effect |
+|---|---|
+| `setSearchKey(String?)` | Sets `searchKey`; ignored when null |
+| `addFilter(key, op, value)` | Adds a single-condition `FilterGroup` (AND with other groups) |
+| `addFilterIfNotNull(key, op, value?)` | Like `addFilter` but no-op when value is null — for optional filters |
+| `addFilterGroup(FilterGroup)` | Adds a pre-built multi-condition OR group |
+| `removeFilter(key)` | Removes all groups that contain at least one condition with `key` |
+| `setSortIfNotNull(SortParam?)` | Sets sort; no-op when null |
+| `setSkip(int)` | Offset for pagination (default 0) |
+| `setTake(int)` | Page size (default 20) |
+| `build()` | Returns an immutable `GetRequest<TFilter, TSort>` |
 
 ---
 
@@ -236,10 +357,14 @@ Providers can watch other providers — they recompute automatically when a depe
 
 ```dart
 @riverpod
-Future<List<Meal>> filteredMeals(Ref ref) async {
-  final repo = ref.watch(mealRepositoryProvider);      // service
-  final filter = ref.watch(mealFilterProvider);        // user-controlled state
-  return repo.getTrending(filter.toMealFilter());
+Future<ListProviderState<MealPreview>> trendingMeals(Ref ref) async {
+  final repo = ref.watch(mealRepositoryProvider);
+  final request = GetRequest<MealFilterKey, MealSortKey>();  // default: skip=0, take=20
+  final response = await repo.getTrending(request);
+  return ListProviderState(
+    items: response.data,
+    hasMore: hasMore(response.total, 0, 20),
+  );
 }
 ```
 
@@ -326,7 +451,7 @@ Usage in widget: `ref.watch(mealDetailProvider('abc-123'))`.
 
 ```dart
 import 'package:flutter/material.dart'; // only if needed
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models

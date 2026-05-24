@@ -13,61 +13,18 @@ The repository layer is the **single point of contact between the app and any da
 ```
 lib/core/repositories/
   meal/
-    meal_repository_model.dart    ← MealFilter + MealNotFoundException
     meal_repository.dart          ← abstract interface only
     meal_repository_impl.dart     ← concrete implementation only
   favorites/
-    favorites_repository_model.dart   ← FavoritesFilter + FavoritesSortOrder
     favorites_repository.dart         ← abstract interface only
     favorites_repository_impl.dart    ← concrete implementation only
 ```
 
-> **Rule**: one subdirectory per repository domain. Each domain has a `*_repository_model.dart` file (value objects, filter classes, exceptions) + one abstract file + one implementation file.
+> **Rule**: one subdirectory per repository domain — one abstract file + one implementation file.
 
-> `meal/meal_repository_model.dart` is the canonical home of `MealFilter` and `MealNotFoundException`. `favorites/favorites_repository_model.dart` owns `FavoritesFilter` and `FavoritesSortOrder`.
-
----
-
-## `MealFilter`
-
-`MealFilter` lives in `lib/core/repositories/meal/meal_repository_model.dart`. The UI knows `Category` and `query` — it never knows about BE field names or query param formats.
-
-```dart
-class MealFilter {
-  const MealFilter({this.skip = 0, this.take = 10, this.categoryId, this.query = ''});
-
-  final int skip;
-  final int take;
-  final String? categoryId; // null = no category filter
-  final String query;       // '' = no text filter
-}
-```
-
-**Rule**: never add individual `categoryId` / `query` / `skip` / `take` arguments to repository methods. Always pass `MealFilter`.
+> Repository methods that return lists accept a **`GetRequest<TFilter, TSort>`** — never loose parameters. `GetRequest` carries `searchKey`, `skip`, `take`, `filters` and `sort`. The provider layer builds and owns the request object.
 
 ---
-
-## `FavoritesSortOrder` → `SortOrder`
-
-Sort direction for `getFavorites` is expressed via `SortOrder`, defined in `lib/core/models/be-models/be_filters.dart`. It is a shared BE enum — not specific to the favorites domain.
-
-```dart
-// lib/core/models/be-models/be_filters.dart
-enum SortOrder {
-  alphabeticalAscending,
-  alphabeticalDescending,
-  rateAscending,
-  rateDescending,
-  complexityAscending,
-  complexityDescending,
-  affordabilityAscending,
-  affordabilityDescending,
-}
-```
-
-`getFavorites` accepts `SortOrder?` — when `null`, the list is returned in insertion order (no sort applied).
-
-`getFavorites` accepts filter and sort params **directly as named parameters** — there is no wrapper object. The provider layer owns the filter state and passes the individual values when calling the repository.
 
 ---
 
@@ -123,17 +80,38 @@ class BeError {
 
 Abstract interface only. No implementation in this file.
 
+Filter and sort keys are defined in `lib/core/models/meal.dart`:
+
+```dart
+enum MealFilterKey { category, complexity, affordability, rating }
+enum MealSortKey   { name, rating, complexity, affordability }
+```
+
 ```dart
 abstract interface class MealRepository {
-  /// Returns all available categories.
   Future<GetListDataResponse<Category>> getCategories();
 
-  /// Returns trending meals (high rate, currently popular).
-  Future<GetListDataResponse<MealPreview>> getTrending(MealFilter filter);
+  Future<GetListDataResponse<MealPreview>> getTrending(
+    GetRequest<MealFilterKey, MealSortKey> request);
 
-  /// Returns a single meal by ID. Throws if not found.
+  Future<GetListDataResponse<MealPreview>> getEasy(
+    GetRequest<MealFilterKey, MealSortKey> request);
+
+  Future<GetListDataResponse<MealPreview>> getChallenge(
+    GetRequest<MealFilterKey, MealSortKey> request);
+
+  Future<GetListDataResponse<MealPreview>> getBudget(
+    GetRequest<MealFilterKey, MealSortKey> request);
+
+  Future<GetListDataResponse<MealPreview>> getPremium(
+    GetRequest<MealFilterKey, MealSortKey> request);
+
+  Future<GetListDataResponse<MealPreview>> getAllMeals(
+    GetRequest<MealFilterKey, MealSortKey> request);
+
   Future<GetDataResponse<Meal>> getMealById(String id);
-  // ... other list methods follow the same GetListDataResponse<MealPreview> pattern
+
+  Future<MutationResponse> updateMealRating(String mealId, double newRating);
 }
 ```
 
@@ -150,26 +128,18 @@ Authentication is handled transparently via Dio interceptor — the token is nev
 ```dart
 abstract interface class FavoritesRepository {
   /// GET /favorites — returns the user's saved meals, filtered and sorted.
-  /// All params are optional — omit to return the full list, descending by rate.
-  Future<GetListDataResponse<MealPreview>> getFavorites({
-    Complexity? complexity,
-    Affordability? affordability,
-    double? minRate,
-    SortOrder? sortOrder,
-  });
+  /// In production: auth token is passed via Dio interceptor — never as a parameter.
+  Future<GetListDataResponse<MealPreview>> getFavorites(
+    GetRequest<MealFilterKey, MealSortKey> request,
+  );
 
   /// POST /favorites/{mealId}
   Future<MutationResponse> addFavorite(String mealId);
 
   /// DELETE /favorites/{mealId}
   Future<MutationResponse> removeFavorite(String mealId);
-
-  /// Synchronous check against a locally cached list of IDs. No network call.
-  bool isFavorite(String mealId, List<String> cachedIds);
 }
 ```
-
-`isFavorite` is synchronous by design. The provider caches the list of IDs after `getFavorites` and uses it for instant UI feedback (e.g. heart icon on a card).
 
 ---
 
@@ -187,10 +157,14 @@ abstract interface class FavoritesRepository {
 | Method | Returns |
 |---|---|
 | `getCategories({simulateError})` | `Future<GetListDataResponse<Category>>` |
-| `getTrending({categoryId, skip, take, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
-| `getAllMeals({searchKey, skip, take, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getTrending(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getEasy(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getChallenge(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getBudget(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getPremium(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getAllMeals(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
 | `getMealById(id, {simulateError})` | `Future<GetDataResponse<Meal>>` |
-| `getFavorites(List<String> ids, {complexity, affordability, minRate, sortOrder, simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
+| `getFavorites(GetRequest<MealFilterKey, MealSortKey>, {simulateError})` | `Future<GetListDataResponse<MealPreview>>` |
 | `addFavorite({simulateError})` | `Future<MutationResponse>` |
 | `removeFavorite({simulateError})` | `Future<MutationResponse>` |
 | `voidCall({simulateError})` | `Future<MutationResponse>` (generic mutation helper) |
@@ -225,7 +199,7 @@ return response;
 - `lib/core/data/dummy_data.dart` is **auto-generated** by `scripts/generate_dummy_data.py` and is accessed only by `BeSimulators`. Repositories never import `dummy_data.dart` directly.
 - When the backend is ready: replace only the `BeSimulators` call with a Dio call. The interface, response types, and all consumers remain unchanged.
 - The concrete class is named `{Domain}RepositoryImpl` (e.g. `MealRepositoryImpl`) — never prefix with `Mock`.
-- Repositories are **stateless** except for `FavoritesRepositoryImpl`, which holds an in-memory `_favoriteIds` list as a temporary substitute for server-side user state.
+- Repositories are **stateless**. In-memory mock state (`_favoriteIds`, `_userRatings`) lives in `BeSimulators` as static fields — not in the repository impl.
 
 ---
 
@@ -234,7 +208,6 @@ return response;
 | Element | Pattern | Example |
 |---|---|---|
 | Domain directory | `{domain}/` | `meal/`, `favorites/` |
-| Model file | `{domain}_repository_model.dart` | `meal_repository_model.dart` |
 | Abstract file | `{domain}_repository.dart` | `meal_repository.dart` |
 | Abstract class | `{Domain}Repository` | `MealRepository` |
 | Impl file | `{domain}_repository_impl.dart` | `meal_repository_impl.dart` |

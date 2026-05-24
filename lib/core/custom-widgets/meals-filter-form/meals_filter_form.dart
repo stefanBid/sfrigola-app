@@ -3,14 +3,14 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
-import 'package:sfrigola/features/feature-favourites/providers/favourites_filter_provider.dart';
+import 'package:sfrigola/core/providers/meals_filter_provider.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 
 // Project Models
-import 'package:sfrigola/core/models/be-models/be_filters.dart';
+import 'package:sfrigola/core/models/be-models/be_sort.dart';
 import 'package:sfrigola/core/models/meal.dart';
 
 // Project Widgets
@@ -18,57 +18,77 @@ import 'package:sfrigola/core/widgets/base_button.dart';
 import 'package:sfrigola/core/widgets/base_dropdown.dart';
 import 'package:sfrigola/core/widgets/base_range.dart';
 
-class FavouriteMealsFilterForm extends ConsumerStatefulWidget {
-  const FavouriteMealsFilterForm({super.key, required this.onCloseForm});
+class MealsFilterForm extends ConsumerStatefulWidget {
+  const MealsFilterForm({
+    super.key,
+    required this.scope,
+    required this.onCloseForm,
+  });
 
+  final String scope;
   final VoidCallback onCloseForm;
 
   @override
-  ConsumerState<FavouriteMealsFilterForm> createState() =>
-      _FavouriteMealsFilterFormState();
+  ConsumerState<MealsFilterForm> createState() => _MealsFilterFormState();
 }
 
-class _FavouriteMealsFilterFormState
-    extends ConsumerState<FavouriteMealsFilterForm> {
+class _MealsFilterFormState extends ConsumerState<MealsFilterForm> {
   static const double _rateMin = 0.0;
   static const double _rateMax = 5.0;
 
-  final _formKey = GlobalKey<FormState>();
+  static const List<SortParam<MealSortKey>> _sortOptions = [
+    SortParam(key: MealSortKey.name, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.name, direction: SortDirection.desc),
+    SortParam(key: MealSortKey.rating, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.rating, direction: SortDirection.desc),
+    SortParam(key: MealSortKey.complexity, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.complexity, direction: SortDirection.desc),
+    SortParam(key: MealSortKey.affordability, direction: SortDirection.asc),
+    SortParam(key: MealSortKey.affordability, direction: SortDirection.desc),
+  ];
 
+  final _formKey = GlobalKey<FormState>();
   Complexity? _complexity;
   Affordability? _affordability;
-  SortOrder? _sortOrder;
+  SortParam<MealSortKey>? _sortOrder;
   RangeValues _rateRange = const RangeValues(_rateMin, _rateMax);
 
   @override
   void initState() {
     super.initState();
-    final current = ref.read(favouritesFilterProvider);
+    final current = ref.read((mealsFilterProvider(widget.scope)));
     _complexity = current.complexity;
     _affordability = current.affordability;
-    _sortOrder = current.sortOrder;
-    _rateRange = current.rateRange ?? const RangeValues(_rateMin, _rateMax);
+    _sortOrder = current.sort;
+    _rateRange = RangeValues(
+      current.rateRange?.min ?? _rateMin,
+      current.rateRange?.max ?? _rateMax,
+    );
   }
 
   void _apply() {
     if (!_formKey.currentState!.validate()) return;
+
     final isFullRange =
         _rateRange.start == _rateMin && _rateRange.end == _rateMax;
+
     ref
-        .read(favouritesFilterProvider.notifier)
+        .read((mealsFilterProvider(widget.scope)).notifier)
         .replaceWith(
-          FavouritesFilterProviderState(
+          MealsFilterProviderState(
             complexity: _complexity,
             affordability: _affordability,
-            rateRange: isFullRange ? null : _rateRange,
-            sortOrder: _sortOrder,
+            rateRange: isFullRange
+                ? null
+                : MealsRateRange(min: _rateRange.start, max: _rateRange.end),
+            sort: _sortOrder,
           ),
         );
     widget.onCloseForm();
   }
 
   void _reset() {
-    ref.read(favouritesFilterProvider.notifier).reset();
+    ref.read((mealsFilterProvider(widget.scope)).notifier).clear();
     widget.onCloseForm();
   }
 
@@ -118,14 +138,14 @@ class _FavouriteMealsFilterFormState
           const SizedBox(height: AppDesign.gapSectionSm),
 
           // ── Sort order ───────────────────────────────────────────────────
-          BaseDropdown<SortOrder>(
+          BaseDropdown<SortParam<MealSortKey>>(
             initialValue: _sortOrder,
             label: AppLocale.getLabels(context).favouritesFilterSortOrderLabel,
             voidSelectionItemLabel: AppLocale.getLabels(
               context,
             ).favouritesFilterSortOrderNone,
             prefixIcon: PhosphorIconsRegular.arrowsDownUp,
-            items: SortOrder.values
+            items: _sortOptions
                 .map(
                   (s) => BaseDropdownOption(value: s, label: s.label(context)),
                 )

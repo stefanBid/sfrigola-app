@@ -4,6 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Project Helpers
 import '../../helpers/app_colors.dart';
 import '../../helpers/app_design.dart';
+import '../../helpers/app_locale.dart';
 import '../../helpers/app_router.dart';
 
 // Project Widgets
@@ -78,7 +79,7 @@ class HeroPageLayout extends StatelessWidget {
               type: IconButtonType.outlined,
               icon: PhosphorIconsRegular.arrowBendUpLeft,
               onPressed: onBack ?? () => AppRouter.goBack(context),
-              tooltip: 'Back',
+              tooltip: AppLocale.getLabels(context).tooltipBack,
             ),
           ),
         ),

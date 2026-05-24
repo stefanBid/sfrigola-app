@@ -16,8 +16,9 @@ class AppValidation {
   const AppValidation._();
 
   /// Field must not be null or empty.
-  static String? notEmpty(String? v, {String message = 'Required field'}) {
-    if (v == null || v.trim().isEmpty) return message;
+  static String? notEmpty(dynamic v, {String message = 'Required field'}) {
+    if (v == null) return message;
+    if (v is String && v.trim().isEmpty) return message;
     return null;
   }
 
@@ -73,6 +74,18 @@ class AppValidation {
     final hasLower = RegExp(r'[a-z]').hasMatch(v);
     final hasDigit = RegExp(r'[0-9]').hasMatch(v);
     if (!hasUpper || !hasLower || !hasDigit) return message;
+    return null;
+  }
+
+  /// List must not be null or empty.
+  /// Useful for multi-select dropdowns.
+  /// Checks if the value is a List and has at least one item.
+
+  static String? listNotEmpty(
+    dynamic v, {
+    String message = 'Select at least one item',
+  }) {
+    if (v is! List || v.isEmpty) return message;
     return null;
   }
 }

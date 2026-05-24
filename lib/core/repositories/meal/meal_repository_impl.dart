@@ -4,6 +4,7 @@ import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
+import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
 // Project Repositories
@@ -27,15 +28,11 @@ class MealRepositoryImpl implements MealRepository {
 
   @override
   Future<GetListDataResponse<MealPreview>> getTrending(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  }) async {
+    GetRequest<MealFilterKey, MealSortKey> request,
+  ) async {
     // TODO: replace with GET /meals/trending
     final response = await BeSimulators.getTrending(
-      categoryId: categoryId,
-      skip: skip,
-      take: take,
+      request,
       simulateError: false,
     );
     _checkResponse(response.error);
@@ -44,32 +41,21 @@ class MealRepositoryImpl implements MealRepository {
 
   @override
   Future<GetListDataResponse<MealPreview>> getEasy(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  }) async {
+    GetRequest<MealFilterKey, MealSortKey> request,
+  ) async {
     // TODO: replace with GET /meals?complexity=simple
-    final response = await BeSimulators.getEasy(
-      categoryId: categoryId,
-      skip: skip,
-      take: take,
-      simulateError: false,
-    );
+    final response = await BeSimulators.getEasy(request, simulateError: false);
     _checkResponse(response.error);
     return response;
   }
 
   @override
   Future<GetListDataResponse<MealPreview>> getChallenge(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  }) async {
+    GetRequest<MealFilterKey, MealSortKey> request,
+  ) async {
     // TODO: replace with GET /meals?complexity=hard
     final response = await BeSimulators.getChallenge(
-      categoryId: categoryId,
-      skip: skip,
-      take: take,
+      request,
       simulateError: false,
     );
     _checkResponse(response.error);
@@ -78,15 +64,11 @@ class MealRepositoryImpl implements MealRepository {
 
   @override
   Future<GetListDataResponse<MealPreview>> getBudget(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  }) async {
+    GetRequest<MealFilterKey, MealSortKey> request,
+  ) async {
     // TODO: replace with GET /meals?affordability=affordable
     final response = await BeSimulators.getBudget(
-      categoryId: categoryId,
-      skip: skip,
-      take: take,
+      request,
       simulateError: false,
     );
     _checkResponse(response.error);
@@ -95,15 +77,11 @@ class MealRepositoryImpl implements MealRepository {
 
   @override
   Future<GetListDataResponse<MealPreview>> getPremium(
-    String? categoryId, {
-    int skip = 0,
-    int take = 10,
-  }) async {
+    GetRequest<MealFilterKey, MealSortKey> request,
+  ) async {
     // TODO: replace with GET /meals?affordability=luxurious
     final response = await BeSimulators.getPremium(
-      categoryId: categoryId,
-      skip: skip,
-      take: take,
+      request,
       simulateError: false,
     );
     _checkResponse(response.error);
@@ -112,15 +90,11 @@ class MealRepositoryImpl implements MealRepository {
 
   @override
   Future<GetListDataResponse<MealPreview>> getAllMeals(
-    String? searchKey, {
-    int skip = 0,
-    int take = 10,
-  }) async {
+    GetRequest<MealFilterKey, MealSortKey> request,
+  ) async {
     // TODO: replace with GET /meals
     final response = await BeSimulators.getAllMeals(
-      searchKey: searchKey,
-      skip: skip,
-      take: take,
+      request,
       simulateError: false,
     );
     _checkResponse(response.error);

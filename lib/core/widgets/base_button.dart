@@ -17,6 +17,7 @@ class BaseButton extends StatelessWidget {
   final bool isLoading;
 
   final bool pill;
+  final Color? color;
 
   const BaseButton({
     super.key,
@@ -28,37 +29,37 @@ class BaseButton extends StatelessWidget {
     this.fullWidth = false,
     this.isLoading = false,
     this.pill = false,
+    this.color,
   }) : assert(label != null || icon != null);
 
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
-    final accentColor = AppColors.primary;
-    final outlineColor = AppColors.secondary;
+    final accent = color ?? AppColors.primary;
     final contentColor = AppTypography.of(context).body.color ?? colors.text;
 
     final tapColor = switch (type) {
       BaseButtonType.filled => colors.text.withAlpha(20),
-      BaseButtonType.outlined => outlineColor.withAlpha(30),
-      BaseButtonType.ghost => accentColor.withAlpha(20),
+      BaseButtonType.outlined => accent.withAlpha(30),
+      BaseButtonType.ghost => accent.withAlpha(20),
     };
 
     final fillColor = switch (type) {
-      BaseButtonType.filled => accentColor,
+      BaseButtonType.filled => accent,
       BaseButtonType.outlined => Colors.transparent,
       BaseButtonType.ghost => Colors.transparent,
     };
 
     final resolvedContentColor = switch (type) {
       BaseButtonType.filled => contentColor,
-      BaseButtonType.outlined => outlineColor,
-      BaseButtonType.ghost => accentColor,
+      BaseButtonType.outlined => accent,
+      BaseButtonType.ghost => accent,
     };
 
     final border = type == BaseButtonType.outlined
-        ? Border.all(color: outlineColor, width: 1.5)
+        ? Border.all(color: accent, width: 1.5)
         : type == BaseButtonType.filled
-        ? Border.all(color: accentColor, width: 1.5)
+        ? Border.all(color: accent, width: 1.5)
         : null;
 
     Widget content = isLoading
@@ -101,19 +102,21 @@ class BaseButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         borderRadius: AppDesign.borderRadiusXs,
-        child: InkWell(
-          onTap: isLoading ? null : onPressed,
-          borderRadius: AppDesign.borderRadiusXs,
-          splashColor: tapColor,
-          highlightColor: tapColor,
-          child: Ink(
-            decoration: BoxDecoration(
-              color: fillColor,
-              borderRadius: AppDesign.borderRadiusXs,
-              border: border,
+        child: Ink(
+          decoration: BoxDecoration(
+            color: fillColor,
+            borderRadius: AppDesign.borderRadiusXs,
+            border: border,
+          ),
+          child: InkWell(
+            onTap: isLoading ? null : onPressed,
+            borderRadius: AppDesign.borderRadiusXs,
+            splashColor: tapColor,
+            highlightColor: tapColor,
+            child: Padding(
+              padding: AppDesign.paddingSymmetricMd,
+              child: content,
             ),
-            padding: AppDesign.paddingSymmetricMd,
-            child: content,
           ),
         ),
       ),

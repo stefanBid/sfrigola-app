@@ -59,31 +59,49 @@ class _GeneralMealCardSkeletonState extends State<GeneralMealCardSkeleton>
               ),
             ),
             Padding(
-              padding: AppDesign.paddingSm.copyWith(top: AppDesign.gapItemSm),
+              padding: AppDesign.paddingSm.copyWith(top: AppDesign.gapItemMd),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 14,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.of(context).muted,
-                      borderRadius: AppDesign.borderRadiusXXs,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 16,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppColors.of(context).muted,
+                                borderRadius: AppDesign.borderRadiusXXs,
+                              ),
+                            ),
+                            const SizedBox(height: AppDesign.gapItemXs),
+                            Container(
+                              height: 14,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                color: AppColors.of(context).muted,
+                                borderRadius: AppDesign.borderRadiusXXs,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: AppDesign.gapInlineSm),
+                      const _BadgePlaceholder(
+                        width: 52,
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: AppDesign.gapItemXs),
-                  Container(
-                    height: 10,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      color: AppColors.of(context).muted,
-                      borderRadius: AppDesign.borderRadiusXXs,
-                    ),
-                  ),
-                  const SizedBox(height: AppDesign.gapItemXs),
+                  const SizedBox(height: AppDesign.gapItemSm),
                   const Wrap(
                     spacing: AppDesign.gapInlineSm,
-                    runSpacing: AppDesign.gapInlineSm,
+                    runSpacing: AppDesign.gapInlineMd,
                     children: [
                       _BadgePlaceholder(width: 64),
                       _BadgePlaceholder(width: 72),
@@ -102,17 +120,18 @@ class _GeneralMealCardSkeletonState extends State<GeneralMealCardSkeleton>
 
 class _BadgePlaceholder extends StatelessWidget {
   final double width;
+  final BorderRadiusGeometry? borderRadius;
 
-  const _BadgePlaceholder({required this.width});
+  const _BadgePlaceholder({required this.width, this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 24,
+      height: 28,
       decoration: BoxDecoration(
         color: AppColors.of(context).muted,
-        borderRadius: AppDesign.borderRadiusXXs,
+        borderRadius: borderRadius ?? AppDesign.borderRadiusXXs,
       ),
     );
   }

@@ -23,6 +23,25 @@ Fixed filenames — do not add new files without a real need:
 |---|---|
 | `provider_retry.dart` | `appRetry` — shared Riverpod retry function |
 | `be_simulators.dart` | Static mock-BE layer — owns all data simulation logic used by repositories |
+| `has_more.dart` | `hasMore(total, skip, take)` — utility function for pagination state |
+| `request_builder.dart` | `RequestBuilder<TFilter, TSort>` — fluent builder for `GetRequest`; decouples providers from the internal construction of filter/sort/pagination params |
+
+### `RequestBuilder` — API summary
+
+Providers must never construct `GetRequest` manually. Always use `RequestBuilder`:
+
+```dart
+RequestBuilder<MealFilterKey, MealSortKey>()
+    .setSearchKey(searchKey)                                           // String? — skipped when null
+    .addFilter(MealFilterKey.category, FilterOperator.equals, id)     // single-condition FilterGroup (AND with others)
+    .addFilterIfNotNull(MealFilterKey.complexity, FilterOperator.equals, complexity)  // no-op when null
+    .addFilterGroup(FilterGroup(conditions: [...]))                    // multi-condition OR group
+    .removeFilter(MealFilterKey.category)                             // removes all groups with this key
+    .setSortIfNotNull(sortParam)                                       // SortParam? — skipped when null
+    .setSkip(skip)
+    .setTake(pageSize)
+    .build();                                                          // → GetRequest<TFilter, TSort>
+```
 
 `lib/core/models/be-models/` contains the typed response wrappers that mirror the real BE contract:
 
@@ -31,6 +50,40 @@ Fixed filenames — do not add new files without a real need:
 | `be_error.dart` | `BeError` | Error shape embedded in any response |
 | `get_response.dart` | `GetDataResponse<T>`, `GetListDataResponse<T>` | GET endpoints (single resource or paginated list) |
 | `mutation_response.dart` | `MutationResponse` | POST, PUT, PATCH, DELETE endpoints |
+| `be_sort.dart` | `SortDirection`, `SortParam<T extends Enum>` | Sort clause for a BE request; `T` is a resource-specific enum of sortable fields |
+| `be_filter.dart` | `FilterOperator`, `FilterCondition<T extends Enum>`, `FilterGroup<T extends Enum>` | Filter predicates; conditions in the same group → OR (implicit); multiple groups → AND (implicit) |
+| `get_request.dart` | `GetRequest<TFilter extends Enum, TSort extends Enum>` | Standard envelope for every filtered/paginated GET; wraps `searchKey`, `skip`, `take`, `filters`, and `sort` |
+
+### BE request standard — rules
+
+- Always use `GetRequest` as the input type for repository methods that accept filters or sort.
+- Define **one** `TFilterKey` enum and one `TSortKey` enum per resource (e.g. `MealFilterKey`, `MealSortKey`) — place them next to the repository file.
+- `FilterCondition.value` is `Object?` — document the expected runtime type in a comment at the call site.
+- Multiple `FilterGroup`s in the same `GetRequest` are combined with **AND** on the backend; conditions inside the same group are combined with **OR**. `LogicalOperator` does not exist — the semantics are implicit and enforced by the BE contract.
+- `FilterOperator` is extended as new backend capabilities are added — keep the enum in sync with the real BE.
+
+### Localisation of filter/sort keys — feature-side extensions
+
+The BE model files (`be_sort.dart`, `be_filter.dart`, `get_request.dart`) are **pure Dart** — no `BuildContext`, no `AppLocale` dependency.
+
+Each feature that exposes filters or sort to the UI must define its own extension on its resource-specific enum to provide localised labels:
+
+```dart
+// feature-meal-details/models/meal_filter_key.dart
+enum MealFilterKey { category, complexity, affordability }
+
+extension MealFilterKeyLabel on MealFilterKey {
+  String label(BuildContext context) => switch (this) {
+    MealFilterKey.category    => AppLocale.getLabels(context).filterMealCategory,
+    MealFilterKey.complexity  => AppLocale.getLabels(context).filterMealComplexity,
+    MealFilterKey.affordability => AppLocale.getLabels(context).filterMealAffordability,
+  };
+}
+```
+
+The same pattern applies to `TSortKey` enums and, when needed, to `FilterOperator` itself — a feature can define its own `FilterOperatorLabel` extension that overrides the display text for a given context (e.g. a numeric field may render `greaterThan` as "più di" while a date field renders it as "dopo il").
+
+**Never add `label()` methods directly to the BE model enums** (`FilterOperator`, `SortDirection`) — those must stay free of UI dependencies.
 
 ---
 

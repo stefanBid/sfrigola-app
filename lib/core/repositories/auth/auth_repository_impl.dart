@@ -43,14 +43,11 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> logout() async {
-    // TODO: replace with POST /auth/logout
-    final response = await BeSimulators.logout();
     await Future.wait([
       AppStorage.instance.delete(_tokenKey),
       AppStorage.instance.delete(_userKey),
     ]);
-    if (response.error != null) throw GeneralException.generic();
-    return response.success;
+    return true;
   }
 
   @override
@@ -82,4 +79,8 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     return response;
   }
+
+  @override
+  Future<User?> getUser() =>
+      AppStorage.instance.readObject<User>(_userKey, User.fromJson);
 }

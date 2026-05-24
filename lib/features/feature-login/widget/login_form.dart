@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Project Providers
+import 'package:sfrigola/features/feature-login/providers/login_provider.dart';
+
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
@@ -10,6 +13,7 @@ import 'package:sfrigola/core/helpers/app_validation.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_button.dart';
+import 'package:sfrigola/core/widgets/base_scaffold_messenger.dart';
 import 'package:sfrigola/core/widgets/base_form_field.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -34,7 +38,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
 
   void _onLogin() {
     if (_formKey.currentState!.validate()) {
-      // TODO: trigger login provider
+      ref
+          .read(loginProvider.notifier)
+          .login(_emailController.text.trim(), _passwordController.text);
     }
   }
 
@@ -42,6 +48,20 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   Widget build(BuildContext context) {
     final l = AppLocale.getLabels(context);
     final colors = AppColors.of(context);
+
+    final loginOP = ref.watch(loginProvider);
+
+    ref.listen(loginProvider, (previous, next) {
+      if (!mounted) return;
+      if (next is AsyncError) {
+        BaseScaffoldMessenger.show(
+          context,
+          duration: const Duration(seconds: 3),
+          message: AppLocale.errorFor(context, next.error),
+          type: SnackBarType.error,
+        );
+      }
+    });
 
     return Form(
       key: _formKey,
@@ -96,6 +116,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             label: l.loginButton,
             type: BaseButtonType.filled,
             fullWidth: true,
+            isLoading: loginOP.isLoading,
             onPressed: _onLogin,
           ),
         ],

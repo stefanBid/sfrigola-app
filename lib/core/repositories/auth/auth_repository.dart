@@ -20,4 +20,8 @@ abstract interface class AuthRepository {
     String currentPassword,
     String newPassword,
   );
+
+  /// Returns the currently stored [User] from local secure storage.
+  /// Returns null when no user is saved (logged out).
+  Future<User?> getUser();
 }

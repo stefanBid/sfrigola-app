@@ -446,8 +446,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get authErrorInvalidCredentials => 'Email o password non corretti';
 
   @override
-  String get authErrorUserNotFound =>
-      'Nessun account trovato con questa email';
+  String get authErrorUserNotFound => 'Nessun account trovato con questa email';
 
   @override
   String get authErrorEmailAlreadyInUse =>

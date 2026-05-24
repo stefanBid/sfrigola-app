@@ -4,6 +4,7 @@
 // Project Models
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/user.dart';
 
 // ---------------------------------------------------------------------------
 // Categories  (12 total)
@@ -2713,4 +2714,40 @@ const availableMeals = [
     rate: 4.6,
     isFavourite: false,
   ),
+];
+
+// ---------------------------------------------------------------------------
+// Mock users — one per [UserType].
+// Edit credentials here (or in the script's _DART_FOOTER), not in
+// be_simulators.dart.  Running the script regenerates this section too.
+// ---------------------------------------------------------------------------
+
+const mockUsers = [
+  {
+    'id': 'u1',
+    'name': 'Mario',
+    'surname': 'Rossi',
+    'email': 'admin@sfrigola.it',
+    'type': UserType.admin,
+    'password': 'Admin123!',
+    'token': 'mock-token-admin-u1',
+  },
+  {
+    'id': 'u2',
+    'name': 'Luca',
+    'surname': 'Bianchi',
+    'email': 'chef@sfrigola.it',
+    'type': UserType.chef,
+    'password': 'Chef123!',
+    'token': 'mock-token-chef-u2',
+  },
+  {
+    'id': 'u3',
+    'name': 'Giulia',
+    'surname': 'Verdi',
+    'email': 'user@sfrigola.it',
+    'type': UserType.consumer,
+    'password': 'User123!',
+    'token': 'mock-token-consumer-u3',
+  },
 ];

@@ -36,37 +36,9 @@ class BeSimulators {
   // Auth mock data
   // ---------------------------------------------------------------------------
 
-  /// Three mock users — one per [UserType].
-  /// Credentials: email + password fields below.
-  static final List<Map<String, dynamic>> _authUsers = [
-    {
-      'id': 'u1',
-      'name': 'Mario',
-      'surname': 'Rossi',
-      'email': 'admin@sfrigola.it',
-      'type': UserType.admin,
-      'password': 'Admin123!',
-      'token': 'mock-token-admin-u1',
-    },
-    {
-      'id': 'u2',
-      'name': 'Luca',
-      'surname': 'Bianchi',
-      'email': 'chef@sfrigola.it',
-      'type': UserType.chef,
-      'password': 'Chef123!',
-      'token': 'mock-token-chef-u2',
-    },
-    {
-      'id': 'u3',
-      'name': 'Giulia',
-      'surname': 'Verdi',
-      'email': 'user@sfrigola.it',
-      'type': UserType.consumer,
-      'password': 'User123!',
-      'token': 'mock-token-consumer-u3',
-    },
-  ];
+  /// Mutable working copy of [mockUsers] — seeded at startup.
+  /// [register] appends entries; [changePassword] mutates passwords in place.
+  static final List<Map<String, dynamic>> _authUsers = [...mockUsers];
 
   /// ID of the currently logged-in mock user. Null when logged out.
   static String? _currentUserId;

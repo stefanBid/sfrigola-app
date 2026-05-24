@@ -911,18 +911,33 @@ abstract class AppLocalizations {
   String get loginRegisterAction;
 
   /// Error shown when email or password is wrong during login
+  ///
+  /// In it, this message translates to:
+  /// **'Email o password non corretti'**
   String get authErrorInvalidCredentials;
 
   /// Error shown when no account exists for the provided email
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun account trovato con questa email'**
   String get authErrorUserNotFound;
 
   /// Error shown when the email is already registered
+  ///
+  /// In it, this message translates to:
+  /// **'Questa email è già associata a un account'**
   String get authErrorEmailAlreadyInUse;
 
   /// Error shown when the password does not meet strength requirements
+  ///
+  /// In it, this message translates to:
+  /// **'La password deve contenere almeno 8 caratteri, una maiuscola e un numero'**
   String get authErrorWeakPassword;
 
   /// Error shown when the current password is wrong in the change-password flow
+  ///
+  /// In it, this message translates to:
+  /// **'La password attuale non è corretta'**
   String get authErrorWrongCurrentPassword;
 }
 

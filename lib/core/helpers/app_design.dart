@@ -75,6 +75,7 @@ class AppDesign {
   static const double _spacingMd = 16;
   static const double _spacingLg = 20;
   static const double _spacingXl = 24;
+  static const double _spacingXxl = 48;
 
   // Padding - All sides
   static const EdgeInsets paddingXs = EdgeInsets.all(_spacingXs);
@@ -139,6 +140,7 @@ class AppDesign {
   static const double gapSectionSm = _spacingMd; // 16 — related sections
   static const double gapSectionMd = _spacingLg; // 20 — distinct sections
   static const double gapSectionLg = _spacingXl;
+  static const double gapSectionXl = _spacingXxl;
 
   // Icon size scale
   static const double iconSizeSm = 16; // badges, chips, tiny inline icons

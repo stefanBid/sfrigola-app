@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// App-wide singleton for secure key-value storage.
@@ -28,4 +30,23 @@ class AppStorage {
       _storage.write(key: key, value: value);
 
   Future<void> delete(String key) => _storage.delete(key: key);
+
+  /// Reads a JSON-encoded object and deserializes it with [fromJson].
+  /// Returns null if the key does not exist.
+  Future<T?> readObject<T>(
+    String key,
+    T Function(Map<String, dynamic>) fromJson,
+  ) async {
+    final raw = await _storage.read(key: key);
+    if (raw == null) return null;
+    return fromJson(jsonDecode(raw) as Map<String, dynamic>);
+  }
+
+  /// Serializes [value] with [toJson] and stores it as a JSON string.
+  Future<void> writeObject<T>(
+    String key,
+    T value,
+    Map<String, dynamic> Function(T) toJson,
+  ) =>
+      _storage.write(key: key, value: jsonEncode(toJson(value)));
 }

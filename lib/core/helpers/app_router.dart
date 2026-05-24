@@ -93,6 +93,7 @@ class AppRouter {
   static const profile = AppTypedRoute<NoParams>('/profile');
   static const mealDetails = AppTypedRoute<MealDetailsParams>('/meal/:mealId');
   static const manageMeal = AppTypedRoute<ManageMealParams>('/manage-meal');
+  static const login = AppTypedRoute<NoParams>('/login');
 
   static void goTo<P extends GenericRouteParams>(
     BuildContext context,

@@ -849,6 +849,66 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Rimuovi immagine'**
   String get imagePickerRemove;
+
+  /// Label for the email input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Email'**
+  String get loginEmailLabel;
+
+  /// Hint text for the email input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Inserisci la tua email'**
+  String get loginEmailHint;
+
+  /// Validation error shown when the email field is empty
+  ///
+  /// In it, this message translates to:
+  /// **'L\'email è obbligatoria'**
+  String get loginEmailRequired;
+
+  /// Validation error shown when the email format is invalid
+  ///
+  /// In it, this message translates to:
+  /// **'Email non valida'**
+  String get loginEmailInvalid;
+
+  /// Label for the password input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Password'**
+  String get loginPasswordLabel;
+
+  /// Hint text for the password input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Inserisci la tua password'**
+  String get loginPasswordHint;
+
+  /// Validation error shown when the password field is empty
+  ///
+  /// In it, this message translates to:
+  /// **'La password è obbligatoria'**
+  String get loginPasswordRequired;
+
+  /// Label for the login button in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi'**
+  String get loginButton;
+
+  /// Prompt text shown below the login button to invite registration
+  ///
+  /// In it, this message translates to:
+  /// **'Non sei ancora registrato?'**
+  String get loginRegisterPrompt;
+
+  /// Tappable register link shown next to loginRegisterPrompt
+  ///
+  /// In it, this message translates to:
+  /// **'Registrati'**
+  String get loginRegisterAction;
 }
 
 class _AppLocalizationsDelegate

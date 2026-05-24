@@ -629,5 +629,55 @@
   "imagePickerRemove": "Rimuovi immagine",
   "@imagePickerRemove": {
     "description": "Option label to remove the current image"
+  },
+
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Label for the email input in the login screen"
+  },
+
+  "loginEmailHint": "Inserisci la tua email",
+  "@loginEmailHint": {
+    "description": "Hint text for the email input in the login screen"
+  },
+
+  "loginEmailRequired": "L'email è obbligatoria",
+  "@loginEmailRequired": {
+    "description": "Validation error shown when the email field is empty"
+  },
+
+  "loginEmailInvalid": "Email non valida",
+  "@loginEmailInvalid": {
+    "description": "Validation error shown when the email format is invalid"
+  },
+
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "Label for the password input in the login screen"
+  },
+
+  "loginPasswordHint": "Inserisci la tua password",
+  "@loginPasswordHint": {
+    "description": "Hint text for the password input in the login screen"
+  },
+
+  "loginPasswordRequired": "La password è obbligatoria",
+  "@loginPasswordRequired": {
+    "description": "Validation error shown when the password field is empty"
+  },
+
+  "loginButton": "Accedi",
+  "@loginButton": {
+    "description": "Label for the login button in the login screen"
+  },
+
+  "loginRegisterPrompt": "Non sei ancora registrato?",
+  "@loginRegisterPrompt": {
+    "description": "Prompt text shown below the login button to invite registration"
+  },
+
+  "loginRegisterAction": "Registrati",
+  "@loginRegisterAction": {
+    "description": "Tappable register link shown next to loginRegisterPrompt"
   }
 }

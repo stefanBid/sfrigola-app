@@ -58,6 +58,23 @@ HeroPageLayout(
 )
 ```
 
+### `MinimalPageLayout`
+
+Full-screen layout for auth flows (login, register). Renders an optional `TransparentAppBar` at the top, followed by a scrollable horizontally-padded body. Import from `package:sfrigola/core/layouts/body/minimal_page_layout.dart`.
+
+```dart
+MinimalPageLayout(
+  hasPadding: true,                   // default true — applies AppDesign.paddingPage
+  appBar: const TransparentAppBar(),  // optional — omit when no app bar is needed
+  body: ...,
+)
+```
+
+- `SafeArea` for the top is applied automatically only when no `appBar` is provided.
+- Bottom safe area is always applied (home indicator / navigation bar).
+
+---
+
 ### `MessagePageLayout`
 
 Centred message layout for error, empty and informational states. Import from `package:sfrigola/core/layouts/body/message_page_layout.dart`.

@@ -411,4 +411,34 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get imagePickerRemove => 'Rimuovi immagine';
+
+  @override
+  String get loginEmailLabel => 'Email';
+
+  @override
+  String get loginEmailHint => 'Inserisci la tua email';
+
+  @override
+  String get loginEmailRequired => 'L\'email è obbligatoria';
+
+  @override
+  String get loginEmailInvalid => 'Email non valida';
+
+  @override
+  String get loginPasswordLabel => 'Password';
+
+  @override
+  String get loginPasswordHint => 'Inserisci la tua password';
+
+  @override
+  String get loginPasswordRequired => 'La password è obbligatoria';
+
+  @override
+  String get loginButton => 'Accedi';
+
+  @override
+  String get loginRegisterPrompt => 'Non sei ancora registrato?';
+
+  @override
+  String get loginRegisterAction => 'Registrati';
 }

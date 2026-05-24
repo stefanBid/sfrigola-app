@@ -47,6 +47,12 @@ class AppLayout extends StatelessWidget {
       activeIcon: PhosphorIconsFill.book,
     ),
     const _TabItem(
+      route: AppRouter.login,
+      label: 'Login',
+      icon: PhosphorIconsBold.signIn,
+      activeIcon: PhosphorIconsFill.signIn,
+    ),
+    const _TabItem(
       route: AppRouter.profile,
       label: 'Profile',
       icon: PhosphorIconsBold.user,
@@ -67,6 +73,14 @@ class AppLayout extends StatelessWidget {
     if (location == AppRouter.search.path && tab.route == AppRouter.home) {
       return;
     }
+    // Login is always pushed so the back button can return to the previous screen
+    if (tab.route == AppRouter.login) {
+      if (location != AppRouter.login.path) {
+        AppRouter.goDeep(context, AppRouter.login);
+      }
+      return;
+    }
+
     AppRouter.goTo(context, tab.route);
   }
 

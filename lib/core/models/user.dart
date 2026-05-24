@@ -40,4 +40,6 @@ class User implements JsonSerializable {
       'type': type.toString().split('.').last,
     };
   }
+
+  UserType get userType => type;
 }

@@ -33,12 +33,16 @@ class BaseImagePicker extends StatelessWidget {
   bool get _hasImage => imageUrl != null;
 
   Future<void> _pickImage(ImageSource source) async {
-    final file = await ImagePicker().pickImage(
-      source: source,
-      imageQuality: 85,
-      maxWidth: 1200,
-    );
-    onImageSelected(file);
+    try {
+      final file = await ImagePicker().pickImage(
+        source: source,
+        imageQuality: 85,
+        maxWidth: 1200,
+      );
+      if (file != null) onImageSelected(file);
+    } catch (_) {
+      // Permission denied or revoked at runtime — silently ignore.
+    }
   }
 
   void _showOptions(BuildContext context) {

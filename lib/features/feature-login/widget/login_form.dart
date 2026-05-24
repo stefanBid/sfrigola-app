@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Providers
+import 'package:sfrigola/core/providers/current_user_provider.dart';
 import 'package:sfrigola/features/feature-login/providers/login_provider.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
+import 'package:sfrigola/core/helpers/app_router.dart';
 import 'package:sfrigola/core/helpers/app_validation.dart';
 
 // Project Widgets
@@ -60,6 +62,11 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           message: AppLocale.errorFor(context, next.error),
           type: SnackBarType.error,
         );
+        return;
+      }
+      if (next is AsyncData && previous is AsyncLoading) {
+        ref.invalidate(currentUserProvider);
+        AppRouter.goTo(context, AppRouter.home);
       }
     });
 

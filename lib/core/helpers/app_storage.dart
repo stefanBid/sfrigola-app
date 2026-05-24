@@ -47,6 +47,5 @@ class AppStorage {
     String key,
     T value,
     Map<String, dynamic> Function(T) toJson,
-  ) =>
-      _storage.write(key: key, value: jsonEncode(toJson(value)));
+  ) => _storage.write(key: key, value: jsonEncode(toJson(value)));
 }

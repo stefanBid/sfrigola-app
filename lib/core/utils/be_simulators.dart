@@ -13,6 +13,7 @@ import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/user.dart';
 
 // Project Repositories
 
@@ -30,6 +31,45 @@ class BeSimulators {
     message: 'Simulated BE error',
     code: 'SIMULATED',
   );
+
+  // ---------------------------------------------------------------------------
+  // Auth mock data
+  // ---------------------------------------------------------------------------
+
+  /// Three mock users — one per [UserType].
+  /// Credentials: email + password fields below.
+  static final List<Map<String, dynamic>> _authUsers = [
+    {
+      'id': 'u1',
+      'name': 'Mario',
+      'surname': 'Rossi',
+      'email': 'admin@sfrigola.it',
+      'type': UserType.admin,
+      'password': 'Admin123!',
+      'token': 'mock-token-admin-u1',
+    },
+    {
+      'id': 'u2',
+      'name': 'Luca',
+      'surname': 'Bianchi',
+      'email': 'chef@sfrigola.it',
+      'type': UserType.chef,
+      'password': 'Chef123!',
+      'token': 'mock-token-chef-u2',
+    },
+    {
+      'id': 'u3',
+      'name': 'Giulia',
+      'surname': 'Verdi',
+      'email': 'user@sfrigola.it',
+      'type': UserType.consumer,
+      'password': 'User123!',
+      'token': 'mock-token-consumer-u3',
+    },
+  ];
+
+  /// ID of the currently logged-in mock user. Null when logged out.
+  static String? _currentUserId;
 
   // ---------------------------------------------------------------------------
   // Meal endpoints
@@ -345,9 +385,145 @@ class BeSimulators {
   }
 
   // ---------------------------------------------------------------------------
-  // Admin endpoints
+  // Auth endpoints
   // ---------------------------------------------------------------------------
 
+  static const BeError _unauthorizedError = BeError(
+    message: 'Invalid credentials',
+    code: 'UNAUTHORIZED',
+  );
+
+  static final UserWithToken _placeholder = UserWithToken(
+    id: '',
+    name: '',
+    email: '',
+    type: UserType.consumer,
+    token: '',
+  );
+
+  /// POST /auth/login
+  static Future<GetDataResponse<UserWithToken>> login({
+    required String email,
+    required String password,
+    Duration delay = const Duration(milliseconds: 600),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug('email: $email', tag: 'BeSimulators.login');
+    if (simulateError) {
+      return GetDataResponse(data: _placeholder, error: _error);
+    }
+    final entry = _authUsers.firstWhere(
+      (e) => e['email'] == email && e['password'] == password,
+      orElse: () => {},
+    );
+    if (entry.isEmpty) {
+      AppLogger.debug(
+        'invalid credentials for $email',
+        tag: 'BeSimulators.login',
+      );
+      return GetDataResponse(data: _placeholder, error: _unauthorizedError);
+    }
+    _currentUserId = entry['id'] as String;
+    final userWithToken = UserWithToken(
+      id: entry['id'] as String,
+      name: entry['name'] as String,
+      surname: entry['surname'] as String?,
+      email: entry['email'] as String,
+      type: entry['type'] as UserType,
+      token: entry['token'] as String,
+    );
+    AppLogger.debug(
+      'logged in: ${userWithToken.email} (${userWithToken.type.name})',
+      tag: 'BeSimulators.login',
+    );
+    return GetDataResponse(data: userWithToken, error: null);
+  }
+
+  /// POST /auth/logout
+  static Future<MutationResponse> logout({
+    Duration delay = const Duration(milliseconds: 200),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug('userId: $_currentUserId', tag: 'BeSimulators.logout');
+    if (!simulateError) _currentUserId = null;
+    return MutationResponse(
+      success: !simulateError,
+      error: simulateError ? _error : null,
+    );
+  }
+
+  /// POST /auth/register
+  static Future<MutationResponse> register({
+    required User user,
+    required String password,
+    Duration delay = const Duration(milliseconds: 600),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug('email: ${user.email}', tag: 'BeSimulators.register');
+    if (simulateError) {
+      return MutationResponse(success: false, error: _error);
+    }
+    final exists = _authUsers.any((e) => e['email'] == user.email);
+    if (exists) {
+      return MutationResponse(
+        success: false,
+        error: const BeError(message: 'Email already in use', code: 'CONFLICT'),
+      );
+    }
+    _authUsers.add({
+      'id': user.id,
+      'name': user.name,
+      'surname': user.surname,
+      'email': user.email,
+      'type': user.type,
+      'password': password,
+      'token': 'mock-token-${user.id}',
+    });
+    AppLogger.debug('registered: ${user.email}', tag: 'BeSimulators.register');
+    return const MutationResponse(success: true);
+  }
+
+  /// POST /auth/change-password
+  static Future<MutationResponse> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    Duration delay = const Duration(milliseconds: 400),
+    bool simulateError = false,
+  }) async {
+    await Future.delayed(delay);
+    AppLogger.debug(
+      'userId: $_currentUserId',
+      tag: 'BeSimulators.changePassword',
+    );
+    if (simulateError) {
+      return MutationResponse(success: false, error: _error);
+    }
+    final index = _authUsers.indexWhere(
+      (e) => e['id'] == _currentUserId && e['password'] == currentPassword,
+    );
+    if (index == -1) {
+      return MutationResponse(
+        success: false,
+        error: const BeError(
+          message: 'Wrong current password',
+          code: 'UNAUTHORIZED',
+        ),
+      );
+    }
+    _authUsers[index]['password'] = newPassword;
+    AppLogger.debug(
+      'password changed for userId: $_currentUserId',
+      tag: 'BeSimulators.changePassword',
+    );
+    return const MutationResponse(success: true);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Admin endpoints
+  // ---------------------------------------------------------------------------
   /// POST /admin/meals
   static Future<MutationResponse> addMeal({
     required Meal meal,

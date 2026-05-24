@@ -6,7 +6,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
-import 'package:sfrigola/core/helpers/app_typography.dart';
 import 'package:sfrigola/core/helpers/app_validation.dart';
 
 // Project Widgets
@@ -43,7 +42,6 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   Widget build(BuildContext context) {
     final l = AppLocale.getLabels(context);
     final colors = AppColors.of(context);
-    final typo = AppTypography.of(context);
 
     return Form(
       key: _formKey,

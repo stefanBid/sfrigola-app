@@ -441,4 +441,23 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get loginRegisterAction => 'Registrati';
+
+  @override
+  String get authErrorInvalidCredentials => 'Email o password non corretti';
+
+  @override
+  String get authErrorUserNotFound =>
+      'Nessun account trovato con questa email';
+
+  @override
+  String get authErrorEmailAlreadyInUse =>
+      'Questa email è già associata a un account';
+
+  @override
+  String get authErrorWeakPassword =>
+      'La password deve contenere almeno 8 caratteri, una maiuscola e un numero';
+
+  @override
+  String get authErrorWrongCurrentPassword =>
+      'La password attuale non è corretta';
 }

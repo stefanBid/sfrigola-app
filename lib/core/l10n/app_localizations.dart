@@ -909,6 +909,21 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Registrati'**
   String get loginRegisterAction;
+
+  /// Error shown when email or password is wrong during login
+  String get authErrorInvalidCredentials;
+
+  /// Error shown when no account exists for the provided email
+  String get authErrorUserNotFound;
+
+  /// Error shown when the email is already registered
+  String get authErrorEmailAlreadyInUse;
+
+  /// Error shown when the password does not meet strength requirements
+  String get authErrorWeakPassword;
+
+  /// Error shown when the current password is wrong in the change-password flow
+  String get authErrorWrongCurrentPassword;
 }
 
 class _AppLocalizationsDelegate

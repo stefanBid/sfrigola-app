@@ -774,5 +774,30 @@
   "profileUserTypeConsumer": "Utente",
   "@profileUserTypeConsumer": {
     "description": "Role badge label for consumer users in the profile screen"
+  },
+
+  "profileCurrentPasswordLabel": "Password attuale",
+  "@profileCurrentPasswordLabel": {
+    "description": "Label for the current password field in the change-password form"
+  },
+
+  "profileNewPasswordLabel": "Nuova password",
+  "@profileNewPasswordLabel": {
+    "description": "Label for the new password field in the change-password form"
+  },
+
+  "profileConfirmPasswordLabel": "Conferma password",
+  "@profileConfirmPasswordLabel": {
+    "description": "Label for the confirm password field in the change-password form"
+  },
+
+  "profileLogoutCurrentDevice": "Esci da questo dispositivo",
+  "@profileLogoutCurrentDevice": {
+    "description": "Checkbox label to logout from current device after changing password"
+  },
+
+  "profilePasswordMismatch": "Le password non coincidono",
+  "@profilePasswordMismatch": {
+    "description": "Validation error when new password and confirm password do not match"
   }
 }

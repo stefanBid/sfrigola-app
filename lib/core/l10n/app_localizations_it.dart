@@ -507,4 +507,19 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get profileUserTypeConsumer => 'Utente';
+
+  @override
+  String get profileCurrentPasswordLabel => 'Password attuale';
+
+  @override
+  String get profileNewPasswordLabel => 'Nuova password';
+
+  @override
+  String get profileConfirmPasswordLabel => 'Conferma password';
+
+  @override
+  String get profileLogoutCurrentDevice => 'Esci da questo dispositivo';
+
+  @override
+  String get profilePasswordMismatch => 'Le password non coincidono';
 }

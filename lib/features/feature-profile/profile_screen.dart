@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Project Helpers
-import 'package:sfrigola/core/helpers/app_colors.dart';
 import 'package:sfrigola/core/helpers/app_design.dart';
 import 'package:sfrigola/core/helpers/app_locale.dart';
 import 'package:sfrigola/core/helpers/app_typography.dart';
@@ -20,10 +19,11 @@ import 'package:sfrigola/core/providers/repository_provider.dart';
 
 // Project Widgets
 import 'package:sfrigola/core/widgets/base_button.dart';
+import 'package:sfrigola/core/widgets/base_icon_button.dart';
 
 // Feature Widgets
+import 'package:sfrigola/features/feature-profile/widgets/profile_change_password_section.dart';
 import 'package:sfrigola/features/feature-profile/widgets/profile_header.dart';
-import 'package:sfrigola/features/feature-profile/widgets/profile_settings_row.dart';
 import 'package:sfrigola/features/feature-profile/widgets/profile_stats_section.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -34,11 +34,25 @@ class ProfileScreen extends ConsumerWidget {
     final l = AppLocale.getLabels(context);
     final typo = AppTypography.of(context);
     final userAsync = ref.watch(currentUserProvider);
+    final isLoggedIn = userAsync.value != null;
 
     return StandardPageLayout(
       appBar: ClassicAppBar(
         leading: const Icon(PhosphorIconsBold.user),
         title: l.profileTitle,
+        actions: isLoggedIn
+            ? [
+                BaseIconButton(
+                  icon: PhosphorIconsRegular.signOut,
+                  tooltip: l.profileLogout,
+                  onPressed: () async {
+                    await ref.read(authRepositoryProvider).logout();
+                    ref.invalidate(currentUserProvider);
+                    if (context.mounted) context.go('/login');
+                  },
+                ),
+              ]
+            : null,
       ),
       body: switch (userAsync) {
         AsyncData(:final value) when value == null => MessagePageLayout(
@@ -64,25 +78,8 @@ class ProfileScreen extends ConsumerWidget {
 
               Text(l.profileSectionSettings, style: typo.heading3),
               const SizedBox(height: AppDesign.gapItemSm),
-              ProfileSettingsRow(
-                icon: PhosphorIconsRegular.lock,
-                label: l.profileChangePassword,
-                onTap: () {}, // TODO: open change password form
-              ),
+              const ProfileChangePasswordSection(),
               const SizedBox(height: AppDesign.gapSectionLg),
-
-              BaseButton(
-                fullWidth: true,
-                type: BaseButtonType.outlined,
-                color: AppColors.secondary,
-                label: l.profileLogout,
-                icon: PhosphorIconsRegular.signOut,
-                onPressed: () async {
-                  await ref.read(authRepositoryProvider).logout();
-                  ref.invalidate(currentUserProvider);
-                  if (context.mounted) context.go('/login');
-                },
-              ),
             ],
           ),
         ),

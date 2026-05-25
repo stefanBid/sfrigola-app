@@ -1029,6 +1029,36 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Utente'**
   String get profileUserTypeConsumer;
+
+  /// Label for the current password field in the change-password form
+  ///
+  /// In it, this message translates to:
+  /// **'Password attuale'**
+  String get profileCurrentPasswordLabel;
+
+  /// Label for the new password field in the change-password form
+  ///
+  /// In it, this message translates to:
+  /// **'Nuova password'**
+  String get profileNewPasswordLabel;
+
+  /// Label for the confirm password field in the change-password form
+  ///
+  /// In it, this message translates to:
+  /// **'Conferma password'**
+  String get profileConfirmPasswordLabel;
+
+  /// Checkbox label to logout from current device after changing password
+  ///
+  /// In it, this message translates to:
+  /// **'Esci da questo dispositivo'**
+  String get profileLogoutCurrentDevice;
+
+  /// Validation error when new password and confirm password do not match
+  ///
+  /// In it, this message translates to:
+  /// **'Le password non coincidono'**
+  String get profilePasswordMismatch;
 }
 
 class _AppLocalizationsDelegate

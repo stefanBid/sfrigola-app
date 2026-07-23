@@ -1,6 +1,6 @@
 <div align="center">
   <div style="background: white; padding: 20px; border-radius: 12px; display: inline-block;">
-    <a href="https://ibb.co/wH6MzNQ"><img src="https://i.ibb.co/22Kgk7M/logo.png" alt="logo" border="0" width="200"></a>
+    <img src="https://i.ibb.co/ccwbZpP0/sfrigola-app-banner.png" alt="logo" border="0" width="600" >
   </div>
 
   # Sfrigola

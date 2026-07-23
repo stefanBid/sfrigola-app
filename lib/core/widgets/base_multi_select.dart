@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
@@ -263,4 +263,3 @@ class BaseMultiSelect<T> extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,4 @@
-﻿// Project Models
+// Project Models
 import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
@@ -52,4 +52,3 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
     return response;
   }
 }
-

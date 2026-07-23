@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 // Project Helpers
 import '../../helpers/app_typography.dart';
@@ -51,4 +51,3 @@ class TransparentAppBar extends StatelessWidget {
     );
   }
 }
-

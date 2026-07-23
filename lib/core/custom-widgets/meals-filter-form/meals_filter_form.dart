@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -188,4 +188,3 @@ class _MealsFilterFormState extends ConsumerState<MealsFilterForm> {
     );
   }
 }
-

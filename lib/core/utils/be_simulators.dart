@@ -1,4 +1,4 @@
-﻿// Project Helpers
+// Project Helpers
 import 'package:sfrigola/core/helpers/app_logger.dart';
 
 // Project Data
@@ -695,4 +695,3 @@ class BeSimulators {
     return sort.direction == SortDirection.desc ? -cmp : cmp;
   }
 }
-

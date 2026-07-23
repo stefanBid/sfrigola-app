@@ -1,4 +1,4 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Repositories
 import 'package:sfrigola/core/repositories/auth/auth_repository.dart';
@@ -28,4 +28,3 @@ AdminRepository adminRepository(Ref ref) => AdminRepositoryImpl();
 
 @Riverpod(keepAlive: true)
 UserRepository userRepository(Ref ref) => UserRepositoryImpl();
-

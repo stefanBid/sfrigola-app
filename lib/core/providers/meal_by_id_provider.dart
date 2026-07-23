@@ -1,4 +1,4 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -17,4 +17,3 @@ class MealById extends _$MealById {
     return response.data;
   }
 }
-

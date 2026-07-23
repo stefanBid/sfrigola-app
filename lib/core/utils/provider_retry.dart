@@ -1,4 +1,4 @@
-﻿import 'package:sfrigola/core/models/general_exception.dart';
+import 'package:sfrigola/core/models/general_exception.dart';
 
 Duration? appRetry(int retryCount, Object error) {
   if (retryCount >= 2) return null;
@@ -7,4 +7,3 @@ Duration? appRetry(int retryCount, Object error) {
   }
   return null;
 }
-

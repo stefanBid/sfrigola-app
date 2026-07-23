@@ -1,4 +1,4 @@
-﻿import 'package:sfrigola/core/models/be-models/mutation_response.dart';
+import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/user.dart';
 
@@ -25,4 +25,3 @@ abstract interface class AuthRepository {
   /// Returns null when no user is saved (logged out).
   Future<User?> getUser();
 }
-

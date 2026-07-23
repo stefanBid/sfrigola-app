@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
@@ -150,9 +150,7 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
             fillColor: colors.background,
             suffixIcon: IconButton(
               icon: Icon(
-                _obscureCurrent
-                    ? LucideIcons.eye
-                    : LucideIcons.eyeOff,
+                _obscureCurrent ? LucideIcons.eye : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -171,9 +169,7 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
             fillColor: colors.background,
             suffixIcon: IconButton(
               icon: Icon(
-                _obscureNew
-                    ? LucideIcons.eye
-                    : LucideIcons.eyeOff,
+                _obscureNew ? LucideIcons.eye : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -202,9 +198,7 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
             onFieldSubmitted: (_) => _submit(),
             suffixIcon: IconButton(
               icon: Icon(
-                _obscureConfirm
-                    ? LucideIcons.eye
-                    : LucideIcons.eyeOff,
+                _obscureConfirm ? LucideIcons.eye : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -241,4 +235,3 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
     );
   }
 }
-

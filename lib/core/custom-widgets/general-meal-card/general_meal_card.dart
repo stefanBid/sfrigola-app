@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Models
@@ -153,4 +153,3 @@ class GeneralMealCard extends StatelessWidget {
     );
   }
 }
-

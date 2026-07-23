@@ -1,4 +1,4 @@
-﻿import 'package:sfrigola/core/models/meal.dart';
+import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
 
 abstract interface class AdminRepository {
@@ -14,4 +14,3 @@ abstract interface class AdminRepository {
   /// In production: DELETE /admin/meals/{mealId}
   Future<MutationResponse> deleteMeal(String mealId);
 }
-

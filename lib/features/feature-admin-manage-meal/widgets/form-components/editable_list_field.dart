@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
@@ -134,10 +134,7 @@ class _EditableListFieldState extends State<EditableListField> {
                   ),
                 ),
                 const SizedBox(width: AppDesign.gapInlineMd),
-                BaseIconButton(
-                  icon: LucideIcons.plus,
-                  onPressed: _addItem,
-                ),
+                BaseIconButton(icon: LucideIcons.plus, onPressed: _addItem),
               ],
             ),
             if (field.hasError) ...[
@@ -155,4 +152,3 @@ class _EditableListFieldState extends State<EditableListField> {
     );
   }
 }
-

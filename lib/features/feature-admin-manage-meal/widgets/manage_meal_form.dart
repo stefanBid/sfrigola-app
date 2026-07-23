@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
@@ -448,4 +448,3 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
     );
   }
 }
-

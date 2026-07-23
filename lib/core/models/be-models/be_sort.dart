@@ -1,4 +1,4 @@
-﻿/// Direction of a sort clause sent to the backend.
+/// Direction of a sort clause sent to the backend.
 enum SortDirection { asc, desc }
 
 /// Generic sort parameter.
@@ -36,4 +36,3 @@ class SortParam<T extends Enum> {
   @override
   int get hashCode => key.hashCode ^ direction.hashCode;
 }
-

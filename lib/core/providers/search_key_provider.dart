@@ -1,4 +1,4 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'search_key_provider.g.dart';
 
@@ -30,4 +30,3 @@ class SearchKey extends _$SearchKey {
     state = null;
   }
 }
-

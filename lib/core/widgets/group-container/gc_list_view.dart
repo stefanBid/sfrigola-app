@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class GcListView extends StatelessWidget {
   final Widget? Function(BuildContext context, int index) itemBuilder;
@@ -31,4 +31,3 @@ class GcListView extends StatelessWidget {
     );
   }
 }
-

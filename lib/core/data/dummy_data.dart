@@ -1,4 +1,4 @@
-﻿// AUTO-GENERATED — do not edit manually.
+// AUTO-GENERATED — do not edit manually.
 // Run:  python scripts/generate_dummy_data.py
 
 // Project Models
@@ -2751,4 +2751,3 @@ const mockUsers = [
     'token': 'mock-token-consumer-u3',
   },
 ];
-

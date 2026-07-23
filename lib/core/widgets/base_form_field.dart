@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 // Project Helpers
 import '../helpers/app_design.dart';
@@ -118,4 +118,3 @@ class BaseFormField extends StatelessWidget {
     );
   }
 }
-

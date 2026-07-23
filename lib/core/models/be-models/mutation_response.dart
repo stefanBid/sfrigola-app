@@ -1,4 +1,4 @@
-﻿// Project Models
+// Project Models
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 
 /// Response model for mutation endpoints — POST, PUT, PATCH, DELETE.
@@ -11,4 +11,3 @@ class MutationResponse {
 
   const MutationResponse({required this.success, this.error});
 }
-

@@ -1,4 +1,4 @@
-﻿/// Comparison operator applied to a single filter condition.
+/// Comparison operator applied to a single filter condition.
 ///
 /// Extend this enum as new operators are needed on the backend.
 enum FilterOperator {
@@ -73,4 +73,3 @@ class FilterGroup<T extends Enum> {
     'conditions': conditions.map((c) => c.toJson()).toList(),
   };
 }
-

@@ -1,4 +1,4 @@
-﻿// Project Models
+// Project Models
 import 'package:sfrigola/core/models/json_serializable.dart';
 
 class Category implements JsonSerializable {
@@ -23,4 +23,3 @@ class Category implements JsonSerializable {
     return {'id': id, 'title': title, 'icon': icon};
   }
 }
-

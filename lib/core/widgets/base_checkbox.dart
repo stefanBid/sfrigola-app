@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
@@ -42,9 +42,7 @@ class BaseCheckbox extends StatelessWidget {
                 mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
                 children: [
                   Icon(
-                    value
-                        ? LucideIcons.squareCheckBig
-                        : LucideIcons.square,
+                    value ? LucideIcons.squareCheckBig : LucideIcons.square,
                     size: AppDesign.iconSizeLg,
                     color: value
                         ? AppColors.primary
@@ -63,4 +61,3 @@ class BaseCheckbox extends StatelessWidget {
     );
   }
 }
-

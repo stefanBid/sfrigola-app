@@ -1,4 +1,4 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -79,4 +79,3 @@ class MealsFilter extends _$MealsFilter {
     );
   }
 }
-

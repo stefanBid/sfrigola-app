@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 // Project l10n
 import 'package:sfrigola/core/l10n/app_localizations.dart';
@@ -376,4 +376,3 @@ class MealMutationException implements AppException {
   String toString() =>
       'MealMutationException: failed to perform ${opType.name} operation on meal';
 }
-

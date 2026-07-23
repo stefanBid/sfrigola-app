@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
@@ -102,9 +102,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             onFieldSubmitted: (_) => _onLogin(),
             suffixIcon: IconButton(
               icon: Icon(
-                _obscurePassword
-                    ? LucideIcons.eye
-                    : LucideIcons.eyeOff,
+                _obscurePassword ? LucideIcons.eye : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -131,4 +129,3 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     );
   }
 }
-

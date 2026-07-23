@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -49,4 +49,3 @@ class AppStorage {
     Map<String, dynamic> Function(T) toJson,
   ) => _storage.write(key: key, value: jsonEncode(toJson(value)));
 }
-

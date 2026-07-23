@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
@@ -152,4 +152,3 @@ class BaseDropdown<T> extends StatelessWidget {
     );
   }
 }
-

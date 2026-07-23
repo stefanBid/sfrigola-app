@@ -1,4 +1,4 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/user.dart';
@@ -20,4 +20,3 @@ Future<User?> currentUser(Ref ref) async {
   final repo = ref.watch(authRepositoryProvider);
   return await repo.getUser();
 }
-

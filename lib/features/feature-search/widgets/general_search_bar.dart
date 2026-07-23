@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
@@ -86,4 +86,3 @@ class _GeneralSearchBarState extends ConsumerState<GeneralSearchBar> {
     );
   }
 }
-

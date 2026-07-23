@@ -1,4 +1,4 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/repository_provider.dart';
@@ -19,4 +19,3 @@ class UpdateRating extends _$UpdateRating {
     });
   }
 }
-

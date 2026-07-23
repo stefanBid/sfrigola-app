@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
@@ -27,11 +27,7 @@ class BaseScaffoldMessenger {
         colors.text,
         LucideIcons.checkCircle,
       ),
-      SnackBarType.error => (
-        AppColors.error,
-        colors.text,
-        LucideIcons.xCircle,
-      ),
+      SnackBarType.error => (AppColors.error, colors.text, LucideIcons.xCircle),
       SnackBarType.warning => (
         AppColors.warning,
         colors.text,
@@ -98,4 +94,3 @@ class BaseScaffoldMessenger {
     );
   }
 }
-

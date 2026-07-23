@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
@@ -181,4 +181,3 @@ class _ChallengeSectionState extends ConsumerState<ChallengeSection> {
     };
   }
 }
-

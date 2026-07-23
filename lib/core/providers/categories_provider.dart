@@ -1,4 +1,4 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/category.dart';
@@ -20,4 +20,3 @@ Future<CategoriesProviderState> categories(Ref ref) async {
   final response = await repo.getCategories();
   return CategoriesProviderState(categories: response.data);
 }
-

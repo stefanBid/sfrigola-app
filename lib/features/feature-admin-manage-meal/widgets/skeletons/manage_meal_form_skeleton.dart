@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -242,4 +242,3 @@ class _ManageMealFormSkeletonState extends State<ManageMealFormSkeleton>
     );
   }
 }
-

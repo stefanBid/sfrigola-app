@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -42,9 +42,7 @@ class BaseCheckbox extends StatelessWidget {
                 mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
                 children: [
                   Icon(
-                    value
-                        ? PhosphorIconsFill.checkSquare
-                        : PhosphorIconsRegular.square,
+                    value ? LucideIcons.squareCheckBig : LucideIcons.square,
                     size: AppDesign.iconSizeLg,
                     color: value
                         ? AppColors.primary

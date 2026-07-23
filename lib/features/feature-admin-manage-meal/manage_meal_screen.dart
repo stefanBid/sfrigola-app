@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Helpers
@@ -53,13 +53,13 @@ class ManageMealScreen extends ConsumerWidget {
         title: isEdit ? l.manageMealFormTitleEdit : l.manageMealFormTitleAdd,
         actions: [
           BaseIconButton(
-            icon: PhosphorIconsRegular.arrowLeft,
+            icon: LucideIcons.arrowLeft,
             tooltip: l.manageMealFormTooltipBack,
             onPressed: () => AppRouter.goBack(context),
           ),
           if (isEdit)
             BaseIconButton(
-              icon: PhosphorIconsRegular.trash,
+              icon: LucideIcons.trash2,
               tooltip: l.manageMealFormTooltipDelete,
               onPressed: () =>
                   ref.read(deleteMealProvider.notifier).submit(mealId!),

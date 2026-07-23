@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
@@ -148,7 +148,7 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
                   ? const MealsGridSkeleton()
                   : switch (allMeals) {
                       AsyncError() => MessagePageLayout(
-                        icon: PhosphorIconsBold.warningCircle,
+                        icon: LucideIcons.alertCircle,
                         message: AppLocale.getLabels(
                           context,
                         ).searchErrorLoadMeals,
@@ -164,7 +164,7 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
                             minHeight: constraints.maxHeight,
                           ),
                           child: MessagePageLayout(
-                            icon: PhosphorIconsRegular.bowlFood,
+                            icon: LucideIcons.salad,
                             message: AppLocale.getLabels(
                               context,
                             ).searchEmptyHint,
@@ -180,7 +180,7 @@ class _CookbookGridContainerState extends ConsumerState<CookbookGridContainer> {
                           minHeight: constraints.maxHeight,
                         ),
                         child: MessagePageLayout(
-                          icon: PhosphorIconsRegular.bowlFood,
+                          icon: LucideIcons.salad,
                           message: AppLocale.getLabels(context).searchEmptyHint,
                           type: MessagePageType.standard,
                         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:sfrigola/core/helpers/app_colors.dart';
 
 // Project Helpers
@@ -17,6 +17,7 @@ class MessagePageLayout extends StatelessWidget {
   final String message;
   final MessagePageType type;
   final VoidCallback? onRetry;
+  final Widget? customButton;
 
   const MessagePageLayout({
     super.key,
@@ -24,6 +25,7 @@ class MessagePageLayout extends StatelessWidget {
     this.icon,
     this.onRetry,
     this.type = MessagePageType.standard,
+    this.customButton,
   });
 
   @override
@@ -53,11 +55,15 @@ class MessagePageLayout extends StatelessWidget {
               const SizedBox(height: AppDesign.gapSectionSm),
               BaseButton(
                 label: AppLocale.getLabels(context).retry,
-                icon: PhosphorIconsBold.arrowClockwise,
+                icon: LucideIcons.refreshCw,
                 type: BaseButtonType.ghost,
                 pill: true,
                 onPressed: onRetry,
               ),
+            ],
+            if (customButton != null) ...[
+              const SizedBox(height: AppDesign.gapSectionSm),
+              customButton!,
             ],
           ],
         ),

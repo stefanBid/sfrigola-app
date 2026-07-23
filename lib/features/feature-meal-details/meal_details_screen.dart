@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
@@ -44,7 +44,7 @@ class MealDetailsScreen extends ConsumerWidget {
             minHeight: MediaQuery.sizeOf(context).height * 0.65,
           ),
           child: MessagePageLayout(
-            icon: PhosphorIconsRegular.eggCrack,
+            icon: LucideIcons.egg,
             message: AppLocale.errorFor(context, error),
             type: MessagePageType.muted,
           ),
@@ -92,7 +92,7 @@ class MealDetailsScreen extends ConsumerWidget {
                     borderRadius: AppDesign.borderRadiusSm,
                   ),
                   label: value.rate.toStringAsFixed(1),
-                  icon: PhosphorIconsRegular.star,
+                  icon: LucideIcons.star,
                 ),
               ],
             ),
@@ -105,7 +105,7 @@ class MealDetailsScreen extends ConsumerWidget {
               children: [
                 BaseBadge(
                   label: '${value.duration} min',
-                  icon: PhosphorIconsRegular.clock,
+                  icon: LucideIcons.clock,
                   style: const BadgeStyle(
                     color: Color(0xFFB3E5FC),
                     foregroundColor: Color(0xFF0277BD),
@@ -113,7 +113,7 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
                 BaseBadge(
                   label: value.complexity.label(context),
-                  icon: PhosphorIconsRegular.chefHat,
+                  icon: LucideIcons.chefHat,
                   style: BadgeStyle(
                     color: value.complexity.badgeColors.color,
                     foregroundColor: value.complexity.badgeColors.foreground,
@@ -121,7 +121,7 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
                 BaseBadge(
                   label: value.affordability.label(context),
-                  icon: PhosphorIconsRegular.wallet,
+                  icon: LucideIcons.wallet,
                   style: BadgeStyle(
                     color: value.affordability.badgeColors.color,
                     foregroundColor: value.affordability.badgeColors.foreground,
@@ -132,7 +132,7 @@ class MealDetailsScreen extends ConsumerWidget {
                     label: AppLocale.getLabels(
                       context,
                     ).mealDetailsBadgeGlutenFree,
-                    icon: PhosphorIconsRegular.grains,
+                    icon: LucideIcons.wheat,
                     style: const BadgeStyle(
                       color: Color(0xFFFFF3CD),
                       foregroundColor: Color(0xFF856404),
@@ -143,7 +143,7 @@ class MealDetailsScreen extends ConsumerWidget {
                     label: AppLocale.getLabels(
                       context,
                     ).mealDetailsBadgeLactoseFree,
-                    icon: PhosphorIconsRegular.drop,
+                    icon: LucideIcons.droplet,
                     style: const BadgeStyle(
                       color: Color(0xFFD1ECF1),
                       foregroundColor: Color(0xFF0C5460),
@@ -152,7 +152,7 @@ class MealDetailsScreen extends ConsumerWidget {
                 if (value.isVegan)
                   BaseBadge(
                     label: AppLocale.getLabels(context).mealDetailsBadgeVegan,
-                    icon: PhosphorIconsRegular.leaf,
+                    icon: LucideIcons.leaf,
                     style: BadgeStyle(
                       color: AppColors.success.withAlpha(45),
                       foregroundColor: const Color(0xFF065F46),
@@ -163,7 +163,7 @@ class MealDetailsScreen extends ConsumerWidget {
                     label: AppLocale.getLabels(
                       context,
                     ).mealDetailsBadgeVegetarian,
-                    icon: PhosphorIconsRegular.plant,
+                    icon: LucideIcons.sprout,
                     style: const BadgeStyle(
                       color: Color(0xFFD4EDDA),
                       foregroundColor: Color(0xFF155724),

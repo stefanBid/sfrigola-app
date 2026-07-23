@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -95,7 +95,7 @@ class GeneralMealCard extends StatelessWidget {
                                 const SizedBox(width: AppDesign.gapInlineSm),
                                 BaseBadge(
                                   label: meal.rate.toStringAsFixed(1),
-                                  icon: PhosphorIconsRegular.star,
+                                  icon: LucideIcons.star,
                                   style: const BadgeStyle(
                                     color: AppColors.secondary,
                                     foregroundColor: Colors.black,
@@ -111,7 +111,7 @@ class GeneralMealCard extends StatelessWidget {
                               children: [
                                 BaseBadge(
                                   label: '${meal.duration} min',
-                                  icon: PhosphorIconsRegular.clock,
+                                  icon: LucideIcons.clock,
                                   style: const BadgeStyle(
                                     color: Color(0xFFB3E5FC),
                                     foregroundColor: Color(0xFF0277BD),
@@ -119,7 +119,7 @@ class GeneralMealCard extends StatelessWidget {
                                 ),
                                 BaseBadge(
                                   label: meal.complexity.label(context),
-                                  icon: PhosphorIconsRegular.chefHat,
+                                  icon: LucideIcons.chefHat,
                                   style: BadgeStyle(
                                     color: meal.complexity.badgeColors.color,
                                     foregroundColor:
@@ -128,7 +128,7 @@ class GeneralMealCard extends StatelessWidget {
                                 ),
                                 BaseBadge(
                                   label: meal.affordability.label(context),
-                                  icon: PhosphorIconsRegular.wallet,
+                                  icon: LucideIcons.wallet,
                                   style: BadgeStyle(
                                     color: meal.affordability.badgeColors.color,
                                     foregroundColor: meal

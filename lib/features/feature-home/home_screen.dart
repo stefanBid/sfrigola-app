@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     return StandardPageLayout(
       hasPadding: false,
       appBar: ClassicAppBar(
-        leading: const Icon(PhosphorIconsBold.chefHat),
+        leading: const Icon(LucideIcons.chefHat),
         title: AppLocale.getLabels(context).homeTitle,
         bottomContent: FakeSearchBox(
           onTap: () => AppRouter.goDeep(context, AppRouter.search),

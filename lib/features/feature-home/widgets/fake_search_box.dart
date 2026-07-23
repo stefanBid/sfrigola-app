@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -21,7 +21,7 @@ class FakeSearchBox extends StatelessWidget {
       onTap: onTap,
       hint: AppLocale.getLabels(context).homeSearchHint,
       prefixIcon: Icon(
-        PhosphorIconsRegular.magnifyingGlass,
+        LucideIcons.search,
         size: AppDesign.iconSizeMd,
         color: AppColors.of(context).muted,
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_locale.dart';
@@ -20,7 +20,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StandardPageLayout(
       appBar: ClassicAppBar(
-        leading: const Icon(PhosphorIconsRegular.magnifyingGlass),
+        leading: const Icon(LucideIcons.search),
         title: AppLocale.getLabels(context).homeTitle,
         bottomContent: GeneralSearchBar(
           onBlurEmpty: () => AppRouter.goBack(context),

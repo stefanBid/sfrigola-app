@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -59,7 +59,7 @@ class _MealsSearchBarState extends ConsumerState<MealsSearchBar> {
       controller: _searchController,
       hint: AppLocale.getLabels(context).cookbookSearchHint,
       prefixIcon: Icon(
-        PhosphorIconsRegular.magnifyingGlass,
+        LucideIcons.search,
         size: AppDesign.iconSizeMd,
         color: AppColors.of(context).muted,
       ),

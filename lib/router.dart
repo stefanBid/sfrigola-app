@@ -11,6 +11,7 @@ import 'features/feature-favourites/favourite_screen.dart';
 import 'features/feature-admin-cookbook/cookbook_screen.dart';
 import 'features/feature-profile/profile_screen.dart';
 import 'features/feature-admin-manage-meal/manage_meal_screen.dart';
+import 'features/feature-login/login_screen.dart';
 
 Widget _customTransitionBuilder(
   BuildContext context,
@@ -85,6 +86,15 @@ final GoRouter appRouter = GoRouter(
               transitionDuration: const Duration(milliseconds: 150),
             );
           },
+        ),
+        GoRoute(
+          path: '/login',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: const LoginScreen(),
+            transitionsBuilder: _customTransitionBuilder,
+            transitionDuration: const Duration(milliseconds: 150),
+          ),
         ),
       ],
     ),

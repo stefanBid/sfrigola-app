@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Providers
 import 'package:sfrigola/features/feature-favourites/providers/all_favourites_by_filter_provider.dart';
@@ -85,7 +85,7 @@ class _MealDetailsFavouriteButtonState
     });
 
     return BaseIconButton(
-      icon: _isFav ? PhosphorIconsFill.heart : PhosphorIconsRegular.heart,
+      icon: _isFav ? LucideIcons.heart : LucideIcons.heart,
       color: Colors.white,
       iconColor: AppColors.error,
       type: IconButtonType.filled,

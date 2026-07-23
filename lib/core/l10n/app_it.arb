@@ -341,6 +341,26 @@
     "description": "Error shown when removing a meal from favourites fails"
   },
 
+  "favouritesLoginRequired": "Accedi per salvare e ritrovare le tue ricette preferite.",
+  "@favouritesLoginRequired": {
+    "description": "Message shown in the favourites screen when the user is not logged in"
+  },
+
+  "favouritesLoginButton": "Accedi",
+  "@favouritesLoginButton": {
+    "description": "Label for the login button shown in the favourites screen when the user is not logged in"
+  },
+
+  "profileLoginRequired": "Accedi per visualizzare il tuo profilo e gestire le impostazioni.",
+  "@profileLoginRequired": {
+    "description": "Message shown in the profile screen when the user is not logged in"
+  },
+
+  "profileLoginButton": "Accedi",
+  "@profileLoginButton": {
+    "description": "Label for the login button shown in the profile screen when the user is not logged in"
+  },
+
   "sortOrderAlphabeticalAscending": "A → Z",
   "@sortOrderAlphabeticalAscending": {
     "description": "Sort order label: alphabetical ascending"
@@ -629,5 +649,155 @@
   "imagePickerRemove": "Rimuovi immagine",
   "@imagePickerRemove": {
     "description": "Option label to remove the current image"
+  },
+
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Label for the email input in the login screen"
+  },
+
+  "loginEmailHint": "Inserisci la tua email",
+  "@loginEmailHint": {
+    "description": "Hint text for the email input in the login screen"
+  },
+
+  "loginEmailRequired": "L'email è obbligatoria",
+  "@loginEmailRequired": {
+    "description": "Validation error shown when the email field is empty"
+  },
+
+  "loginEmailInvalid": "Email non valida",
+  "@loginEmailInvalid": {
+    "description": "Validation error shown when the email format is invalid"
+  },
+
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "Label for the password input in the login screen"
+  },
+
+  "loginPasswordHint": "Inserisci la tua password",
+  "@loginPasswordHint": {
+    "description": "Hint text for the password input in the login screen"
+  },
+
+  "loginPasswordRequired": "La password è obbligatoria",
+  "@loginPasswordRequired": {
+    "description": "Validation error shown when the password field is empty"
+  },
+
+  "loginButton": "Accedi",
+  "@loginButton": {
+    "description": "Label for the login button in the login screen"
+  },
+
+  "loginRegisterPrompt": "Non sei ancora registrato?",
+  "@loginRegisterPrompt": {
+    "description": "Prompt text shown below the login button to invite registration"
+  },
+
+  "loginRegisterAction": "Registrati",
+  "@loginRegisterAction": {
+    "description": "Tappable register link shown next to loginRegisterPrompt"
+  },
+  "authErrorInvalidCredentials": "Email o password non corretti",
+  "@authErrorInvalidCredentials": {
+    "description": "Error shown when email or password is wrong during login"
+  },
+  "authErrorUserNotFound": "Nessun account trovato con questa email",
+  "@authErrorUserNotFound": {
+    "description": "Error shown when no account exists for the provided email"
+  },
+  "authErrorEmailAlreadyInUse": "Questa email è già associata a un account",
+  "@authErrorEmailAlreadyInUse": {
+    "description": "Error shown when the email is already registered"
+  },
+  "authErrorWeakPassword": "La password deve contenere almeno 8 caratteri, una maiuscola e un numero",
+  "@authErrorWeakPassword": {
+    "description": "Error shown when the password does not meet strength requirements"
+  },
+  "authErrorWrongCurrentPassword": "La password attuale non è corretta",
+  "@authErrorWrongCurrentPassword": {
+    "description": "Error shown when the current password is wrong in the change-password flow"
+  },
+
+  "profileTitle": "Profilo",
+  "@profileTitle": {
+    "description": "Title shown in the profile screen app bar"
+  },
+
+  "profileSectionStats": "Statistiche",
+  "@profileSectionStats": {
+    "description": "Section heading for the stats row in the profile screen"
+  },
+
+  "profileStatsRecipes": "Ricette",
+  "@profileStatsRecipes": {
+    "description": "Label for the recipes stat card in the profile screen"
+  },
+
+  "profileStatsFavourites": "Preferiti",
+  "@profileStatsFavourites": {
+    "description": "Label for the favourites stat card in the profile screen"
+  },
+
+  "profileSectionSettings": "Impostazioni",
+  "@profileSectionSettings": {
+    "description": "Section heading for the settings rows in the profile screen"
+  },
+
+  "profileChangePassword": "Cambia password",
+  "@profileChangePassword": {
+    "description": "Label for the change-password settings row in the profile screen"
+  },
+
+  "profileChangePasswordSuccess": "Password aggiornata con successo.",
+  "@profileChangePasswordSuccess": {
+    "description": "Snackbar shown when the password is changed successfully"
+  },
+
+  "profileLogout": "Esci",
+  "@profileLogout": {
+    "description": "Label for the logout button in the profile screen"
+  },
+
+  "profileUserTypeAdmin": "Amministratore",
+  "@profileUserTypeAdmin": {
+    "description": "Role badge label for admin users in the profile screen"
+  },
+
+  "profileUserTypeChef": "Chef",
+  "@profileUserTypeChef": {
+    "description": "Role badge label for chef users in the profile screen"
+  },
+
+  "profileUserTypeConsumer": "Utente",
+  "@profileUserTypeConsumer": {
+    "description": "Role badge label for consumer users in the profile screen"
+  },
+
+  "profileCurrentPasswordLabel": "Password attuale",
+  "@profileCurrentPasswordLabel": {
+    "description": "Label for the current password field in the change-password form"
+  },
+
+  "profileNewPasswordLabel": "Nuova password",
+  "@profileNewPasswordLabel": {
+    "description": "Label for the new password field in the change-password form"
+  },
+
+  "profileConfirmPasswordLabel": "Conferma password",
+  "@profileConfirmPasswordLabel": {
+    "description": "Label for the confirm password field in the change-password form"
+  },
+
+  "profileLogoutCurrentDevice": "Esci da questo dispositivo",
+  "@profileLogoutCurrentDevice": {
+    "description": "Checkbox label to logout from current device after changing password"
+  },
+
+  "profilePasswordMismatch": "Le password non coincidono",
+  "@profilePasswordMismatch": {
+    "description": "Validation error when new password and confirm password do not match"
   }
 }

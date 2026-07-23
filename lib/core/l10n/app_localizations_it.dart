@@ -225,6 +225,20 @@ class AppLocalizationsIt extends AppLocalizations {
   String get favouriteRemoveError => 'Impossibile rimuovere dai preferiti.';
 
   @override
+  String get favouritesLoginRequired =>
+      'Accedi per salvare e ritrovare le tue ricette preferite.';
+
+  @override
+  String get favouritesLoginButton => 'Accedi';
+
+  @override
+  String get profileLoginRequired =>
+      'Accedi per visualizzare il tuo profilo e gestire le impostazioni.';
+
+  @override
+  String get profileLoginButton => 'Accedi';
+
+  @override
   String get sortOrderAlphabeticalAscending => 'A → Z';
 
   @override
@@ -411,4 +425,101 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get imagePickerRemove => 'Rimuovi immagine';
+
+  @override
+  String get loginEmailLabel => 'Email';
+
+  @override
+  String get loginEmailHint => 'Inserisci la tua email';
+
+  @override
+  String get loginEmailRequired => 'L\'email è obbligatoria';
+
+  @override
+  String get loginEmailInvalid => 'Email non valida';
+
+  @override
+  String get loginPasswordLabel => 'Password';
+
+  @override
+  String get loginPasswordHint => 'Inserisci la tua password';
+
+  @override
+  String get loginPasswordRequired => 'La password è obbligatoria';
+
+  @override
+  String get loginButton => 'Accedi';
+
+  @override
+  String get loginRegisterPrompt => 'Non sei ancora registrato?';
+
+  @override
+  String get loginRegisterAction => 'Registrati';
+
+  @override
+  String get authErrorInvalidCredentials => 'Email o password non corretti';
+
+  @override
+  String get authErrorUserNotFound => 'Nessun account trovato con questa email';
+
+  @override
+  String get authErrorEmailAlreadyInUse =>
+      'Questa email è già associata a un account';
+
+  @override
+  String get authErrorWeakPassword =>
+      'La password deve contenere almeno 8 caratteri, una maiuscola e un numero';
+
+  @override
+  String get authErrorWrongCurrentPassword =>
+      'La password attuale non è corretta';
+
+  @override
+  String get profileTitle => 'Profilo';
+
+  @override
+  String get profileSectionStats => 'Statistiche';
+
+  @override
+  String get profileStatsRecipes => 'Ricette';
+
+  @override
+  String get profileStatsFavourites => 'Preferiti';
+
+  @override
+  String get profileSectionSettings => 'Impostazioni';
+
+  @override
+  String get profileChangePassword => 'Cambia password';
+
+  @override
+  String get profileChangePasswordSuccess =>
+      'Password aggiornata con successo.';
+
+  @override
+  String get profileLogout => 'Esci';
+
+  @override
+  String get profileUserTypeAdmin => 'Amministratore';
+
+  @override
+  String get profileUserTypeChef => 'Chef';
+
+  @override
+  String get profileUserTypeConsumer => 'Utente';
+
+  @override
+  String get profileCurrentPasswordLabel => 'Password attuale';
+
+  @override
+  String get profileNewPasswordLabel => 'Nuova password';
+
+  @override
+  String get profileConfirmPasswordLabel => 'Conferma password';
+
+  @override
+  String get profileLogoutCurrentDevice => 'Esci da questo dispositivo';
+
+  @override
+  String get profilePasswordMismatch => 'Le password non coincidono';
 }

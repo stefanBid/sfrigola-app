@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -170,7 +170,7 @@ class _PremiumSectionState extends ConsumerState<PremiumSection> {
         child: GcSectionView(
           title: AppLocale.getLabels(context).homeSectionPremium,
           subtitle: AppLocale.getLabels(context).homeSectionPremiumSubtitle,
-          icon: PhosphorIconsBold.star,
+          icon: LucideIcons.star,
           iconColor: AppColors.primary,
           paddingHeader: AppDesign.paddingHorizontalLg,
           sectionFixedHeight: 220.0,

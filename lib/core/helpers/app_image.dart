@@ -14,7 +14,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -70,7 +70,7 @@ class AppImage {
   static Widget _errorFallback(BuildContext context) => Container(
     color: AppColors.of(context).muted,
     child: Icon(
-      PhosphorIconsBold.imageBroken,
+      LucideIcons.imageOff,
       size: AppDesign.iconSizeXl,
       color: AppColors.of(context).text.withAlpha(120),
     ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
@@ -108,7 +108,7 @@ class _MealsFilterFormState extends ConsumerState<MealsFilterForm> {
             voidSelectionItemLabel: AppLocale.getLabels(
               context,
             ).favouritesFilterComplexityAll,
-            prefixIcon: PhosphorIconsRegular.chartBar,
+            prefixIcon: LucideIcons.chartBar,
             items: Complexity.values
                 .map(
                   (c) => BaseDropdownOption(value: c, label: c.label(context)),
@@ -127,7 +127,7 @@ class _MealsFilterFormState extends ConsumerState<MealsFilterForm> {
             voidSelectionItemLabel: AppLocale.getLabels(
               context,
             ).favouritesFilterAffordabilityAll,
-            prefixIcon: PhosphorIconsRegular.tag,
+            prefixIcon: LucideIcons.tag,
             items: Affordability.values
                 .map(
                   (a) => BaseDropdownOption(value: a, label: a.label(context)),
@@ -144,7 +144,7 @@ class _MealsFilterFormState extends ConsumerState<MealsFilterForm> {
             voidSelectionItemLabel: AppLocale.getLabels(
               context,
             ).favouritesFilterSortOrderNone,
-            prefixIcon: PhosphorIconsRegular.arrowsDownUp,
+            prefixIcon: LucideIcons.arrowDownUp,
             items: _sortOptions
                 .map(
                   (s) => BaseDropdownOption(value: s, label: s.label(context)),

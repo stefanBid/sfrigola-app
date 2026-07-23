@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/meals_filter_provider.dart';
@@ -27,13 +27,13 @@ class CookbookScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StandardPageLayout(
       appBar: ClassicAppBar(
-        leading: const Icon(PhosphorIconsBold.fileText),
+        leading: const Icon(LucideIcons.fileText),
         title: AppLocale.getLabels(context).cookbookTitle,
         bottomContent: const MealsSearchBar(),
         actions: [
           Builder(
             builder: (context) => BaseIconButton(
-              icon: PhosphorIconsRegular.plus,
+              icon: LucideIcons.plus,
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 AppRouter.goDeep(
@@ -52,8 +52,8 @@ class CookbookScreen extends StatelessWidget {
               );
               return BaseIconButton(
                 icon: filter.hasFilters
-                    ? PhosphorIconsFill.funnel
-                    : PhosphorIconsRegular.funnel,
+                    ? LucideIcons.funnel
+                    : LucideIcons.funnel,
                 badgeCount: filter.appliedFiltersCount,
                 tooltip: AppLocale.getLabels(context).tooltipFilterMeals,
                 onPressed: () => BaseBottomSheet.show(

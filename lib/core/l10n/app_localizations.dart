@@ -502,6 +502,30 @@ abstract class AppLocalizations {
   /// **'Impossibile rimuovere dai preferiti.'**
   String get favouriteRemoveError;
 
+  /// Message shown in the favourites screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi per salvare e ritrovare le tue ricette preferite.'**
+  String get favouritesLoginRequired;
+
+  /// Label for the login button shown in the favourites screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi'**
+  String get favouritesLoginButton;
+
+  /// Message shown in the profile screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi per visualizzare il tuo profilo e gestire le impostazioni.'**
+  String get profileLoginRequired;
+
+  /// Label for the login button shown in the profile screen when the user is not logged in
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi'**
+  String get profileLoginButton;
+
   /// Sort order label: alphabetical ascending
   ///
   /// In it, this message translates to:
@@ -849,6 +873,192 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Rimuovi immagine'**
   String get imagePickerRemove;
+
+  /// Label for the email input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Email'**
+  String get loginEmailLabel;
+
+  /// Hint text for the email input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Inserisci la tua email'**
+  String get loginEmailHint;
+
+  /// Validation error shown when the email field is empty
+  ///
+  /// In it, this message translates to:
+  /// **'L\'email è obbligatoria'**
+  String get loginEmailRequired;
+
+  /// Validation error shown when the email format is invalid
+  ///
+  /// In it, this message translates to:
+  /// **'Email non valida'**
+  String get loginEmailInvalid;
+
+  /// Label for the password input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Password'**
+  String get loginPasswordLabel;
+
+  /// Hint text for the password input in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Inserisci la tua password'**
+  String get loginPasswordHint;
+
+  /// Validation error shown when the password field is empty
+  ///
+  /// In it, this message translates to:
+  /// **'La password è obbligatoria'**
+  String get loginPasswordRequired;
+
+  /// Label for the login button in the login screen
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi'**
+  String get loginButton;
+
+  /// Prompt text shown below the login button to invite registration
+  ///
+  /// In it, this message translates to:
+  /// **'Non sei ancora registrato?'**
+  String get loginRegisterPrompt;
+
+  /// Tappable register link shown next to loginRegisterPrompt
+  ///
+  /// In it, this message translates to:
+  /// **'Registrati'**
+  String get loginRegisterAction;
+
+  /// Error shown when email or password is wrong during login
+  ///
+  /// In it, this message translates to:
+  /// **'Email o password non corretti'**
+  String get authErrorInvalidCredentials;
+
+  /// Error shown when no account exists for the provided email
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun account trovato con questa email'**
+  String get authErrorUserNotFound;
+
+  /// Error shown when the email is already registered
+  ///
+  /// In it, this message translates to:
+  /// **'Questa email è già associata a un account'**
+  String get authErrorEmailAlreadyInUse;
+
+  /// Error shown when the password does not meet strength requirements
+  ///
+  /// In it, this message translates to:
+  /// **'La password deve contenere almeno 8 caratteri, una maiuscola e un numero'**
+  String get authErrorWeakPassword;
+
+  /// Error shown when the current password is wrong in the change-password flow
+  ///
+  /// In it, this message translates to:
+  /// **'La password attuale non è corretta'**
+  String get authErrorWrongCurrentPassword;
+
+  /// Title shown in the profile screen app bar
+  ///
+  /// In it, this message translates to:
+  /// **'Profilo'**
+  String get profileTitle;
+
+  /// Section heading for the stats row in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Statistiche'**
+  String get profileSectionStats;
+
+  /// Label for the recipes stat card in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Ricette'**
+  String get profileStatsRecipes;
+
+  /// Label for the favourites stat card in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Preferiti'**
+  String get profileStatsFavourites;
+
+  /// Section heading for the settings rows in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Impostazioni'**
+  String get profileSectionSettings;
+
+  /// Label for the change-password settings row in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Cambia password'**
+  String get profileChangePassword;
+
+  /// Snackbar shown when the password is changed successfully
+  ///
+  /// In it, this message translates to:
+  /// **'Password aggiornata con successo.'**
+  String get profileChangePasswordSuccess;
+
+  /// Label for the logout button in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Esci'**
+  String get profileLogout;
+
+  /// Role badge label for admin users in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Amministratore'**
+  String get profileUserTypeAdmin;
+
+  /// Role badge label for chef users in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Chef'**
+  String get profileUserTypeChef;
+
+  /// Role badge label for consumer users in the profile screen
+  ///
+  /// In it, this message translates to:
+  /// **'Utente'**
+  String get profileUserTypeConsumer;
+
+  /// Label for the current password field in the change-password form
+  ///
+  /// In it, this message translates to:
+  /// **'Password attuale'**
+  String get profileCurrentPasswordLabel;
+
+  /// Label for the new password field in the change-password form
+  ///
+  /// In it, this message translates to:
+  /// **'Nuova password'**
+  String get profileNewPasswordLabel;
+
+  /// Label for the confirm password field in the change-password form
+  ///
+  /// In it, this message translates to:
+  /// **'Conferma password'**
+  String get profileConfirmPasswordLabel;
+
+  /// Checkbox label to logout from current device after changing password
+  ///
+  /// In it, this message translates to:
+  /// **'Esci da questo dispositivo'**
+  String get profileLogoutCurrentDevice;
+
+  /// Validation error when new password and confirm password do not match
+  ///
+  /// In it, this message translates to:
+  /// **'Le password non coincidono'**
+  String get profilePasswordMismatch;
 }
 
 class _AppLocalizationsDelegate

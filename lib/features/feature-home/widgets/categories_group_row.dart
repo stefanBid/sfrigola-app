@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project l10n
 import 'package:sfrigola/core/l10n/app_localizations.dart';
@@ -86,7 +86,7 @@ class CategoriesGroupRow extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              PhosphorIconsRegular.warningCircle,
+              LucideIcons.alertCircle,
               size: AppDesign.iconSizeSm,
               color: AppColors.of(context).muted,
             ),

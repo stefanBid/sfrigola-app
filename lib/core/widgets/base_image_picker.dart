@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -33,12 +33,16 @@ class BaseImagePicker extends StatelessWidget {
   bool get _hasImage => imageUrl != null;
 
   Future<void> _pickImage(ImageSource source) async {
-    final file = await ImagePicker().pickImage(
-      source: source,
-      imageQuality: 85,
-      maxWidth: 1200,
-    );
-    onImageSelected(file);
+    try {
+      final file = await ImagePicker().pickImage(
+        source: source,
+        imageQuality: 85,
+        maxWidth: 1200,
+      );
+      if (file != null) onImageSelected(file);
+    } catch (_) {
+      // Permission denied or revoked at runtime — silently ignore.
+    }
   }
 
   void _showOptions(BuildContext context) {
@@ -84,7 +88,7 @@ class BaseImagePicker extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          PhosphorIconsRegular.imagesSquare,
+                          LucideIcons.images,
                           size: AppDesign.iconSizeXxl,
                           color: AppColors.of(context).muted,
                         ),
@@ -108,7 +112,7 @@ class BaseImagePicker extends StatelessWidget {
                           borderRadius: AppDesign.borderRadiusXs,
                         ),
                         child: const Icon(
-                          PhosphorIconsRegular.pencilSimple,
+                          LucideIcons.pencil,
                           size: AppDesign.iconSizeMd,
                           color: Colors.white,
                         ),

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -171,7 +171,7 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
         child: GcSectionView(
           title: AppLocale.getLabels(context).homeSectionTrending,
           subtitle: AppLocale.getLabels(context).homeSectionTrendingSubtitle,
-          icon: PhosphorIconsBold.trendUp,
+          icon: LucideIcons.trendingUp,
           iconColor: AppColors.primary,
           paddingHeader: AppDesign.paddingHorizontalLg,
           sectionFixedHeight: 280.0,
@@ -182,3 +182,4 @@ class _TrendingSectionState extends ConsumerState<TrendingSection> {
     };
   }
 }
+

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -88,7 +88,7 @@ class BaseImagePicker extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          PhosphorIconsRegular.imagesSquare,
+                          LucideIcons.images,
                           size: AppDesign.iconSizeXxl,
                           color: AppColors.of(context).muted,
                         ),
@@ -112,7 +112,7 @@ class BaseImagePicker extends StatelessWidget {
                           borderRadius: AppDesign.borderRadiusXs,
                         ),
                         child: const Icon(
-                          PhosphorIconsRegular.pencilSimple,
+                          LucideIcons.pencil,
                           size: AppDesign.iconSizeMd,
                           color: Colors.white,
                         ),
@@ -127,3 +127,4 @@ class BaseImagePicker extends StatelessWidget {
     );
   }
 }
+

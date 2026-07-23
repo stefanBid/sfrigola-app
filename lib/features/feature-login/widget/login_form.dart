@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/current_user_provider.dart';
@@ -80,7 +80,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             controller: _emailController,
             label: l.loginEmailLabel,
             hint: l.loginEmailHint,
-            prefixIcon: PhosphorIconsRegular.envelope,
+            prefixIcon: LucideIcons.mail,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             autovalidateMode: AutovalidateMode.onUserInteractionIfError,
@@ -96,15 +96,15 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             controller: _passwordController,
             label: l.loginPasswordLabel,
             hint: l.loginPasswordHint,
-            prefixIcon: PhosphorIconsRegular.lockKey,
+            prefixIcon: LucideIcons.lockKeyhole,
             obscureText: _obscurePassword,
             textInputAction: TextInputAction.done,
             onFieldSubmitted: (_) => _onLogin(),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscurePassword
-                    ? PhosphorIconsRegular.eye
-                    : PhosphorIconsRegular.eyeSlash,
+                    ? LucideIcons.eye
+                    : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -131,3 +131,4 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     );
   }
 }
+

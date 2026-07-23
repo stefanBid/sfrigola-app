@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -25,22 +25,22 @@ class BaseScaffoldMessenger {
       SnackBarType.success => (
         AppColors.success,
         colors.text,
-        PhosphorIconsRegular.checkCircle,
+        LucideIcons.checkCircle,
       ),
       SnackBarType.error => (
         AppColors.error,
         colors.text,
-        PhosphorIconsRegular.xCircle,
+        LucideIcons.xCircle,
       ),
       SnackBarType.warning => (
         AppColors.warning,
         colors.text,
-        PhosphorIconsRegular.warningCircle,
+        LucideIcons.alertCircle,
       ),
       SnackBarType.info => (
         colors.isDark ? AppColors.secondary : AppColors.primary,
         const Color(0xFF1A1A1A),
-        PhosphorIconsRegular.info,
+        LucideIcons.info,
       ),
     };
 
@@ -98,3 +98,4 @@ class BaseScaffoldMessenger {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/json_serializable.dart';
 
 // Project l10n
@@ -122,3 +122,4 @@ class WrongCurrentPasswordException implements AppException {
   String localizedMessage(AppLocalizations l) =>
       l.authErrorWrongCurrentPassword;
 }
+

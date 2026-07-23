@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/be-models/be_filter.dart';
 import 'package:sfrigola/core/models/be-models/be_sort.dart';
 
@@ -66,3 +66,4 @@ class GetRequest<TFilter extends Enum, TSort extends Enum> {
     if (sort != null) 'sort': sort!.toJson(),
   };
 }
+

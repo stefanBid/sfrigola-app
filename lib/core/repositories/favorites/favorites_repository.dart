@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/be-models/get_request.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
@@ -20,3 +20,4 @@ abstract interface class FavoritesRepository {
   /// In production: DELETE /favorites/{mealId}
   Future<MutationResponse> removeFavorite(String mealId);
 }
+

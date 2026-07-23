@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -41,7 +41,7 @@ class ProfileChangePasswordSection extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              PhosphorIconsRegular.lock,
+              LucideIcons.lock,
               size: AppDesign.iconSizeMd,
               color: colors.muted,
             ),
@@ -53,7 +53,7 @@ class ProfileChangePasswordSection extends StatelessWidget {
               ),
             ),
             Icon(
-              PhosphorIconsRegular.caretRight,
+              LucideIcons.chevronRight,
               size: AppDesign.iconSizeSm,
               color: colors.muted,
             ),
@@ -144,15 +144,15 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
           BaseFormField(
             controller: _currentPasswordController,
             label: l.profileCurrentPasswordLabel,
-            prefixIcon: PhosphorIconsRegular.lock,
+            prefixIcon: LucideIcons.lock,
             obscureText: _obscureCurrent,
             textInputAction: TextInputAction.next,
             fillColor: colors.background,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureCurrent
-                    ? PhosphorIconsRegular.eye
-                    : PhosphorIconsRegular.eyeSlash,
+                    ? LucideIcons.eye
+                    : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -165,15 +165,15 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
           BaseFormField(
             controller: _newPasswordController,
             label: l.profileNewPasswordLabel,
-            prefixIcon: PhosphorIconsRegular.lockKey,
+            prefixIcon: LucideIcons.lockKeyhole,
             obscureText: _obscureNew,
             textInputAction: TextInputAction.next,
             fillColor: colors.background,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureNew
-                    ? PhosphorIconsRegular.eye
-                    : PhosphorIconsRegular.eyeSlash,
+                    ? LucideIcons.eye
+                    : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -195,7 +195,7 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
           BaseFormField(
             controller: _confirmPasswordController,
             label: l.profileConfirmPasswordLabel,
-            prefixIcon: PhosphorIconsRegular.lockKey,
+            prefixIcon: LucideIcons.lockKeyhole,
             obscureText: _obscureConfirm,
             textInputAction: TextInputAction.done,
             fillColor: colors.background,
@@ -203,8 +203,8 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureConfirm
-                    ? PhosphorIconsRegular.eye
-                    : PhosphorIconsRegular.eyeSlash,
+                    ? LucideIcons.eye
+                    : LucideIcons.eyeOff,
                 size: AppDesign.iconSizeMd,
                 color: colors.muted,
               ),
@@ -241,3 +241,4 @@ class _ChangePasswordFormState extends ConsumerState<_ChangePasswordForm> {
     );
   }
 }
+

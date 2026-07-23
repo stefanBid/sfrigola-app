@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -30,7 +30,7 @@ class BaseImageSelectorBottomSheet {
           children: [
             ListTile(
               leading: Icon(
-                PhosphorIconsRegular.image,
+                LucideIcons.image,
                 size: AppDesign.iconSizeLg,
                 color: AppColors.of(context).text,
               ),
@@ -45,7 +45,7 @@ class BaseImageSelectorBottomSheet {
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsRegular.camera,
+                LucideIcons.camera,
                 size: AppDesign.iconSizeLg,
                 color: AppColors.of(context).text,
               ),
@@ -61,7 +61,7 @@ class BaseImageSelectorBottomSheet {
             if (hasImage && onRemove != null)
               ListTile(
                 leading: const Icon(
-                  PhosphorIconsRegular.trash,
+                  LucideIcons.trash2,
                   size: AppDesign.iconSizeLg,
                   color: AppColors.error,
                 ),
@@ -82,3 +82,4 @@ class BaseImageSelectorBottomSheet {
     );
   }
 }
+

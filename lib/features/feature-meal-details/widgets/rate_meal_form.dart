@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Providers
@@ -126,13 +126,13 @@ class _RateMealFormState extends ConsumerState<RateMealForm> {
           final IconData icon;
           final Color color;
           if (displayRating >= fullValue) {
-            icon = PhosphorIconsFill.star;
+            icon = LucideIcons.star;
             color = AppColors.warning;
           } else if (displayRating >= halfValue) {
-            icon = PhosphorIconsFill.starHalf;
+            icon = LucideIcons.starHalf;
             color = AppColors.warning;
           } else {
-            icon = PhosphorIconsRegular.star;
+            icon = LucideIcons.star;
             color = AppColors.of(context).muted;
           }
 
@@ -145,3 +145,4 @@ class _RateMealFormState extends ConsumerState<RateMealForm> {
     );
   }
 }
+

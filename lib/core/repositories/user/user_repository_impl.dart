@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 
 // Project Repositories
@@ -20,3 +20,4 @@ class UserRepositoryImpl implements UserRepository {
     return BeSimulators.getUserRecipesCount();
   }
 }
+

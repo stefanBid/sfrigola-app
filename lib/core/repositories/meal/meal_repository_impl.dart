@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/general_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
@@ -128,3 +128,4 @@ class MealRepositoryImpl implements MealRepository {
     return response;
   }
 }
+

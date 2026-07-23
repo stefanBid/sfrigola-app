@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -31,7 +31,7 @@ class FormActionBar extends StatelessWidget {
       color: AppColors.of(context).bottomBar,
       child: BaseButton(
         label: l.manageMealFormSave,
-        icon: PhosphorIconsRegular.check,
+        icon: LucideIcons.check,
         fullWidth: true,
         isLoading: isSubmitting,
         onPressed: onSubmit,
@@ -39,3 +39,4 @@ class FormActionBar extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project Helpers
@@ -30,13 +30,13 @@ class ProfileStatsSection extends ConsumerWidget {
     final favouritesValue = statsAsync.when(
       data: (s) => s.favouritesCount.toString(),
       loading: () => '—',
-      error: (_, __) => '—',
+      error: (_, _) => '—',
     );
 
     final recipesValue = statsAsync.when(
       data: (s) => s.recipesCount.toString(),
       loading: () => '—',
-      error: (_, __) => '—',
+      error: (_, _) => '—',
     );
 
     return Row(
@@ -60,3 +60,4 @@ class ProfileStatsSection extends ConsumerWidget {
     );
   }
 }
+

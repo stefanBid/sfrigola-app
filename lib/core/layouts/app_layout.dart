@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -31,26 +31,26 @@ class AppLayout extends StatelessWidget {
     const _TabItem(
       route: AppRouter.home,
       label: 'Home',
-      icon: PhosphorIconsBold.house,
-      activeIcon: PhosphorIconsFill.house,
+      icon: LucideIcons.house,
+      activeIcon: LucideIcons.house,
     ),
     const _TabItem(
       route: AppRouter.favourites,
       label: 'Favorites',
-      icon: PhosphorIconsBold.heart,
-      activeIcon: PhosphorIconsFill.heart,
+      icon: LucideIcons.heart,
+      activeIcon: LucideIcons.heart,
     ),
     const _TabItem(
       route: AppRouter.cookbook,
       label: 'Cookbook',
-      icon: PhosphorIconsBold.book,
-      activeIcon: PhosphorIconsFill.book,
+      icon: LucideIcons.bookOpen,
+      activeIcon: LucideIcons.bookOpen,
     ),
     const _TabItem(
       route: AppRouter.profile,
       label: 'Profile',
-      icon: PhosphorIconsBold.user,
-      activeIcon: PhosphorIconsFill.user,
+      icon: LucideIcons.user,
+      activeIcon: LucideIcons.user,
     ),
   ];
 
@@ -142,3 +142,4 @@ class AppLayout extends StatelessWidget {
     );
   }
 }
+

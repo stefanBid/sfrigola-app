@@ -19,7 +19,7 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 
 - **Flutter** (Dart) — mobile app (iOS + Android)
 - **go_router** for navigation
-- **phosphor_flutter** for icons
+- **lucide_flutter** for icons
 - **google_fonts** (Lato) for typography
 - **transparent_image** for network images with fade
 - **flutter_riverpod** + **riverpod_annotation** for state management
@@ -125,7 +125,7 @@ sfrigola-app/
 - Imports must be grouped by origin, each group preceded by a comment, with a blank line between groups. Always use absolute `package:sfrigola/` paths for project-internal files. Order:
   ```dart
   import 'package:flutter/material.dart';
-  import 'package:phosphor_flutter/phosphor_flutter.dart';
+  import 'package:lucide_flutter/lucide_flutter.dart';
   // ... other third-party packages
 
   // Project Helpers
@@ -264,20 +264,20 @@ Access: `AppDesign.{token}` (all static).
 | `iconSizeXl` | 40 | Large accent icons (image error fallback) |
 | `iconSizeXxl` | 64 | Empty state / message page illustrations |
 
-### Icons — `phosphor_flutter`
+### Icons — `lucide_flutter`
 
-Default style: **`regular`**. Use other styles only when explicitly requested.
+Single style (outline). No variant classes — all icons via `LucideIcons.iconName`.
 
 ```dart
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
-Icon(PhosphorIconsRegular.fileText)
-Icon(PhosphorIconsFill.heart)
-Icon(PhosphorIconsBold.arrowLeft)
-PhosphorIconsRegular.fileText  // as IconData
+Icon(LucideIcons.fileText)
+Icon(LucideIcons.heart)
+Icon(LucideIcons.arrowLeft)
+LucideIcons.fileText  // as IconData
 ```
 
-Available classes: `PhosphorIconsRegular`, `PhosphorIconsBold`, `PhosphorIconsFill`, `PhosphorIconsDuotone`, `PhosphorIconsLight`, `PhosphorIconsThin`.
+Access: `LucideIcons.{camelCaseName}` — single class, no Regular/Bold/Fill distinction.
 
 ### Widget delivery checklist
 
@@ -348,19 +348,19 @@ MinimalPageLayout(
 ```dart
 MessagePageLayout(
   message: 'No results found',
-  icon: PhosphorIconsBold.cookingPot,   // optional
-  type: MessagePageType.muted,          // standard | muted
-  onRetry: () { ... },                  // optional
+  icon: LucideIcons.cookingPot,   // optional
+  type: MessagePageType.muted,    // standard | muted
+  onRetry: () { ... },            // optional
 )
 ```
 
 Types: `standard` (heading4 text, full-weight icon — for blocking states / invitations to act) | `muted` (bodySecondary w600, muted icon — for empty states, no results).
 
 Icon conventions:
-- Generic error → `PhosphorIconsBold.warningCircle`
-- No results from search → `PhosphorIconsBold.cookingPot`
-- Search invitation (no query) → `PhosphorIconsRegular.bowlFood`
-- Empty category / feed → `PhosphorIconsBold.forkKnife`
+- Generic error → `LucideIcons.alertCircle`
+- No results from search → `LucideIcons.cookingPot`
+- Search invitation (no query) → `LucideIcons.salad`
+- Empty category / feed → `LucideIcons.forkKnife`
 
 **App bars:**
 - `ClassicAppBar(leading, title, actions, bottomContent)` — standard with gradient
@@ -851,7 +851,7 @@ BaseInput(
 BaseFormField(
   controller: controller,
   label: 'Email',
-  prefixIcon: PhosphorIconsRegular.envelope,
+  prefixIcon: LucideIcons.mail,
   suffixIcon: IconButton(...),
   fillColor: AppColors.of(context).surface,
   keyboardType: TextInputType.emailAddress,
@@ -872,7 +872,7 @@ BaseDropdown<MyEnum>(
   initialValue: _selectedValue,
   label: 'Label',
   voidSelectionItemLabel: 'All',
-  prefixIcon: PhosphorIconsRegular.funnelSimple,
+  prefixIcon: LucideIcons.filter,
   items: const [
     BaseDropdownOption(value: MyEnum.foo, label: 'Foo'),
   ],
@@ -880,7 +880,7 @@ BaseDropdown<MyEnum>(
 )
 ```
 
-Notes: uses `initialValue` not `value`; arrow is always `PhosphorIconsRegular.caretDown`; for multi-select use `BaseMultiSelect`.
+Notes: uses `initialValue` not `value`; arrow is always `LucideIcons.chevronDown`; for multi-select use `BaseMultiSelect`.
 
 ### BaseMultiSelect
 
@@ -903,7 +903,7 @@ Dialog uses `l.globalConfirm` / `l.globalCancel` — never hardcode.
 ```dart
 BaseButton(
   label: 'Submit',
-  icon: PhosphorIconsRegular.arrowRight,  // optional
+  icon: LucideIcons.arrowRight,  // optional
   type: BaseButtonType.filled,            // filled | outlined | ghost
   color: AppColors.secondary,             // defaults to AppColors.primary
   fullWidth: true,
@@ -922,7 +922,7 @@ BaseButton(
 
 ```dart
 BaseIconButton(
-  icon: PhosphorIconsRegular.plus,
+  icon: LucideIcons.plus,
   type: IconButtonType.filled,  // filled | outlined
   color: AppColors.primary,
   iconColor: Colors.white,
@@ -1002,7 +1002,7 @@ BaseValueCard(value: '4.2K', label: 'Followers')
 ```dart
 BaseBadge(
   label: 'New',
-  icon: PhosphorIconsRegular.star,
+  icon: LucideIcons.star,
   style: BadgeStyle(
     color: AppColors.success,
     foregroundColor: Colors.white,
@@ -1064,7 +1064,7 @@ BaseCheckbox(
 )
 ```
 
-Unchecked: `PhosphorIconsRegular.square` muted. Checked: `PhosphorIconsFill.checkSquare` primary.
+Unchecked: `LucideIcons.square` muted. Checked: `LucideIcons.squareCheckBig` primary.
 
 ---
 

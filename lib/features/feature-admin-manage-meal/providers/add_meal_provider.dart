@@ -1,4 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Repositories
 import 'package:sfrigola/core/providers/repository_provider.dart';
@@ -21,3 +21,4 @@ class AddMeal extends _$AddMeal {
     });
   }
 }
+

@@ -1,4 +1,4 @@
-// Project Helpers
+﻿// Project Helpers
 import 'package:sfrigola/core/helpers/app_logger.dart';
 
 // Project Data
@@ -436,13 +436,13 @@ class BeSimulators {
     await Future.delayed(delay);
     AppLogger.debug('email: ${user.email}', tag: 'BeSimulators.register');
     if (simulateError) {
-      return MutationResponse(success: false, error: _error);
+      return const MutationResponse(success: false, error: _error);
     }
     final exists = _authUsers.any((e) => e['email'] == user.email);
     if (exists) {
-      return MutationResponse(
+      return const MutationResponse(
         success: false,
-        error: const BeError(message: 'Email already in use', code: 'CONFLICT'),
+        error: BeError(message: 'Email already in use', code: 'CONFLICT'),
       );
     }
     _authUsers.add({
@@ -471,18 +471,15 @@ class BeSimulators {
       tag: 'BeSimulators.changePassword',
     );
     if (simulateError) {
-      return MutationResponse(success: false, error: _error);
+      return const MutationResponse(success: false, error: _error);
     }
     final index = _authUsers.indexWhere(
       (e) => e['id'] == _currentUserId && e['password'] == currentPassword,
     );
     if (index == -1) {
-      return MutationResponse(
+      return const MutationResponse(
         success: false,
-        error: const BeError(
-          message: 'Wrong current password',
-          code: 'UNAUTHORIZED',
-        ),
+        error: BeError(message: 'Wrong current password', code: 'UNAUTHORIZED'),
       );
     }
     _authUsers[index]['password'] = newPassword;
@@ -586,8 +583,8 @@ class BeSimulators {
   }) async {
     await Future.delayed(delay);
     if (simulateError) return GetDataResponse(data: 0, error: _error);
-    const _recipesCountByUser = <String, int>{'u1': 3, 'u2': 8};
-    final count = _recipesCountByUser[_currentUserId] ?? 0;
+    const recipesCountByUser = <String, int>{'u1': 3, 'u2': 8};
+    final count = recipesCountByUser[_currentUserId] ?? 0;
     AppLogger.debug(
       'userId: $_currentUserId | count: $count',
       tag: 'BeSimulators.getUserRecipesCount',
@@ -698,3 +695,4 @@ class BeSimulators {
     return sort.direction == SortDirection.desc ? -cmp : cmp;
   }
 }
+

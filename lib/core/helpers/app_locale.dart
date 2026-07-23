@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 // Project l10n
@@ -30,3 +30,4 @@ class AppLocale {
     return error is AppException ? error.localizedMessage(l) : l.errorGeneric;
   }
 }
+

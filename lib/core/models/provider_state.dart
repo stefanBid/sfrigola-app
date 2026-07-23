@@ -1,4 +1,4 @@
-class ListProviderState<T> {
+﻿class ListProviderState<T> {
   final List<T> items;
   final bool hasMore;
 
@@ -11,3 +11,4 @@ class ListProviderState<T> {
     );
   }
 }
+

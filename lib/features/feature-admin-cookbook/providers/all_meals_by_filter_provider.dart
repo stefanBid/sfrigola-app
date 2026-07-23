@@ -1,4 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/be-models/be_filter.dart';
@@ -102,3 +102,4 @@ class AllMealsByFilter extends _$AllMealsByFilter {
         .build();
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/be-models/be_filter.dart';
@@ -215,3 +215,4 @@ GetRequest<MealFilterKey, MealSortKey> _categoryRequest(
       categoryId,
     )
     .build();
+

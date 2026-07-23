@@ -1,4 +1,4 @@
-import 'package:sfrigola/core/helpers/app_storage.dart';
+﻿import 'package:sfrigola/core/helpers/app_storage.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
@@ -84,3 +84,4 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<User?> getUser() =>
       AppStorage.instance.readObject<User>(_userKey, User.fromJson);
 }
+

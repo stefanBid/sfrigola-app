@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/category.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
@@ -45,3 +45,4 @@ abstract interface class MealRepository {
   /// Updates a meal's average rating based on a new user rating. Returns success status.
   Future<MutationResponse> updateMealRating(String mealId, double newRating);
 }
+

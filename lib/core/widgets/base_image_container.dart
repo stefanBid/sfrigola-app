@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
@@ -69,3 +69,4 @@ class BaseImageContainer extends StatelessWidget {
     );
   }
 }
+

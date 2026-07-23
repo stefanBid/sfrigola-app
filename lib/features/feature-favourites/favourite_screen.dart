@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Providers
 import 'package:sfrigola/core/providers/current_user_provider.dart';
@@ -33,14 +33,14 @@ class FavouriteScreen extends ConsumerWidget {
 
     return StandardPageLayout(
       appBar: ClassicAppBar(
-        leading: const Icon(PhosphorIconsBold.heart),
+        leading: const Icon(LucideIcons.heart),
         title: l.favouritesTitle,
         actions: userAsync.value != null
             ? [
                 BaseIconButton(
                   icon: filter.hasFilters
-                      ? PhosphorIconsFill.funnel
-                      : PhosphorIconsRegular.funnel,
+                      ? LucideIcons.funnel
+                      : LucideIcons.funnel,
                   badgeCount: filter.appliedFiltersCount,
                   tooltip: l.tooltipFilterMeals,
                   onPressed: () => BaseBottomSheet.show(
@@ -57,7 +57,7 @@ class FavouriteScreen extends ConsumerWidget {
       ),
       body: switch (userAsync) {
         AsyncData(:final value) when value == null => MessagePageLayout(
-          icon: PhosphorIconsRegular.heart,
+          icon: LucideIcons.heart,
           message: l.favouritesLoginRequired,
           type: MessagePageType.muted,
           customButton: BaseButton(
@@ -71,3 +71,4 @@ class FavouriteScreen extends ConsumerWidget {
     );
   }
 }
+

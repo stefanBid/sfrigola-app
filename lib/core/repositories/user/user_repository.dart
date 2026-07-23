@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 
 abstract interface class UserRepository {
@@ -11,3 +11,4 @@ abstract interface class UserRepository {
   /// In production: GET /user/recipes/count
   Future<GetDataResponse<int>> getRecipesCount();
 }
+

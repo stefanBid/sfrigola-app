@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Projects Providers
@@ -218,7 +218,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
         }
         if (mealAsync.hasError) {
           return MessagePageLayout(
-            icon: PhosphorIconsRegular.warningCircle,
+            icon: LucideIcons.alertCircle,
             message: AppLocale.errorFor(context, mealAsync.error!),
             onRetry: () => ref.invalidate(mealByIdProvider(widget.mealId!)),
           );
@@ -238,7 +238,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                   children: [
                     GcSectionView(
                       title: l.manageMealFormSectionGeneralInfo,
-                      icon: PhosphorIconsRegular.notepad,
+                      icon: LucideIcons.notepadText,
                       child: Column(
                         children: [
                           BaseImagePicker(
@@ -251,7 +251,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             fillColor: AppColors.of(context).surface,
                             label: l.manageMealFormFieldTitleLabel,
                             hint: l.manageMealFormFieldTitleHint,
-                            prefixIcon: PhosphorIconsRegular.fileText,
+                            prefixIcon: LucideIcons.fileText,
                             textInputAction: TextInputAction.next,
                             validator: (value) => AppValidation.notEmpty(
                               value,
@@ -264,7 +264,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             fillColor: AppColors.of(context).surface,
                             label: l.manageMealFormFieldSubtitleLabel,
                             hint: l.manageMealFormFieldSubtitleHint,
-                            prefixIcon: PhosphorIconsRegular.fileText,
+                            prefixIcon: LucideIcons.fileText,
                             textInputAction: TextInputAction.next,
                             validator: (value) => AppValidation.notEmpty(
                               value,
@@ -277,7 +277,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             fillColor: AppColors.of(context).surface,
                             label: l.manageMealFormFieldDescriptionLabel,
                             hint: l.manageMealFormFieldDescriptionHint,
-                            prefixIcon: PhosphorIconsRegular.fileText,
+                            prefixIcon: LucideIcons.fileText,
                             keyboardType: TextInputType.multiline,
                             textInputAction: TextInputAction.newline,
                             maxLines: null,
@@ -293,14 +293,14 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                     const SizedBox(height: AppDesign.gapSectionLg),
                     GcSectionView(
                       title: l.manageMealFormSectionRecipeDetails,
-                      icon: PhosphorIconsRegular.cookingPot,
+                      icon: LucideIcons.cookingPot,
                       child: Column(
                         children: [
                           BaseMultiSelect<Category>(
                             initialValues: _categories,
                             label: l.manageMealFormFieldCategoryLabel,
                             hint: l.manageMealFormFieldCategoryHint,
-                            prefixIcon: PhosphorIconsRegular.tag,
+                            prefixIcon: LucideIcons.tag,
                             fillColor: AppColors.of(context).surface,
                             disabled:
                                 categories.isLoading || categories.hasError,
@@ -329,7 +329,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             initialValue: _complexity,
                             label: l.favouritesFilterComplexityLabel,
                             hint: l.manageMealFormFieldComplexityHint,
-                            prefixIcon: PhosphorIconsRegular.chartBar,
+                            prefixIcon: LucideIcons.chartBar,
                             fillColor: AppColors.of(context).surface,
                             items: Complexity.values
                                 .map(
@@ -350,7 +350,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                             initialValue: _affordability,
                             label: l.favouritesFilterAffordabilityLabel,
                             hint: l.manageMealFormFieldAffordabilityHint,
-                            prefixIcon: PhosphorIconsRegular.tag,
+                            prefixIcon: LucideIcons.tag,
                             fillColor: AppColors.of(context).surface,
                             items: Affordability.values
                                 .map(
@@ -397,7 +397,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                     GcSectionView(
                       title: l.manageMealFormSectionDietaryInfo,
                       subtitle: l.manageMealFormSectionDietaryInfoSubtitle,
-                      icon: PhosphorIconsRegular.leaf,
+                      icon: LucideIcons.leaf,
                       child: DietaryInfo(
                         fields: _dietaryInfoFields,
                         onFieldsChanged: (v) =>
@@ -407,7 +407,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                     const SizedBox(height: AppDesign.gapSectionLg),
                     GcSectionView(
                       title: l.manageMealFormSectionIngredients,
-                      icon: PhosphorIconsRegular.listBullets,
+                      icon: LucideIcons.list,
                       child: EditableListField(
                         items: _ingredients,
                         onChanged: (v) => setState(() => _ingredients = v),
@@ -421,7 +421,7 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
                     const SizedBox(height: AppDesign.gapSectionLg),
                     GcSectionView(
                       title: l.manageMealFormSectionSteps,
-                      icon: PhosphorIconsRegular.listNumbers,
+                      icon: LucideIcons.listOrdered,
                       child: EditableListField(
                         items: _steps,
                         onChanged: (v) => setState(() => _steps = v),
@@ -448,3 +448,4 @@ class _ManageMealFormState extends ConsumerState<ManageMealForm> {
     );
   }
 }
+

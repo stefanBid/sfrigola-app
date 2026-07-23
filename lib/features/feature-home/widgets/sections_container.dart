@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_locale.dart';
@@ -97,7 +97,7 @@ class SectionsContainer extends ConsumerWidget {
           _ when allHaveError => ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: MessagePageLayout(
-              icon: PhosphorIconsBold.warningCircle,
+              icon: LucideIcons.alertCircle,
               message: AppLocale.getLabels(context).homeErrorLoadMeals,
               type: MessagePageType.muted,
               onRetry: () => _retryAll(ref),
@@ -108,7 +108,7 @@ class SectionsContainer extends ConsumerWidget {
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: MessagePageLayout(
-                icon: PhosphorIconsBold.cookingPot,
+                icon: LucideIcons.cookingPot,
                 message: AppLocale.getLabels(context).homeEmptyCategory,
                 type: MessagePageType.muted,
               ),
@@ -130,3 +130,4 @@ class SectionsContainer extends ConsumerWidget {
     );
   }
 }
+

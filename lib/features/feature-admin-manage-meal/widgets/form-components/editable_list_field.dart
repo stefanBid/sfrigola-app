@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -112,7 +112,7 @@ class _EditableListFieldState extends State<EditableListField> {
                       ),
                       const SizedBox(width: AppDesign.gapInlineSm),
                       BaseIconButton(
-                        icon: PhosphorIconsRegular.trash,
+                        icon: LucideIcons.trash2,
                         onPressed: () => _removeItem(index),
                       ),
                     ],
@@ -135,7 +135,7 @@ class _EditableListFieldState extends State<EditableListField> {
                 ),
                 const SizedBox(width: AppDesign.gapInlineMd),
                 BaseIconButton(
-                  icon: PhosphorIconsRegular.plus,
+                  icon: LucideIcons.plus,
                   onPressed: _addItem,
                 ),
               ],
@@ -155,3 +155,4 @@ class _EditableListFieldState extends State<EditableListField> {
     );
   }
 }
+

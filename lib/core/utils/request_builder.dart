@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/be-models/be_filter.dart';
 import 'package:sfrigola/core/models/be-models/be_sort.dart';
 import 'package:sfrigola/core/models/be-models/get_request.dart';
@@ -103,3 +103,4 @@ class RequestBuilder<TFilter extends Enum, TSort extends Enum> {
     sort: _sort,
   );
 }
+

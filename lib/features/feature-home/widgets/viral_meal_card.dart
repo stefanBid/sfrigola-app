@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 // Project Models
 import 'package:sfrigola/core/models/meal.dart';
@@ -91,3 +91,4 @@ class ViralMealCard extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-// Project l10n
+﻿// Project l10n
 import 'package:sfrigola/core/l10n/app_localizations.dart';
 
 enum AppErrorCode {
@@ -58,3 +58,4 @@ class GeneralException implements AppException {
   @override
   String toString() => 'GeneralException(${code.name})';
 }
+

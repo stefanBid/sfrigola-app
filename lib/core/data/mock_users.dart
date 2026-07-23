@@ -1,4 +1,4 @@
-// Project Models
+﻿// Project Models
 import 'package:sfrigola/core/models/user.dart';
 
 // ---------------------------------------------------------------------------
@@ -41,3 +41,4 @@ const mockUsers = [
     'token': 'mock-token-consumer-u3',
   },
 ];
+

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_colors.dart';
@@ -39,9 +39,9 @@ class ProfileHeader extends ConsumerWidget {
     };
 
     final roleIcon = switch (user?.type) {
-      UserType.admin => PhosphorIconsRegular.shieldCheck,
-      UserType.chef => PhosphorIconsRegular.chefHat,
-      _ => PhosphorIconsRegular.user,
+      UserType.admin => LucideIcons.shieldCheck,
+      UserType.chef => LucideIcons.chefHat,
+      _ => LucideIcons.user,
     };
 
     return Center(
@@ -78,3 +78,4 @@ class ProfileHeader extends ConsumerWidget {
     );
   }
 }
+

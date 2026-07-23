@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
@@ -38,12 +38,12 @@ class ProfileScreen extends ConsumerWidget {
 
     return StandardPageLayout(
       appBar: ClassicAppBar(
-        leading: const Icon(PhosphorIconsBold.user),
+        leading: const Icon(LucideIcons.user),
         title: l.profileTitle,
         actions: isLoggedIn
             ? [
                 BaseIconButton(
-                  icon: PhosphorIconsRegular.signOut,
+                  icon: LucideIcons.logOut,
                   tooltip: l.profileLogout,
                   onPressed: () async {
                     await ref.read(authRepositoryProvider).logout();
@@ -56,7 +56,7 @@ class ProfileScreen extends ConsumerWidget {
       ),
       body: switch (userAsync) {
         AsyncData(:final value) when value == null => MessagePageLayout(
-          icon: PhosphorIconsRegular.user,
+          icon: LucideIcons.user,
           message: l.profileLoginRequired,
           type: MessagePageType.muted,
           customButton: BaseButton(
@@ -88,3 +88,4 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 }
+

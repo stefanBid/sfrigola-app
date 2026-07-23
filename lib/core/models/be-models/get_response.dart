@@ -1,4 +1,4 @@
-import 'package:sfrigola/core/models/be-models/be_error.dart';
+﻿import 'package:sfrigola/core/models/be-models/be_error.dart';
 
 class GetDataResponse<T> {
   final T data;
@@ -14,3 +14,4 @@ class GetListDataResponse<T> {
 
   GetListDataResponse({required this.data, required this.total, this.error});
 }
+

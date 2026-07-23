@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:lucide_flutter/lucide_flutter.dart';
 
 // Project Helpers
 import 'package:sfrigola/core/helpers/app_design.dart';
@@ -136,7 +136,7 @@ class _FavouriteMealsGridContainerState
                   ? const FavouriteMealsGridSkeleton()
                   : switch (allFavourites) {
                       AsyncError() => MessagePageLayout(
-                        icon: PhosphorIconsBold.warningCircle,
+                        icon: LucideIcons.alertCircle,
                         message: AppLocale.getLabels(
                           context,
                         ).favouritesErrorLoad,
@@ -155,7 +155,7 @@ class _FavouriteMealsGridContainerState
                               minHeight: constraints.maxHeight,
                             ),
                             child: MessagePageLayout(
-                              icon: PhosphorIconsBold.funnelSimple,
+                              icon: LucideIcons.filter,
                               message: AppLocale.getLabels(
                                 context,
                               ).favouritesEmptyFiltered,
@@ -174,7 +174,7 @@ class _FavouriteMealsGridContainerState
                               minHeight: constraints.maxHeight,
                             ),
                             child: MessagePageLayout(
-                              icon: PhosphorIconsBold.heartStraight,
+                              icon: LucideIcons.heart,
                               message: AppLocale.getLabels(
                                 context,
                               ).favouritesEmpty,
@@ -193,7 +193,7 @@ class _FavouriteMealsGridContainerState
                             minHeight: constraints.maxHeight,
                           ),
                           child: MessagePageLayout(
-                            icon: PhosphorIconsBold.heartStraight,
+                            icon: LucideIcons.heart,
                             message: AppLocale.getLabels(
                               context,
                             ).favouritesEmpty,
@@ -209,3 +209,4 @@ class _FavouriteMealsGridContainerState
     );
   }
 }
+

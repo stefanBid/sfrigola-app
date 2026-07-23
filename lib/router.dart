@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 // Core Layouts
 import 'core/layouts/app_layout.dart';
@@ -100,3 +100,4 @@ final GoRouter appRouter = GoRouter(
     ),
   ],
 );
+

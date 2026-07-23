@@ -1,4 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'selected_category_id_provider.g.dart';
 
@@ -13,3 +13,4 @@ class SelectedCategoryId extends _$SelectedCategoryId {
     state = categoryId;
   }
 }
+

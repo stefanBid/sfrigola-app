@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sfrigola/core/l10n/app_localizations.dart';
 
 // Project Models
-import 'package:sfrigola/core/models/general_exception.dart';
+import 'package:sfrigola/core/models/app_exception.dart';
 import 'package:sfrigola/core/models/json_serializable.dart';
 
 // Project BE Models
@@ -306,12 +306,9 @@ class MealsRateRange {
 // Exeptions
 // ---------------------------------------------------------------------------
 
-class MealNotFoundException implements AppException {
-  const MealNotFoundException(this.id);
+class MealNotFoundException extends AppException {
+  const MealNotFoundException(this.id) : super(AppErrorCode.notFound);
   final String id;
-
-  @override
-  bool get isRetryable => false;
 
   @override
   String localizedMessage(AppLocalizations l) => l.mealNotFoundError;
@@ -320,12 +317,9 @@ class MealNotFoundException implements AppException {
   String toString() => 'MealNotFoundException: no meal found with id "$id"';
 }
 
-class MealRateExeption implements AppException {
-  const MealRateExeption(this.id);
+class MealRateExeption extends AppException {
+  const MealRateExeption(this.id) : super(AppErrorCode.unmapped);
   final String id;
-
-  @override
-  bool get isRetryable => false;
 
   @override
   String localizedMessage(AppLocalizations l) => l.mealRateError;
@@ -334,8 +328,9 @@ class MealRateExeption implements AppException {
   String toString() => 'MealRateExeption: failed to rate meal with id "$id"';
 }
 
-class MealFavoriteException implements AppException {
-  const MealFavoriteException(this.id, this.isAdding);
+class MealFavoriteException extends AppException {
+  const MealFavoriteException(this.id, this.isAdding)
+    : super(AppErrorCode.unmapped);
   final String id;
   final bool isAdding;
 
@@ -353,8 +348,8 @@ class MealFavoriteException implements AppException {
 
 enum MealMutationType { add, update, delete }
 
-class MealMutationException implements AppException {
-  const MealMutationException(this.opType);
+class MealMutationException extends AppException {
+  const MealMutationException(this.opType) : super(AppErrorCode.unmapped);
   final MealMutationType opType;
 
   @override

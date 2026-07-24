@@ -117,11 +117,14 @@ class AppLocalizationsIt extends AppLocalizations {
       'Non hai i permessi per eseguire questa operazione.';
 
   @override
+  String get errorConflict => 'Esiste già una risorsa con questi dati.';
+
+  @override
   String get errorServerError =>
       'Si è verificato un errore sul server. Riprova più tardi.';
 
   @override
-  String get errorGeneric => 'Si è verificato un errore. Riprova.';
+  String get errorUnmapped => 'Si è verificato un errore. Riprova.';
 
   @override
   String get mealNotFoundError => 'Ricetta non trovata.';

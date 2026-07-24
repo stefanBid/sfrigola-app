@@ -171,14 +171,19 @@
     "description": "Error shown when the user is not authorized (403)"
   },
 
+  "errorConflict": "Esiste già una risorsa con questi dati.",
+  "@errorConflict": {
+    "description": "Error shown when the resource already exists (409)"
+  },
+
   "errorServerError": "Si è verificato un errore sul server. Riprova più tardi.",
   "@errorServerError": {
     "description": "Error shown for generic server errors (5xx)"
   },
 
-  "errorGeneric": "Si è verificato un errore. Riprova.",
-  "@errorGeneric": {
-    "description": "Fallback error shown for unknown errors"
+  "errorUnmapped": "Si è verificato un errore. Riprova.",
+  "@errorUnmapped": {
+    "description": "Fallback error shown when a backend error code has no dedicated client-side mapping"
   },
 
   "mealNotFoundError": "Ricetta non trovata.",

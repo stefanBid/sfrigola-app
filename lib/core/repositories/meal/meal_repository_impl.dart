@@ -1,6 +1,6 @@
 // Project Models
 import 'package:sfrigola/core/models/category.dart';
-import 'package:sfrigola/core/models/general_exception.dart';
+import 'package:sfrigola/core/models/app_exception.dart';
 import 'package:sfrigola/core/models/meal.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
@@ -15,7 +15,7 @@ import 'package:sfrigola/core/utils/be_simulators.dart';
 
 class MealRepositoryImpl implements MealRepository {
   static void _checkResponse(BeError? error) {
-    if (error != null) throw GeneralException.generic();
+    if (error != null) throw AppException.unmapped();
   }
 
   @override

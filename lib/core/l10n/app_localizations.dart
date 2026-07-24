@@ -298,17 +298,23 @@ abstract class AppLocalizations {
   /// **'Non hai i permessi per eseguire questa operazione.'**
   String get errorForbidden;
 
+  /// Error shown when the resource already exists (409)
+  ///
+  /// In it, this message translates to:
+  /// **'Esiste già una risorsa con questi dati.'**
+  String get errorConflict;
+
   /// Error shown for generic server errors (5xx)
   ///
   /// In it, this message translates to:
   /// **'Si è verificato un errore sul server. Riprova più tardi.'**
   String get errorServerError;
 
-  /// Fallback error shown for unknown errors
+  /// Fallback error shown when a backend error code has no dedicated client-side mapping
   ///
   /// In it, this message translates to:
   /// **'Si è verificato un errore. Riprova.'**
-  String get errorGeneric;
+  String get errorUnmapped;
 
   /// Error shown when a specific meal is not found
   ///

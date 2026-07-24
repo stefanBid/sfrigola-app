@@ -5,7 +5,7 @@ import 'package:sfrigola/core/models/json_serializable.dart';
 import 'package:sfrigola/core/l10n/app_localizations.dart';
 
 // Project Models
-import 'package:sfrigola/core/models/general_exception.dart';
+import 'package:sfrigola/core/models/app_exception.dart';
 
 enum UserType { admin, chef, consumer }
 
@@ -68,55 +68,40 @@ class UserWithToken extends User {
 // ---------------------------------------------------------------------------
 
 /// Wrong email / password combination during login.
-class InvalidCredentialsException implements AppException {
-  const InvalidCredentialsException();
-
-  @override
-  bool get isRetryable => false;
+class InvalidCredentialsException extends AppException {
+  const InvalidCredentialsException() : super(AppErrorCode.unmapped);
 
   @override
   String localizedMessage(AppLocalizations l) => l.authErrorInvalidCredentials;
 }
 
 /// No account found for the provided email.
-class UserNotFoundException implements AppException {
-  const UserNotFoundException();
-
-  @override
-  bool get isRetryable => false;
+class UserNotFoundException extends AppException {
+  const UserNotFoundException() : super(AppErrorCode.notFound);
 
   @override
   String localizedMessage(AppLocalizations l) => l.authErrorUserNotFound;
 }
 
 /// Email already associated with an existing account (registration).
-class EmailAlreadyInUseException implements AppException {
-  const EmailAlreadyInUseException();
-
-  @override
-  bool get isRetryable => false;
+class EmailAlreadyInUseException extends AppException {
+  const EmailAlreadyInUseException() : super(AppErrorCode.conflict);
 
   @override
   String localizedMessage(AppLocalizations l) => l.authErrorEmailAlreadyInUse;
 }
 
 /// Password does not meet strength requirements (registration).
-class WeakPasswordException implements AppException {
-  const WeakPasswordException();
-
-  @override
-  bool get isRetryable => false;
+class WeakPasswordException extends AppException {
+  const WeakPasswordException() : super(AppErrorCode.unmapped);
 
   @override
   String localizedMessage(AppLocalizations l) => l.authErrorWeakPassword;
 }
 
 /// Current password is incorrect (change-password flow).
-class WrongCurrentPasswordException implements AppException {
-  const WrongCurrentPasswordException();
-
-  @override
-  bool get isRetryable => false;
+class WrongCurrentPasswordException extends AppException {
+  const WrongCurrentPasswordException() : super(AppErrorCode.unmapped);
 
   @override
   String localizedMessage(AppLocalizations l) =>

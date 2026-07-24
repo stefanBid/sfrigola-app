@@ -2,7 +2,7 @@ import 'package:sfrigola/core/helpers/app_storage.dart';
 import 'package:sfrigola/core/models/be-models/be_error.dart';
 import 'package:sfrigola/core/models/be-models/get_response.dart';
 import 'package:sfrigola/core/models/be-models/mutation_response.dart';
-import 'package:sfrigola/core/models/general_exception.dart';
+import 'package:sfrigola/core/models/app_exception.dart';
 import 'package:sfrigola/core/models/user.dart';
 
 // Project Repositories
@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
     throw switch (error.code) {
       'UNAUTHORIZED' => const InvalidCredentialsException(),
       'CONFLICT' => const EmailAlreadyInUseException(),
-      _ => GeneralException.generic(),
+      _ => AppException.unmapped(),
     };
   }
 
@@ -74,7 +74,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (response.error != null) {
       throw switch (response.error!.code) {
         'UNAUTHORIZED' => const WrongCurrentPasswordException(),
-        _ => GeneralException.generic(),
+        _ => AppException.unmapped(),
       };
     }
     return response;

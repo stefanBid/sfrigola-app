@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sfrigola/core/l10n/app_localizations.dart';
 
 // Project Models
-import 'package:sfrigola/core/models/general_exception.dart';
+import 'package:sfrigola/core/models/app_exception.dart';
 
 class AppLocale {
   const AppLocale._();
@@ -27,6 +27,6 @@ class AppLocale {
 
   static String errorFor(BuildContext context, Object error) {
     final l = getLabels(context);
-    return error is AppException ? error.localizedMessage(l) : l.errorGeneric;
+    return error is AppException ? error.localizedMessage(l) : l.errorUnmapped;
   }
 }

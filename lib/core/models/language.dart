@@ -14,10 +14,8 @@ class Language implements JsonSerializable {
 
   const Language({required this.code, required this.name});
 
-  factory Language.fromJson(Map<String, dynamic> json) => Language(
-    code: json['code'] as String,
-    name: json['name'] as String,
-  );
+  factory Language.fromJson(Map<String, dynamic> json) =>
+      Language(code: json['code'] as String, name: json['name'] as String);
 
   @override
   Map<String, dynamic> toJson() => {'code': code, 'name': name};

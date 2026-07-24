@@ -20,6 +20,7 @@ import 'package:sfrigola/features/feature-home/widgets/sections/challenge_sectio
 import 'package:sfrigola/features/feature-home/widgets/sections/easy_section.dart';
 import 'package:sfrigola/features/feature-home/widgets/sections/premium_section.dart';
 import 'package:sfrigola/features/feature-home/widgets/sections/trending_section.dart';
+import 'package:sfrigola/core/providers/repository_provider.dart';
 
 class SectionsContainer extends ConsumerWidget {
   const SectionsContainer({super.key});
@@ -39,6 +40,10 @@ class SectionsContainer extends ConsumerWidget {
     final challenge = ref.watch(challengeMealsProvider);
     final budget = ref.watch(budgetMealsProvider);
     final premium = ref.watch(premiumMealsProvider);
+    final languages = ref.watch(languageRepositoryProvider);
+    languages.getLanguages().then(
+      (value) => print(value.map((l) => '${l.code}: ${l.name}')),
+    );
 
     void onAnyError(AsyncValue? prev, AsyncValue next) {
       if (!next.hasError) return;

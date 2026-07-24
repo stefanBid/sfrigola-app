@@ -18,6 +18,7 @@ Dio buildDioClient(Ref ref) {
       baseUrl: AppConfig.baseUrl,
       connectTimeout: AppConfig.connectionTimeout,
       receiveTimeout: AppConfig.receiveTimeout,
+      headers: {'Accept': AppConfig.apiAcceptHeader},
       // The backend's global error handler always returns a BeGeneralResponse
       // body (data null / errorData populated) even on 4xx/5xx — never let
       // Dio throw on those, or the body is lost inside a DioException instead

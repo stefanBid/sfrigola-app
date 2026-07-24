@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dev-only cleartext (http) support for the local Spring Boot backend
+     (localhost via iOS-style loopback, 10.0.2.2 as seen by the Android emulator).
+     Remove these domains once the backend serves https. -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+
+    <!-- Debug builds only: trust user-installed CAs so an HTTP debugging proxy
+         (Charles, Proxyman, mitmproxy) can inspect traffic on a physical device. -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

@@ -57,6 +57,19 @@
 	<string>Sfrigola ha bisogno di accedere alla galleria per aggiungere un'immagine alla ricetta e per selezionare un'immagine come avatar del profilo.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Sfrigola ha bisogno di accedere alla fotocamera per scattare una foto della ricetta e per aggiornare l'avatar del profilo.</string>
+	<!-- Dev-only: allows plain http calls to the local Spring Boot backend on the
+	     iOS Simulator (localhost). Remove once the backend serves https. -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

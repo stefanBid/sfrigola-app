@@ -15,93 +15,12 @@ Use this context to give suggestions — UI, UX, architectural or otherwise — 
 
 ---
 
-## Stack
-
-- **Flutter** (Dart) — mobile app (iOS + Android)
-- **go_router** for navigation
-- **lucide_flutter** for icons
-- **google_fonts** (Lato) for typography
-- **transparent_image** for network images with fade
-- **flutter_riverpod** + **riverpod_annotation** for state management
-- **Dio** for HTTP client (future — not yet installed)
-
----
-
 ## Project structure
 
-```
-sfrigola-app/
-  pubspec.yaml            ← dependencies, version, flutter config (generate: true)
-  pubspec.lock            ← locked dependency versions (do not edit manually)
-  l10n.yaml               ← flutter gen-l10n configuration (ARB dir, template, output)
-  analysis_options.yaml   ← Dart linter rules
-  CHANGELOG.md            ← Keep a Changelog format, managed with cider
-  README.md               ← project documentation
-  assets/                 ← static assets (images, icons, fonts)
-  android/                ← Android platform project
-  ios/                    ← iOS platform project
-  lib/
-    main.dart             ← app entry point (MaterialApp.router + AppLocale + AppTheme)
-    router.dart           ← GoRouter instance (appRouter) with all route registrations
-    core/                 ← shared code used across features
-      data/               ← auto-generated dummy data (do not edit manually)
-      helpers/            ← design system tokens and utilities
-      l10n/               ← ARB translation files + generated localizations
-      layouts/            ← reusable page layouts
-      models/             ← data models
-        category.dart
-        json_serializable.dart
-        meal.dart
-        general_exception.dart
-        be-models/          ← typed BE response wrappers + request standard
-          be_error.dart
-          get_response.dart
-          mutation_response.dart
-          be_sort.dart          ← SortDirection + SortParam<T>
-          be_filter.dart        ← FilterOperator + FilterCondition<T> + FilterGroup<T>
-          get_request.dart       ← GetRequest<TFilter, TSort> — standard GET request envelope
-      custom-widgets/     ← feature-shared widget compositions (not reusable enough for core/widgets)
-      providers/          ← app-wide Riverpod providers
-        repository_provider.dart
-        all_meals_provider.dart        ← cross-feature: search results (family provider, accepts String? searchKey)
-        all_favourites_provider.dart   ← cross-feature: favourites list (feature-favourites)
-      repositories/       ← repository layer
-        meal/
-          meal_repository.dart
-          meal_repository_impl.dart
-        favorites/
-          favorites_repository.dart
-          favorites_repository_impl.dart
-      utils/              ← shared utilities (non-design-system)
-        provider_retry.dart
-        be_simulators.dart
-        has_more.dart
-        request_builder.dart
-      widgets/            ← reusable UI components (base_* + group-container/)
-    features/             ← all product features
-      feature-home/         ← home feed feature
-        home_screen.dart
-        providers/
-        widgets/
-      feature-meal-details/ ← meal detail feature
-        meal_details_screen.dart
-        providers/
-        widgets/
-      feature-search/       ← search feature
-        search_screen.dart
-        providers/
-        widgets/
-      feature-favourites/   ← favourites feature
-        favourite_screen.dart
-        providers/
-        widgets/
-      feature-profile/      ← user profile feature
-        profile_screen.dart
-      feature-form/         ← form demo feature
-        form_screen.dart
-      feature-admin-cookbook/ ← admin recipe management
-        cookbook_screen.dart
-```
+Standard Flutter layout (`lib/core/` shared code, `lib/features/feature-*/` per-feature dirs — see Feature structure below). Two gotchas not obvious from the layout itself:
+
+- `lib/core/data/` is auto-generated dummy data — never edit manually.
+- `lib/core/custom-widgets/` holds feature-shared widget compositions not reusable enough for `lib/core/widgets/`.
 
 ---
 
@@ -1070,39 +989,7 @@ Unchecked: `LucideIcons.square` muted. Checked: `LucideIcons.squareCheckBig` pri
 
 ## Workflows
 
-### Localisation
-
-When asked to localise strings:
-1. Read `lib/core/l10n/` to discover ARB files.
-2. Scan target file for hardcoded user-visible strings (exclude comments, log strings, IDs, strings already through `AppLocale.getLabels`).
-3. Derive camelCase keys scoped with screen prefix (e.g. `homeTitle`, `recipeDetailIngredients`).
-4. Add keys to **all** ARB files — every key must exist in every language.
-5. Replace in Dart file: `AppLocale.getLabels(context).myKey` — remove `const` from ancestor if needed.
-6. Run `flutter gen-l10n` (NOT `dart run build_runner build`).
-7. Run `flutter analyze --no-pub` and fix issues.
-
-### Version bump
-
-Trigger: "aggiornami il progetto alla versione X.Y.Z"
-
-- Never apply a build number (`+N`) manually — it is managed by CI/CD.
-- Use `dart run cider bump patch|minor|major` then `dart run cider release X.Y.Z`.
-- Update version badge in `README.md`.
-- Ask user before writing CHANGELOG entries.
-
-### Dependency check
-
-Run `flutter pub outdated`. Classify updates:
-- Safe (same major) → edit `pubspec.yaml` constraints, then `flutter pub get`.
-- Breaking (major bump) → report to user with pub.dev changelog URL.
-
-### Code quality check
-
-1. `dart fix --dry-run` then `dart fix --apply`.
-2. `dart format --output=none --set-exit-if-changed .` then `dart format .` if needed.
-3. `flutter analyze` — fix all warnings/hints, report errors for manual review.
-4. Never silence issues with `// ignore` — fix in code.
-5. Auto-fix rules: add missing `const`, remove unnecessary `const`, replace `print`/`debugPrint` with `AppLogger`, remove unused imports.
+Localisation, version bump, dependency check, and code quality check are now skills (invoked automatically or via `/localise-strings`, `/version-bump`, `/dependency-check`, `/code-quality-check`) — see `.claude/skills/`.
 
 ---
 

@@ -81,20 +81,7 @@ Standard Flutter layout (`lib/core/` shared code, `lib/features/feature-*/` per-
 
 ### AppColors — `lib/core/helpers/app_colors.dart`
 
-Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. for static constants.
-
-| Token | Light | Dark | Usage |
-|---|---|---|---|
-| `background` | `#FFFFFF` | `#272727` | Page background |
-| `surface` | `#FAF6F5` | `#323232` | Cards, elevated containers |
-| `text` | `#1A1A1A` | `#FFFFFF` | Primary text |
-| `muted` | `#888888` | `#888888` | Secondary text, placeholders |
-| `bottomBar` | `#EDE5E2` | `#1E1E1E` | Bottom navigation bar |
-| `primary` | `#60C9F8` | — | Primary accent (static) |
-| `secondary` | `#0A599C` | — | Secondary accent (static) |
-| `error` | `#B00020` | — | Errors (static) |
-| `success` | `#10B981` | — | Success (static) |
-| `warning` | `#F59E0B` | — | Warning (static) |
+Access: `AppColors.of(context)` for adaptive colours, `AppColors.primary` etc. for static constants. Exact hex values: `lib/core/helpers/app_colors.dart` (source of truth, 50 lines).
 
 Accent rule for buttons: `final accent = AppColors.primary;` — no dark mode swap.
 
@@ -112,76 +99,76 @@ Accent rule for buttons: `final accent = AppColors.primary;` — no dark mode sw
 
 ### AppTypography — `lib/core/helpers/app_typography.dart`
 
-Access: `AppTypography.of(context).{style}`. Font is **Lato** (Google Fonts).
+Access: `AppTypography.of(context).{style}`. Font is **Lato** (Google Fonts). Exact sizes/weights: `lib/core/helpers/app_typography.dart` (source of truth, 62 lines).
 
-| Style | Size | Weight | Usage |
-|---|---|---|---|
-| `heading1` | 28 | bold | Main screen titles |
-| `heading2` | 22 | bold | Section titles |
-| `heading3` | 18 | semibold | Subtitles |
-| `heading4` | 16 | semibold | Card titles, list item titles |
-| `body` | 16 | normal | Body text |
-| `bodyMedium` | 14 | normal | Inputs, dense UI |
-| `bodySecondary` | 16 | normal | Secondary text (colour `muted`) |
-| `caption` | 12 | normal | Labels, secondary info |
-| `small` | 11 | normal | Badges, tiny labels |
+| Style | Usage |
+|---|---|
+| `heading1` | Main screen titles |
+| `heading2` | Section titles |
+| `heading3` | Subtitles |
+| `heading4` | Card titles, list item titles |
+| `body` | Body text |
+| `bodyMedium` | Inputs, dense UI |
+| `bodySecondary` | Secondary text (colour `muted`) |
+| `caption` | Labels, secondary info |
+| `small` | Badges, tiny labels |
 
 ### AppDesign — `lib/core/helpers/app_design.dart`
 
-Access: `AppDesign.{token}` (all static).
+Access: `AppDesign.{token}` (all static). Exact px values for every token below: `lib/core/helpers/app_design.dart` (source of truth, 162 lines).
 
 **Border radius:**
 
-| Element | Token | Value |
-|---|---|---|
-| Badges, small chips, tags | `borderRadiusXXs` | 6 |
-| Inputs, buttons, small cards | `borderRadiusXs` | 10 |
-| Medium cards | `borderRadiusSm` | 20 |
-| Large cards, modals, bottom sheets | `borderRadiusMd` | 32 |
-| Pill, avatar, full-round elements | `borderRadiusLg` | 48 |
-| Top/bottom corners only | `borderRadiusTop/BottomSm/Md/Lg` | — |
+| Element | Token |
+|---|---|
+| Badges, small chips, tags | `borderRadiusXXs` |
+| Inputs, buttons, small cards | `borderRadiusXs` |
+| Medium cards | `borderRadiusSm` |
+| Large cards, modals, bottom sheets | `borderRadiusMd` |
+| Pill, avatar, full-round elements | `borderRadiusLg` |
+| Top/bottom corners only | `borderRadiusTop/BottomSm/Md/Lg` |
 
 **Vertical gap:**
 
-| Distance | Token | Value | When |
-|---|---|---|---|
-| Title ↔ subtitle, label ↔ value | `gapItemXs` | 4 | Tightly coupled elements |
-| Image ↔ text, icon ↔ description | `gapItemSm` | 8 | Cohesive group |
-| Distinct info groups in the same component | `gapItemMd` | 16 | Distinct info |
-| Related sections on the page | `gapSectionXs` | 10 | Close sections |
-| Separate sections on the page | `gapSectionSm` | 16 | Standard separation |
-| Distinct sections | `gapSectionMd` | 20 | Different blocks |
-| Widely separated sections | `gapSectionLg` | 24 | Large separation |
+| Distance | Token | When |
+|---|---|---|
+| Title ↔ subtitle, label ↔ value | `gapItemXs` | Tightly coupled elements |
+| Image ↔ text, icon ↔ description | `gapItemSm` | Cohesive group |
+| Distinct info groups in the same component | `gapItemMd` | Distinct info |
+| Related sections on the page | `gapSectionXs` | Close sections |
+| Separate sections on the page | `gapSectionSm` | Standard separation |
+| Distinct sections | `gapSectionMd` | Different blocks |
+| Widely separated sections | `gapSectionLg` | Large separation |
 
 **Horizontal gap:**
 
-| Distance | Token | Value | When |
-|---|---|---|---|
-| Icon ↔ label | `gapInlineXs` | 4 | Tightly coupled |
-| Related inline elements | `gapInlineSm` | 8 | Close |
-| Distinct inline elements | `gapInlineMd` | 16 | Wide spacing |
+| Distance | Token | When |
+|---|---|---|
+| Icon ↔ label | `gapInlineXs` | Tightly coupled |
+| Related inline elements | `gapInlineSm` | Close |
+| Distinct inline elements | `gapInlineMd` | Wide spacing |
 
 **Padding:**
 
 | Context | Token |
 |---|---|
-| Standard page padding (left/right 20) | `paddingPage` |
-| Input / fake input content padding | `paddingInput` (h:16, v:10) |
-| Internal padding small card | `paddingSymmetricSm` (h:8, v:4) |
-| Internal padding card / section | `paddingSymmetricMd` (h:16, v:8) |
-| Internal padding wide element | `paddingSymmetricLg` (h:20, v:8) |
+| Standard page padding | `paddingPage` |
+| Input / fake input content padding | `paddingInput` |
+| Internal padding small card | `paddingSymmetricSm` |
+| Internal padding card / section | `paddingSymmetricMd` |
+| Internal padding wide element | `paddingSymmetricLg` |
 | Horizontal padding only | `paddingHorizontalSm/Md/Lg` |
-| Uniform padding | `paddingXs`(4) `paddingSm`(8) `paddingMd`(16) `paddingLg`(20) `paddingXl`(24) |
+| Uniform padding | `paddingXs` `paddingSm` `paddingMd` `paddingLg` `paddingXl` |
 
 **Icon size:**
 
-| Token | Value | When |
-|---|---|---|
-| `iconSizeSm` | 16 | Badges, chips, secondary caret icons |
-| `iconSizeMd` | 20 | Standard UI icons (buttons, inputs, inline) |
-| `iconSizeLg` | 24 | Emphasized icons (icon buttons, navigation) |
-| `iconSizeXl` | 40 | Large accent icons (image error fallback) |
-| `iconSizeXxl` | 64 | Empty state / message page illustrations |
+| Token | When |
+|---|---|
+| `iconSizeSm` | Badges, chips, secondary caret icons |
+| `iconSizeMd` | Standard UI icons (buttons, inputs, inline) |
+| `iconSizeLg` | Emphasized icons (icon buttons, navigation) |
+| `iconSizeXl` | Large accent icons (image error fallback) |
+| `iconSizeXxl` | Empty state / message page illustrations |
 
 ### Icons — `lucide_flutter`
 
@@ -332,22 +319,9 @@ Fixed filenames — do not add new files without a real need:
 | `has_more.dart` | `hasMore(total, skip, take)` — utility for pagination state |
 | `request_builder.dart` | `RequestBuilder<TFilter, TSort>` — fluent builder for `GetRequest` |
 
-### RequestBuilder — API summary
+### RequestBuilder — `lib/core/utils/request_builder.dart`
 
-Providers must never construct `GetRequest` manually. Always use `RequestBuilder`:
-
-```dart
-RequestBuilder<MealFilterKey, MealSortKey>()
-    .setSearchKey(searchKey)
-    .addFilter(MealFilterKey.category, FilterOperator.equals, id)
-    .addFilterIfNotNull(MealFilterKey.complexity, FilterOperator.equals, complexity)
-    .addFilterGroup(FilterGroup(conditions: [...]))
-    .removeFilter(MealFilterKey.category)
-    .setSortIfNotNull(sortParam)
-    .setSkip(skip)
-    .setTake(pageSize)
-    .build();  // → GetRequest<TFilter, TSort>
-```
+Providers must never construct `GetRequest` manually. Always use the `RequestBuilder<TFilter, TSort>` fluent builder — full method list (source of truth, 105 lines): `setSearchKey`, `addFilter`, `addFilterIfNotNull`, `addFilterGroup`, `removeFilter`, `setSortIfNotNull`, `setSkip`, `setTake`, `.build()`.
 
 ### BE model files — `lib/core/models/be-models/`
 
@@ -436,49 +410,7 @@ AppLogger.error('Failed to fetch data', error: e, stackTrace: st);
 
 ## Repository layer
 
-The repository layer is the **single point of contact** between the app and any data source. Provider and UI layers never access data directly.
-
-```
-lib/core/repositories/
-  meal/
-    meal_repository.dart          ← abstract interface only
-    meal_repository_impl.dart     ← concrete implementation only
-  favorites/
-    favorites_repository.dart
-    favorites_repository_impl.dart
-```
-
-### MealRepository interface
-
-```dart
-abstract interface class MealRepository {
-  Future<GetListDataResponse<Category>> getCategories();
-  Future<GetListDataResponse<MealPreview>> getTrending(GetRequest<MealFilterKey, MealSortKey> request);
-  Future<GetListDataResponse<MealPreview>> getEasy(GetRequest<MealFilterKey, MealSortKey> request);
-  Future<GetListDataResponse<MealPreview>> getChallenge(GetRequest<MealFilterKey, MealSortKey> request);
-  Future<GetListDataResponse<MealPreview>> getBudget(GetRequest<MealFilterKey, MealSortKey> request);
-  Future<GetListDataResponse<MealPreview>> getPremium(GetRequest<MealFilterKey, MealSortKey> request);
-  Future<GetListDataResponse<MealPreview>> getAllMeals(GetRequest<MealFilterKey, MealSortKey> request);
-  Future<GetDataResponse<Meal>> getMealById(String id);
-  Future<MutationResponse> updateMealRating(String mealId, double newRating);
-}
-```
-
-Filter/sort keys defined in `lib/core/models/meal.dart`:
-```dart
-enum MealFilterKey { category, complexity, affordability, rating }
-enum MealSortKey   { name, rating, complexity, affordability }
-```
-
-### FavoritesRepository interface
-
-```dart
-abstract interface class FavoritesRepository {
-  Future<GetListDataResponse<MealPreview>> getFavorites(GetRequest<MealFilterKey, MealSortKey> request);
-  Future<MutationResponse> addFavorite(String mealId);
-  Future<MutationResponse> removeFavorite(String mealId);
-}
-```
+The repository layer is the **single point of contact** between the app and any data source. Provider and UI layers never access data directly. Interfaces: `lib/core/repositories/meal/meal_repository.dart`, `lib/core/repositories/favorites/favorites_repository.dart` (abstract only — impls are the `*_impl.dart` siblings). Filter/sort key enums: `lib/core/models/meal.dart`.
 
 Auth handled via Dio interceptor — token never passed as parameter.
 
@@ -755,32 +687,11 @@ BaseImageContainer(
 
 ### BaseInput
 
-```dart
-BaseInput(
-  controller: controller,
-  hint: 'Search...',
-  fillColor: AppColors.of(context).surface,
-  maxLines: 1,  // null for auto-grow textarea
-)
-```
+`BaseInput(controller, hint, fillColor, maxLines)` — `maxLines: null` for auto-grow textarea.
 
 ### BaseFormField
 
-```dart
-BaseFormField(
-  controller: controller,
-  label: 'Email',
-  prefixIcon: LucideIcons.mail,
-  suffixIcon: IconButton(...),
-  fillColor: AppColors.of(context).surface,
-  keyboardType: TextInputType.emailAddress,
-  textInputAction: TextInputAction.next,
-  obscureText: false,
-  maxLines: 1,
-  maxLength: null,
-  validator: (v) => AppValidation.notEmpty(v) ?? AppValidation.email(v),
-)
-```
+`BaseFormField(controller, label, prefixIcon, suffixIcon, fillColor, keyboardType, textInputAction, obscureText, maxLines, maxLength, validator)` — chain validators with `??` (see `AppValidation` below).
 
 ### BaseDropdown
 
@@ -839,16 +750,7 @@ BaseButton(
 
 ### BaseIconButton
 
-```dart
-BaseIconButton(
-  icon: LucideIcons.plus,
-  type: IconButtonType.filled,  // filled | outlined
-  color: AppColors.primary,
-  iconColor: Colors.white,
-  badgeCount: 3,
-  onPressed: () { ... },
-)
-```
+`BaseIconButton(icon, type: IconButtonType.filled | outlined, color, iconColor, badgeCount, onPressed)`
 
 ### GcListView
 
@@ -886,35 +788,15 @@ GcGridView(
 
 ### BaseRange
 
-```dart
-BaseRange(
-  label: 'Valutazione',
-  values: RangeValues(1.0, 5.0),
-  min: 0.0, max: 5.0,
-  divisions: 10,
-  valueFormatter: (v) => v.toStringAsFixed(1),
-  onChanged: (v) => setState(() => _range = v),
-)
-```
+`BaseRange(label, values: RangeValues, min, max, divisions, valueFormatter, onChanged)`
 
 ### BaseSlider
 
-```dart
-BaseSlider(
-  label: 'Minuti',
-  value: _minutes,
-  min: 0.0, max: 120.0,
-  divisions: 24,
-  valueFormatter: (v) => '${v.toInt()} min',
-  onChanged: (v) => setState(() => _minutes = v),
-)
-```
+`BaseSlider(label, value, min, max, divisions, valueFormatter, onChanged)`
 
 ### BaseValueCard
 
-```dart
-BaseValueCard(value: '4.2K', label: 'Followers')
-```
+`BaseValueCard(value: '4.2K', label: 'Followers')`
 
 ### BaseBadge
 
@@ -974,16 +856,7 @@ BaseBottomSheet.show(context, heightFactor: 0.6, child: myLongList);
 
 ### BaseCheckbox
 
-```dart
-BaseCheckbox(
-  value: _isChecked,
-  label: 'Gluten free',
-  fullWidth: false,
-  onChanged: (v) => setState(() => _isChecked = v),
-)
-```
-
-Unchecked: `LucideIcons.square` muted. Checked: `LucideIcons.squareCheckBig` primary.
+`BaseCheckbox(value, label, fullWidth, onChanged)` — unchecked: `LucideIcons.square` muted. Checked: `LucideIcons.squareCheckBig` primary.
 
 ---
 

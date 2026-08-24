@@ -1148,6 +1148,24 @@ This repository ships with pre-configured [GitHub Copilot](https://github.com/fe
 
 ### Android
 
+#### Local testing (emulator)
+
+Prefer the Flutter CLI over raw `adb` — no need for `adb` in `PATH`.
+
+```bash
+# Build the APK
+flutter build apk --debug     # or --release
+
+# Install a pre-built APK on the running emulator
+flutter install --use-application-binary=build/app/outputs/flutter-apk/app-debug.apk
+
+# Build + install in one step (skips the separate build command above)
+flutter install --debug       # or --release
+
+# Uninstall the app from the emulator
+flutter install --uninstall-only
+```
+
 #### Test distribution (Internal Testing / Firebase App Distribution)
 
 1. Bump version/build with the `bump-version` prompt

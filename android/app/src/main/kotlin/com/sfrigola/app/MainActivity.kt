@@ -1,4 +1,4 @@
-package com.example.sb_template_flutter
+package com.sfrigola.app
 
 import io.flutter.embedding.android.FlutterActivity
 
